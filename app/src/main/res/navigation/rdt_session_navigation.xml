@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/test_session_navigation"
+    app:startDestination="@id/provision_define">
+
+    <fragment
+        android:id="@+id/provision_define"
+        android:name="org.rdtoolkit.ui.provision.ProvisionDefineFragment"
+        android:label="session_provision_fragment"
+        tools:layout="@layout/fragment_provision_define" >
+        <action
+            android:id="@+id/action_sessionProvision_to_sessionInstruct"
+            app:destination="@id/provision_instructions" />
+        <action
+            android:id="@+id/action_sessionProvision_to_captureFragment"
+            app:destination="@id/provision_start" />
+    </fragment>
+    <fragment
+        android:id="@+id/provision_instructions"
+        android:name="org.rdtoolkit.ui.instruct.SessionInstruct"
+        android:label="session_instruct_fragment"
+        tools:layout="@layout/fragment_provision_instruct" >
+        <action
+            android:id="@+id/action_sessionInstruct_to_captureFragment"
+            app:destination="@id/provision_start" />
+    </fragment>
+    <fragment
+        android:id="@+id/provision_start"
+        android:name="org.rdtoolkit.ui.provision.ProvisionCommitFragment"
+        android:label="capture_fragment"
+        tools:layout="@layout/fragment_provision_begin" />
+</navigation>
