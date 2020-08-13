@@ -2,6 +2,7 @@ package org.rdtoolkit.ui.capture;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,6 +26,8 @@ import static org.rdtoolkit.service.TestTimerServiceKt.NOTIFICATION_TAG_TEST_ID;
 public class CaptureActivity extends AppCompatActivity {
 
     public static String EXTRA_SESSION_ID = "rdt_capture_session_id";
+
+    public static int REQUEST_TEST_CAPTURE = 1;
 
     CaptureViewModel captureViewModel;
 
@@ -53,5 +56,12 @@ public class CaptureActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    public void captureTestResult(View button) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_TEST_CAPTURE);
+        }
     }
 }

@@ -18,6 +18,7 @@ import org.rdtoolkit.MainActivity
 import org.rdtoolkit.R
 import org.rdtoolkit.model.session.TestSession
 import org.rdtoolkit.util.InjectorUtils
+import org.rdtoolkit.util.getFormattedTimeForSpan
 
 const val CHANNEL_ID_COUNTDOWN ="Test"
 const val CHANNEL_ID_FIRE ="Fire"
@@ -100,12 +101,6 @@ class TestTimerService : LifecycleService() {
             }
         }.start();
 
-    }
-
-    private fun getFormattedTimeForSpan(span : Long) : String{
-        val minutes: Int = (span / (60 * 1000)).toInt()
-        val seconds: Int = (span / 1000 % 60).toInt()
-        return String.format("%d:%02d", minutes, seconds)
     }
 
     private fun createNotificationChannels() {

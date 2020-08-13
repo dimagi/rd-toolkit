@@ -11,8 +11,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.rdtoolkit.R;
+import org.rdtoolkit.util.ContextUtils;
 
 public class ProvisionCommitFragment extends Fragment {
 
@@ -32,5 +34,11 @@ public class ProvisionCommitFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(ProvisionViewModel.class);
+        mViewModel.getSelectedTestProfile().observe(getViewLifecycleOwner(), value -> {
+            ((TextView)view.findViewById(R.id.provision_begin_resolve)).setText(
+                    String.format(getString(R.string.provision_begin_resolve_msg),
+                            new ContextUtils(requireContext()).
+                                    getReadableTime(value.timeToResolve())));
+        });
     }
 }

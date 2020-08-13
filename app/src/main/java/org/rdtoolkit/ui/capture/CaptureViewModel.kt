@@ -21,6 +21,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     private var resolveTimer : CountDownTimer? = null
 
+    private var readableTimer : CountDownTimer? = null
+
     private val testSession : MutableLiveData<TestSession> = MutableLiveData()
 
     private val testState : MutableLiveData<TestReadableState> = MutableLiveData()
@@ -29,8 +31,14 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     private val resolveMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
 
+    private val readableMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
+
     fun getMillisUntilResolved() : LiveData<Long> {
         return resolveMillisecondsLeft
+    }
+
+    fun getMillisUntilExpired() : LiveData<Long> {
+        return readableMillisecondsLeft
     }
 
     fun getTestState() : LiveData<TestReadableState> {
@@ -65,7 +73,18 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                     }
 
                     override fun onFinish() {
+                        testState.postValue(session.getTestReadableState())
+                        startTimersForState(session, profile)
+                    }
+                }.start()
+            } else if (session.getTestReadableState() == TestReadableState.READABLE) {
+                readableTimer = object : CountDownTimer(session.timeExpired.time - System.currentTimeMillis(), 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        readableMillisecondsLeft.postValue(millisUntilFinished)
+                    }
 
+                    override fun onFinish() {
+                        testState.postValue(session.getTestReadableState())
                     }
                 }.start()
             }
@@ -78,6 +97,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     override fun onCleared() {
         super.onCleared()
         resolveTimer?.cancel()
+        readableTimer?.cancel()
     }
 
 

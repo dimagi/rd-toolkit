@@ -82,6 +82,6 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
         startAvailable = MutableLiveData()
         startAvailable.value = true
 
-        testProfile.value = diagnosticsRepository.getTestProfile("debug_mal_pf_pv")
+        testProfile.value = diagnosticsRepository.getTestProfile("debug_sf_mal_pf_pv")
     }
 }

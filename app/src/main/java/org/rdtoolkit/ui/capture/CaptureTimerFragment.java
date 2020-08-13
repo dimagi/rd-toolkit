@@ -1,9 +1,14 @@
 package org.rdtoolkit.ui.capture;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -11,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import net.vrgsoft.arcprogress.ArcProgressBar;
 
 import org.rdtoolkit.R;
 import org.rdtoolkit.model.session.TestReadableState;
@@ -20,6 +27,8 @@ import java.util.Date;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static android.view.View.resolveSize;
+import static org.rdtoolkit.util.UtilsKt.getFormattedTimeForSpan;
 
 public class CaptureTimerFragment extends Fragment {
 
@@ -41,17 +50,83 @@ public class CaptureTimerFragment extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(CaptureViewModel.class);
 
         mViewModel.getTestProfile().observe(getViewLifecycleOwner(), value -> {
-            ((ProgressBar)view.findViewById(R.id.capture_resolve_countdown)).setMax(value.timeToResolve()*1000);
+            ((ArcProgressBar)view.findViewById(R.id.capture_resolve_countdown)).setMax(value.timeToResolve()*1000);
+            ((ProgressBar)view.findViewById(R.id.capture_timer_expiring_progress)).setMax((value.timeToExpire() - value.timeToResolve())*1000);
         });
 
         mViewModel.getMillisUntilResolved().observe(getViewLifecycleOwner(), value ->{
-            ((ProgressBar)view.findViewById(R.id.capture_resolve_countdown)).setProgress(value.intValue());
-            ((TextView)view.findViewById(R.id.capture_text_resolve_time)).setText(String.format("%d", value.intValue()));
+            String formattedTime = getFormattedTimeForSpan(value);
+            ((ArcProgressBar)view.findViewById(R.id.capture_resolve_countdown)).setProgress(value.intValue());
+            ((ArcProgressBar)view.findViewById(R.id.capture_resolve_countdown)).setProgressText(formattedTime);
+        });
+
+        mViewModel.getMillisUntilExpired().observe(getViewLifecycleOwner(), value ->{
+            String formattedTime = getFormattedTimeForSpan(value);
+            ((ProgressBar)view.findViewById(R.id.capture_timer_expiring_progress)).setProgress(value.intValue());
+            ((TextView)view.findViewById(R.id.capture_timer_expiring_countdown)).setText(
+                    String.format(getString(R.string.capture_timer_expiring_countdown_msg),
+                            formattedTime));
         });
 
         mViewModel.getTestState().observe(getViewLifecycleOwner(), value -> {
-            view.findViewById(R.id.capture_frame_time_resolving).setVisibility(
-                    value == TestReadableState.RESOLVING ? VISIBLE : GONE);
+            View resolvingFrame = view.findViewById(R.id.capture_frame_time_resolving);
+            if (value == TestReadableState.RESOLVING) {
+                resolvingFrame.setVisibility(VISIBLE);
+            } else if(resolvingFrame.getVisibility() == VISIBLE) {
+                AnimatorSet animSet =
+                        (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), R.animator.card_flip_right_out);
+                animSet.setTarget(resolvingFrame);
+                animSet.start();
+                animSet.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        resolvingFrame.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                });
+//
+//                resolvingFrame.animate()
+//                        .scaleY(0)
+//                        .alpha(0.0f)
+//                        .setDuration(300)
+//                        .setListener(new AnimatorListenerAdapter() {
+//                            @Override
+//                            public void onAnimationEnd(Animator animation) {
+//                                super.onAnimationEnd(animation);
+//                                resolvingFrame.setVisibility(View.GONE);
+//                            }
+//                        });
+
+            }
+
+            View testResolvedFrame = view.findViewById(R.id.capture_frame_resolved);
+            if (value == TestReadableState.READABLE) {
+                testResolvedFrame.setVisibility(VISIBLE);
+                AnimatorSet animSet =
+                        (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), R.animator.card_flip_right_in);
+                animSet.setTarget(testResolvedFrame);
+                animSet.start();
+
+                resolvingFrame.setVisibility(VISIBLE);
+            } else {
+                testResolvedFrame.setVisibility(GONE);
+            }
+                view.findViewById(R.id.capture_frame_resolved).setVisibility(
+                    value == TestReadableState.READABLE ? VISIBLE : GONE);
 
             view.findViewById(R.id.capture_btn_result).setVisibility(
                     value == TestReadableState.READABLE ? VISIBLE : GONE);

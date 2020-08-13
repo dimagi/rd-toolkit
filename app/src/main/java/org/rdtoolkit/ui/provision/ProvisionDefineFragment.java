@@ -1,21 +1,19 @@
 package org.rdtoolkit.ui.provision;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import org.rdtoolkit.R;
-import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
+import org.rdtoolkit.util.ContextUtils;
 
 public class ProvisionDefineFragment extends Fragment {
 
@@ -47,17 +45,9 @@ public class ProvisionDefineFragment extends Fragment {
                 ((TextView)view.findViewById(R.id.define_txt_process)).setText("");
             } else {
                 ((TextView)view.findViewById(R.id.define_txt_type)).setText(" - " + value.readableName());
-                ((TextView)view.findViewById(R.id.define_txt_process)).setText(String.format(" - %s", getReadableTimeToExpire(value)));
+                Fragment f = this;
+                ((TextView)view.findViewById(R.id.define_txt_process)).setText(String.format(" - Time to Resolve %s", new ContextUtils(requireContext()).getReadableTime(value.timeToResolve())));
             }
         });
-    }
-
-    public String getReadableTimeToExpire(RdtDiagnosticProfile value) {
-        int timeToExpire = value.timeToExpire();
-        if (timeToExpire < 60 ) {
-            return String.format("%d Seconds", timeToExpire);
-        } else {
-            return String.format("%d Minutes", (int)Math.floor(timeToExpire / 60));
-        }
     }
 }
