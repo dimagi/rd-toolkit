@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/provision_define"
         android:name="org.rdtoolkit.ui.provision.ProvisionDefineFragment"
-        android:label="session_provision_fragment"
+        android:label="Provision a Test"
         tools:layout="@layout/fragment_provision_define" >
         <action
             android:id="@+id/action_sessionProvision_to_sessionInstruct"
@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/provision_instructions"
         android:name="org.rdtoolkit.ui.instruct.SessionInstruct"
-        android:label="session_instruct_fragment"
+        android:label="Instructions"
         tools:layout="@layout/fragment_provision_instruct" >
         <action
             android:id="@+id/action_sessionInstruct_to_captureFragment"
@@ -29,6 +29,6 @@
     <fragment
         android:id="@+id/provision_start"
         android:name="org.rdtoolkit.ui.provision.ProvisionCommitFragment"
-        android:label="capture_fragment"
+        android:label="Test Timer"
         tools:layout="@layout/fragment_provision_begin" />
 </navigation>

@@ -1,6 +1,7 @@
-package org.rdtoolkit.model.session
+package org.rdtoolkit.model
 
 import androidx.room.TypeConverter
+import org.rdtoolkit.model.session.STATUS
 import java.util.*
 
 class Converters {

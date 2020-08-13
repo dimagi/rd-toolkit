@@ -1,0 +1,31 @@
+package org.rdtoolkit.model.diagnostics
+
+import org.rdtoolkit.model.diagnostics.ConcreteDiagnosticOutcome as cdo
+import org.rdtoolkit.model.diagnostics.ConcreteResultProfile as crp
+
+fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> {
+    var pf_pos = cdo("mal_pf_pos", "Pf Positive")
+    var pf_neg = cdo("mal_pf_neg", "Pf Negative")
+
+    var pv_pos = cdo("mal_pv_pos", "Pv Positive")
+    var pv_neg = cdo("mal_pv_neg", "Pv Negative")
+
+    var pf_result = crp("mal_pf", "Malaria: P. falciparum", listOf(pf_pos, pf_neg))
+    var pv_result = crp("mal_pv", "Malaria: P. vivax", listOf(pf_pos, pf_neg))
+
+
+    var bioline = ConcreteProfile("sd_bioline_mal_pf_pv", "SD Bioline Malaria Ag Pf/Pv", 60*15,60*30, listOf(pf_result, pv_result))
+    var carestart = ConcreteProfile("carestart_mal_pf_pv", "CareStart™ Malaria Pf/Pv (HRP2/pLDH) Ag Combo RDT", 60*20,60*30, listOf(pf_result, pv_result))
+    var firstresponse = ConcreteProfile("firstresponse_mal_pf_pv", "First Response® Malaria Ag P.f./P.v. (HRP2/pLDH) Card Test", 60*20,60*30, listOf(pf_result, pv_result))
+
+    var quicktest = ConcreteProfile("debug_mal_pf_pv", "FastResolve Malaria P.f./P.v", 20,40, listOf(pf_result, pv_result))
+
+    var returnSet = HashMap<String, RdtDiagnosticProfile>()
+
+    returnSet.put(bioline.id(), bioline)
+    returnSet.put(carestart.id(), carestart)
+    returnSet.put(firstresponse.id(), firstresponse)
+    returnSet.put(quicktest.id(), quicktest)
+
+    return returnSet
+}

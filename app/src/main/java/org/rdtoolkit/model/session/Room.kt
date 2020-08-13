@@ -2,6 +2,7 @@ package org.rdtoolkit.model.session
 
 import android.content.Context
 import androidx.room.*
+import org.rdtoolkit.model.Converters
 
 @Dao
 interface TestSessionDao {

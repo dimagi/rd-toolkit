@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/test_session_navigation"
+    app:startDestination="@id/capture_timer">
+
+    <fragment
+        android:id="@+id/capture_timer"
+        android:name="org.rdtoolkit.ui.capture.CaptureTimerFragment"
+        android:label="Test Timer"
+        tools:layout="@layout/fragment_capture_timer" >
+        <action
+            android:id="@+id/action_sessionProvision_to_sessionInstruct"
+            app:destination="@id/provision_instructions" />
+        <action
+            android:id="@+id/action_sessionProvision_to_captureFragment"
+            app:destination="@id/provision_start" />
+    </fragment>
+</navigation>

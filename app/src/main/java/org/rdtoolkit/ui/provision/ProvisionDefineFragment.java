@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import org.rdtoolkit.R;
+import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
 
 public class ProvisionDefineFragment extends Fragment {
 
@@ -39,5 +41,23 @@ public class ProvisionDefineFragment extends Fragment {
             mViewModel.setViewInstructions(checked);
         });
 
+        mViewModel.getSelectedTestProfile().observe(getViewLifecycleOwner(), value -> {
+            if (value == null) {
+                ((TextView)view.findViewById(R.id.define_txt_type)).setText(" - No Test Selected");
+                ((TextView)view.findViewById(R.id.define_txt_process)).setText("");
+            } else {
+                ((TextView)view.findViewById(R.id.define_txt_type)).setText(" - " + value.readableName());
+                ((TextView)view.findViewById(R.id.define_txt_process)).setText(String.format(" - %s", getReadableTimeToExpire(value)));
+            }
+        });
+    }
+
+    public String getReadableTimeToExpire(RdtDiagnosticProfile value) {
+        int timeToExpire = value.timeToExpire();
+        if (timeToExpire < 60 ) {
+            return String.format("%d Seconds", timeToExpire);
+        } else {
+            return String.format("%d Minutes", (int)Math.floor(timeToExpire / 60));
+        }
     }
 }

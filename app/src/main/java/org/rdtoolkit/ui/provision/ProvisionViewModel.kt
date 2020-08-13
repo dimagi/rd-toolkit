@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
+import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
 import org.rdtoolkit.model.session.STATUS
 import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.model.session.TestSession
@@ -14,10 +16,28 @@ import java.util.*
 
 const val TAG = "ProvisionViewModel"
 
-class ProvisionViewModel(repository: SessionRepository) : ViewModel() {
+class ProvisionViewModel(var sessionRepository: SessionRepository,
+                         var diagnosticsRepository: DiagnosticsRepository
+) : ViewModel() {
     private val viewInstructions: MutableLiveData<Boolean>
     val sessionId: String
-    private val repository: SessionRepository
+
+    private val testProfile: MutableLiveData<RdtDiagnosticProfile> = MutableLiveData()
+
+    private val instructionsAvailable: MutableLiveData<Boolean>
+    private val startAvailable: MutableLiveData<Boolean>
+
+    fun getSelectedTestProfile() : LiveData<RdtDiagnosticProfile> {
+        return testProfile
+    }
+
+    fun getInstructionsAvailable(): LiveData<Boolean> {
+        return instructionsAvailable
+    }
+
+    fun getStartAvailable(): LiveData<Boolean> {
+        return startAvailable
+    }
 
     fun getViewInstructions(): LiveData<Boolean> {
         return viewInstructions
@@ -29,13 +49,19 @@ class ProvisionViewModel(repository: SessionRepository) : ViewModel() {
         }
     }
 
-    fun commitSession() : String{
-        val session = TestSession(sessionId, STATUS.RUNNING, "Clayton Sims", "#423423",
-                Date(Date().time + 1000 * 10 * 2),
-                Date(Date().time + 1000 * 10 * 4))
+    fun commitSession() : String {
+        var profile = testProfile.value!!
+        val session = TestSession(sessionId, STATUS.RUNNING,
+                profile.id(),
+                "Clayton Sims",
+                "#423423",
+                Date(),
+                Date(Date().time +  1000 * profile.timeToResolve()),
+                profile.timeToExpire()?.let{Date(Date().time + 1000 * profile.timeToExpire())},
+                null)
 
         val job = viewModelScope.launch(Dispatchers.IO) {
-            repository.insert(session)
+            sessionRepository.insert(session)
         }
 
         //Cheating for now, this should be extremely fast
@@ -49,6 +75,13 @@ class ProvisionViewModel(repository: SessionRepository) : ViewModel() {
         viewInstructions = MutableLiveData()
         viewInstructions.value = true
         sessionId = UUID.randomUUID().toString()
-        this.repository = repository
+
+        instructionsAvailable = MutableLiveData()
+        instructionsAvailable.value = true
+
+        startAvailable = MutableLiveData()
+        startAvailable.value = true
+
+        testProfile.value = diagnosticsRepository.getTestProfile("debug_mal_pf_pv")
     }
 }

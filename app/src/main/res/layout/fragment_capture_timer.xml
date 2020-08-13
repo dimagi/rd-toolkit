@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.capture.CaptureTimerFragment">
+
+    <TextView
+        android:id="@+id/capture_text_flavor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Flavor" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/capture_text_status"
+        android:text="Loading Test..." />
+
+    <LinearLayout
+        android:id="@+id/capture_frame_time_resolving"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/capture_resolve_countdown"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <TextView
+            android:id="@+id/capture_text_resolve_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Time Remaining: 0:34" />
+
+        +
+
+        
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/capture_btn_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_menu_camera"
+        android:drawablePadding="5dp"
+        android:onClick="captureTestResult"
+        android:text="Capture Test" />
+
+</LinearLayout>
