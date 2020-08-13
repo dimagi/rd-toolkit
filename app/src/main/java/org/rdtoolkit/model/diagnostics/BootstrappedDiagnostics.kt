@@ -7,11 +7,13 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     var pf_pos = cdo("mal_pf_pos", "Pf Positive")
     var pf_neg = cdo("mal_pf_neg", "Pf Negative")
 
+    var control_failure = cdo("universal_control_failure", "Control Failed - No Result")
+
     var pv_pos = cdo("mal_pv_pos", "Pv Positive")
     var pv_neg = cdo("mal_pv_neg", "Pv Negative")
 
-    var pf_result = crp("mal_pf", "Malaria: P. falciparum", listOf(pf_pos, pf_neg))
-    var pv_result = crp("mal_pv", "Malaria: P. vivax", listOf(pf_pos, pf_neg))
+    var pf_result = crp("mal_pf", "Malaria: P. falciparum", listOf(pf_pos, pf_neg, control_failure))
+    var pv_result = crp("mal_pv", "Malaria: P. vivax", listOf(pv_pos, pv_neg, control_failure))
 
 
     var bioline = ConcreteProfile("sd_bioline_mal_pf_pv", "SD Bioline Malaria Ag Pf/Pv", 60*15,60*30, listOf(pf_result, pv_result))

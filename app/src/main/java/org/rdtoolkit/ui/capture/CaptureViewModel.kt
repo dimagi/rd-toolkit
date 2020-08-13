@@ -33,6 +33,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     private val readableMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
 
+    private val rawImageCapturePath : MutableLiveData<String> = MutableLiveData()
+
     fun getMillisUntilResolved() : LiveData<Long> {
         return resolveMillisecondsLeft
     }
@@ -47,6 +49,17 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     fun getTestProfile() : LiveData<RdtDiagnosticProfile> {
         return testProfile
+    }
+
+    fun getRawImageCapturePath() : LiveData<String> {
+        return rawImageCapturePath
+    }
+
+    fun setRawImageCapturePath(rawImagePath : String) {
+        if (rawImageCapturePath.value != rawImagePath) {
+            rawImageCapturePath.value = rawImagePath
+            //TODO: Also set into the test session object
+        }
     }
 
     fun loadSession(sessionId: String) {

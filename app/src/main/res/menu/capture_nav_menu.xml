@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/provision_define"
+        android:id="@+id/capture_timer"
         android:icon="@drawable/ic_baseline_timer_24"
         android:title="Timer" />
 
     <item
-        android:id="@+id/provision_instructions"
+        android:id="@+id/capture_results"
         android:icon="@drawable/ic_baseline_create_24"
         android:title="Results" />
 

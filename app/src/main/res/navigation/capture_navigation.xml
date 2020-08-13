@@ -11,10 +11,11 @@
         android:label="Test Timer"
         tools:layout="@layout/fragment_capture_timer" >
         <action
-            android:id="@+id/action_sessionProvision_to_sessionInstruct"
-            app:destination="@id/provision_instructions" />
-        <action
-            android:id="@+id/action_sessionProvision_to_captureFragment"
-            app:destination="@id/provision_start" />
+            android:id="@+id/action_capture_timer_to_capture_resultsFragment"
+            app:destination="@id/capture_results" />
     </fragment>
+    <fragment
+        android:id="@+id/capture_results"
+        android:name="org.rdtoolkit.ui.capture.CaptureResultsFragment"
+        android:label="Test Results" />
 </navigation>

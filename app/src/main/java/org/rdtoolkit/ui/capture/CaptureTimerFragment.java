@@ -98,19 +98,6 @@ public class CaptureTimerFragment extends Fragment {
 
                     }
                 });
-//
-//                resolvingFrame.animate()
-//                        .scaleY(0)
-//                        .alpha(0.0f)
-//                        .setDuration(300)
-//                        .setListener(new AnimatorListenerAdapter() {
-//                            @Override
-//                            public void onAnimationEnd(Animator animation) {
-//                                super.onAnimationEnd(animation);
-//                                resolvingFrame.setVisibility(View.GONE);
-//                            }
-//                        });
-
             }
 
             View testResolvedFrame = view.findViewById(R.id.capture_frame_resolved);

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.capture.CaptureTimerFragment">
+
+    <TextView
+        android:id="@+id/capture_text_flavor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Flavor" />
+
+    <ImageView
+        android:id="@+id/capture_results_test_image"
+        android:layout_width="@dimen/timer_countdown_size"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:id="@+id/capture_results_manual_entry"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/capture_results_instruct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please provide your interpretation of the test result" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/capture_results_entry_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</LinearLayout>
