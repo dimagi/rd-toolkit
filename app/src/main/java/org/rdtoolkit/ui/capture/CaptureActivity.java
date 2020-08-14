@@ -19,6 +19,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import org.rdtoolkit.model.diagnostics.DiagnosticOutcome;
+import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
+import org.rdtoolkit.model.diagnostics.ResultProfile;
 import org.rdtoolkit.ui.provision.ProvisionViewModel;
 import org.rdtoolkit.util.InjectorUtils;
 
@@ -56,10 +59,18 @@ public class CaptureActivity extends AppCompatActivity {
 
         captureViewModel.loadSession(sessionId);
 
+        captureViewModel.getTestSessionResult().observe(this, value -> {
+            RdtDiagnosticProfile profile = captureViewModel.getTestProfile().getValue();
+            boolean recordEnabled = profile.isResultSetComplete(value);
+
+            ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
+                    findItem(R.id.capture_record).setEnabled(recordEnabled);
+        });
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.capture_timer, R.id.capture_results)
+                R.id.capture_timer, R.id.capture_results, R.id.capture_record)
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

@@ -89,10 +89,10 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
             val profile = diagnosticsRepository.getTestProfile(session.testProfileId)
 
-            testSessionResult.postValue(TestSessionResult(session.sessionId, null, null, HashMap()))
-
             testProfile.postValue(profile)
             testSession.postValue(session)
+
+            testSessionResult.postValue(TestSessionResult(session.sessionId, null, null, HashMap()))
 
             testState.postValue(session.getTestReadableState())
 
@@ -109,7 +109,9 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                     }
 
                     override fun onFinish() {
-                        Thread.sleep(500L)
+                        // There can be some slight overlap on these so wait an extra hair before
+                        // moving on
+                        Thread.sleep(200L)
                         testState.postValue(session.getTestReadableState())
                         startTimersForState(session, profile)
                     }
@@ -121,7 +123,9 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                     }
 
                     override fun onFinish() {
-                        Thread.sleep(500L)
+                        // There can be some slight overlap on these so wait an extra hair before
+                        // moving on
+                        Thread.sleep(200L)
                         testState.postValue(session.getTestReadableState())
                     }
                 }.start()

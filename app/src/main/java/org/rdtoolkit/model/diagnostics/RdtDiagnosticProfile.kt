@@ -1,11 +1,33 @@
 package org.rdtoolkit.model.diagnostics
 
+import org.rdtoolkit.model.session.TestSessionResult
+
 interface RdtDiagnosticProfile {
     fun id() : String
     fun readableName() : String
     fun timeToResolve() : Int
     fun timeToExpire() : Int
     fun resultProfiles() : Collection<ResultProfile>
+
+    fun isResultSetComplete(result : TestSessionResult) : Boolean {
+        val results = result.results
+        for (profile in resultProfiles()) {
+            if (!results.containsKey(profile.id())) {
+                return false;
+            }
+            val selectedOutcome = results.get(profile.id())
+            var validAnswer = false
+            for (outcome in profile.outcomes()) {
+                if (outcome.id() == selectedOutcome) {
+                    validAnswer = true
+                }
+            }
+            if (!validAnswer) {
+                return false
+            }
+        }
+        return true
+    }
 }
 
 interface DiagnosticOutcome {

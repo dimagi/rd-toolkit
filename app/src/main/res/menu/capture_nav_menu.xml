@@ -11,7 +11,7 @@
         android:title="Results" />
 
     <item
-        android:id="@+id/provision_start"
+        android:id="@+id/capture_record"
         android:icon="@drawable/ic_baseline_description_24"
         android:title="Confirm" />
 </menu>

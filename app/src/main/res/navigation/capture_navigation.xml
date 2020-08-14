@@ -14,8 +14,19 @@
             android:id="@+id/action_capture_timer_to_capture_resultsFragment"
             app:destination="@id/capture_results" />
     </fragment>
+
     <fragment
         android:id="@+id/capture_results"
         android:name="org.rdtoolkit.ui.capture.CaptureResultsFragment"
-        android:label="Test Results" />
+        android:label="Test Results" >
+        <action
+            android:id="@+id/action_capture_results_to_captureRecordFragment"
+            app:destination="@id/capture_record" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/capture_record"
+        android:name="org.rdtoolkit.ui.capture.CaptureRecordFragment"
+        android:label="Record Test Results"
+        tools:layout="@layout/fragment_capture_record" />
 </navigation>
