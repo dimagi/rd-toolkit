@@ -72,7 +72,7 @@ public class CaptureTimerFragment extends Fragment {
             View resolvingFrame = view.findViewById(R.id.capture_frame_time_resolving);
             if (value == TestReadableState.RESOLVING) {
                 resolvingFrame.setVisibility(VISIBLE);
-            } else if(resolvingFrame.getVisibility() == VISIBLE) {
+            } else if(value == TestReadableState.READABLE && resolvingFrame.getVisibility() == VISIBLE) {
                 AnimatorSet animSet =
                         (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), R.animator.card_flip_right_out);
                 animSet.setTarget(resolvingFrame);
@@ -98,6 +98,8 @@ public class CaptureTimerFragment extends Fragment {
 
                     }
                 });
+            } else {
+                resolvingFrame.setVisibility(View.INVISIBLE);
             }
 
             View testResolvedFrame = view.findViewById(R.id.capture_frame_resolved);
@@ -112,11 +114,6 @@ public class CaptureTimerFragment extends Fragment {
             } else {
                 testResolvedFrame.setVisibility(GONE);
             }
-                view.findViewById(R.id.capture_frame_resolved).setVisibility(
-                    value == TestReadableState.READABLE ? VISIBLE : GONE);
-
-            view.findViewById(R.id.capture_btn_result).setVisibility(
-                    value == TestReadableState.READABLE ? VISIBLE : GONE);
 
             String status = "";
 

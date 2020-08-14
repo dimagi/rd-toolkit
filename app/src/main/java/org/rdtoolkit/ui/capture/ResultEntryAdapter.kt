@@ -4,12 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import org.rdtoolkit.R
-import org.rdtoolkit.model.diagnostics.DiagnosticOutcome
 import org.rdtoolkit.model.diagnostics.ResultProfile
 
-class ResultEntryAdapter(private val resultProfiles: Array<ResultProfile>) :
+class ResultEntryAdapter(private val resultProfiles: Array<ResultProfile>,
+                         private val viewModel: CaptureViewModel
+) :
         RecyclerView.Adapter<ResultEntryAdapter.MyViewHolder>() {
 
     // Provide a reference to the views for each data item
@@ -36,7 +39,7 @@ class ResultEntryAdapter(private val resultProfiles: Array<ResultProfile>) :
 
         val profile : ResultProfile = resultProfiles[position]
 
-        holder.view.tag = profile.id()
+        resultRadioGroup.tag = profile.id()
 
         resultName.text = String.format(context.getString(R.string.adapter_result_name_msg),
                 profile.readableName());
@@ -49,6 +52,23 @@ class ResultEntryAdapter(private val resultProfiles: Array<ResultProfile>) :
             button.text = outcome.readableName()
             button.tag = outcome.id()
             resultRadioGroup.addView(button)
+
+            button.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
+                override fun onCheckedChanged(button: CompoundButton?, checked: Boolean) {
+                    if (checked) {
+                        val group: RadioGroup = button!!.parent as RadioGroup
+                        val outcomeId = group.tag as String
+                        val diagnosisId = button!!.tag as String
+
+                        viewModel.setResultValue(outcomeId, diagnosisId)
+                    }
+                }
+            })
+            viewModel.getTestSessionResult().observe(context as LifecycleOwner, Observer { value ->
+                if (outcome.id() == value.results.get(profile.id())) {
+                    button.isChecked = true
+                }
+            })
         }
     }
 

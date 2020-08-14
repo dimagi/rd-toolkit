@@ -61,7 +61,7 @@ public class CaptureResultsFragment extends Fragment {
 
         mViewModel.getTestProfile().observe(getViewLifecycleOwner(), value -> {
             // specify an adapter (see also next example)
-            entryAdapter = new ResultEntryAdapter(value.resultProfiles().toArray(new ResultProfile[0]));
+            entryAdapter = new ResultEntryAdapter(value.resultProfiles().toArray(new ResultProfile[0]), mViewModel);
             resultEntryRecyclerView.setAdapter(entryAdapter);
         });
 

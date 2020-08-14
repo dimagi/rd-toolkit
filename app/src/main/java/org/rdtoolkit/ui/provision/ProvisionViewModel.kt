@@ -57,8 +57,7 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
                 "#423423",
                 Date(),
                 Date(Date().time +  1000 * profile.timeToResolve()),
-                profile.timeToExpire()?.let{Date(Date().time + 1000 * profile.timeToExpire())},
-                null)
+                profile.timeToExpire()?.let{Date(Date().time + 1000 * profile.timeToExpire())})
 
         val job = viewModelScope.launch(Dispatchers.IO) {
             sessionRepository.insert(session)

@@ -6,12 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
 import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.model.session.TestReadableState
 import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.model.session.TestSessionResult
+import java.util.*
+import kotlin.collections.HashMap
 
 const val TAG = "CaptureViewModel"
 
@@ -35,6 +39,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     private val rawImageCapturePath : MutableLiveData<String> = MutableLiveData()
 
+    private val testSessionResult : MutableLiveData<TestSessionResult> = MutableLiveData()
+
     fun getMillisUntilResolved() : LiveData<Long> {
         return resolveMillisecondsLeft
     }
@@ -51,6 +57,18 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         return testProfile
     }
 
+    fun getTestSessionResult() : LiveData<TestSessionResult> {
+        return testSessionResult
+    }
+
+    fun setResultValue(key: String, value: String) {
+        val results = testSessionResult.value!!.results
+        if (!results.containsKey(key) || results[key] != value) {
+            results.put(key, value)
+            testSessionResult.value = testSessionResult.value
+        }
+    }
+
     fun getRawImageCapturePath() : LiveData<String> {
         return rawImageCapturePath
     }
@@ -58,7 +76,10 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     fun setRawImageCapturePath(rawImagePath : String) {
         if (rawImageCapturePath.value != rawImagePath) {
             rawImageCapturePath.value = rawImagePath
-            //TODO: Also set into the test session object
+
+            val result = testSessionResult.value!!
+            result.timeRead = Date()
+            result.rawCapturedImageFilePath = rawImagePath
         }
     }
 
@@ -67,6 +88,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
             val session = sessionRepository.load(sessionId)
 
             val profile = diagnosticsRepository.getTestProfile(session.testProfileId)
+
+            testSessionResult.postValue(TestSessionResult(session.sessionId, null, null, HashMap()))
 
             testProfile.postValue(profile)
             testSession.postValue(session)
@@ -86,6 +109,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                     }
 
                     override fun onFinish() {
+                        Thread.sleep(500L)
                         testState.postValue(session.getTestReadableState())
                         startTimersForState(session, profile)
                     }
@@ -97,6 +121,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                     }
 
                     override fun onFinish() {
+                        Thread.sleep(500L)
                         testState.postValue(session.getTestReadableState())
                     }
                 }.start()

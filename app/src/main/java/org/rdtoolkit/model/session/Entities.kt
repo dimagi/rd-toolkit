@@ -13,8 +13,7 @@ data class TestSession(
         val flavorTextTwo: String,
         val timeStarted: Date,
         val timeResolved : Date,
-        val timeExpired : Date,
-        val timeRead: Date?
+        val timeExpired : Date
 ) {
     fun getTestReadableState() : TestReadableState {
         if (timeStarted == null) {
@@ -28,6 +27,15 @@ data class TestSession(
         }
     }
 }
+
+@Entity
+data class TestSessionResult(
+        @PrimaryKey val sessionId: String,
+        var timeRead: Date?,
+        var rawCapturedImageFilePath: String?,
+        val results: MutableMap<String, String>
+)
+
 
 enum class TestReadableState {
     LOADING,
