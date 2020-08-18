@@ -9,6 +9,7 @@ import org.rdtoolkit.model.session.TestSession
 import org.rdtoolkit.model.session.getDatabase
 import org.rdtoolkit.ui.capture.CaptureViewModel
 import org.rdtoolkit.ui.provision.ProvisionViewModel
+import org.rdtoolkit.ui.sessions.SessionsViewModel
 
 class InjectorUtils() {
     companion object {
@@ -27,6 +28,15 @@ class InjectorUtils() {
             return object : ViewModelProvider.Factory {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                     return CaptureViewModel(provideSessionRepository(context),
+                            provideDiagnosticsRepository(context)) as T
+                }
+            }
+        }
+
+        fun provideSessionsViewModelFactory(context: Context): ViewModelProvider.Factory {
+            return object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return SessionsViewModel(provideSessionRepository(context),
                             provideDiagnosticsRepository(context)) as T
                 }
             }

@@ -68,7 +68,7 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
         }
     }
 
-    fun commitSession() : String {
+    fun commitSession() : TestSession {
         var profile = testProfile.value!!
         val session = TestSession(sessionId, STATUS.RUNNING,
                 profile.id(),
@@ -86,7 +86,7 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
         runBlocking {
             job.join();
         }
-        return sessionId;
+        return session;
     }
 
     init {

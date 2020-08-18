@@ -105,12 +105,12 @@ public class CaptureTimerFragment extends Fragment {
             View testResolvedFrame = view.findViewById(R.id.capture_frame_resolved);
             if (value == TestReadableState.READABLE) {
                 testResolvedFrame.setVisibility(VISIBLE);
-                AnimatorSet animSet =
-                        (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), R.animator.card_flip_right_in);
-                animSet.setTarget(testResolvedFrame);
-                animSet.start();
-
-                resolvingFrame.setVisibility(VISIBLE);
+                if(resolvingFrame.getVisibility() == VISIBLE) {
+                    AnimatorSet animSet =
+                            (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(), R.animator.card_flip_right_in);
+                    animSet.setTarget(testResolvedFrame);
+                    animSet.start();
+                }
             } else {
                 testResolvedFrame.setVisibility(GONE);
             }

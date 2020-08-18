@@ -10,11 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.rdtoolkit.R;
-import org.rdtoolkit.model.diagnostics.ResultProfile;
 
 public class CaptureRecordFragment extends Fragment {
 

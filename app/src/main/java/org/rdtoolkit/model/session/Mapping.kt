@@ -1,7 +1,6 @@
 package org.rdtoolkit.model.session
 
 import org.rdtoolkit.model.Mapper
-import java.util.*
 
 class SessionToDataMapper() : Mapper<TestSession, DataTestSession> {
     override fun map(input: TestSession): DataTestSession {
@@ -40,12 +39,12 @@ class DataToResultMapper() : Mapper<DbTestSessionResult?, TestSession.TestResult
 
 class ConfigToDataMapper(val sessionId : String) : Mapper<TestSession.Configuration, DbTestSessionConfiguration> {
     override fun map(input: TestSession.Configuration): DbTestSessionConfiguration {
-        return DbTestSessionConfiguration(sessionId, input.sessionType, input.provisionMode, input.provisionModeData, input.flavorText, input.flavorTextTwo, input.flags)
+        return DbTestSessionConfiguration(sessionId, input.sessionType, input.provisionMode, input.provisionModeData, input.flavorText, input.flavorTextTwo, input.outputSessionTranslatorId, input.outputResultTranslatorId, input.flags)
     }
 }
 
 class DataToConfigMapper() : Mapper<DbTestSessionConfiguration, TestSession.Configuration> {
     override fun map(input : DbTestSessionConfiguration): TestSession.Configuration {
-        return TestSession.Configuration(input.sessionType, input.provisionMode, input.provisionModeData, input.flavorText, input.flavorTextTwo, input.flags)
+        return TestSession.Configuration(input.sessionType, input.provisionMode, input.provisionModeData, input.flavorText, input.flavorTextTwo, input.outputSessionTranslatorId, input.outputResultTranslatorId, input.flags)
     }
 }

@@ -17,9 +17,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.rdtoolkit.interop.BundleToSession;
+import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.interop.TestIntentBuilder;
+import org.rdtoolkit.model.session.TestSession;
+import org.rdtoolkit.ui.capture.CaptureActivity;
 
 import java.util.UUID;
+
+import static android.content.Intent.FLAG_ACTIVITY_FORWARD_RESULT;
+import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_SESSION_BUNDLE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,12 +78,29 @@ public class MainActivity extends AppCompatActivity {
 
     public void simulateTestRequest(View view) {
         Intent i = new TestIntentBuilder()
-                .forProvisionAndCapture().setSessionId(UUID.randomUUID().toString())
-                .requestTestProfile("debug_sf_mal_pf_pv")
+                .forProvisioning().setSessionId(UUID.randomUUID().toString())
+                .requestTestProfile("debug_mal_pf_pv")
                 .setFlavorOne("Clayton Sims")
                 .setFlavorTwo("#4SFS")
                 .build();
 
         this.startActivityForResult(i, ACTIVITY_PROVISION);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == ACTIVITY_PROVISION && resultCode == RESULT_OK) {
+
+
+        }
+    }
+
+    public void goToCapture(View view) {
+        String sessionId = (String)view.getTag();
+        Intent captureActivity = new Intent(this, CaptureActivity.class);
+        captureActivity.putExtra(InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID, sessionId);
+        this.startActivity(captureActivity);
     }
 }

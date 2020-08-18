@@ -1,6 +1,7 @@
 package org.rdtoolkit.model.session
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import org.rdtoolkit.model.Converters
 
@@ -37,6 +38,10 @@ interface TestSessionDao {
                 loadResult(sessionId)
         )
     }
+
+
+    @Query("SELECT * FROM DbTestSession ORDER BY timeStarted DESC")
+    fun loadSessions(): List<DataTestSession>
 }
 
 @Database(entities = [DbTestSession::class, DbTestSessionConfiguration::class,

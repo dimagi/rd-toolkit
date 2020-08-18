@@ -17,12 +17,18 @@ import androidx.navigation.ui.NavigationUI;
 
 import org.rdtoolkit.interop.BundleToConfiguration;
 import org.rdtoolkit.interop.InterfacesKt;
+import org.rdtoolkit.model.session.SessionMode;
+import org.rdtoolkit.model.session.TestSession;
 import org.rdtoolkit.ui.capture.CaptureActivity;
 import org.rdtoolkit.util.InjectorUtils;
 
 import org.rdtoolkit.R;
 import org.rdtoolkit.service.TestTimerService;
 
+import static android.content.Intent.FLAG_ACTIVITY_FORWARD_RESULT;
+import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_OUTPUT_SESSION_TRANSLATOR;
+import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RESPONSE_TRANSLATOR;
+import static org.rdtoolkit.interop.InterfacesKt.provisionReturnIntent;
 import static org.rdtoolkit.service.TestTimerServiceKt.NOTIFICATION_TAG_TEST_ID;
 
 public class ProvisionActivity extends AppCompatActivity {
@@ -79,16 +85,28 @@ public class ProvisionActivity extends AppCompatActivity {
 
 
     public void confirmSession(View view) {
-        String sessionID = provisionViewModel.commitSession();
+        TestSession session = provisionViewModel.commitSession();
 
         @NonNull
         Intent testTimerIntent = new Intent(this, TestTimerService.class);
-        testTimerIntent.putExtra(NOTIFICATION_TAG_TEST_ID, sessionID);
+        testTimerIntent.putExtra(NOTIFICATION_TAG_TEST_ID, session.getSessionId());
         this.startService(testTimerIntent);
 
-        Intent captureActivity = new Intent(this, CaptureActivity.class);
-        captureActivity.putExtra(InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID, sessionID);
-        this.startActivity(captureActivity);
-        this.finish();
+        TestSession.Configuration config = provisionViewModel.getSessionConfig().getValue();
+
+        if (config.getSessionType() == SessionMode.ONE_PHASE) {
+            Intent captureActivity = new Intent(this, CaptureActivity.class);
+            captureActivity.setFlags(FLAG_ACTIVITY_FORWARD_RESULT);
+            captureActivity.putExtra(InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID, session.getSessionId());
+            this.startActivity(captureActivity);
+            this.finish();
+        } else {
+            Intent returnIntent = provisionReturnIntent(session);
+            if (config.getOutputSessionTranslatorId() != null) {
+                returnIntent.putExtra(INTENT_EXTRA_RESPONSE_TRANSLATOR, config.getOutputSessionTranslatorId());
+            }
+            this.setResult(RESULT_OK, returnIntent);
+            this.finish();
+        }
     }
 }

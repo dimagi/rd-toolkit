@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sessions_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/sessions_title_pane"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_header_height"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <TextView
+                android:id="@+id/sessions_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+
+                android:textColor="@color/primaryDarkColor"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:text="@string/sessions_card_title_text" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/sessions_card_text_flavor_one"
+            android:textSize="16dp"
+            android:paddingTop="4dp"
+            android:paddingLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/sessions_title_pane"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Clayton Sims"/>
+
+        <TextView
+            android:id="@+id/sessions_card_text_flavor_two"
+            android:textSize="16dp"
+            android:paddingTop="4dp"
+            android:paddingLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/sessions_card_text_flavor_one"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="#asdfds"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_header_height"
+            android:gravity="right"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <TextView
+                android:id="@+id/sessions_card_button_capture"
+                android:textSize="16dp"
+                android:padding="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:textColor="@color/primaryDarkColor"
+                android:onClick="goToCapture"
+                android:text="CAPTURE RESULT"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

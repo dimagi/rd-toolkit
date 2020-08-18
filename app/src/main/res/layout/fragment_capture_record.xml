@@ -13,4 +13,11 @@
         android:layout_height="wrap_content"
         android:text="Flavor" />
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="recordResults"
+        android:text="Record Test Results" />
+
 </LinearLayout>

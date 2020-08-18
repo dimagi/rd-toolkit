@@ -36,6 +36,8 @@ data class TestSession (
             var provisionModeData: String,
             val flavorText: String?,
             val flavorTextTwo: String?,
+            val outputSessionTranslatorId: String?,
+            val outputResultTranslatorId: String?,
             val flags: Map<String, String>
     )
 }

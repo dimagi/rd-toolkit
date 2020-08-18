@@ -125,4 +125,10 @@ public class CaptureActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void recordResults(View v) {
+        Intent returnIntent = new Intent();
+        this.setResult(RESULT_OK, returnIntent);
+        this.finish();
+    }
 }

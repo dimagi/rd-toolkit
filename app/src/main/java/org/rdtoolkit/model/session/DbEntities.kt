@@ -1,7 +1,9 @@
 package org.rdtoolkit.model.session
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 import java.util.*
 
 @Entity
@@ -52,6 +54,8 @@ data class DbTestSessionConfiguration(
         val provisionModeData: String,
         val flavorText: String?,
         val flavorTextTwo: String?,
+        val outputSessionTranslatorId: String?,
+        val outputResultTranslatorId: String?,
         val flags: Map<String, String>
 )
 
@@ -68,7 +72,10 @@ enum class STATUS {
 }
 
 data class DataTestSession (
+        @Embedded
         val session : DbTestSession,
+        @Relation(parentColumn = "sessionId", entityColumn = "sessionId")
         val config : DbTestSessionConfiguration,
+        @Relation(parentColumn = "sessionId", entityColumn = "sessionId")
         val result: DbTestSessionResult?
 )

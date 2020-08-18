@@ -11,9 +11,9 @@ import org.rdtoolkit.R
 import org.rdtoolkit.model.diagnostics.ResultProfile
 
 class ResultEntryAdapter(private val resultProfiles: Array<ResultProfile>,
-                         private val viewModel: CaptureViewModel
+private val viewModel: CaptureViewModel
 ) :
-        RecyclerView.Adapter<ResultEntryAdapter.MyViewHolder>() {
+RecyclerView.Adapter<ResultEntryAdapter.MyViewHolder>() {
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and

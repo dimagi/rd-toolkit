@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="primaryColor">#739296</color>
+    <color name="primaryLightColor">#a2c2c7</color>
+    <color name="primaryDarkColor">#466468</color>
 
-    <color name="color_progress_start">#6FDCF4</color>
-    <color name="color_progress_end">#25A0EE</color>
+    <color name="secondaryColor">#767396</color>
+    <color name="secondaryLightColor">#a5a2c7</color>
+    <color name="secondaryDarkColor">#4a4868</color>
+
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#ffffff</color>
+
+    <color name="color_progress_start">@color/secondaryLightColor</color>
+    <color name="color_progress_end">@color/secondaryDarkColor</color>
     <color name="color_progress_unfinished">#D3D6DA</color>
 </resources>

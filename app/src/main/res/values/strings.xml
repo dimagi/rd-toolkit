@@ -20,4 +20,6 @@
     <string name="adapter_result_name_msg">Enter Result for: %s</string>
     <string name="provision_define_flavor_one_txt">- %s</string>
     <string name="provision_define_flavor_two_txt">- %s</string>
+    <string name="menu_sessions">Test Sessions</string>
+    <string name="sessions_card_title_text">%s</string>
 </resources>

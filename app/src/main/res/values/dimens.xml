@@ -8,4 +8,5 @@
     <dimen name="timer_countdown_size">300dp</dimen>
     <dimen name="timer_arc_thickness">14dp</dimen>
     <dimen name="single_pad">8dp</dimen>
+    <dimen name="card_header_height">40dp</dimen>
 </resources>
