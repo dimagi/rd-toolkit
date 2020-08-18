@@ -1,6 +1,6 @@
 package org.rdtoolkit.model.diagnostics
 
-import org.rdtoolkit.model.session.TestSessionResult
+import org.rdtoolkit.model.session.TestSession
 
 interface RdtDiagnosticProfile {
     fun id() : String
@@ -9,7 +9,7 @@ interface RdtDiagnosticProfile {
     fun timeToExpire() : Int
     fun resultProfiles() : Collection<ResultProfile>
 
-    fun isResultSetComplete(result : TestSessionResult) : Boolean {
+    fun isResultSetComplete(result : TestSession.TestResult) : Boolean {
         val results = result.results
         for (profile in resultProfiles()) {
             if (!results.containsKey(profile.id())) {

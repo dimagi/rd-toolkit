@@ -15,6 +15,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import org.rdtoolkit.interop.BundleToConfiguration;
+import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.ui.capture.CaptureActivity;
 import org.rdtoolkit.util.InjectorUtils;
 
@@ -37,6 +39,12 @@ public class ProvisionActivity extends AppCompatActivity {
                 new ViewModelProvider(this,
                         InjectorUtils.Companion.provideProvisionViewModelFactory(this))
                         .get(ProvisionViewModel.class);
+
+        provisionViewModel.setConfig(
+                getIntent().getStringExtra(InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID),
+                new BundleToConfiguration().map(
+                        getIntent().getBundleExtra(InterfacesKt.INTENT_EXTRA_RDT_CONFIG_BUNDLE)));
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -79,7 +87,7 @@ public class ProvisionActivity extends AppCompatActivity {
         this.startService(testTimerIntent);
 
         Intent captureActivity = new Intent(this, CaptureActivity.class);
-        captureActivity.putExtra(CaptureActivity.EXTRA_SESSION_ID, sessionID);
+        captureActivity.putExtra(InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID, sessionID);
         this.startActivity(captureActivity);
         this.finish();
     }

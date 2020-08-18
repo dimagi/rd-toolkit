@@ -35,6 +35,26 @@
         <activity
             android:name=".ui.capture.CaptureActivity"
             android:label="@string/title_activity_capture"></activity>
+
+
+        <activity android:name=".interop.DispatcherActivity">
+            <intent-filter>
+                <action android:name="org.rdtoolkit.action.Provision"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="org.rdtoolkit.action.ProvisionAndCapture"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="org.rdtoolkit.action.Capture"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

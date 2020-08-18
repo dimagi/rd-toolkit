@@ -39,6 +39,19 @@ public class ProvisionDefineFragment extends Fragment {
             mViewModel.setViewInstructions(checked);
         });
 
+        mViewModel.getSessionConfig().observe(getViewLifecycleOwner(), value -> {
+
+            ((TextView)view.findViewById(R.id.define_txt_flavor_one)).setText(
+                    String.format(getString(R.string.provision_define_flavor_one_txt),
+                            value.getFlavorText())
+            );
+
+            ((TextView)view.findViewById(R.id.define_txt_flavor_two)).setText(
+                    String.format(getString(R.string.provision_define_flavor_two_txt),
+                            value.getFlavorTextTwo())
+            );
+        });
+
         mViewModel.getSelectedTestProfile().observe(getViewLifecycleOwner(), value -> {
             if (value == null) {
                 ((TextView)view.findViewById(R.id.define_txt_type)).setText(" - No Test Selected");

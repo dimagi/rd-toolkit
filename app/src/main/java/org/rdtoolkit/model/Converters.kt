@@ -1,7 +1,12 @@
 package org.rdtoolkit.model
 
 import androidx.room.TypeConverter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import org.rdtoolkit.model.session.ProvisionMode
 import org.rdtoolkit.model.session.STATUS
+import org.rdtoolkit.model.session.SessionMode
+import java.lang.reflect.Type
 import java.util.*
 
 class Converters {
@@ -16,13 +21,32 @@ class Converters {
     }
 
     @TypeConverter
-    fun fromStatusEnum(value: STATUS?): String? {
-        return value?.let { it.toString() }
+    fun fromStatusEnum(value: STATUS?): String? { return value?.let { it.toString() } }
+
+    @TypeConverter
+    fun stringToStatus(status: String?): STATUS? { return status?.let{ STATUS.valueOf(status)} }
+
+    @TypeConverter
+    fun fromSessionModeEnum(value: SessionMode): String? { return value.toString() }
+
+    @TypeConverter
+    fun stringToSessionMode(value: String): SessionMode { return SessionMode.valueOf(value) }
+
+    @TypeConverter
+    fun fromProvisionMode(value: ProvisionMode): String? { return value.toString() }
+
+    @TypeConverter
+    fun stringToProvisionMode(value: String): ProvisionMode { return ProvisionMode.valueOf(value) }
+
+    @TypeConverter
+    fun fromString(value: String?): Map<String?, String?>? {
+        val mapType: Type = object : TypeToken<Map<String?, String?>?>() {}.getType()
+        return Gson().fromJson(value, mapType)
     }
 
     @TypeConverter
-    fun stringToStatus(status: String?): STATUS? {
-        return status?.let{ STATUS.valueOf(status)}
+    fun fromStringMap(map: Map<String?, String?>?): String? {
+        val gson = Gson()
+        return gson.toJson(map)
     }
-
 }

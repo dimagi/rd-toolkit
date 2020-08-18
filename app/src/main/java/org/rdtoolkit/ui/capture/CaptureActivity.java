@@ -33,11 +33,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID;
 import static org.rdtoolkit.service.TestTimerServiceKt.NOTIFICATION_TAG_TEST_ID;
 
 public class CaptureActivity extends AppCompatActivity {
-
-    public static String EXTRA_SESSION_ID = "rdt_capture_session_id";
 
     public static int REQUEST_PHOTO_CAPTURE = 1;
 
@@ -50,7 +49,7 @@ public class CaptureActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         @NonNull
-        String sessionId = this.getIntent().getStringExtra(EXTRA_SESSION_ID);
+        String sessionId = this.getIntent().getStringExtra(INTENT_EXTRA_RDT_SESSION_ID);
 
         captureViewModel =
                 new ViewModelProvider(this,

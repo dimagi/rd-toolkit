@@ -6,14 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
 import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.model.session.TestReadableState
 import org.rdtoolkit.model.session.TestSession
-import org.rdtoolkit.model.session.TestSessionResult
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -39,7 +37,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     private val rawImageCapturePath : MutableLiveData<String> = MutableLiveData()
 
-    private val testSessionResult : MutableLiveData<TestSessionResult> = MutableLiveData()
+    private val testSessionResult : MutableLiveData<TestSession.TestResult> = MutableLiveData()
 
     fun getMillisUntilResolved() : LiveData<Long> {
         return resolveMillisecondsLeft
@@ -57,7 +55,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         return testProfile
     }
 
-    fun getTestSessionResult() : LiveData<TestSessionResult> {
+    fun getTestSessionResult() : LiveData<TestSession.TestResult> {
         return testSessionResult
     }
 
@@ -85,14 +83,18 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     fun loadSession(sessionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val session = sessionRepository.load(sessionId)
+            val session = sessionRepository.getTestSession(sessionId)
 
             val profile = diagnosticsRepository.getTestProfile(session.testProfileId)
 
             testProfile.postValue(profile)
             testSession.postValue(session)
 
-            testSessionResult.postValue(TestSessionResult(session.sessionId, null, null, HashMap()))
+            if (session.result == null) {
+                session.result = TestSession.TestResult(null, null, HashMap())
+            }
+
+            testSessionResult.postValue(session.result)
 
             testState.postValue(session.getTestReadableState())
 

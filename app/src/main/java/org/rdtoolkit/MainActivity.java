@@ -17,9 +17,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import org.rdtoolkit.ui.provision.ProvisionActivity;
+import org.rdtoolkit.interop.TestIntentBuilder;
+
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int ACTIVITY_PROVISION = 1;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -33,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, ProvisionActivity.class);
-                MainActivity.this.startActivity(i);
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -64,5 +66,17 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+
+    public void simulateTestRequest(View view) {
+        Intent i = new TestIntentBuilder()
+                .forProvisionAndCapture().setSessionId(UUID.randomUUID().toString())
+                .requestTestProfile("debug_sf_mal_pf_pv")
+                .setFlavorOne("Clayton Sims")
+                .setFlavorTwo("#4SFS")
+                .build();
+
+        this.startActivityForResult(i, ACTIVITY_PROVISION);
     }
 }

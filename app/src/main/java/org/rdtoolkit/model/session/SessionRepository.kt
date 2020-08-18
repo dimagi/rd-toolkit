@@ -1,14 +1,15 @@
 package org.rdtoolkit.model.session
 
-import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.model.session.DbTestSession
 import org.rdtoolkit.model.session.TestSessionDao
 
 class SessionRepository(var testSessionDao : TestSessionDao) {
+
     fun insert(testSession: TestSession) {
-        testSessionDao.save(testSession)
+        testSessionDao.save(SessionToDataMapper().map(testSession))
     }
 
-    fun load(sessionId : String) : TestSession {
-        return testSessionDao.load(sessionId)
+    fun getTestSession(sessionId : String) : TestSession {
+        return DataToSessionMapper().map(testSessionDao.loadDataSession(sessionId))
     }
 }

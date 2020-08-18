@@ -7,13 +7,40 @@ import org.rdtoolkit.model.Converters
 @Dao
 interface TestSessionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(session : TestSession)
+    fun save(session : DbTestSession)
 
-    @Query("SELECT * FROM TestSession WHERE sessionId = :sessionId")
-    fun load(sessionId: String): TestSession
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveResult(session : DbTestSessionResult)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveConfig(session : DbTestSessionConfiguration)
+
+    @Query("SELECT * FROM DbTestSession WHERE sessionId = :sessionId")
+    fun load(sessionId: String): DbTestSession
+
+    @Query("SELECT * FROM DbTestSessionResult WHERE sessionId = :sessionId")
+    fun loadResult(sessionId: String): DbTestSessionResult?
+
+    @Query("SELECT * FROM DbTestSessionConfiguration WHERE sessionId = :sessionId")
+    fun loadConfig(sessionId: String): DbTestSessionConfiguration
+
+    @Transaction
+    fun save(dbSession: DataTestSession) {
+        save(dbSession.session)
+        saveConfig(dbSession.config)
+        dbSession.result?.let{ saveResult(it) }
+    }
+
+    fun loadDataSession(sessionId: String): DataTestSession {
+        return DataTestSession(load(sessionId),
+                loadConfig(sessionId),
+                loadResult(sessionId)
+        )
+    }
 }
 
-@Database(entities = [TestSession::class], version = 1)
+@Database(entities = [DbTestSession::class, DbTestSessionConfiguration::class,
+    DbTestSessionResult::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class RdtDatabase : RoomDatabase() {
     abstract fun testSessionDao(): TestSessionDao

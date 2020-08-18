@@ -18,4 +18,6 @@
     <string name="provision_begin_resolve_msg">This test will take %s to resolve</string>
     <string name="capture_timer_expiring_countdown_msg">Results expire in: %s</string>
     <string name="adapter_result_name_msg">Enter Result for: %s</string>
+    <string name="provision_define_flavor_one_txt">- %s</string>
+    <string name="provision_define_flavor_two_txt">- %s</string>
 </resources>

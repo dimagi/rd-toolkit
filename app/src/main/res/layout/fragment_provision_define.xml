@@ -20,8 +20,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/define_txt_flavor"
-        android:text=" - Jon Doe" />
+        android:id="@+id/define_txt_flavor_one"
+        android:text="@string/provision_define_flavor_one_txt" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/define_txt_flavor_two"
+        android:text="@string/provision_define_flavor_two_txt" />
 
 
 

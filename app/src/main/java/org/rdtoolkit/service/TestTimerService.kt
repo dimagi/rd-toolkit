@@ -30,7 +30,6 @@ class TestTimerService : LifecycleService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show()
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
 
@@ -44,7 +43,7 @@ class TestTimerService : LifecycleService() {
                 .notify(testId, SERVICE_TIMER, builder.setContentText("Preparing Timer...").build())
 
         lifecycleScope.launch(Dispatchers.IO) {
-            var session = InjectorUtils.provideSessionRepository(this@TestTimerService).load(testId)
+            var session = InjectorUtils.provideSessionRepository(this@TestTimerService).getTestSession(testId)
 
             launch(Dispatchers.Main) {
                 startResolvingTestTimer(session)
@@ -59,7 +58,7 @@ class TestTimerService : LifecycleService() {
         var builder = getNotificationBuilder();
         var timer = object : CountDownTimer(session.timeResolved.time - System.currentTimeMillis(), 500) {
             override fun onTick(millisUntilFinished: Long) {
-                builder.setContentTitle("Test " + session.flavorText)
+                builder.setContentTitle("Test " + session.configuration.flavorText)
                 builder.setContentText("Time Remaining: " + getFormattedTimeForSpan(millisUntilFinished))
                 NotificationManagerCompat.from(this@TestTimerService)
                         .notify(session.sessionId, SERVICE_TIMER, builder.build())
@@ -93,7 +92,7 @@ class TestTimerService : LifecycleService() {
             }
 
             override fun onFinish() {
-                builder.setContentTitle("Test Expired" + session.flavorText)
+                builder.setContentTitle("Test Expired" + session.configuration.flavorText)
                 builder.setContentText("Test is no longer valid to read")
                 NotificationManagerCompat.from(this@TestTimerService)
                         .notify(session.sessionId, SERVICE_TIMER, builder.build())
@@ -158,6 +157,5 @@ class TestTimerService : LifecycleService() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show()
     }
 }
