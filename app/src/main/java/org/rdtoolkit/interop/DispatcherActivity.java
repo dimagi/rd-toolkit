@@ -45,6 +45,10 @@ public class DispatcherActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_CANCELED) {
+            this.setResult(RESULT_CANCELED);
+            this.finish();
+        }
         if(requestCode == ACTIVITY_RESULT_PASSTHROUGH && resultCode == RESULT_OK) {
             this.setResult(resultCode, interopRepo.translateResponse(data));
             this.finish();

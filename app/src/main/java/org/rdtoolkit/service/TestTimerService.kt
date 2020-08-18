@@ -26,6 +26,9 @@ const val CHANNEL_ID_FIRE ="Fire"
 const val SERVICE_TIMER = 1
 const val NOTIFICATION_TAG_TEST_ID = "test_id"
 
+const val COUNTDOWN_INTERVAL_MS = 500L
+const val EXPIRED_NOTIFICATION_TIMEOUT_MS = 1000 * 30L
+
 class TestTimerService : LifecycleService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -84,7 +87,7 @@ class TestTimerService : LifecycleService() {
             return;
         }
 
-        var timer = object : CountDownTimer(session.timeExpired.time - System.currentTimeMillis(), 500) {
+        var timer = object : CountDownTimer(session.timeExpired.time - System.currentTimeMillis(), COUNTDOWN_INTERVAL_MS) {
             override fun onTick(millisUntilFinished: Long) {
                 builder.setContentText("Results valid for: " + getFormattedTimeForSpan(millisUntilFinished))
                 NotificationManagerCompat.from(this@TestTimerService)
@@ -95,7 +98,7 @@ class TestTimerService : LifecycleService() {
                 builder.setContentTitle("Test Expired" + session.configuration.flavorText)
                 builder.setContentText("Test is no longer valid to read")
                 NotificationManagerCompat.from(this@TestTimerService)
-                        .notify(session.sessionId, SERVICE_TIMER, builder.build())
+                        .notify(session.sessionId, SERVICE_TIMER, builder.setTimeoutAfter(EXPIRED_NOTIFICATION_TIMEOUT_MS).build())
 
             }
         }.start();
