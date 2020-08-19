@@ -79,7 +79,7 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
                 null)
 
         val job = viewModelScope.launch(Dispatchers.IO) {
-            sessionRepository.insert(session)
+            sessionRepository.write(session)
         }
 
         //Cheating for now, this should be extremely fast

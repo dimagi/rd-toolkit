@@ -1,17 +1,16 @@
 package org.rdtoolkit.ui.capture
 
 import android.os.CountDownTimer
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
+import org.rdtoolkit.model.session.STATUS
 import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.model.session.TestReadableState
 import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.util.CombinedLiveData
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -29,7 +28,9 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     private val testState : MutableLiveData<TestReadableState> = MutableLiveData()
 
-    private val testProfile : MutableLiveData<RdtDiagnosticProfile> = MutableLiveData()
+    private val testProfile : LiveData<RdtDiagnosticProfile> = Transformations.map(testSession) {
+        session -> diagnosticsRepository.getTestProfile(session.testProfileId)
+    }
 
     private val resolveMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
 
@@ -38,6 +39,10 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     private val rawImageCapturePath : MutableLiveData<String> = MutableLiveData()
 
     private val testSessionResult : MutableLiveData<TestSession.TestResult> = MutableLiveData()
+
+    private val inCommitMode : MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val sessionCommit = CombinedLiveData<Boolean, TestSession>(inCommitMode, testSession)
 
     fun getMillisUntilResolved() : LiveData<Long> {
         return resolveMillisecondsLeft
@@ -57,6 +62,10 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     fun getTestSessionResult() : LiveData<TestSession.TestResult> {
         return testSessionResult
+    }
+
+    fun getInCommitMode() : LiveData<Boolean> {
+        return inCommitMode
     }
 
     fun setResultValue(key: String, value: String) {
@@ -85,9 +94,6 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         viewModelScope.launch(Dispatchers.IO) {
             val session = sessionRepository.getTestSession(sessionId)
 
-            val profile = diagnosticsRepository.getTestProfile(session.testProfileId)
-
-            testProfile.postValue(profile)
             testSession.postValue(session)
 
             if (session.result == null) {
@@ -98,7 +104,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
             testState.postValue(session.getTestReadableState())
 
-            startTimersForState(session, profile)
+            startTimersForState(session, diagnosticsRepository.getTestProfile(session.testProfileId))
         }
     }
 
@@ -135,6 +141,18 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         }
     }
 
+    fun commitResult() {
+        val concreteSession = testSession.value!!
+        inCommitMode.value = true
+        viewModelScope.launch(Dispatchers.IO) {
+            concreteSession.result = testSessionResult.value
+            concreteSession.state = STATUS.COMPLETE
+            sessionRepository.write(concreteSession)
+            testSession.postValue(concreteSession)
+            inCommitMode.postValue(false)
+        }
+    }
+
     /**
      * Callback called when the ViewModel is destroyed
      */
@@ -143,7 +161,6 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         resolveTimer?.cancel()
         readableTimer?.cancel()
     }
-
 
     init {
         testState.value = TestReadableState.LOADING

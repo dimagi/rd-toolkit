@@ -4,7 +4,7 @@ import java.util.*
 
 data class TestSession (
         val sessionId: String,
-        val state: STATUS,
+        var state: STATUS,
         val testProfileId: String,
         val configuration: Configuration,
         val timeStarted : Date,
@@ -58,7 +58,3 @@ enum class ProvisionMode {
      */
     RESULT_PROFILE,
 }
-
-data class TestProvision(
-        val sessionId : String,
-        val config: TestSession.Configuration) {}

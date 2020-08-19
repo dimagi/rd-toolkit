@@ -17,13 +17,16 @@ const val INTENT_EXTRA_RDT_CONFIG_OUTPUT_TRANSLATOR_SESSION = "rdt_config_transl
 const val INTENT_EXTRA_RDT_CONFIG_OUTPUT_TRANSLATOR_RESULT = "rdt_config_translator_result"
 
 const val INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE = "rdt_config_session_type"
-const val INTENT_EXTRA_RDT_CONFIG_FLAGS = "rdt_config_session_type"
+const val INTENT_EXTRA_RDT_CONFIG_FLAGS = "rdt_config_session_flags"
 
 const val INTENT_EXTRA_RDT_SESSION_STATE = "rdt_session_state"
 const val INTENT_EXTRA_RDT_SESSION_TEST_PROFILE = "rdt_session_test_profile"
 const val INTENT_EXTRA_RDT_SESSION_TIME_STARTED = "rdt_session_time_started"
 const val INTENT_EXTRA_RDT_SESSION_TIME_RESOLVED = "rdt_session_time_resolved"
 const val INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED = "rdt_session_time_expired"
+
+const val INTENT_EXTRA_RDT_RESULT_BUNDLE = "rdt_session_result_bundle"
+
 
 class BundleToConfiguration : Mapper<Bundle, TestSession.Configuration> {
     override fun map(input: Bundle): TestSession.Configuration {
@@ -71,6 +74,46 @@ class ConfigurationToBundle : Mapper<TestSession.Configuration, Bundle> {
     }
 }
 
+class BundleToResult : Mapper<Bundle, TestSession.TestResult> {
+    override fun map(input: Bundle): TestSession.TestResult {
+        val mapBundle = input.getBundle(INTENT_EXTRA_RDT_RESULT_MAP)
+
+        var map = HashMap<String,String>()
+
+        if  (mapBundle != null) {
+            for (k in mapBundle.keySet()) {
+                map.put(k, mapBundle.getString(k)!!)
+            }
+        }
+
+        return TestSession.TestResult(
+                Date(input.getLong(INTENT_EXTRA_RDT_RESULT_TIME_READ)),
+                input.getString(INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH),
+                map
+        )
+    }
+}
+
+const val INTENT_EXTRA_RDT_RESULT_TIME_READ = "rdt_session_result_time_read"
+const val INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH = "rdt_session_result_raw_image_path"
+const val INTENT_EXTRA_RDT_RESULT_MAP = "rdt_session_result_map"
+
+class ResultToBundle : Mapper<TestSession.TestResult, Bundle> {
+    override fun map(input: TestSession.TestResult): Bundle {
+        var b = Bundle()
+        b.putLong(INTENT_EXTRA_RDT_RESULT_TIME_READ, input.timeRead!!.time)
+        b.putString(INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH, input.rawCapturedImageFilePath)
+
+        var map = Bundle()
+        for (k in input.results) {
+            map.putString(k.key, k.value)
+        }
+        b.putBundle(INTENT_EXTRA_RDT_RESULT_MAP, map)
+        return b
+    }
+}
+
+
 class SessionToBundle : Mapper<TestSession, Bundle> {
     override fun map(input: TestSession): Bundle {
         var b = Bundle()
@@ -82,6 +125,8 @@ class SessionToBundle : Mapper<TestSession, Bundle> {
         b.putLong(INTENT_EXTRA_RDT_SESSION_TIME_STARTED, input.timeStarted.time)
         b.putLong(INTENT_EXTRA_RDT_SESSION_TIME_RESOLVED, input.timeResolved.time)
         b.putLong(INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED, input.timeExpired.time)
+        input.result?.let{
+            b.putBundle(INTENT_EXTRA_RDT_RESULT_BUNDLE, ResultToBundle().map(it))}
 
         return b
     }
@@ -101,7 +146,7 @@ class BundleToSession : Mapper<Bundle, TestSession> {
                 Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_STARTED)),
                 Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_RESOLVED)),
                 Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED)),
-                null
+                input.getBundle(INTENT_EXTRA_RDT_RESULT_BUNDLE)?.let{BundleToResult().map(it)}
         )
     }
 }

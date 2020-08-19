@@ -5,9 +5,11 @@ import android.os.Bundle
 import org.rdtoolkit.model.Mapper
 import org.rdtoolkit.model.chain
 
+const val TRANSLATOR_XFORM_RESULT ="xform_response"
+
 fun getBootstrappedTranslators() : Map<String, Mapper<Intent, Intent>> {
     val translators = HashMap<String, Mapper<Intent, Intent>>()
-    translators.put("xform_response", FlatIntentMapper().chain(XFormsResponseIntentMapper()))
+    translators.put(TRANSLATOR_XFORM_RESULT, FlatIntentMapper().chain(XFormsResponseIntentMapper()))
     return translators
 }
 
@@ -32,16 +34,20 @@ class FlatIntentMapper : Mapper<Intent, Intent> {
     private fun aggregateKeysRecursive(accumulator : Intent, current : Bundle) {
         for (key in current.keySet()) {
             val value = current.get(key)
-            accumulator.putExtra(key, value?.let{flatten(value)})
+            if (value is Bundle) {
+                aggregateKeysRecursive(accumulator, value)
+            } else {
+                accumulator.putExtra(key, value?.let { flatten(value) })
+            }
         }
     }
 }
 
 fun flatten(input: Any) : String {
     when(input) {
-        input is String -> return input as String
-        input is Long -> return input.toString()
-        input is Int -> return input.toString()
+        is String -> return input as String
+        is Long -> return input.toString()
+        is Int -> return input.toString()
         else -> throw TODO("Implement converter for: " + input.javaClass)
     }
 }

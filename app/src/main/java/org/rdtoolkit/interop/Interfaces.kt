@@ -59,6 +59,11 @@ class TestIntentBuilder() {
         return this
     }
 
+    fun setResultResponseTranslator(responseTranslatorId : String) : TestIntentBuilder  {
+        configBundle.putString(INTENT_EXTRA_OUTPUT_RESULT_TRANSLATOR, responseTranslatorId)
+        return this
+    }
+
     fun setSessionId(sessionId : String) : TestIntentBuilder {
         intent.putExtra(INTENT_EXTRA_RDT_SESSION_ID,sessionId)
         return this
@@ -84,6 +89,13 @@ fun bootstrap(newIntent: Intent, oldIntent: Intent) {
 }
 
 fun provisionReturnIntent(session : TestSession) : Intent {
+    val intent = Intent()
+    intent.putExtra(INTENT_EXTRA_RDT_SESSION_ID, session.sessionId)
+    intent.putExtra(INTENT_EXTRA_RDT_SESSION_BUNDLE, SessionToBundle().map(session))
+    return intent
+}
+
+fun captureReturnIntent(session : TestSession) : Intent {
     val intent = Intent()
     intent.putExtra(INTENT_EXTRA_RDT_SESSION_ID, session.sessionId)
     intent.putExtra(INTENT_EXTRA_RDT_SESSION_BUNDLE, SessionToBundle().map(session))

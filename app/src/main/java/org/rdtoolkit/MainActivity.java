@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import org.rdtoolkit.interop.BundleToSession;
+import org.rdtoolkit.interop.DispatcherActivity;
 import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.interop.TestIntentBuilder;
 import org.rdtoolkit.model.session.TestSession;
@@ -79,9 +80,11 @@ public class MainActivity extends AppCompatActivity {
     public void simulateTestRequest(View view) {
         Intent i = new TestIntentBuilder()
                 .forProvisioning().setSessionId(UUID.randomUUID().toString())
-                .requestTestProfile("debug_mal_pf_pv")
+                //.requestTestProfile("debug_mal_pf_pv")
+                .requestTestProfile("debug_sf_mal_pf_pv")
                 .setFlavorOne("Clayton Sims")
                 .setFlavorTwo("#4SFS")
+                .setResultResponseTranslator("xform_response")
                 .build();
 
         this.startActivityForResult(i, ACTIVITY_PROVISION);
@@ -93,14 +96,14 @@ public class MainActivity extends AppCompatActivity {
 
         if(requestCode == ACTIVITY_PROVISION && resultCode == RESULT_OK) {
 
-
         }
     }
 
     public void goToCapture(View view) {
         String sessionId = (String)view.getTag();
-        Intent captureActivity = new Intent(this, CaptureActivity.class);
+        Intent captureActivity = new Intent();
+        captureActivity.setAction(InterfacesKt.ACTION_TEST_CAPTURE);
         captureActivity.putExtra(InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID, sessionId);
-        this.startActivity(captureActivity);
+        this.startActivityForResult(captureActivity, ACTIVITY_PROVISION);
     }
 }

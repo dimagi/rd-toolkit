@@ -32,5 +32,9 @@ public class CaptureRecordFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mViewModel = new ViewModelProvider(requireActivity()).get(CaptureViewModel.class);
+
+        mViewModel.getSessionCommit().observe(getViewLifecycleOwner(), result -> {
+            view.findViewById(R.id.capture_record_btn_commit).setEnabled(!result.getFirst());
+        });
     }
 }

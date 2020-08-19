@@ -19,9 +19,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.model.diagnostics.DiagnosticOutcome;
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
 import org.rdtoolkit.model.diagnostics.ResultProfile;
+import org.rdtoolkit.model.session.STATUS;
+import org.rdtoolkit.model.session.TestSession;
 import org.rdtoolkit.ui.provision.ProvisionViewModel;
 import org.rdtoolkit.util.InjectorUtils;
 
@@ -34,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID;
+import static org.rdtoolkit.interop.InterfacesKt.captureReturnIntent;
 import static org.rdtoolkit.service.TestTimerServiceKt.NOTIFICATION_TAG_TEST_ID;
 
 public class CaptureActivity extends AppCompatActivity {
@@ -64,6 +68,13 @@ public class CaptureActivity extends AppCompatActivity {
 
             ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
                     findItem(R.id.capture_record).setEnabled(recordEnabled);
+        });
+
+        captureViewModel.getSessionCommit().observe(this, result -> {
+            if (result.getFirst() == false &&
+                    result.getSecond().getState() == STATUS.COMPLETE) {
+                finishSession(result.getSecond());
+            }
         });
 
         // Passing each menu ID as a set of Ids because each
@@ -127,7 +138,15 @@ public class CaptureActivity extends AppCompatActivity {
     }
 
     public void recordResults(View v) {
-        Intent returnIntent = new Intent();
+        captureViewModel.commitResult();
+    }
+
+    private void finishSession(TestSession session) {
+        Intent returnIntent = captureReturnIntent(session);
+        if (session.getConfiguration().getOutputResultTranslatorId() != null) {
+            returnIntent.putExtra(InterfacesKt.INTENT_EXTRA_RESPONSE_TRANSLATOR,
+                    session.getConfiguration().getOutputResultTranslatorId());
+        }
         this.setResult(RESULT_OK, returnIntent);
         this.finish();
     }

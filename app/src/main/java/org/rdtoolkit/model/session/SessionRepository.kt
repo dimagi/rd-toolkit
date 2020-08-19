@@ -7,7 +7,7 @@ import org.rdtoolkit.model.session.TestSessionDao
 
 class SessionRepository(var testSessionDao : TestSessionDao) {
 
-    fun insert(testSession: TestSession) {
+    fun write(testSession: TestSession) {
         testSessionDao.save(SessionToDataMapper().map(testSession))
     }
 
