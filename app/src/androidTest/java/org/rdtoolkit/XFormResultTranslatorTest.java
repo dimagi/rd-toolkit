@@ -3,25 +3,15 @@ package org.rdtoolkit;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.core.util.Pair;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rdtoolkit.interop.BundleToConfiguration;
-import org.rdtoolkit.interop.BundleToResult;
-import org.rdtoolkit.interop.BundleToSession;
-import org.rdtoolkit.interop.ConfigurationToBundle;
 import org.rdtoolkit.interop.InterfacesKt;
-import org.rdtoolkit.interop.MappingKt;
-import org.rdtoolkit.interop.ResultToBundle;
-import org.rdtoolkit.interop.SessionToBundle;
+import org.rdtoolkit.interop.IntentObjectMappingsKt;
 import org.rdtoolkit.interop.translator.InteropRepository;
-import org.rdtoolkit.model.Mapper;
-import org.rdtoolkit.model.session.TestSession;
 
-import java.util.HashMap;
 import java.util.Map;
 import static org.rdtoolkit.interop.translator.TranslatorsKt.TRANSLATOR_XFORM_RESULT;
 
@@ -59,14 +49,13 @@ public class XFormResultTranslatorTest {
         Intent output = new InteropRepository().getTranslator(TRANSLATOR_XFORM_RESULT).map(sessionIntent);
         Bundle xformBundle = output.getBundleExtra("odk_intent_bundle");
 
-        Assert.assertEquals(xformBundle.getString(MappingKt.INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_ONE),
+        Assert.assertEquals(xformBundle.getString(IntentObjectMappingsKt.INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_ONE),
                 Constants.SessionCompleted.getConfiguration().getFlavorText());
 
         Map<String, String> results = Constants.SessionCompleted.getResult().getResults();
 
         for (String key : results.keySet()) {
-            Assert.assertEquals(xformBundle.getString(key),
-                    results.get(key));
+            Assert.assertEquals(xformBundle.getString(key), results.get(key));
         }
     }
 

@@ -1,10 +1,13 @@
 package org.rdtoolkit.interop
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import org.rdtoolkit.interop.translator.InteropRepository
 import org.rdtoolkit.model.session.ProvisionMode
 import org.rdtoolkit.model.session.SessionMode
 import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.ui.provision.ProvisionActivity
 
 const val ACTION_TEST_PROVISION = "org.rdtoolkit.action.Provision"
 const val ACTION_TEST_PROVISION_AND_CAPTURE = "org.rdtoolkit.action.ProvisionAndCapture"
@@ -77,6 +80,19 @@ class TestIntentBuilder() {
         intent.putExtra(INTENT_EXTRA_RDT_CONFIG_BUNDLE, configBundle);
         return intent
     }
+}
+
+fun provisionIntent(context : Context, incoming: Intent) : Intent {
+    var toBootstrap = incoming
+    incoming.getStringExtra(INTENT_EXTRA_INPUT_TRANSLATOR)?.let {
+        toBootstrap = InteropRepository().getTranslator(it).map(incoming)
+        toBootstrap.putExtra(INTENT_EXTRA_RDT_SESSION_ID,
+                incoming.getStringExtra(INTENT_EXTRA_RDT_SESSION_ID))
+    }
+    var toReturn = Intent(context, ProvisionActivity::class.java)
+    bootstrap(toReturn, toBootstrap)
+
+    return toReturn
 }
 
 fun bootstrap(newIntent: Intent, oldIntent: Intent) {

@@ -25,6 +25,10 @@ const val INTENT_EXTRA_RDT_SESSION_TIME_STARTED = "rdt_session_time_started"
 const val INTENT_EXTRA_RDT_SESSION_TIME_RESOLVED = "rdt_session_time_resolved"
 const val INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED = "rdt_session_time_expired"
 
+const val INTENT_EXTRA_RDT_RESULT_TIME_READ = "rdt_session_result_time_read"
+const val INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH = "rdt_session_result_raw_image_path"
+const val INTENT_EXTRA_RDT_RESULT_MAP = "rdt_session_result_map"
+
 const val INTENT_EXTRA_RDT_RESULT_BUNDLE = "rdt_session_result_bundle"
 
 
@@ -32,13 +36,7 @@ class BundleToConfiguration : Mapper<Bundle, TestSession.Configuration> {
     override fun map(input: Bundle): TestSession.Configuration {
         val mapBundle = input.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)
 
-        var map = HashMap<String,String>()
-
-        if  (mapBundle != null) {
-            for (k in mapBundle.keySet()) {
-                map.put(k, mapBundle.getString(k)!!)
-            }
-        }
+        var map = BundleToStringMap().map(mapBundle)
 
         return TestSession.Configuration(
                 SessionMode.valueOf(input.getString(INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE)!!),
@@ -65,11 +63,7 @@ class ConfigurationToBundle : Mapper<TestSession.Configuration, Bundle> {
         b.putString(INTENT_EXTRA_RDT_CONFIG_OUTPUT_TRANSLATOR_SESSION, input.outputSessionTranslatorId)
         b.putString(INTENT_EXTRA_RDT_CONFIG_OUTPUT_TRANSLATOR_RESULT, input.outputResultTranslatorId)
 
-        var map = Bundle()
-        for (k in input.flags) {
-            map.putString(k.key, k.value)
-        }
-        b.putBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS, map)
+        b.putBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS, StringMapToBundle().map(input.flags))
         return b
     }
 }
@@ -93,10 +87,6 @@ class BundleToResult : Mapper<Bundle, TestSession.TestResult> {
         )
     }
 }
-
-const val INTENT_EXTRA_RDT_RESULT_TIME_READ = "rdt_session_result_time_read"
-const val INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH = "rdt_session_result_raw_image_path"
-const val INTENT_EXTRA_RDT_RESULT_MAP = "rdt_session_result_map"
 
 class ResultToBundle : Mapper<TestSession.TestResult, Bundle> {
     override fun map(input: TestSession.TestResult): Bundle {
@@ -149,4 +139,59 @@ class BundleToSession : Mapper<Bundle, TestSession> {
                 input.getBundle(INTENT_EXTRA_RDT_RESULT_BUNDLE)?.let{BundleToResult().map(it)}
         )
     }
+}
+
+class StringMapToBundle : Mapper<Map<String, String>, Bundle> {
+    override fun map(input: Map<String, String>): Bundle {
+        var map = Bundle()
+        for (k in input) {
+            map.putString(k.key, k.value)
+        }
+        return map
+    }
+}
+
+interface KeyQualifier {
+    fun isKeyQualified(key: String) : Boolean
+}
+
+class AllKeyQualifier() : KeyQualifier {
+    override fun isKeyQualified(key: String): Boolean {
+        return true
+    }
+}
+
+
+class FixedSetKeyQualifier(val keys : Collection<String>) : KeyQualifier {
+    override fun isKeyQualified(key: String): Boolean {
+        return keys.contains(key)
+    }
+}
+
+class PrefixKeyQualifier(val prefix : String) : KeyQualifier {
+    override fun isKeyQualified(key: String): Boolean {
+        return key.startsWith(prefix)
+    }
+}
+
+class BundleToStringMap(private val qualifier : KeyQualifier = AllKeyQualifier())
+    : Mapper<Bundle?, Map<String, String>> {
+
+    override fun map(input: Bundle?): Map<String, String> {
+        if (input == null) {
+            return HashMap()
+        }
+
+        val map = HashMap<String,String>()
+
+        if  (input != null) {
+            for (k in input.keySet()) {
+                if (qualifier.isKeyQualified(k)) {
+                    map.put(k, input.getString(k)!!)
+                }
+            }
+        }
+        return map
+    }
+
 }
