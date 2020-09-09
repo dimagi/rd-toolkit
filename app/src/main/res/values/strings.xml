@@ -2,8 +2,8 @@
     <string name="app_name">Rapid Diagnostic Toolkit</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Rapid Diagnostic Toolkit</string>
+    <string name="nav_header_subtitle">Default Library</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -22,4 +22,5 @@
     <string name="provision_define_flavor_two_txt">- %s</string>
     <string name="menu_sessions">Test Sessions</string>
     <string name="sessions_card_title_text">%s</string>
+    <string name="home_message_txt">Welcome to the Rapid Diagnostic Toolkit.\n\nThis app is intended to be launched from another supported app, but you can test out a test below</string>
 </resources>
