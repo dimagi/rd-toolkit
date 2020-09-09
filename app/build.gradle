@@ -6,10 +6,10 @@ apply plugin: 'kotlin-kapt'
 ext {
     // Obtained from ~/.gradle/gradle.properties on build server (mobile agent), or your local
     // ~/.gradle/gradle.properties file, or loads default empty strings if neither is present
-    RELEASE_STORE_FILE = project.properties['RAPID_DIAGNOSTIC_RELEASE_STORE_FILE'] ?: "."
-    RELEASE_STORE_PASSWORD = project.properties['RAPID_DIAGNOSTIC_RELEASE_STORE_PASSWORD'] ?: ""
-    RELEASE_KEY_ALIAS = project.properties['RAPID_DIAGNOSTIC_RELEASE_KEY_ALIAS'] ?: ""
-    RELEASE_KEY_PASSWORD = project.properties['RAPID_DIAGNOSTIC_RELEASE_KEY_PASSWORD'] ?: ""
+    RELEASE_STORE_FILE = project.properties['RELEASE_STORE_FILE'] ?: "."
+    RELEASE_STORE_PASSWORD = project.properties['RELEASE_STORE_PASSWORD'] ?: ""
+    RELEASE_KEY_ALIAS = project.properties['RELEASE_KEY_ALIAS'] ?: ""
+    RELEASE_KEY_PASSWORD = project.properties['RELEASE_KEY_PASSWORD'] ?: ""
 }
 
 android {
