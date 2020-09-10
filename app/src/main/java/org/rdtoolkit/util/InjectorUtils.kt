@@ -3,6 +3,7 @@ package org.rdtoolkit.util
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import org.rdtoolkit.component.ComponentRepository
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.model.session.TestSession
@@ -50,5 +51,10 @@ class InjectorUtils() {
         fun provideDiagnosticsRepository(context: Context) : DiagnosticsRepository {
             return DiagnosticsRepository()
         }
+
+        fun provideComponentRepository(context: Context) : ComponentRepository {
+            return ComponentRepository()
+        }
+
     }
 }
