@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -62,6 +63,24 @@ public class CaptureActivity extends AppCompatActivity {
                         .get(CaptureViewModel.class);
 
         captureViewModel.loadSession(sessionId);
+
+        captureViewModel.getTestSession().observe(this, value -> {
+            ((TextView)this.findViewById(R.id.tile_flavor_line)).setText(
+                    String.format(getString(R.string.tile_txt_flavor_one),
+                            value.getConfiguration().getFlavorText(),
+                            value.getConfiguration().getFlavorTextTwo())
+            );
+        });
+
+        captureViewModel.getTestProfile().observe(this, value -> {
+            if (value != null) {
+                ((TextView)this.findViewById(R.id.tile_test_line)).setText(
+                        String.format(getString(R.string.tile_txt_test_line),
+                                value.readableName()));
+
+            }
+        });
+
 
         captureViewModel.getTestSessionResult().observe(this, value -> {
             RdtDiagnosticProfile profile = captureViewModel.getTestProfile().getValue();

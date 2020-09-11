@@ -45,6 +45,10 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     val sessionCommit = CombinedLiveData<Boolean, TestSession>(inCommitMode, testSession)
 
+    fun getTestSession() : LiveData<TestSession> {
+        return testSession
+    }
+
     fun getMillisUntilResolved() : LiveData<Long> {
         return resolveMillisecondsLeft
     }

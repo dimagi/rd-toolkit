@@ -8,12 +8,6 @@
     tools:context=".ui.capture.CaptureTimerFragment">
 
     <TextView
-        android:id="@+id/capture_text_flavor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Flavor" />
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/capture_text_status"

@@ -7,17 +7,12 @@
     android:orientation="vertical"
     tools:context=".ui.capture.CaptureRecordFragment">
 
-    <TextView
-        android:id="@+id/capture_text_flavor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Flavor" />
-
     <Button
         android:id="@+id/capture_record_btn_commit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="recordResults"
+        style="@style/Button"
         android:text="Record Test Results" />
 
 </LinearLayout>

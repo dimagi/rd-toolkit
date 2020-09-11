@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -70,6 +71,22 @@ public class ProvisionActivity extends AppCompatActivity {
                     findItem(R.id.provision_start).setEnabled(value);
         });
 
+        provisionViewModel.getSessionConfig().observe(this, value -> {
+            ((TextView)this.findViewById(R.id.tile_flavor_line)).setText(
+                    String.format(getString(R.string.tile_txt_flavor_one),
+                            value.getFlavorText(),
+                            value.getFlavorTextTwo())
+            );
+        });
+
+        provisionViewModel.getSelectedTestProfile().observe(this, value -> {
+            if (value != null) {
+                ((TextView)this.findViewById(R.id.tile_test_line)).setText(
+                        String.format(getString(R.string.tile_txt_test_line),
+                                value.readableName()));
+
+            }
+        });
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
