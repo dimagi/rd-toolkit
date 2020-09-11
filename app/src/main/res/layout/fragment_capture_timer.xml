@@ -51,7 +51,7 @@
             android:orientation="vertical"
             android:layout_margin="@dimen/single_pad"
             android:elevation="2dp"
-            android:visibility="gone">
+            android:visibility="invisible">
 
             <ProgressBar
                 android:id="@+id/capture_timer_expiring_progress"
@@ -70,9 +70,10 @@
 
             <Button
                 android:id="@+id/capture_btn_result"
+                style="@style/Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_menu_camera"
+                android:drawableLeft="@drawable/ic_baseline_camera_white_24"
                 android:drawablePadding="5dp"
                 android:onClick="captureTestResult"
                 android:text="Capture Test" />
