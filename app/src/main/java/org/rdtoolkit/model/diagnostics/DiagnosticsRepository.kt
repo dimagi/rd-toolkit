@@ -15,6 +15,10 @@ class DiagnosticsRepository() {
         return profile
     }
 
+    fun getInstructionSetsForTestProfile(profileId : String) : List<InstructionsSet> {
+        return ArrayList()
+    }
+
     init {
 
     }

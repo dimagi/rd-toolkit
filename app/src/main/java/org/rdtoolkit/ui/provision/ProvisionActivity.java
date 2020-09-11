@@ -2,6 +2,7 @@ package org.rdtoolkit.ui.provision;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -57,9 +58,11 @@ public class ProvisionActivity extends AppCompatActivity {
                 R.id.provision_define, R.id.provision_instructions, R.id.provision_start)
                 .build();
 
-        provisionViewModel.getInstructionsAvailable().observe(this, value -> {
-            ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
-                    findItem(R.id.provision_instructions).setEnabled(value);
+        MenuItem instructionItem = ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
+                findItem(R.id.provision_instructions);
+
+        provisionViewModel.getAreInstructionsAvailable().observe(this, value -> {
+            instructionItem.setVisible(value);
         });
 
         provisionViewModel.getStartAvailable().observe(this, value -> {
@@ -76,7 +79,8 @@ public class ProvisionActivity extends AppCompatActivity {
 
 
     public void provisionNext(View view) {
-        if (provisionViewModel.getViewInstructions().getValue()) {
+        if (provisionViewModel.getAreInstructionsAvailable().getValue() &&
+                provisionViewModel.getViewInstructions().getValue()) {
             Navigation.findNavController(view).navigate(R.id.action_sessionProvision_to_sessionInstruct);
         } else {
             Navigation.findNavController(view).navigate(R.id.action_sessionProvision_to_captureFragment);

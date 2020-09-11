@@ -1,13 +1,11 @@
 package org.rdtoolkit.ui.provision
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
+import org.rdtoolkit.model.diagnostics.InstructionsSet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
 import org.rdtoolkit.model.session.ProvisionMode
 import org.rdtoolkit.model.session.STATUS
@@ -23,12 +21,24 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
 
     private lateinit var sessionId: String
     private var sessionConfiguration: MutableLiveData<TestSession.Configuration> = MutableLiveData()
+
     private val viewInstructions: MutableLiveData<Boolean>
 
     private val testProfile: MutableLiveData<RdtDiagnosticProfile> = MutableLiveData()
 
-    private val instructionsAvailable: MutableLiveData<Boolean>
+    private val instructionSets : LiveData<List<InstructionsSet>> = Transformations.map(testProfile) {
+        profile -> profile?.let{diagnosticsRepository.getInstructionSetsForTestProfile(profile.id())}
+    }
+
+    val areInstructionsAvailable : LiveData<Boolean> = Transformations.map(instructionSets) {
+        instructions ->  !instructions.isNullOrEmpty()
+    }
+
     private val startAvailable: MutableLiveData<Boolean>
+
+    fun getInstructionSets() : LiveData<List<InstructionsSet>> {
+        return instructionSets
+    }
 
     fun setConfig(sessionId: String,
                   config: TestSession.Configuration) {
@@ -48,10 +58,6 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
 
     fun getSelectedTestProfile() : LiveData<RdtDiagnosticProfile> {
         return testProfile
-    }
-
-    fun getInstructionsAvailable(): LiveData<Boolean> {
-        return instructionsAvailable
     }
 
     fun getStartAvailable(): LiveData<Boolean> {
@@ -92,9 +98,6 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
     init {
         viewInstructions = MutableLiveData()
         viewInstructions.value = true
-
-        instructionsAvailable = MutableLiveData()
-        instructionsAvailable.value = true
 
         startAvailable = MutableLiveData()
         startAvailable.value = true

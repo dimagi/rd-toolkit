@@ -32,10 +32,13 @@ public class ProvisionDefineFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(ProvisionViewModel.class);
+        CheckBox cbxShowInstructions = ((CheckBox)view.findViewById(R.id.provision_cbx_instructions));
+
         mViewModel.getViewInstructions().observe(getViewLifecycleOwner(), value -> {
-            ((CheckBox)view.findViewById(R.id.provision_cbx_instructions)).setChecked(value);
+            cbxShowInstructions.setChecked(value);
         });
-        ((CheckBox)view.findViewById(R.id.provision_cbx_instructions)).setOnCheckedChangeListener((listener, checked) -> {
+
+        cbxShowInstructions.setOnCheckedChangeListener((listener, checked) -> {
             mViewModel.setViewInstructions(checked);
         });
 
@@ -50,6 +53,14 @@ public class ProvisionDefineFragment extends Fragment {
                     String.format(getString(R.string.provision_define_flavor_two_txt),
                             value.getFlavorTextTwo())
             );
+        });
+
+        mViewModel.getInstructionSets().observe(getViewLifecycleOwner(), value -> {
+            if(value == null || value.size() == 0) {
+                cbxShowInstructions.setVisibility(View.INVISIBLE);
+            } else {
+                cbxShowInstructions.setVisibility(View.VISIBLE);
+            }
         });
 
         mViewModel.getSelectedTestProfile().observe(getViewLifecycleOwner(), value -> {

@@ -98,3 +98,8 @@ data class ConcreteProfile ( var id : String,
         return resultProfiles
     }
 }
+
+interface InstructionsSet  {
+
+}
+
