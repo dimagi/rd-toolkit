@@ -16,8 +16,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         >
         <LinearLayout
             android:id="@+id/capture_frame_time_resolving"

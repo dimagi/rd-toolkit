@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new TestIntentBuilder()
                 .forProvisioning().setSessionId(UUID.randomUUID().toString())
                 //.requestTestProfile("debug_mal_pf_pv")
-                .requestTestProfile("debug_sf_mal_pf_pv")
+                .requestTestProfile("debug_mal_pf_pv")
                 .setFlavorOne("Clayton Sims")
                 .setFlavorTwo("#4SFS")
                 .setResultResponseTranslator("xform_response")
