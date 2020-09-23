@@ -53,8 +53,9 @@ enum class ProvisionMode {
     /** Provide a specific test which should be provisioned **/
     TEST_PROFILE,
 
-    /** Provide a diagnostic result to be evaluated, and allow the user to select a test which
-     * can provide that result
-     */
-    RESULT_PROFILE,
+    /** Provide a set of tags to filter available tests by exclusive matching criteria **/
+    CRITERIA_SET_OR,
+
+    /** Provide a set of tags to filter available tests by inclusive matching criteria **/
+    CRITERIA_SET_AND,
 }

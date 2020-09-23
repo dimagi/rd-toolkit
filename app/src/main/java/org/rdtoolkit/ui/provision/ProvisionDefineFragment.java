@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +17,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.rdtoolkit.R;
+import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
 import org.rdtoolkit.util.ContextUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProvisionDefineFragment extends Fragment {
 
@@ -51,12 +58,51 @@ public class ProvisionDefineFragment extends Fragment {
             }
         });
 
+
+        mViewModel.getProfileOptions().observe(getViewLifecycleOwner(), value ->{
+            if (value == null) {
+                view.findViewById(R.id.define_txt_type).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.define_spinner_test).setVisibility(View.GONE);
+            } else {
+                view.findViewById(R.id.define_txt_type).setVisibility(View.GONE);
+                Spinner spinner = view.findViewById(R.id.define_spinner_test);
+                spinner.setVisibility(View.VISIBLE);
+
+                ArrayList<String> choices = new ArrayList<>();
+                for (RdtDiagnosticProfile profile : value) {
+                    choices.add(profile.readableName());
+                }
+
+                spinner.setAdapter(
+                    new ArrayAdapter<>(this.getContext(),
+                            R.layout.component_spinner_text, choices)
+                );
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        mViewModel.getProfileOptions().getValue().get(i).id();
+                        mViewModel.chooseTestProfile(mViewModel.getProfileOptions().getValue().get(i).id());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+        });
+
         mViewModel.getSelectedTestProfile().observe(getViewLifecycleOwner(), value -> {
             if (value == null) {
                 ((TextView)view.findViewById(R.id.define_txt_type)).setText("No Test Selected");
                 ((TextView)view.findViewById(R.id.define_txt_process)).setText("");
             } else {
                 ((TextView)view.findViewById(R.id.define_txt_type)).setText(value.readableName());
+
+                if(mViewModel.getProfileOptions().getValue() != null) {
+                    ((Spinner)view.findViewById(R.id.define_spinner_test)).setSelection(getIndex(value));
+                }
 
                 ((TextView)view.findViewById(R.id.define_txt_process)).setText(new ContextUtils(requireContext()).getReadableTime(value.timeToResolve()));
 
@@ -77,5 +123,15 @@ public class ProvisionDefineFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private int getIndex(RdtDiagnosticProfile value) {
+        List<RdtDiagnosticProfile> options = mViewModel.getProfileOptions().getValue();
+        for (int i = 0 ; i < options.size() ; ++i) {
+            if (value.id() == options.get(i).id()) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

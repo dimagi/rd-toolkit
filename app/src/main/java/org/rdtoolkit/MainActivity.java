@@ -21,6 +21,7 @@ import org.rdtoolkit.interop.BundleToSession;
 import org.rdtoolkit.interop.DispatcherActivity;
 import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.interop.TestIntentBuilder;
+import org.rdtoolkit.model.session.ProvisionMode;
 import org.rdtoolkit.model.session.TestSession;
 import org.rdtoolkit.ui.capture.CaptureActivity;
 
@@ -80,8 +81,9 @@ public class MainActivity extends AppCompatActivity {
     public void simulateTestRequest(View view) {
         Intent i = new TestIntentBuilder()
                 .forProvisioning().setSessionId(UUID.randomUUID().toString())
-                //.requestTestProfile("debug_mal_pf_pv")
-                .requestTestProfile("sd_bioline_mal_pf_pv")
+                .requestTestProfile("debug_mal_pf_pv")
+                //.requestTestProfile("sd_bioline_mal_pf_pv")
+                //.requestProfileCriteria("mal_pf real", ProvisionMode.CRITERIA_SET_AND)
                 .setFlavorOne("Clayton Sims")
                 .setFlavorTwo("#4SFS")
                 .setResultResponseTranslator("xform_response")

@@ -28,6 +28,13 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextMajor" />
 
+        <Spinner
+            android:id="@+id/define_spinner_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:visibility="gone"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

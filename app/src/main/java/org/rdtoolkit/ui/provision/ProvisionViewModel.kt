@@ -26,6 +26,8 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
 
     private val testProfile: MutableLiveData<RdtDiagnosticProfile> = MutableLiveData()
 
+    private val testProfileOptions: MutableLiveData<List<RdtDiagnosticProfile>> = MutableLiveData()
+
     private val instructionSets : LiveData<List<InstructionsSet>> = Transformations.map(testProfile) {
         profile -> profile?.let{diagnosticsRepository.getInstructionSetsForTestProfile(profile.id())}
     }
@@ -48,8 +50,26 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
         when(config.provisionMode) {
             ProvisionMode.TEST_PROFILE -> testProfile.value = diagnosticsRepository
                     .getTestProfile(config.provisionModeData)
-            ProvisionMode.RESULT_PROFILE -> TODO("Implement Result profile mode")
+            ProvisionMode.CRITERIA_SET_OR, ProvisionMode.CRITERIA_SET_AND -> {
+                val tags = config.provisionModeData.split(" ").toSet()
+                val inOrMode = config.provisionMode == ProvisionMode.CRITERIA_SET_OR
+
+                val matchingProfiles = diagnosticsRepository.getMatchingTestProfiles(tags, inOrMode)
+                testProfileOptions.value = matchingProfiles.toList()
+                testProfile.value = matchingProfiles.first()
+            }
+            else -> TODO("Implement Result profile mode")
         }
+    }
+
+    fun chooseTestProfile(id: String) {
+        if(testProfile.value?.id() != id) {
+            testProfile.value = diagnosticsRepository.getTestProfile(id)
+        }
+    }
+
+    fun getProfileOptions() : LiveData<List<RdtDiagnosticProfile>> {
+        return testProfileOptions
     }
 
     fun getSessionConfig() : LiveData<TestSession.Configuration> {

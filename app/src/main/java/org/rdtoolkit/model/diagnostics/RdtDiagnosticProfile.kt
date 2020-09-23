@@ -9,6 +9,7 @@ interface RdtDiagnosticProfile {
     fun timeToResolve() : Int
     fun timeToExpire() : Int
     fun resultProfiles() : Collection<ResultProfile>
+    fun tags() : Collection<String>
 
     fun isResultSetComplete(result : TestSession.TestResult) : Boolean {
         val results = result.results
@@ -77,7 +78,8 @@ data class ConcreteProfile ( var id : String,
                              var resourceId: String?,
                              var timeToResolve: Int,
                              var timeToExpire: Int,
-                             var resultProfiles: Collection<ResultProfile>
+                             var resultProfiles: Collection<ResultProfile>,
+                             var tags: Collection<String>
 
 ) : RdtDiagnosticProfile {
     override fun id(): String {
@@ -102,6 +104,10 @@ data class ConcreteProfile ( var id : String,
 
     override fun resultProfiles(): Collection<ResultProfile> {
         return resultProfiles
+    }
+
+    override fun tags() : Collection<String> {
+        return tags
     }
 }
 

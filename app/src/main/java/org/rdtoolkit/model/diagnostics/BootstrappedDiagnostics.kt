@@ -16,12 +16,12 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     var pv_result = crp("mal_pv", "Malaria: P. vivax", listOf(pv_pos, pv_neg, control_failure))
 
 
-    var bioline = ConcreteProfile("sd_bioline_mal_pf_pv", "SD Bioline Malaria Ag Pf/Pv", "sample_bioline",60*15,60*30, listOf(pf_result, pv_result))
-    var carestart = ConcreteProfile("carestart_mal_pf_pv", "CareStart™ Malaria Pf/Pv (HRP2/pLDH) Ag Combo RDT", "sample_carestart",60*20,60*30, listOf(pf_result, pv_result))
-    var firstresponse = ConcreteProfile("firstresponse_mal_pf_pv", "First Response® Malaria Ag P.f./P.v. (HRP2/pLDH) Card Test","sample_firstresponse", 60*20,60*30, listOf(pf_result, pv_result))
+    var bioline = ConcreteProfile("sd_bioline_mal_pf_pv", "SD Bioline Malaria Ag Pf/Pv", "sample_bioline",60*15,60*30, listOf(pf_result, pv_result), listOf("real"))
+    var carestart = ConcreteProfile("carestart_mal_pf_pv", "CareStart™ Malaria Pf/Pv (HRP2/pLDH) Ag Combo RDT", "sample_carestart",60*20,60*30, listOf(pf_result, pv_result), listOf("real"))
+    var firstresponse = ConcreteProfile("firstresponse_mal_pf_pv", "First Response® Malaria Ag P.f./P.v. (HRP2/pLDH) Card Test","sample_firstresponse", 60*20,60*30, listOf(pf_result, pv_result), listOf("real"))
 
-    var quicktest = ConcreteProfile("debug_mal_pf_pv", "FastResolve Malaria P.f./P.v", null,45,90, listOf(pf_result, pv_result))
-    var lightnighttest = ConcreteProfile("debug_sf_mal_pf_pv", "LightningQuick Malaria P.f./P.v", null,5,15, listOf(pf_result, pv_result))
+    var quicktest = ConcreteProfile("debug_mal_pf_pv", "FastResolve Malaria P.f./P.v", null,45,90, listOf(pf_result, pv_result), listOf("fake"))
+    var lightnighttest = ConcreteProfile("debug_sf_mal_pf_pv", "LightningQuick Malaria P.f./P.v", null,5,15, listOf(pf_result, pv_result), listOf("fake"))
 
     var returnSet = HashMap<String, RdtDiagnosticProfile>()
 

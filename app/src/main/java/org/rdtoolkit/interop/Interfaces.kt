@@ -52,6 +52,12 @@ class TestIntentBuilder() {
         return this
     }
 
+    fun requestProfileCriteria(tags : String, mode: ProvisionMode) : TestIntentBuilder {
+        configBundle.putString(INTENT_EXTRA_RDT_PROVISION_MODE, mode.name)
+        configBundle.putString(INTENT_EXTRA_RDT_PROVISION_MODE_DATA, tags)
+        return this
+    }
+
     fun setFlavorOne(flavorText : String)  : TestIntentBuilder  {
         configBundle.putString(INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_ONE, flavorText)
         return this
