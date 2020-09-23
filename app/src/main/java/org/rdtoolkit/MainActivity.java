@@ -81,9 +81,11 @@ public class MainActivity extends AppCompatActivity {
     public void simulateTestRequest(View view) {
         Intent i = new TestIntentBuilder()
                 .forProvisioning().setSessionId(UUID.randomUUID().toString())
-                .requestTestProfile("debug_mal_pf_pv")
+                //.requestTestProfile("debug_mal_pf_pv")
                 //.requestTestProfile("sd_bioline_mal_pf_pv")
                 //.requestProfileCriteria("mal_pf real", ProvisionMode.CRITERIA_SET_AND)
+                //.requestProfileCriteria("sd_bioline_mal_pf_pv carestart_mal_pf_pv", ProvisionMode.CRITERIA_SET_OR)
+                .requestProfileCriteria("fake", ProvisionMode.CRITERIA_SET_OR)
                 .setFlavorOne("Clayton Sims")
                 .setFlavorTwo("#4SFS")
                 .setResultResponseTranslator("xform_response")
