@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -56,8 +57,24 @@ public class ProvisionDefineFragment extends Fragment {
                 ((TextView)view.findViewById(R.id.define_txt_process)).setText("");
             } else {
                 ((TextView)view.findViewById(R.id.define_txt_type)).setText(value.readableName());
-                Fragment f = this;
+
                 ((TextView)view.findViewById(R.id.define_txt_process)).setText(new ContextUtils(requireContext()).getReadableTime(value.timeToResolve()));
+
+                ImageView sampleView = view.findViewById(R.id.provision_sample_image);
+                View sampleUnavailableView = view.findViewById(R.id.provision_sample_image_unavailable);
+
+                int sampleImageResourceId = value.resourceId() == null ? 0 :
+                        this.getResources().getIdentifier(value.resourceId(),
+                        "drawable", getContext().getPackageName());
+
+                if (sampleImageResourceId == 0) {
+                    sampleView.setVisibility(View.INVISIBLE);
+                    sampleUnavailableView.setVisibility(View.VISIBLE);
+                } else {
+                    sampleView.setImageResource(sampleImageResourceId);
+                    sampleView.setVisibility(View.VISIBLE);
+                    sampleUnavailableView.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }

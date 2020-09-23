@@ -5,6 +5,7 @@ import org.rdtoolkit.model.session.TestSession
 interface RdtDiagnosticProfile {
     fun id() : String
     fun readableName() : String
+    fun resourceId(): String?
     fun timeToResolve() : Int
     fun timeToExpire() : Int
     fun resultProfiles() : Collection<ResultProfile>
@@ -73,6 +74,7 @@ data class ConcreteResultProfile (  var id : String,
 
 data class ConcreteProfile ( var id : String,
                              var readableName: String,
+                             var resourceId: String?,
                              var timeToResolve: Int,
                              var timeToExpire: Int,
                              var resultProfiles: Collection<ResultProfile>
@@ -80,6 +82,10 @@ data class ConcreteProfile ( var id : String,
 ) : RdtDiagnosticProfile {
     override fun id(): String {
         return id;
+    }
+
+    override fun resourceId(): String? {
+        return resourceId
     }
 
     override fun readableName(): String {

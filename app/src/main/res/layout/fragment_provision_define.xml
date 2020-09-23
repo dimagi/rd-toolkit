@@ -48,18 +48,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
+        android:paddingBottom="4dp"
         android:textAlignment="center"
         android:text="Cassette" />
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp">
+        android:layout_height="100dp">
 
         <ImageView
+            android:id="@+id/provision_sample_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
 
         <TextView
+            android:id="@+id/provision_sample_image_unavailable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
