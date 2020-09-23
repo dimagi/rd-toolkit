@@ -13,12 +13,16 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.rdtoolkit.MainActivity
 import org.rdtoolkit.R
+import org.rdtoolkit.model.session.STATUS
 import org.rdtoolkit.model.session.TestSession
 import org.rdtoolkit.util.InjectorUtils
 import org.rdtoolkit.util.getFormattedTimeForSpan
+import java.util.*
+import kotlin.collections.HashMap
 
 const val CHANNEL_ID_COUNTDOWN ="Test"
 const val CHANNEL_ID_FIRE ="Fire"
@@ -30,6 +34,9 @@ const val COUNTDOWN_INTERVAL_MS = 500L
 const val EXPIRED_NOTIFICATION_TIMEOUT_MS = 1000 * 30L
 
 class TestTimerService : LifecycleService() {
+
+    var sessionRepository = InjectorUtils.provideSessionRepository(this)
+    val pendingTimers : MutableMap<String, CountDownTimer> = HashMap()
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
@@ -46,7 +53,7 @@ class TestTimerService : LifecycleService() {
                 .notify(testId, SERVICE_TIMER, builder.setContentText("Preparing Timer...").build())
 
         lifecycleScope.launch(Dispatchers.IO) {
-            var session = InjectorUtils.provideSessionRepository(this@TestTimerService).getTestSession(testId)
+            var session = sessionRepository.getTestSession(testId)
 
             launch(Dispatchers.Main) {
                 startResolvingTestTimer(session)
@@ -58,21 +65,39 @@ class TestTimerService : LifecycleService() {
     }
 
     private fun startResolvingTestTimer(session: TestSession) {
-        var builder = getNotificationBuilder();
-        var timer = object : CountDownTimer(session.timeResolved.time - System.currentTimeMillis(), 500) {
-            override fun onTick(millisUntilFinished: Long) {
-                builder.setContentTitle("Test " + session.configuration.flavorText)
-                builder.setContentText("Time Remaining: " + getFormattedTimeForSpan(millisUntilFinished))
-                NotificationManagerCompat.from(this@TestTimerService)
-                        .notify(session.sessionId, SERVICE_TIMER, builder.build())
+        val sessionId = session.sessionId
+        synchronized(pendingTimers) {
+            var builder = getNotificationBuilder();
+            val timer = object : CountDownTimer(session.timeResolved.time - System.currentTimeMillis(), 500) {
+                override fun onTick(millisUntilFinished: Long) {
+                    builder.setContentTitle("Test " + session.configuration.flavorText)
+                    builder.setContentText("Time Remaining: " + getFormattedTimeForSpan(millisUntilFinished))
+                    NotificationManagerCompat.from(this@TestTimerService)
+                            .notify(sessionId, SERVICE_TIMER, builder.build())
+
+                    val timer = this
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        if (sessionRepository.getTestSession(sessionId).state != STATUS.RUNNING) {
+                            timer.cancel()
+                            NotificationManagerCompat.from(this@TestTimerService).cancel(sessionId,
+                                    SERVICE_TIMER);
+                        }
+                    }
+                }
+
+                override fun onFinish() {
+                    synchronized(pendingTimers) {
+                        var manager = NotificationManagerCompat.from(this@TestTimerService)
+                        manager.cancel(sessionId, SERVICE_TIMER);
+                        pendingTimers.remove(sessionId)
+                        beginTestReady(session)
+                    }
+                }
             }
 
-            override fun onFinish() {
-                var manager = NotificationManagerCompat.from(this@TestTimerService)
-                manager.cancel(session.sessionId, SERVICE_TIMER);
-                beginTestReady(session)
-            }
-        }.start();
+            pendingTimers.set(session.sessionId, timer);
+            timer.start();
+        }
     }
 
     private fun beginTestReady(session: TestSession) {
@@ -87,21 +112,40 @@ class TestTimerService : LifecycleService() {
             return;
         }
 
-        var timer = object : CountDownTimer(session.timeExpired.time - System.currentTimeMillis(), COUNTDOWN_INTERVAL_MS) {
-            override fun onTick(millisUntilFinished: Long) {
-                builder.setContentText("Results valid for: " + getFormattedTimeForSpan(millisUntilFinished))
-                NotificationManagerCompat.from(this@TestTimerService)
-                        .notify(session.sessionId, SERVICE_TIMER, builder.build())
-            }
+        val sessionId = session.sessionId
 
-            override fun onFinish() {
-                builder.setContentTitle("Test Expired" + session.configuration.flavorText)
-                builder.setContentText("Test is no longer valid to read")
-                NotificationManagerCompat.from(this@TestTimerService)
-                        .notify(session.sessionId, SERVICE_TIMER, builder.setTimeoutAfter(EXPIRED_NOTIFICATION_TIMEOUT_MS).build())
+        synchronized(pendingTimers) {
+            var timer = object : CountDownTimer(session.timeExpired.time - System.currentTimeMillis(), COUNTDOWN_INTERVAL_MS) {
+                override fun onTick(millisUntilFinished: Long) {
+                    builder.setContentText("Results valid for: " + getFormattedTimeForSpan(millisUntilFinished))
+                    NotificationManagerCompat.from(this@TestTimerService)
+                            .notify(sessionId, SERVICE_TIMER, builder.build())
 
+                    val timer = this
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        if (sessionRepository.getTestSession(sessionId).state != STATUS.RUNNING) {
+                            timer.cancel()
+                            NotificationManagerCompat.from(this@TestTimerService).cancel(sessionId,
+                                    SERVICE_TIMER);
+                        }
+                    }
+                }
+
+
+                override fun onFinish() {
+                    synchronized(pendingTimers) {
+                        builder.setContentTitle("Test Expired" + session.configuration.flavorText)
+                        builder.setContentText("Test is no longer valid to read")
+                        NotificationManagerCompat.from(this@TestTimerService)
+                                .notify(session.sessionId, SERVICE_TIMER, builder.setTimeoutAfter(EXPIRED_NOTIFICATION_TIMEOUT_MS).build())
+                        pendingTimers.remove(session.sessionId)
+                    }
+
+                }
             }
-        }.start();
+            pendingTimers.set(session.sessionId, timer);
+            timer.start();
+        }
 
     }
 
@@ -159,6 +203,13 @@ class TestTimerService : LifecycleService() {
     }
 
     override fun onDestroy() {
+        synchronized(pendingTimers) {
+            for (runningTimer in pendingTimers.entries) {
+                runningTimer.value.cancel()
+                NotificationManagerCompat.from(this@TestTimerService).cancel(runningTimer.key,
+                        SERVICE_TIMER);
+            }
+        }
         super.onDestroy()
     }
 }
