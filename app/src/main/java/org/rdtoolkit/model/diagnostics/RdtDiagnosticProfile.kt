@@ -110,8 +110,3 @@ data class ConcreteProfile ( var id : String,
         return tags
     }
 }
-
-interface InstructionsSet  {
-
-}
-

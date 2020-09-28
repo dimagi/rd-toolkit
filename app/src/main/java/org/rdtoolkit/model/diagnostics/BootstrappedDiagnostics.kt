@@ -33,3 +33,7 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
 
     return returnSet
 }
+
+fun bootstrappedReferencePamphlets(): MutableMap<String, RdtDiagnosticProfile> {
+
+}

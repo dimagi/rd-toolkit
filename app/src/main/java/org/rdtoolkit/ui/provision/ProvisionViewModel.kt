@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
-import org.rdtoolkit.model.diagnostics.InstructionsSet
+import org.rdtoolkit.model.diagnostics.Pamphlet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
 import org.rdtoolkit.model.session.ProvisionMode
 import org.rdtoolkit.model.session.STATUS
@@ -28,8 +28,8 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
 
     private val testProfileOptions: MutableLiveData<List<RdtDiagnosticProfile>> = MutableLiveData()
 
-    private val instructionSets : LiveData<List<InstructionsSet>> = Transformations.map(testProfile) {
-        profile -> profile?.let{diagnosticsRepository.getInstructionSetsForTestProfile(profile.id())}
+    private val instructionSets : LiveData<List<Pamphlet>> = Transformations.map(testProfile) {
+        profile -> profile?.let{diagnosticsRepository.getReferencePamphlets(profile.id())}
     }
 
     val areInstructionsAvailable : LiveData<Boolean> = Transformations.map(instructionSets) {
@@ -38,7 +38,7 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
 
     private val startAvailable: MutableLiveData<Boolean>
 
-    fun getInstructionSets() : LiveData<List<InstructionsSet>> {
+    fun getInstructionSets() : LiveData<List<Pamphlet>> {
         return instructionSets
     }
 

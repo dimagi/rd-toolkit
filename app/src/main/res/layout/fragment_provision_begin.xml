@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             style="@style/TextInstructions"
-            android:text="When the test cassette is prepared, press the button below" />
+            android:text="@string/provision_begin_action" />
     </LinearLayout>
 
     <Button
@@ -34,6 +34,6 @@
         android:onClick="confirmSession"
         app:layout_constraintBottom_toBottomOf="parent"
         style="@style/Button"
-        android:text="Start Timer" />
+        android:text="@string/provision_begin_button_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

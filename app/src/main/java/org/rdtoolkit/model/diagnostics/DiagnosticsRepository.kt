@@ -5,7 +5,7 @@ import org.rdtoolkit.model.session.TestSessionDao
 import java.util.HashMap
 
 class DiagnosticsRepository() {
-    var builtInSources : MutableMap<String, RdtDiagnosticProfile> = generateBootstrappedDiagnostics()
+    var builtInSources : MutableMap<String, RdtDiagnosticProfile>
 
     var sourcesByTag : List<Pair<RdtDiagnosticProfile, Set<String>>> = populateTags()
 
@@ -50,11 +50,11 @@ class DiagnosticsRepository() {
         return returnSet
     }
 
-    fun getInstructionSetsForTestProfile(profileId : String) : List<InstructionsSet> {
+    fun getReferencePamphlets(profileId : String) : List<Pamphlet> {
         return ArrayList()
     }
 
     init {
-
+        builtInSources = generateBootstrappedDiagnostics()
     }
 }
