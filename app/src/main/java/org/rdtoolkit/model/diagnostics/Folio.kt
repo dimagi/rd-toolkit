@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.InputStream
 import java.nio.charset.Charset
+import java.util.zip.ZipFile
+import java.util.zip.ZipInputStream
 
 /**
  * A Folio is a simple wrapper object to streamline and compartmentalize translations
@@ -13,6 +15,7 @@ interface Folio {
     fun getText(key: String) : String
     fun getPamphlet() : Pamphlet
     fun setLocale(locale: String)
+    fun validate()
 }
 
 interface Pamphlet {
@@ -30,14 +33,14 @@ interface FolioContext {
     fun getStream(ref: String) : InputStream
 
     fun buffer(ref : String): ByteArray {
-        with(getStream(ref)) {
+        return getStream(ref).use {
 
             val buffer = ByteArrayOutputStream()
             val data = ByteArray(1024)
-            var nRead: Int = this.read(data, 0, data.size)
+            var nRead: Int = it.read(data, 0, data.size)
             while (nRead != -1) {
                 buffer.write(data, 0, nRead)
-                nRead = this.read(data, 0, data.size)
+                nRead = it.read(data, 0, data.size)
             }
 
             buffer.flush()
@@ -50,7 +53,7 @@ interface FolioContext {
     }
 }
 
-class FileFolioContext(val fileRoot: File) : FolioContext{
+class FileFolioContext(private val fileRoot: File) : FolioContext {
 
     private fun fileRef(ref : String) : File {
         return File(fileRoot, ref)
@@ -63,10 +66,61 @@ class FileFolioContext(val fileRoot: File) : FolioContext{
     override fun getStream(ref: String): InputStream {
         return fileRef(ref).inputStream()
     }
-
 }
 
-class JavaResourceFolioContext(var resourcePrefix: String) : FolioContext{
+class ZipStreamFolioContext(private val wrappedContext: FolioContext,
+                            private val wrappedContextRef : String) : FolioContext {
+
+    fun zipStream(ref: String) : ZipInputStream {
+        return ZipInputStream(wrappedContext.getStream(wrappedContextRef))
+    }
+
+    override fun checkForFile(ref: String) : Boolean {
+        return zipStream(ref).use {
+            var nextEntry = it.nextEntry
+            while(nextEntry != null) {
+                if(ref.equals(nextEntry.name)) {
+                    return true
+                }
+                nextEntry = it.nextEntry
+            }
+            return false
+        }
+    }
+
+    override fun getStream(ref: String): InputStream {
+        val stream = zipStream(ref)
+        var returned = false
+        try {
+            var nextEntry = stream.nextEntry
+            while(nextEntry != null) {
+                if(ref.equals(nextEntry.name)) {
+                    returned = true
+                    return stream
+                }
+                nextEntry = stream.nextEntry
+            }
+            throw InvalidFolioException("Invalid resource reference $ref in wrapped zip folio into $wrappedContextRef")
+        } finally {
+            if(!returned) {
+                stream.close()
+            }
+        }
+    }
+}
+
+class ZipFileFolioContext(private val root : ZipFile) : FolioContext {
+
+    override fun checkForFile(ref: String) : Boolean {
+        return root.getEntry(ref) != null
+    }
+
+    override fun getStream(ref: String): InputStream {
+        return root.getInputStream(root.getEntry(ref))
+    }
+}
+
+class JavaResourceFolioContext(private var resourcePrefix: String) : FolioContext {
 
     override fun checkForFile(ref: String) : Boolean {
         var stream : InputStream? = null
@@ -101,12 +155,12 @@ class InvalidFolioException(message : String?) : Exception(message) {
 }
 
 class FolioRep  (
-    val dictionaryData : HashMap<String, Map<String,String>>,
-    val pamphlet: PamphletRep,
-    val folioContextRep: FolioContext
+        private val dictionaryData : HashMap<String, Map<String,String>>,
+        private val pamphlet: PamphletRep,
+        private val folioContextRep: FolioContext
 ) : Folio {
-    var currentLocale : String
-    var defaultLocale : String
+    private var currentLocale : String
+    private val defaultLocale : String = dictionaryData.keys.first()
 
 
     override fun getText(key: String) : String {
@@ -135,15 +189,18 @@ class FolioRep  (
         return folioContextRep
     }
 
+    override fun validate() {
+        pamphlet.validate()
+    }
+
     init {
-        defaultLocale = dictionaryData.keys.first()
         currentLocale = defaultLocale
         pamphlet.seal(this)
     }
 }
 
 data class PamphletRep(
-        val pagesRep : List<PageRep>
+        private val pagesRep : List<PageRep>
 ) : Pamphlet {
     private lateinit var folio : FolioRep
 
@@ -155,6 +212,12 @@ data class PamphletRep(
         return pagesRep
     }
 
+    fun validate() {
+        for (page in pagesRep) {
+            page.validate()
+        }
+    }
+
     fun seal(folio: FolioRep) {
         this.folio = folio
         for (page in pagesRep) {
@@ -164,8 +227,8 @@ data class PamphletRep(
 }
 
 data class PageRep(
-        val textKey : String,
-        val imageRef: String?
+        private val textKey : String,
+        private val imageRef: String?
 ) : Page {
     private lateinit var folioRep:  FolioRep
     override fun getText() : String {
@@ -178,5 +241,12 @@ data class PageRep(
     fun seal(folio: FolioRep) {
         this.folioRep = folio
         folioRep.getText(textKey)
+    }
+
+    fun validate() {
+        folioRep.getText(textKey)
+        if (imageRef != null && !folioRep.getFolioContext().checkForFile(imageRef)) {
+            throw InvalidFolioException("Could not find referenced entry $imageRef")
+        }
     }
 }
