@@ -1,0 +1,32 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "eng",
+      "strings":
+      {
+        "key1": "value1_en",
+        "key2": "value2_en"
+      }
+    }
+  ,{
+    "lang":  "spa",
+    "strings":
+    {
+      "key1": "value1_spa",
+      "key2": "value2_spa"
+    }
+  }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "key1"
+      }
+    ,{
+        "textKey": "key2"
+      }
+    ]
+  }
+}
+

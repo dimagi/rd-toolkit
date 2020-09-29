@@ -78,6 +78,7 @@ dependencies {
     implementation 'com.github.ctsims:ArcProgressBar:master-SNAPSHOT'
 
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.json:json:20160212'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 

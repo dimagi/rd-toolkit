@@ -34,6 +34,6 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     return returnSet
 }
 
-fun bootstrappedReferencePamphlets(): MutableMap<String, RdtDiagnosticProfile> {
-
+fun bootstrappedReferencePamphlets(): MutableMap<String, Pamphlet> {
+    return HashMap()
 }
