@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         style="@style/TextInstructions"
         android:padding="8dp"
-        app:layout_constraintBottom_toTopOf="@id/provision_info_nav_frame"
+        app:layout_constraintBottom_toTopOf="@id/provision_checkbox_disclaimer"
         android:text="Step 4: Squeeze the end of a fingertip and pierce the cleaned area of the fingertip using a lancet provided. Discard the lancet in the sharps box." />
 
 
@@ -35,7 +35,7 @@
         style="@style/TextInstructions"
         android:padding="8dp"
         android:visibility="gone"
-        android:text="NOTE: This information is not approved by any body and is included only for reference, it is not a replacement for the manufacturer's provided instructions.\n\nRefer to the materials provided by the test manufacturer for instructions in applying a test." />
+        android:text="@string/reference_disclaimer_msg" />
 
     <CheckBox
         android:id="@+id/provision_checkbox_disclaimer"
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/provision_info_nav_frame"
         android:visibility="gone"
-        android:text="I understand and will refer to the manufacturers' instructions for this test" />
+        android:text="@string/reference_disclaimer_cbx_msg" />
 
     <LinearLayout
         android:id="@+id/provision_info_nav_frame"

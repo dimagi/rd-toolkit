@@ -22,6 +22,7 @@ import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.model.session.SessionMode;
 import org.rdtoolkit.model.session.TestSession;
 import org.rdtoolkit.ui.capture.CaptureActivity;
+import org.rdtoolkit.ui.instruct.PamphletViewModel;
 import org.rdtoolkit.util.InjectorUtils;
 
 import org.rdtoolkit.R;
@@ -36,6 +37,7 @@ import static org.rdtoolkit.service.TestTimerServiceKt.NOTIFICATION_TAG_TEST_ID;
 public class ProvisionActivity extends AppCompatActivity {
 
     ProvisionViewModel provisionViewModel;
+    PamphletViewModel pamphletViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,11 @@ public class ProvisionActivity extends AppCompatActivity {
                 new ViewModelProvider(this,
                         InjectorUtils.Companion.provideProvisionViewModelFactory(this))
                         .get(ProvisionViewModel.class);
+
+        pamphletViewModel =
+                new ViewModelProvider(this,
+                        InjectorUtils.Companion.providePamphletViewModelFactory(this))
+                        .get(PamphletViewModel.class);
 
         provisionViewModel.setConfig(
                 getIntent().getStringExtra(InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID),
@@ -64,6 +71,12 @@ public class ProvisionActivity extends AppCompatActivity {
 
         provisionViewModel.getAreInstructionsAvailable().observe(this, value -> {
             instructionItem.setVisible(value);
+        });
+
+        provisionViewModel.getInstructionSets().observe(this, value -> {
+            if (value.size() > 0) {
+                pamphletViewModel.setSourcePamphlet(value.get(0));
+            }
         });
 
         provisionViewModel.getStartAvailable().observe(this, value -> {
@@ -128,6 +141,24 @@ public class ProvisionActivity extends AppCompatActivity {
             }
             this.setResult(RESULT_OK, returnIntent);
             this.finish();
+        }
+    }
+
+    public void infoBackPressed(View view) {
+        if (pamphletViewModel.hasBack()) {
+            pamphletViewModel.pageBack();
+            return;
+        } else {
+            Navigation.findNavController(view).navigate(R.id.action_sessionInstruct_to_sessionProvision);
+        }
+    }
+
+    public void infoNextPressed(View view) {
+        if (pamphletViewModel.hasNext()) {
+            pamphletViewModel.pageNext();
+            return;
+        } else {
+            Navigation.findNavController(view).navigate(R.id.action_sessionInstruct_to_captureFragment);
         }
     }
 }

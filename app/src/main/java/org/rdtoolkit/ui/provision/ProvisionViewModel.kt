@@ -29,7 +29,7 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
     private val testProfileOptions: MutableLiveData<List<RdtDiagnosticProfile>> = MutableLiveData()
 
     private val instructionSets : LiveData<List<Pamphlet>> = Transformations.map(testProfile) {
-        profile -> profile?.let{diagnosticsRepository.getReferencePamphlets(profile.id())}
+        profile -> profile?.let{diagnosticsRepository.getReferencePamphlets("reference", listOf(profile.id()))}
     }
 
     val areInstructionsAvailable : LiveData<Boolean> = Transformations.map(instructionSets) {

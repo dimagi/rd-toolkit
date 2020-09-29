@@ -25,7 +25,8 @@ interface Pamphlet {
 
 interface Page {
     fun getText() : String
-    fun getImage() : String?
+    fun getConfirmationText() : String?
+    fun getImageStream() : InputStream?
 }
 
 interface FolioContext {
@@ -150,6 +151,11 @@ class JavaResourceFolioContext(private var resourcePrefix: String) : FolioContex
     }
 }
 
+interface PamphletSource {
+    fun getMatchingPamphlets(category : String, tags: List<String>) : List<Pamphlet>
+}
+
+
 class InvalidFolioException(message : String?) : Exception(message) {
 
 }
@@ -234,8 +240,13 @@ data class PageRep(
     override fun getText() : String {
         return folioRep.getText(textKey)
     }
-    override fun getImage() : String? {
-        return imageRef
+    override fun getImageStream() : InputStream? {
+        return imageRef?.let { folioRep.getFolioContext().getStream(imageRef) }
+    }
+
+    override fun getConfirmationText() : String? {
+        //Only supported on manual pages for now
+        return null
     }
 
     fun seal(folio: FolioRep) {

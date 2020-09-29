@@ -5,10 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.rdtoolkit.component.ComponentRepository
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
+import org.rdtoolkit.model.diagnostics.StaticPamphlets
 import org.rdtoolkit.model.session.SessionRepository
-import org.rdtoolkit.model.session.TestSession
 import org.rdtoolkit.model.session.getDatabase
 import org.rdtoolkit.ui.capture.CaptureViewModel
+import org.rdtoolkit.ui.instruct.DisclaimerPage
+import org.rdtoolkit.ui.instruct.PamphletViewModel
 import org.rdtoolkit.ui.provision.ProvisionViewModel
 import org.rdtoolkit.ui.sessions.SessionsViewModel
 
@@ -43,13 +45,23 @@ class InjectorUtils() {
             }
         }
 
+        fun providePamphletViewModelFactory(context: Context): ViewModelProvider.Factory {
+            return object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return PamphletViewModel(DisclaimerPage(context)) as T
+                }
+            }
+        }
+
         fun provideSessionRepository(context: Context) : SessionRepository {
             return SessionRepository(getDatabase(context).testSessionDao())
         }
 
 
         fun provideDiagnosticsRepository(context: Context) : DiagnosticsRepository {
-            return DiagnosticsRepository()
+            val repo = DiagnosticsRepository()
+            repo.folioSource = StaticPamphlets(context)
+            return repo
         }
 
         fun provideComponentRepository(context: Context) : ComponentRepository {

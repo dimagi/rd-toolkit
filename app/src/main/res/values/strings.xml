@@ -25,4 +25,6 @@
     <string name="tile_txt_test_line">%s</string>
     <string name="provision_begin_action">When the test cassette is prepared, press the button below</string>
     <string name="provision_begin_button_text">Start Timer</string>
+    <string name="reference_disclaimer_msg">NOTE: This information is not approved by any body and is included only for reference, it is not a replacement for the manufacturer\'s provided instructions.\n\nRefer to the materials provided by the test manufacturer for instructions in applying a test.</string>
+    <string name="reference_disclaimer_cbx_msg">I understand and will refer to the manufacturers\' instructions for this test</string>
 </resources>

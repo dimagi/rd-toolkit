@@ -1,0 +1,45 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "eng",
+      "strings":
+      {
+        "page_1": "Step 1: Put on a new pair of gloves.\n\nStep 2: Write the patent’s name on the cassette\n\nStep 3: Clean the area to be pierced using an alcohol swab. Let the alcohol dry completely before proceeding to the next step.",
+        "page_2": "Step 4: Squeeze the end of a fingertip and pierce the cleaned area of the fingertip using a lancet provided. Discard the lancet in the sharps box\n\nStep 5: Wipe out the first drop of blood with sterile gauze or cotton.",
+        "page_3": "Step 6: Collect the blood sample (5μl) using a provided specimen transfer device or a micopipette.",
+        "page_4": "Collect the specimen to the specified line",
+        "page_5": "Step 7: Add 5μl of whole blood into “S” well",
+        "page_6": "Step 8: Add 2 drops (60μl) of buffer solution into “A” Well. Start a Timer"
+      }
+    }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "cs_st_4.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "cs_st_6.png"
+      }
+    ,{
+        "textKey": "page_4",
+        "image": "cs_st_6a.png"
+      }
+    ,{
+        "textKey": "page_5",
+        "image": "cs_st_7.png"
+      }
+    ,{
+        "textKey": "page_6",
+        "image": "cs_st_8.png"
+      }
+    ]
+  }
+}
+

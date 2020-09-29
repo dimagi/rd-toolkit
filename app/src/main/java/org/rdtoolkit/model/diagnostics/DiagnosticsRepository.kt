@@ -7,7 +7,9 @@ import java.util.HashMap
 class DiagnosticsRepository() {
     var builtInSources : MutableMap<String, RdtDiagnosticProfile>
 
-    var sourcesByTag : List<Pair<RdtDiagnosticProfile, Set<String>>> = populateTags()
+    var sourcesByTag : List<Pair<RdtDiagnosticProfile, Set<String>>>
+
+    lateinit var folioSource : PamphletSource
 
     fun getTestProfile(id: String) : RdtDiagnosticProfile {
         var profile = builtInSources.get(id) ?: throw Exception("No internal profile for: " + id)
@@ -34,7 +36,6 @@ class DiagnosticsRepository() {
         return returnSet
     }
 
-
     private fun populateTags() : List<Pair<RdtDiagnosticProfile, Set<String>>> {
         val returnSet = ArrayList<Pair<RdtDiagnosticProfile, Set<String>>>()
         for (profile in builtInSources.values) {
@@ -50,11 +51,12 @@ class DiagnosticsRepository() {
         return returnSet
     }
 
-    fun getReferencePamphlets(profileId : String) : List<Pamphlet> {
-        return ArrayList()
+    fun getReferencePamphlets(category: String, tags : List<String>) : List<Pamphlet> {
+        return folioSource.getMatchingPamphlets(category, tags)
     }
 
     init {
         builtInSources = generateBootstrappedDiagnostics()
+        sourcesByTag = populateTags()
     }
 }

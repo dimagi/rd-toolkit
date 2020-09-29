@@ -1,5 +1,6 @@
 package org.rdtoolkit.model.diagnostics
 
+import android.content.Context
 import org.rdtoolkit.model.diagnostics.ConcreteDiagnosticOutcome as cdo
 import org.rdtoolkit.model.diagnostics.ConcreteResultProfile as crp
 
@@ -32,8 +33,4 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     returnSet.put(lightnighttest.id(), lightnighttest)
 
     return returnSet
-}
-
-fun bootstrappedReferencePamphlets(): MutableMap<String, Pamphlet> {
-    return HashMap()
 }

@@ -23,6 +23,9 @@
         android:label="Instructions"
         tools:layout="@layout/fragment_provision_instruct" >
         <action
+            android:id="@+id/action_sessionInstruct_to_sessionProvision"
+            app:destination="@id/provision_define" />
+        <action
             android:id="@+id/action_sessionInstruct_to_captureFragment"
             app:destination="@id/provision_start" />
     </fragment>
