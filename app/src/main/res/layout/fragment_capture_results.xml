@@ -11,6 +11,7 @@
         android:id="@+id/capture_results_test_image"
         android:layout_width="@dimen/timer_countdown_size"
         android:layout_height="wrap_content"
+        android:minHeight="100dp"
         android:layout_gravity="center"
         android:scaleType="centerInside"/>
 
