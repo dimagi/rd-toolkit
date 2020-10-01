@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void simulateTestRequest(View view) {
 
-        Intent a = new Intent(this, WindowCaptureActivity.class);
-
         Intent i = new TestIntentBuilder()
                 .forProvisioning().setSessionId(UUID.randomUUID().toString())
                 //.requestTestProfile("debug_mal_pf_pv")
