@@ -26,6 +26,7 @@
             android:id="@+id/capture_results_instruct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
             android:text="Please provide your interpretation of the test result" />
 
         <androidx.recyclerview.widget.RecyclerView
