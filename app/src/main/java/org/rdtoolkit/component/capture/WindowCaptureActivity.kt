@@ -25,6 +25,8 @@ import android.widget.Toast
 import androidx.camera.camera2.interop.Camera2CameraInfo
 import androidx.camera.core.*
 import androidx.camera.core.Camera
+import androidx.camera.core.CameraSelector.LENS_FACING_BACK
+import androidx.camera.core.CameraSelector.LENS_FACING_FRONT
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -36,6 +38,9 @@ import java.util.concurrent.Executors
 
 class WindowCaptureActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
+
+    @SuppressLint("UnsafeExperimentalUsageError")
+    private val rotatingCameraFilter = CurrentCameraFilter()
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
@@ -56,6 +61,8 @@ class WindowCaptureActivity : AppCompatActivity() {
         // Set up the listener for take photo button
         camera_capture_button.setOnClickListener { takePhoto() }
 
+        camera_rotate_button.setOnClickListener { rotateCameras() }
+
         outputDirectory = getOutputDirectory()
 
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -75,6 +82,13 @@ class WindowCaptureActivity : AppCompatActivity() {
         })
 
     }
+
+    @SuppressLint("UnsafeExperimentalUsageError")
+    private fun rotateCameras() {
+        rotatingCameraFilter.rotate()
+        startCamera()
+    }
+
     var reticalProportions = Pair(Rational(0,0), Rational(0,0))
 
     fun updateReticleMapping() {
@@ -99,6 +113,7 @@ class WindowCaptureActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("UnsafeExperimentalUsageError")
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
@@ -116,11 +131,13 @@ class WindowCaptureActivity : AppCompatActivity() {
 
             imageCapture = ImageCapture.Builder()
                     .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
-                    //.setTargetRotation()
                     .build()
 
             // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+            val cameraSelector = CameraSelector.Builder()
+                    .requireLensFacing(LENS_FACING_BACK)
+                    .addCameraFilter(rotatingCameraFilter)
+                    .build()
 
             // Unbind use cases before rebinding
             cameraProvider.unbindAll()
@@ -129,13 +146,18 @@ class WindowCaptureActivity : AppCompatActivity() {
             var camera = cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture)
 
+            if (rotatingCameraFilter.areMultipleCamerasAvailable()) {
+                camera_rotate_button.visibility = View.VISIBLE
+            } else {
+                camera_rotate_button.visibility = View.GONE
+            }
+
             val aspectRatio = getAspectRatio(camera)
             (capture_window_viewpane.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = "${aspectRatio.numerator}:${aspectRatio.denominator}"
 
 
         }, ContextCompat.getMainExecutor(this))
     }
-
 
     @SuppressLint("UnsafeExperimentalUsageError")
     private fun getAspectRatio(camera: Camera): Rational {
@@ -246,5 +268,35 @@ class WindowCaptureActivity : AppCompatActivity() {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
+}
 
+@SuppressLint("UnsafeExperimentalUsageError")
+class CurrentCameraFilter : CameraFilter {
+
+    var currentCameraSet : LinkedHashSet<Camera>? = null
+
+    override fun filter(cameras: LinkedHashSet<Camera>): LinkedHashSet<Camera> {
+        if (currentCameraSet == null) {
+            currentCameraSet = cameras
+            return cameras
+        } else {
+            return currentCameraSet!!
+        }
+    }
+
+    fun rotate() {
+        if (currentCameraSet != null) {
+            var resultingList = currentCameraSet!!.toList()
+            Collections.rotate(resultingList,1)
+            currentCameraSet = LinkedHashSet(resultingList)
+        }
+    }
+
+    fun areMultipleCamerasAvailable() : Boolean {
+        if (currentCameraSet != null) {
+            return currentCameraSet!!.size > 1
+        } else {
+            return false
+        }
+    }
 }
