@@ -1,9 +1,11 @@
 package org.rdtoolkit;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -17,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.rdtoolkit.component.capture.WindowCaptureActivity;
 import org.rdtoolkit.interop.BundleToSession;
 import org.rdtoolkit.interop.DispatcherActivity;
 import org.rdtoolkit.interop.InterfacesKt;
@@ -25,9 +28,11 @@ import org.rdtoolkit.model.session.ProvisionMode;
 import org.rdtoolkit.model.session.TestSession;
 import org.rdtoolkit.ui.capture.CaptureActivity;
 
+import java.io.File;
 import java.util.UUID;
 
 import static android.content.Intent.FLAG_ACTIVITY_FORWARD_RESULT;
+import static org.rdtoolkit.component.capture.WindowCaptureActivity.EXTRA_CROPPED_IMAGE;
 import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_SESSION_BUNDLE;
 
 public class MainActivity extends AppCompatActivity {
@@ -79,13 +84,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void simulateTestRequest(View view) {
+
+        Intent a = new Intent(this, WindowCaptureActivity.class);
+
         Intent i = new TestIntentBuilder()
                 .forProvisioning().setSessionId(UUID.randomUUID().toString())
                 //.requestTestProfile("debug_mal_pf_pv")
                 //.requestTestProfile("sd_bioline_mal_pf_pv")
                 //.requestProfileCriteria("mal_pf real", ProvisionMode.CRITERIA_SET_AND)
-                .requestProfileCriteria("sd_bioline_mal_pf_pv carestart_mal_pf_pv", ProvisionMode.CRITERIA_SET_OR)
-                //.requestProfileCriteria("fake", ProvisionMode.CRITERIA_SET_OR)
+                //.requestProfileCriteria("sd_bioline_mal_pf_pv carestart_mal_pf_pv", ProvisionMode.CRITERIA_SET_OR)
+                .requestProfileCriteria("fake", ProvisionMode.CRITERIA_SET_OR)
                 .setFlavorOne("Clayton Sims")
                 .setFlavorTwo("#4SFS")
                 .setResultResponseTranslator("xform_response")

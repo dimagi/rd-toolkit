@@ -3,6 +3,8 @@
     package="org.rdtoolkit">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-feature android:name="android.hardware.camera.any" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -34,6 +36,12 @@
 
         <activity
             android:name=".ui.capture.CaptureActivity"
+            android:label="@string/title_activity_capture"></activity>
+
+        <activity
+            android:name=".component.capture.WindowCaptureActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.FullScreen"
             android:label="@string/title_activity_capture"></activity>
 
 

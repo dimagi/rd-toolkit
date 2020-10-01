@@ -30,7 +30,6 @@ class DefaultImageCaptureComponent : TestImageCaptureComponent {
         return image
     }
 
-
     override fun triggerCallout(activity: Activity) {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
