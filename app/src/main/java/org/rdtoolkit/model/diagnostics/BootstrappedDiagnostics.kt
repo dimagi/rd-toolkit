@@ -22,7 +22,7 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     var firstresponse = ConcreteProfile("firstresponse_mal_pf_pv", "First Response® Malaria Ag P.f./P.v. (HRP2/pLDH) Card Test","sample_firstresponse", 60*20,60*30, listOf(pf_result, pv_result), listOf("real"))
 
     var quicktest = ConcreteProfile("debug_mal_pf_pv", "FastResolve Malaria P.f./P.v", null,45,90, listOf(pf_result, pv_result), listOf("fake"))
-    var lightnighttest = ConcreteProfile("debug_sf_mal_pf_pv", "LightningQuick Malaria P.f./P.v", null,5,15, listOf(pf_result, pv_result), listOf("fake"))
+    var lightnighttest = ConcreteProfile("debug_sf_mal_pf_pv", "LightningQuick Malaria P.f./P.v", null,5,60, listOf(pf_result, pv_result), listOf("fake"))
 
     var returnSet = HashMap<String, RdtDiagnosticProfile>()
 

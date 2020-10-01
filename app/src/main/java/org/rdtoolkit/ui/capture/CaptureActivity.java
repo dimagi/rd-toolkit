@@ -1,46 +1,30 @@
 package org.rdtoolkit.ui.capture;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import org.rdtoolkit.component.TestImageCaptureComponent;
-import org.rdtoolkit.interop.InterfacesKt;
-import org.rdtoolkit.model.diagnostics.DiagnosticOutcome;
-import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
-import org.rdtoolkit.model.diagnostics.ResultProfile;
-import org.rdtoolkit.model.session.STATUS;
-import org.rdtoolkit.model.session.TestSession;
-import org.rdtoolkit.ui.provision.ProvisionViewModel;
-import org.rdtoolkit.util.InjectorUtils;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.rdtoolkit.R;
-import org.rdtoolkit.service.TestTimerService;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.rdtoolkit.component.TestImageCaptureComponent;
+import org.rdtoolkit.interop.InterfacesKt;
+import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
+import org.rdtoolkit.model.session.STATUS;
+import org.rdtoolkit.model.session.TestSession;
+import org.rdtoolkit.util.InjectorUtils;
 
 import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID;
 import static org.rdtoolkit.interop.InterfacesKt.captureReturnIntent;
-import static org.rdtoolkit.service.TestTimerServiceKt.NOTIFICATION_TAG_TEST_ID;
 
 public class CaptureActivity extends AppCompatActivity {
 

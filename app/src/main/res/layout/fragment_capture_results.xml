@@ -10,9 +10,9 @@
     <ImageView
         android:id="@+id/capture_results_test_image"
         android:layout_width="@dimen/timer_countdown_size"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerInside"/>
 
     <LinearLayout
         android:id="@+id/capture_results_manual_entry"
