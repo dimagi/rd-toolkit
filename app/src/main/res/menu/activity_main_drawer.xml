@@ -12,5 +12,10 @@
             android:id="@+id/nav_sessions"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_sessions" />
+
+        <item
+            android:id="@+id/nav_pamphlets"
+            android:icon="@drawable/ic_baseline_pages_24"
+            android:title="View Pamphlets" />
     </group>
 </menu>

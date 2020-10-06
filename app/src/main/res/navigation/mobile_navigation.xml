@@ -16,4 +16,10 @@
         android:name="org.rdtoolkit.ui.sessions.SessionsFragment"
         android:label="@string/menu_sessions"
         tools:layout="@layout/fragment_sessions" />
+
+    <fragment
+        android:id="@+id/nav_pamphlets"
+        android:name="org.rdtoolkit.ui.sample.PamhpletViewFragment"
+        android:label="@string/menu_sessions"
+        tools:layout="@layout/fragment_sessions" />
 </navigation>
