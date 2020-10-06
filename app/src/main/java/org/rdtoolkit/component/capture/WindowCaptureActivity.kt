@@ -36,6 +36,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
 
+val EXTRA_RETICLE_RATIO = "windowed_capture_reticle_ratio"
+
 class WindowCaptureActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
 
@@ -49,6 +51,8 @@ class WindowCaptureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_window_capture)
+
+        setTargetReticleRatio()
 
         // Request camera permissions
         if (allPermissionsGranted()) {
@@ -81,6 +85,16 @@ class WindowCaptureActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    private fun setTargetReticleRatio() {
+        this.intent.getStringExtra(EXTRA_RETICLE_RATIO)?.let {
+            if (Regex("^[0-9]+:[0-9]+$").matches(it)) {
+                (capture_window_test_reticle.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = it
+            } else {
+                throw Exception("Invalid requested reticle ratio $it")
+            }
+        }
     }
 
     @SuppressLint("UnsafeExperimentalUsageError")

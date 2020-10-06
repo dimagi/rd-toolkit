@@ -15,7 +15,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.jetbrains.annotations.NotNull;
 import org.rdtoolkit.R;
+import org.rdtoolkit.component.ComponentEventListener;
+import org.rdtoolkit.component.ComponentManager;
 import org.rdtoolkit.component.TestImageCaptureComponent;
 import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
@@ -23,14 +26,16 @@ import org.rdtoolkit.model.session.STATUS;
 import org.rdtoolkit.model.session.TestSession;
 import org.rdtoolkit.util.InjectorUtils;
 
+import java.util.HashSet;
+
 import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID;
 import static org.rdtoolkit.interop.InterfacesKt.captureReturnIntent;
 
-public class CaptureActivity extends AppCompatActivity {
+public class CaptureActivity extends AppCompatActivity implements ComponentEventListener {
 
     CaptureViewModel captureViewModel;
 
-    TestImageCaptureComponent captureComponent;
+    ComponentManager componentManager  = new ComponentManager(this, this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +70,6 @@ public class CaptureActivity extends AppCompatActivity {
             }
         });
 
-
         captureViewModel.getTestSessionResult().observe(this, value -> {
             RdtDiagnosticProfile profile = captureViewModel.getTestProfile().getValue();
             boolean recordEnabled = profile.isResultSetComplete(value);
@@ -75,8 +79,11 @@ public class CaptureActivity extends AppCompatActivity {
         });
 
         captureViewModel.getTestProfile().observe(this, result -> {
-            captureComponent = InjectorUtils.Companion.provideComponentRepository(this).
-                    getCaptureComponentForTest(result.id());
+            HashSet<String> defaultTags = new HashSet<>();
+            defaultTags.add("production");
+            TestImageCaptureComponent captureComponent = InjectorUtils.Companion.provideComponentRepository(this).
+                    getCaptureComponentForTest(result.id(), defaultTags);
+            componentManager.registerComponents(captureComponent);
         });
 
         captureViewModel.getSessionCommit().observe(this, result -> {
@@ -100,15 +107,11 @@ public class CaptureActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (captureComponent.processIntentCallback(requestCode, resultCode, data)) {
-            captureViewModel.setRawImageCapturePath(captureComponent.getResultImage());
-            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
-                    R.id.action_capture_timer_to_capture_resultsFragment);
-        }
+        componentManager.notifyIntentCallback(requestCode, resultCode, data);
     }
 
     public void captureTestResult(View button) {
-        captureComponent.triggerCallout(this);
+        componentManager.getCaptureComponent().captureImage();
     }
 
     public void recordResults(View v) {
@@ -123,5 +126,12 @@ public class CaptureActivity extends AppCompatActivity {
         }
         this.setResult(RESULT_OK, returnIntent);
         this.finish();
+    }
+
+    @Override
+    public void testImageCaptured(@NotNull String imagePath) {
+        captureViewModel.setRawImageCapturePath(imagePath);
+        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
+                R.id.action_capture_timer_to_capture_resultsFragment);
     }
 }
