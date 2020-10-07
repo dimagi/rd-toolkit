@@ -3,6 +3,7 @@ package org.rdtoolkit.service
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.Service
 import android.content.Intent
 import android.os.Build
 import android.os.CountDownTimer
@@ -49,8 +50,12 @@ class TestTimerService : LifecycleService() {
 
         var builder = getNotificationBuilder();
 
+        var baselineNotification = builder.build()
+
         NotificationManagerCompat.from(this)
-                .notify(testId, SERVICE_TIMER, builder.setContentText(getText(R.string.service_message_preparing_timer)).build())
+                .notify(testId, SERVICE_TIMER, baselineNotification)
+
+        startForeground(SERVICE_TIMER, baselineNotification)
 
         lifecycleScope.launch(Dispatchers.IO) {
             var session = sessionRepository.getTestSession(testId)
@@ -62,6 +67,14 @@ class TestTimerService : LifecycleService() {
         }
         // If we get killed, after returning from here, restart
         return START_STICKY
+    }
+
+    private fun checkForServiceClosure() {
+        synchronized(pendingTimers) {
+            if(pendingTimers.size == 0) {
+                this.stopForeground(true)
+            }
+        }
     }
 
     private fun startResolvingTestTimer(session: TestSession) {
@@ -78,9 +91,13 @@ class TestTimerService : LifecycleService() {
                     val timer = this
                     lifecycleScope.launch(Dispatchers.IO) {
                         if (sessionRepository.getTestSession(sessionId).state != STATUS.RUNNING) {
-                            timer.cancel()
-                            NotificationManagerCompat.from(this@TestTimerService).cancel(sessionId,
-                                    SERVICE_TIMER);
+                            synchronized(pendingTimers) {
+                                timer.cancel()
+                                NotificationManagerCompat.from(this@TestTimerService).cancel(sessionId,
+                                        SERVICE_TIMER);
+                                pendingTimers.remove(sessionId)
+                                checkForServiceClosure()
+                            }
                         }
                     }
                 }
@@ -91,6 +108,7 @@ class TestTimerService : LifecycleService() {
                         manager.cancel(sessionId, SERVICE_TIMER);
                         pendingTimers.remove(sessionId)
                         beginTestReady(session)
+                        checkForServiceClosure()
                     }
                 }
             }
@@ -103,7 +121,7 @@ class TestTimerService : LifecycleService() {
     private fun beginTestReady(session: TestSession) {
         var manager = NotificationManagerCompat.from(this)
 
-        var builder = getFinishedNotificationBuilder()
+        var builder = getFinishedNotificationBuilder().setContentTitle(getString(R.string.service_message_ready_text).format(session.configuration.flavorText))
         manager.notify(session.sessionId, SERVICE_TIMER,
                 builder.setContentText(getText(R.string.service_message_ready_text)).build())
 
@@ -124,9 +142,13 @@ class TestTimerService : LifecycleService() {
                     val timer = this
                     lifecycleScope.launch(Dispatchers.IO) {
                         if (sessionRepository.getTestSession(sessionId).state != STATUS.RUNNING) {
-                            timer.cancel()
-                            NotificationManagerCompat.from(this@TestTimerService).cancel(sessionId,
-                                    SERVICE_TIMER);
+                            synchronized(pendingTimers) {
+                                timer.cancel()
+                                NotificationManagerCompat.from(this@TestTimerService).cancel(sessionId,
+                                        SERVICE_TIMER);
+                                pendingTimers.remove(sessionId)
+                                checkForServiceClosure()
+                            }
                         }
                     }
                 }
@@ -139,6 +161,7 @@ class TestTimerService : LifecycleService() {
                         NotificationManagerCompat.from(this@TestTimerService)
                                 .notify(session.sessionId, SERVICE_TIMER, builder.setTimeoutAfter(EXPIRED_NOTIFICATION_TIMEOUT_MS).build())
                         pendingTimers.remove(session.sessionId)
+                        checkForServiceClosure()
                     }
 
                 }
@@ -146,7 +169,6 @@ class TestTimerService : LifecycleService() {
             pendingTimers.set(session.sessionId, timer);
             timer.start();
         }
-
     }
 
     private fun createNotificationChannels() {
