@@ -1,19 +1,12 @@
 <resources>
     <string name="app_name">Rapid Diagnostic Toolkit</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Rapid Diagnostic Toolkit</string>
     <string name="nav_header_subtitle">Default Library</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="title_activity_provision_session">MainActivity</string>
+    <string name="title_activity_provision_session">New Test</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="title_activity_capture">Capture Test Result</string>
     <string name="provision_begin_resolve_msg">This test will take %s to resolve</string>
     <string name="capture_timer_expiring_countdown_msg">Results expire in: %s</string>
