@@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
+import org.rdtoolkit.R
 import org.rdtoolkit.model.diagnostics.Pamphlet
 
 val TAG_READINESS_PRODUCTION = "production"
@@ -176,7 +177,7 @@ abstract class ImageClassifierComponent : Component() {
                 } catch(e: Exception){
                     e.printStackTrace()
                     listener?.let {
-                        it.onClassifierError("Unknown error processing image ${e.message}", null);
+                        it.onClassifierError(activity?.getString(R.string.component_classifier_unknown_error)?.format(e.message)!!, null);
                     }
                 }
             }

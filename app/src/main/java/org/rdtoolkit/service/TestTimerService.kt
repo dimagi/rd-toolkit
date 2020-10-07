@@ -50,7 +50,7 @@ class TestTimerService : LifecycleService() {
         var builder = getNotificationBuilder();
 
         NotificationManagerCompat.from(this)
-                .notify(testId, SERVICE_TIMER, builder.setContentText("Preparing Timer...").build())
+                .notify(testId, SERVICE_TIMER, builder.setContentText(getText(R.string.service_message_preparing_timer)).build())
 
         lifecycleScope.launch(Dispatchers.IO) {
             var session = sessionRepository.getTestSession(testId)
@@ -70,8 +70,8 @@ class TestTimerService : LifecycleService() {
             var builder = getNotificationBuilder();
             val timer = object : CountDownTimer(session.timeResolved.time - System.currentTimeMillis(), 500) {
                 override fun onTick(millisUntilFinished: Long) {
-                    builder.setContentTitle("Test " + session.configuration.flavorText)
-                    builder.setContentText("Time Remaining: " + getFormattedTimeForSpan(millisUntilFinished))
+                    builder.setContentTitle(getString(R.string.service_message_resolving_title).format(session.configuration.flavorText))
+                    builder.setContentText(getString(R.string.service_message_resolving_title).format(getFormattedTimeForSpan(millisUntilFinished)))
                     NotificationManagerCompat.from(this@TestTimerService)
                             .notify(sessionId, SERVICE_TIMER, builder.build())
 
@@ -105,7 +105,7 @@ class TestTimerService : LifecycleService() {
 
         var builder = getFinishedNotificationBuilder()
         manager.notify(session.sessionId, SERVICE_TIMER,
-                builder.setContentText("Test Ready").build())
+                builder.setContentText(getText(R.string.service_message_ready_text)).build())
 
         if (session.timeExpired == null) {
             //No expirey date set for this test
@@ -117,7 +117,7 @@ class TestTimerService : LifecycleService() {
         synchronized(pendingTimers) {
             var timer = object : CountDownTimer(session.timeExpired.time - System.currentTimeMillis(), COUNTDOWN_INTERVAL_MS) {
                 override fun onTick(millisUntilFinished: Long) {
-                    builder.setContentText("Results valid for: " + getFormattedTimeForSpan(millisUntilFinished))
+                    builder.setContentText(getString(R.string.service_message_valid_text).format(getFormattedTimeForSpan(millisUntilFinished)))
                     NotificationManagerCompat.from(this@TestTimerService)
                             .notify(sessionId, SERVICE_TIMER, builder.build())
 
@@ -134,8 +134,8 @@ class TestTimerService : LifecycleService() {
 
                 override fun onFinish() {
                     synchronized(pendingTimers) {
-                        builder.setContentTitle("Test Expired" + session.configuration.flavorText)
-                        builder.setContentText("Test is no longer valid to read")
+                        builder.setContentTitle(getString(R.string.service_message_expired_title).format(session.configuration.flavorText))
+                        builder.setContentText(getString(R.string.service_message_expired_text))
                         NotificationManagerCompat.from(this@TestTimerService)
                                 .notify(session.sessionId, SERVICE_TIMER, builder.setTimeoutAfter(EXPIRED_NOTIFICATION_TIMEOUT_MS).build())
                         pendingTimers.remove(session.sessionId)
@@ -152,14 +152,14 @@ class TestTimerService : LifecycleService() {
     private fun createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val countdown = NotificationChannel(CHANNEL_ID_COUNTDOWN,
-                    "Running Timers",
+                    getString(R.string.service_channel_running_name),
                     NotificationManager.IMPORTANCE_LOW);
-            countdown.description = "Timers that are processing"
+            countdown.description = getString(R.string.service_channel_running_description)
 
             val fireChannel = NotificationChannel(CHANNEL_ID_FIRE,
-                    "Triggered Timers",
+                    getString(R.string.service_channel_triggered_name),
                     NotificationManager.IMPORTANCE_HIGH)
-            fireChannel.description = "Notifications for timers which have fired"
+            countdown.description = getString(R.string.service_channel_triggered_description)
 
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
@@ -173,7 +173,7 @@ class TestTimerService : LifecycleService() {
     private fun getNotificationBuilder(): NotificationCompat.Builder {
         // The PendingIntent to launch our activity if the user selects
         // this notification
-        val title = "Timer Running..."
+        val title = getString(R.string.service_pending_intent_title_running)
         val contentIntent = PendingIntent.getActivity(this,
                 0, Intent(this, MainActivity::class.java), 0)
         return NotificationCompat.Builder(this, CHANNEL_ID_COUNTDOWN)
@@ -186,7 +186,7 @@ class TestTimerService : LifecycleService() {
     private fun getFinishedNotificationBuilder(): NotificationCompat.Builder {
         // The PendingIntent to launch our activity if the user selects
         // this notification
-        val title = "Test Ready"
+        val title = getString(R.string.service_message_ready_text)
         val contentIntent = PendingIntent.getActivity(this,
                 0, Intent(this, MainActivity::class.java), 0)
         return NotificationCompat.Builder(this, CHANNEL_ID_FIRE)

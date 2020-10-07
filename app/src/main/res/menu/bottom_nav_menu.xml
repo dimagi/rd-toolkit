@@ -3,15 +3,15 @@
     <item
         android:id="@+id/provision_define"
         android:icon="@drawable/ic_baseline_create_24"
-        android:title="Define" />
+        android:title="@string/bottom_menu_text_define" />
 
     <item
         android:id="@+id/provision_instructions"
         android:icon="@drawable/ic_baseline_description_24"
-        android:title="Instructions" />
+        android:title="@string/bottom_menu_text_instructions" />
 
     <item
         android:id="@+id/provision_start"
         android:icon="@drawable/ic_baseline_timer_24"
-        android:title="Start" />
+        android:title="@string/bottom_menu_text_start" />
 </menu>

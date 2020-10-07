@@ -35,4 +35,24 @@
     <string name="fragment_provision_show_instructions_cbx_message">Show Instructions for this RDT</string>
     <string name="button_next">Next</string>
     <string name="button_back">Back</string>
+    <string name="bottom_menu_text_define">Define</string>
+    <string name="bottom_menu_text_instructions">Instructions</string>
+    <string name="bottom_menu_text_start">Start</string>
+    <string name="bottom_menu_text_timer">Timer</string>
+    <string name="bottom_menu_text_results">Results</string>
+    <string name="bottom_menu_text_confirm">Confirm</string>
+    <string name="error_message_grant_camera">The test scanner requires camera permissions, please grant them and continue</string>
+    <string name="component_classifier_unknown_error">Unknown error processing image %s</string>
+    <string name="service_message_preparing_timer">Preparing Timer...</string>
+    <string name="service_message_resolving_title">Test %s</string>
+    <string name="service_message_resolving_text">Time Remaining: %s</string>
+    <string name="service_message_ready_text">Test Ready</string>
+    <string name="service_message_valid_text">Results valid for: %s</string>
+    <string name="service_message_expired_title">Test Expired: %s</string>
+    <string name="service_message_expired_text">Test is no longer valid to read</string>
+    <string name="service_pending_intent_title_running">Timer Running...</string>
+    <string name="service_channel_running_name">Running Timers</string>
+    <string name="service_channel_running_description">Timers that are processing</string>
+    <string name="service_channel_triggered_name">Running Timers</string>
+    <string name="service_channel_triggered_description">Timers that are processing</string>
 </resources>

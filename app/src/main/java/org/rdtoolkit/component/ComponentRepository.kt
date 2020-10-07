@@ -1,7 +1,6 @@
 package org.rdtoolkit.component
 
 import org.rdtoolkit.component.capture.WindowCaptureComponentManifest
-import org.rdtoolkit.component.processing.MockClassifierComponent
 import org.rdtoolkit.component.processing.MockClassifierManifest
 
 class ComponentRepository() {

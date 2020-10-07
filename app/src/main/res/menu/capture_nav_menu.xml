@@ -3,15 +3,15 @@
     <item
         android:id="@+id/capture_timer"
         android:icon="@drawable/ic_baseline_timer_24"
-        android:title="Timer" />
+        android:title="@string/bottom_menu_text_timer" />
 
     <item
         android:id="@+id/capture_results"
         android:icon="@drawable/ic_baseline_create_24"
-        android:title="Results" />
+        android:title="@string/bottom_menu_text_results" />
 
     <item
         android:id="@+id/capture_record"
         android:icon="@drawable/ic_baseline_description_24"
-        android:title="Confirm" />
+        android:title="@string/bottom_menu_text_confirm" />
 </menu>

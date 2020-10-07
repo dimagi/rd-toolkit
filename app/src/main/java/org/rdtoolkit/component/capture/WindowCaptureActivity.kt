@@ -120,7 +120,7 @@ class WindowCaptureActivity : AppCompatActivity() {
                 startCamera()
             } else {
                 Toast.makeText(this,
-                        "The test scanner requires camera permissions, please grant them and continue",
+                        getString(R.string.error_message_grant_camera),
                         Toast.LENGTH_SHORT).show()
                 finish()
             }
