@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import org.rdtoolkit.model.diagnostics.Pamphlet
 
 val TAG_READINESS_PRODUCTION = "production"
 val TAG_READINESS_AVAILABLE = "available"
@@ -115,6 +116,8 @@ class NoConfig : Config {
 
 interface ComponentEventListener {
     fun testImageCaptured(imagePath : String)
+    fun onClassifierError(error: String, details: Pamphlet?)
+    fun onClassifierComplete(results: MutableMap<String, String>)
 }
 
 interface ToolkitComponentManifest<C : Component, G> {
@@ -123,7 +126,12 @@ interface ToolkitComponentManifest<C : Component, G> {
     fun getConfigForDiagnostic(diagnosticId: String) : G {
         return NoConfig() as G
     }
+
     fun getComponent(config: G) : C
+
+    fun getDownstreamTags() : Set<String> {
+        return setOf()
+    }
 
     fun getValue() : Int {
         return VALUE_DEFAULT
@@ -131,8 +139,6 @@ interface ToolkitComponentManifest<C : Component, G> {
 }
 
 interface ActivityLifecycleComponent {
-    fun triggerCallout(activity: Activity)
-
     fun processIntentCallback(requestCode : Int, resultCode : Int, data : Intent?)
 }
 
@@ -142,5 +148,5 @@ abstract class TestImageCaptureComponent : Component() {
 }
 
 abstract class ImageClassifierComponent : Component() {
-
+    abstract fun triggerImageProcessing(inputFilePath : String)
 }
