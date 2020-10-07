@@ -58,7 +58,7 @@
             android:layout_weight="1"
             android:onClick="infoBackPressed"
             style="@style/Button"
-            android:text="Back" />
+            android:text="@string/button_back" />
 
         <Button
             android:id="@+id/provision_define_next_button"
@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:onClick="infoNextPressed"
             style="@style/Button"
-            android:text="Next" />
+            android:text="@string/button_next" />
 
     </LinearLayout>
 

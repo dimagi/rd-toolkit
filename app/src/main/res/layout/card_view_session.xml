@@ -68,7 +68,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/primaryDarkColor"
                 android:onClick="goToCapture"
-                android:text="CAPTURE RESULT"/>
+                android:text="@string/card_view_session_capture_button_text"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

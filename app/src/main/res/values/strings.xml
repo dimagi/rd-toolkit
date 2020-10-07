@@ -22,4 +22,17 @@
     <string name="reference_disclaimer_cbx_msg">I understand and will refer to the manufacturers\' instructions for this test</string>
     <string name="capture_btn_retake_prompt">Retake Test Image</string>
     <string name="capture_btn_take_prompt">Capture Test Image</string>
+    <string name="card_view_session_capture_button_text">CAPTURE RESULT</string>
+    <string name="fragment_capture_record_results_button_text">Record Test Results</string>
+    <string name="fragment_capture_enter_results_prompt">Please provide your interpretation of the test result</string>
+    <string name="fragment_capture_loading_message">Loading Test...</string>
+    <string name="fragment_capture_error_see_more_button_text">See More...</string>
+    <string name="home_simulate_request_button_text">Simulate Test Request</string>
+    <string name="fragment_provision_test_name_caption">Test to be Performed</string>
+    <string name="fragment_provision_test_resolve_time_caption">Time to Resolve</string>
+    <string name="fragment_provision_cassette_preview_title">Cassette</string>
+    <string name="fragment_provision_cassette_preview_missing_text">No Preview Available</string>
+    <string name="fragment_provision_show_instructions_cbx_message">Show Instructions for this RDT</string>
+    <string name="button_next">Next</string>
+    <string name="button_back">Back</string>
 </resources>

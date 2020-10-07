@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="16dp"
-            android:text="Please provide your interpretation of the test result" />
+            android:text="@string/fragment_capture_enter_results_prompt" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/capture_results_entry_list"

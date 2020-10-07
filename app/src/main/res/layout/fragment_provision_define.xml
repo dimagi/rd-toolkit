@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test to be Performed"
+        android:text="@string/fragment_provision_test_name_caption"
         android:textAlignment="center" />
 
     <TextView
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:textAlignment="center"
-        android:text="Time to Resolve" />
+        android:text="@string/fragment_provision_test_resolve_time_caption" />
 
     <TextView
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
         android:paddingTop="16dp"
         android:paddingBottom="4dp"
         android:textAlignment="center"
-        android:text="Cassette" />
+        android:text="@string/fragment_provision_cassette_preview_title" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="No Preview Available"
+            android:text="@string/fragment_provision_cassette_preview_missing_text"
             android:textAlignment="center"
             android:textColor="@color/primaryTextColor"/>
     </FrameLayout>
@@ -86,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/provision_define_next_button"
-        android:text="Show Instructions for this RDT" />
+        android:text="@string/fragment_provision_show_instructions_cbx_message" />
 
     <Button
         android:id="@+id/provision_define_next_button"
@@ -95,6 +95,6 @@
         android:onClick="provisionNext"
         app:layout_constraintBottom_toBottomOf="parent"
         style="@style/Button"
-        android:text="Next" />
+        android:text="@string/button_next" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

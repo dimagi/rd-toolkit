@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/capture_text_status"
-        android:text="Loading Test..." />
+        android:text="@string/fragment_capture_loading_message" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
             android:visibility="invisible"
-            android:text="There was an error processing your image" />
+            android:text="" />
 
         <Button
             android:id="@+id/capture_timer_view_error"
@@ -122,7 +122,7 @@
             android:drawableLeft="@drawable/ic_baseline_problem_24"
             android:drawablePadding="5dp"
             android:onClick="viewErrorDetails"
-            android:text="See More..." />
+            android:text="@string/fragment_capture_error_see_more_button_text" />
 
     </LinearLayout>
 </LinearLayout>
