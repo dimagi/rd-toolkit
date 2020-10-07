@@ -160,20 +160,20 @@ public class CaptureTimerFragment extends Fragment {
 
             switch(value) {
                 case LOADING:
-                    status = "Loading test details...";
+                    status = getString(R.string.fragment_capture_test_status_loading);
                     break;
                 case PREPARING:
                     //Note: Shouldn't be able to get here, really
-                    status = "Test is not yet prepared";
+                    status = getString(R.string.fragment_capture_test_status_preparing);
                     break;
                 case RESOLVING:
-                    status = "Test is resolving, please wait for timer";
+                    status = getString(R.string.fragment_capture_test_status_resolving);
                     break;
                 case READABLE:
-                    status = "Test is available to read";
+                    status = getString(R.string.fragment_capture_test_status_readable);
                     break;
                 case EXPIRED:
-                    status = "Test result has expired, and cannot be read";
+                    status = getString(R.string.fragment_capture_test_status_expired);
                     break;
             }
             ((TextView)view.findViewById(R.id.capture_text_status)).setText(status);

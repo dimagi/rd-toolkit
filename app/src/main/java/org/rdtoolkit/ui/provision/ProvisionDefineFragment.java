@@ -95,7 +95,7 @@ public class ProvisionDefineFragment extends Fragment {
 
         mViewModel.getSelectedTestProfile().observe(getViewLifecycleOwner(), value -> {
             if (value == null) {
-                ((TextView)view.findViewById(R.id.define_txt_type)).setText("No Test Selected");
+                ((TextView)view.findViewById(R.id.define_txt_type)).setText(getText(R.string.fragment_provision_test_name_none_selected));
                 ((TextView)view.findViewById(R.id.define_txt_process)).setText("");
             } else {
                 ((TextView)view.findViewById(R.id.define_txt_type)).setText(value.readableName());

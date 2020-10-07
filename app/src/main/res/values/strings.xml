@@ -29,10 +29,16 @@
     <string name="fragment_capture_error_see_more_button_text">See More...</string>
     <string name="home_simulate_request_button_text">Simulate Test Request</string>
     <string name="fragment_provision_test_name_caption">Test to be Performed</string>
+    <string name="fragment_provision_test_name_none_selected">No Test Selected</string>
     <string name="fragment_provision_test_resolve_time_caption">Time to Resolve</string>
     <string name="fragment_provision_cassette_preview_title">Cassette</string>
     <string name="fragment_provision_cassette_preview_missing_text">No Preview Available</string>
     <string name="fragment_provision_show_instructions_cbx_message">Show Instructions for this RDT</string>
+    <string name="fragment_capture_test_status_loading">Loading test details...</string>
+    <string name="fragment_capture_test_status_preparing">Test is not yet prepared</string>
+    <string name="fragment_capture_test_status_resolving">Test is resolving, please wait for timer</string>
+    <string name="fragment_capture_test_status_readable">Test is available to read</string>
+    <string name="fragment_capture_test_status_expired">Test result has expired, and cannot be read</string>
     <string name="button_next">Next</string>
     <string name="button_back">Back</string>
     <string name="bottom_menu_text_define">Define</string>
@@ -55,4 +61,7 @@
     <string name="service_channel_running_description">Timers that are processing</string>
     <string name="service_channel_triggered_name">Running Timers</string>
     <string name="service_channel_triggered_description">Timers that are processing</string>
+
+    <string name="time_in_seconds">%d Seconds</string>
+    <string name="time_in_minutes">%d Minutes</string>
 </resources>
