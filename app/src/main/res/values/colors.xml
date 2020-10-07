@@ -14,4 +14,6 @@
     <color name="color_progress_start">@color/secondaryLightColor</color>
     <color name="color_progress_end">@color/secondaryDarkColor</color>
     <color name="color_progress_unfinished">#D3D6DA</color>
+
+    <color name="background_unavailable_overlay">#80D3D6DA</color>
 </resources>

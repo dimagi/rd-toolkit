@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import org.rdtoolkit.interop.translator.InteropRepository
+import org.rdtoolkit.model.session.ClassifierMode
 import org.rdtoolkit.model.session.ProvisionMode
 import org.rdtoolkit.model.session.SessionMode
 import org.rdtoolkit.model.session.TestSession
@@ -46,6 +47,10 @@ class TestIntentBuilder() {
         return this
     }
 
+    fun setClassifierBehavior(mode: ClassifierMode) {
+        configBundle.putString(INTENT_EXTRA_RDT_CLASSIFIER_MODE, mode.name)
+    }
+
     fun requestTestProfile(testProfile : String) : TestIntentBuilder {
         configBundle.putString(INTENT_EXTRA_RDT_PROVISION_MODE, ProvisionMode.TEST_PROFILE.name)
         configBundle.putString(INTENT_EXTRA_RDT_PROVISION_MODE_DATA, testProfile)
@@ -80,6 +85,7 @@ class TestIntentBuilder() {
 
     init {
         configBundle.putBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS, Bundle())
+        configBundle.putString(INTENT_EXTRA_RDT_CLASSIFIER_MODE, ClassifierMode.PRE_POPULATE.toString())
     }
 
     fun build(): Intent {

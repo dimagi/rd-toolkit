@@ -2,7 +2,9 @@ package org.rdtoolkit.ui.capture;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,17 +18,26 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.rdtoolkit.R;
 import org.rdtoolkit.component.ComponentEventListener;
 import org.rdtoolkit.component.ComponentManager;
+import org.rdtoolkit.component.ComponentRepository;
+import org.rdtoolkit.component.ImageClassifierComponent;
 import org.rdtoolkit.component.TestImageCaptureComponent;
 import org.rdtoolkit.interop.InterfacesKt;
+import org.rdtoolkit.model.diagnostics.Pamphlet;
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
+import org.rdtoolkit.model.session.ClassifierMode;
 import org.rdtoolkit.model.session.STATUS;
 import org.rdtoolkit.model.session.TestSession;
 import org.rdtoolkit.util.InjectorUtils;
 
 import java.util.HashSet;
+import java.util.Map;
+
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
 
 import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID;
 import static org.rdtoolkit.interop.InterfacesKt.captureReturnIntent;
@@ -35,7 +46,7 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
 
     CaptureViewModel captureViewModel;
 
-    ComponentManager componentManager  = new ComponentManager(this, this);
+    ComponentManager componentManager = new ComponentManager(this, this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +62,35 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
                         InjectorUtils.Companion.provideCaptureViewModelFactory(this))
                         .get(CaptureViewModel.class);
 
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.capture_timer, R.id.capture_results, R.id.capture_record)
+                .build();
+
+        MenuItem resultsTab = ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
+                findItem(R.id.capture_results);
+
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
+
         captureViewModel.loadSession(sessionId);
+
+        captureViewModel.getProcessingState().observe(this, value -> {
+            switch (value) {
+                case PRE_CAPTURE:
+                case ERROR:
+                case PROCESSING:
+                    resultsTab.setEnabled(false);
+                    break;
+                case COMPLETE:
+                    resultsTab.setEnabled(true);
+                    break;
+            }
+        });
+
 
         captureViewModel.getTestSession().observe(this, value -> {
             ((TextView)this.findViewById(R.id.tile_flavor_line)).setText(
@@ -81,9 +120,19 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
         captureViewModel.getTestProfile().observe(this, result -> {
             HashSet<String> defaultTags = new HashSet<>();
             defaultTags.add("production");
-            TestImageCaptureComponent captureComponent = InjectorUtils.Companion.provideComponentRepository(this).
+            ComponentRepository repository = InjectorUtils.Companion.provideComponentRepository(this);
+            TestImageCaptureComponent captureComponent = repository.
                     getCaptureComponentForTest(result.id(), defaultTags);
-            componentManager.registerComponents(captureComponent);
+
+            ImageClassifierComponent classifierComponent = repository.getClassifierComponentForTest(result.id(), defaultTags);
+
+            if (classifierComponent != null) {
+                componentManager.registerComponents(captureComponent, classifierComponent);
+            } else {
+                captureViewModel.disableProcessing();
+                componentManager.registerComponents(captureComponent);
+
+            }
         });
 
         captureViewModel.getSessionCommit().observe(this, result -> {
@@ -92,16 +141,6 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
                 finishSession(result.getSecond());
             }
         });
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.capture_timer, R.id.capture_results, R.id.capture_record)
-                .build();
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
     }
 
     @Override
@@ -131,6 +170,29 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
     @Override
     public void testImageCaptured(@NotNull String imagePath) {
         captureViewModel.setRawImageCapturePath(imagePath);
+        ImageClassifierComponent classifier = componentManager.getImageClassifierComponent();
+        if(classifier != null) {
+            processImage(imagePath);
+        } else {
+            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
+                    R.id.action_capture_timer_to_capture_resultsFragment);
+        }
+    }
+
+    private void processImage(String imagePath) {
+        ImageClassifierComponent classifier = componentManager.getImageClassifierComponent();
+
+        classifier.doImageProcessing(imagePath);
+    }
+
+    @Override
+    public void onClassifierError(@NotNull String error, @Nullable Pamphlet details) {
+        captureViewModel.setProcessingError(error, details);
+    }
+
+    @Override
+    public void onClassifierComplete(@NotNull Map<String, String> results) {
+        captureViewModel.setClassifierResults(results);
         Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
                 R.id.action_capture_timer_to_capture_resultsFragment);
     }

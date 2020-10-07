@@ -3,6 +3,7 @@ package org.rdtoolkit.model
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import org.rdtoolkit.model.session.ClassifierMode
 import org.rdtoolkit.model.session.ProvisionMode
 import org.rdtoolkit.model.session.STATUS
 import org.rdtoolkit.model.session.SessionMode
@@ -37,6 +38,12 @@ class Converters {
 
     @TypeConverter
     fun stringToProvisionMode(value: String): ProvisionMode { return ProvisionMode.valueOf(value) }
+
+    @TypeConverter
+    fun fromClassifierMode(value: ClassifierMode): String? { return value.toString() }
+
+    @TypeConverter
+    fun stringToClassiferMode(value: String): ClassifierMode { return ClassifierMode.valueOf(value) }
 
     @TypeConverter
     fun fromString(value: String?): Map<String?, String?>? {

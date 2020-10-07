@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -28,6 +30,7 @@ import java.util.Date;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static android.view.View.resolveSize;
+import static org.rdtoolkit.util.MediaUtilKt.setImageBitmapFromFile;
 import static org.rdtoolkit.util.UtilsKt.getFormattedTimeForSpan;
 
 public class CaptureTimerFragment extends Fragment {
@@ -54,7 +57,45 @@ public class CaptureTimerFragment extends Fragment {
             ((ProgressBar)view.findViewById(R.id.capture_timer_expiring_progress)).setMax((value.timeToExpire() - value.timeToResolve())*1000);
         });
 
-        mViewModel.getMillisUntilResolved().observe(getViewLifecycleOwner(), value ->{
+        mViewModel.getProcessingState().observe(getViewLifecycleOwner(), value -> {
+            View processingOverlay = view.findViewById(R.id.capture_timer_processing_overlay);
+            switch (value) {
+                case PRE_CAPTURE:
+                case COMPLETE:
+                case ERROR:
+                    processingOverlay.setVisibility(View.INVISIBLE);
+                    break;
+                case PROCESSING:
+                    processingOverlay.setVisibility(View.VISIBLE);
+                    break;
+            }
+        });
+
+        mViewModel.getProcessingError().observe(getViewLifecycleOwner(), value -> {
+            TextView statusText = view.findViewById(R.id.capture_timer_process_status);
+            Button errorDetails = view.findViewById(R.id.capture_timer_view_error);
+            if(value == null) {
+                statusText.setVisibility(View.INVISIBLE);
+                errorDetails.setVisibility(View.INVISIBLE);
+            } else {
+                statusText.setVisibility(View.VISIBLE);
+                statusText.setText(value.getFirst());
+            }
+        });
+
+        mViewModel.getRawImageCapturePath().observe(getViewLifecycleOwner(), value -> {
+            if (value != null) {
+                ((TextView)view.findViewById(R.id.capture_btn_result))
+                        .setText(R.string.capture_btn_retake_prompt);
+                setImageBitmapFromFile(
+                        (ImageView)view.findViewById(R.id.capture_timer_test_image), value);
+
+                view.findViewById(R.id.capture_timer_results_pane).setVisibility(VISIBLE);
+            }
+        });
+
+
+        mViewModel.getMillisUntilResolved().observe(getViewLifecycleOwner(), value -> {
             String formattedTime = getFormattedTimeForSpan(value);
             ((ArcProgressBar)view.findViewById(R.id.capture_resolve_countdown)).setProgress(value.intValue());
             ((ArcProgressBar)view.findViewById(R.id.capture_resolve_countdown)).setProgressText(formattedTime);
@@ -85,7 +126,7 @@ public class CaptureTimerFragment extends Fragment {
 
                     @Override
                     public void onAnimationEnd(Animator animator) {
-                        resolvingFrame.setVisibility(View.INVISIBLE);
+                        resolvingFrame.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -99,7 +140,7 @@ public class CaptureTimerFragment extends Fragment {
                     }
                 });
             } else {
-                resolvingFrame.setVisibility(View.INVISIBLE);
+                resolvingFrame.setVisibility(View.GONE);
             }
 
             View testResolvedFrame = view.findViewById(R.id.capture_frame_resolved);

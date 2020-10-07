@@ -58,7 +58,7 @@ class WindowCaptureComponent(private val config : WindowCaptureConfig) :
         TestImageCaptureComponent(), ActivityLifecycleComponent {
     var returnPhotoPath : String? = null
 
-    override fun triggerCallout(activity: Activity) {
+    fun triggerCallout(activity: Activity) {
         val calloutIntent = Intent(activity, WindowCaptureActivity::class.java)
         calloutIntent.putExtra(EXTRA_RETICLE_RATIO, config.cassetteAspectRatio)
 

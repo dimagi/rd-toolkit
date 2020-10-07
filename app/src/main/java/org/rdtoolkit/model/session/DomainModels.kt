@@ -27,12 +27,14 @@ data class TestSession (
     data class TestResult(
             var timeRead: Date?,
             var rawCapturedImageFilePath: String?,
-            val results: MutableMap<String, String>
+            val results: MutableMap<String, String>,
+            val classifierResults: MutableMap<String, String>
     )
 
     data class Configuration(
             var sessionType: SessionMode,
             val provisionMode: ProvisionMode,
+            val classifierMode: ClassifierMode,
             var provisionModeData: String,
             val flavorText: String?,
             val flavorTextTwo: String?,
@@ -40,6 +42,34 @@ data class TestSession (
             val outputResultTranslatorId: String?,
             val flags: Map<String, String>
     )
+}
+
+enum class ClassifierMode {
+    /**
+     * No image classifier will be applied to the
+     */
+    NONE,
+    /**
+     * Users will not be notified of results. They will enter their own interpretation without
+     * any prompting resulting from automated classifiers
+     */
+    BLIND,
+    /**
+     * After the classifier completes, it will pre-populate the results of the RDT, but the user
+     * will have the ability to change the results suggested
+     */
+    PRE_POPULATE,
+    /**
+     * The user will not receive any specific feedback about the classifier's outputs unless the
+     * classifier disagrees with a user selected input. If so, the classifier will notify the user
+     * and suggest corrections, which the user can
+     */
+    CORRECTION,
+    /**
+     * The classifier will present the user with its interpretation of the test result without
+     * allowing the user to override or suggest an alternative
+     */
+    AUTHORITY
 }
 
 enum class SessionMode {

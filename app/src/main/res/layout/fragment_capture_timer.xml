@@ -27,7 +27,7 @@
             android:orientation="vertical"
             android:layout_margin="@dimen/single_pad"
             android:elevation="2dp"
-            android:visibility="invisible">
+            android:visibility="gone">
 
             <net.vrgsoft.arcprogress.ArcProgressBar
                 android:id="@+id/capture_resolve_countdown"
@@ -76,11 +76,53 @@
                 android:drawableLeft="@drawable/ic_baseline_camera_white_24"
                 android:drawablePadding="5dp"
                 android:onClick="captureTestResult"
-                android:text="Capture Test" />
+                android:text="@string/capture_btn_take_prompt" />
 
         </LinearLayout>
     </FrameLayout>
+    <LinearLayout
+        android:id="@+id/capture_timer_results_pane"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:visibility="invisible"
+        android:layout_margin="16dp">
+        <FrameLayout
+            android:layout_gravity="center"
+            android:paddingBottom="8dp"
+            android:layout_width="@dimen/timer_countdown_size"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/capture_timer_test_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:scaleType="centerInside"/>
+            <ProgressBar
+                android:id="@+id/capture_timer_processing_overlay"
+                android:background="@color/background_unavailable_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
 
+        <TextView
+            android:id="@+id/capture_timer_process_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:visibility="invisible"
+            android:text="There was an error processing your image" />
 
+        <Button
+            android:id="@+id/capture_timer_view_error"
+            style="@style/Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_baseline_problem_24"
+            android:drawablePadding="5dp"
+            android:onClick="viewErrorDetails"
+            android:text="See More..." />
 
+    </LinearLayout>
 </LinearLayout>

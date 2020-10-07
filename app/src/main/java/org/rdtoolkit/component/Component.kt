@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.*
 import org.rdtoolkit.model.diagnostics.Pamphlet
 
 val TAG_READINESS_PRODUCTION = "production"
@@ -21,11 +23,14 @@ val VALUE_PREFERRED = 3
 abstract class Component {
     protected var activity : Activity? = null
     protected var listener: ComponentEventListener? = null
+    protected var scope: CoroutineScope? = null
     var componentInterfaceId : Int? = null
 
-    fun register(activity: Activity, listener : ComponentEventListener, componentId: Int) {
+    fun register(activity: Activity, listener : ComponentEventListener,
+                 scope : CoroutineScope, componentId: Int) {
         this.activity = activity
         this.listener = listener
+        this.scope = scope
         this.componentInterfaceId = componentId
 
         if (!hasAllPermissions()) {
@@ -34,7 +39,7 @@ abstract class Component {
 
         }
     }
-    fun unregister() {
+    open fun unregister() {
         this.activity = null
         this.listener = null
         this.componentInterfaceId = null
@@ -75,7 +80,7 @@ class ComponentManager(private val activity : AppCompatActivity,
         deregisterComponents()
         for (component in components) {
             managedComponents.add(component)
-            component.register(activity, listener, activityCodeBaseId + managedComponents.size)
+            component.register(activity, listener, activity.lifecycleScope, activityCodeBaseId + managedComponents.size)
         }
     }
 
@@ -94,6 +99,15 @@ class ComponentManager(private val activity : AppCompatActivity,
             }
         }
         throw Exception("No Capture Component available")
+    }
+
+    fun getImageClassifierComponent() : ImageClassifierComponent? {
+        for (component in managedComponents) {
+            if (component is ImageClassifierComponent) {
+                return component
+            }
+        }
+        return null
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -116,6 +130,7 @@ class NoConfig : Config {
 
 interface ComponentEventListener {
     fun testImageCaptured(imagePath : String)
+
     fun onClassifierError(error: String, details: Pamphlet?)
     fun onClassifierComplete(results: MutableMap<String, String>)
 }
@@ -148,5 +163,33 @@ abstract class TestImageCaptureComponent : Component() {
 }
 
 abstract class ImageClassifierComponent : Component() {
-    abstract fun triggerImageProcessing(inputFilePath : String)
+    private var currentJob : Job? = null
+
+    fun doImageProcessing(inputFilePath : String) {
+        scope!!.launch {
+            currentJob?.let {
+                it.cancelAndJoin()
+            }
+            currentJob = launch {
+                try{
+                    processImage(inputFilePath)
+                } catch(e: Exception){
+                    e.printStackTrace()
+                    listener?.let {
+                        it.onClassifierError("Unknown error processing image ${e.message}", null);
+                    }
+                }
+            }
+        }
+    }
+
+    protected abstract suspend fun processImage(inputFilePath : String)
+
+    override fun unregister() {
+        super.unregister()
+        currentJob?.let {
+            it.cancel()
+        }
+    }
+
 }

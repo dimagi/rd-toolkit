@@ -9,10 +9,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rdtoolkit.interop.BundleToConfiguration;
 import org.rdtoolkit.interop.translator.InteropRepository;
+import org.rdtoolkit.model.session.ClassifierMode;
 import org.rdtoolkit.model.session.ProvisionMode;
 import org.rdtoolkit.model.session.SessionMode;
 import org.rdtoolkit.model.session.TestSession;
 
+import static org.rdtoolkit.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_CLASSIFIER_MODE;
 import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_CONFIG_BUNDLE;
 import static org.rdtoolkit.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE;
 import static org.rdtoolkit.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_PROVISION_MODE;
@@ -32,6 +34,7 @@ public class FlatInputTranslatorTest {
         testIntent.putExtra(INTENT_EXTRA_RDT_PROVISION_MODE, ProvisionMode.TEST_PROFILE.toString());
         testIntent.putExtra(INTENT_EXTRA_RDT_PROVISION_MODE_DATA, "TestType");
         testIntent.putExtra(INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE, SessionMode.ONE_PHASE.toString());
+        testIntent.putExtra(INTENT_EXTRA_RDT_CLASSIFIER_MODE, ClassifierMode.PRE_POPULATE.toString());
 
         Intent output = new InteropRepository().getTranslator(TRANSLATOR_PROVISION_FLAT).map(testIntent);
 

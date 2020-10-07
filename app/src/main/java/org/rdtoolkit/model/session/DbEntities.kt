@@ -39,7 +39,8 @@ data class DbTestSessionResult(
         @PrimaryKey val sessionId: String,
         var timeRead: Date?,
         var rawCapturedImageFilePath: String?,
-        val results: MutableMap<String, String>
+        val results: MutableMap<String, String>,
+        val classifierResults: MutableMap<String, String>
 )
 
 
@@ -51,6 +52,7 @@ data class DbTestSessionConfiguration(
         @PrimaryKey val sessionId: String,
         var sessionType: SessionMode,
         val provisionMode: ProvisionMode,
+        val classifierMode: ClassifierMode,
         val provisionModeData: String,
         val flavorText: String?,
         val flavorTextTwo: String?,

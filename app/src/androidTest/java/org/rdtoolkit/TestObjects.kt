@@ -1,25 +1,22 @@
 package org.rdtoolkit
 
-import org.rdtoolkit.model.session.ProvisionMode
-import org.rdtoolkit.model.session.STATUS
-import org.rdtoolkit.model.session.SessionMode
-import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.model.session.*
 import java.util.*
 import kotlin.collections.HashMap
 
 
 object Constants {
     @JvmField
-    val TestResultNoValues = TestSession.TestResult(Date(), "testpath", HashMap())
+    val TestResultNoValues = TestSession.TestResult(Date(), "testpath", HashMap(), HashMap())
 
     @JvmField
-    val TestResultsSampleValues = TestSession.TestResult(Date(Date().time - 500), "testpath", HashMap(mapOf("diag_one" to "positive", "diag_two" to "negative")))
+    val TestResultsSampleValues = TestSession.TestResult(Date(Date().time - 500), "testpath", HashMap(mapOf("diag_one" to "positive", "diag_two" to "negative")), HashMap())
 
     @JvmField
-    val ConfigMinimal = TestSession.Configuration(SessionMode.ONE_PHASE,ProvisionMode.TEST_PROFILE,"test_id",null,null,null,null,HashMap())
+    val ConfigMinimal = TestSession.Configuration(SessionMode.ONE_PHASE,ProvisionMode.TEST_PROFILE,ClassifierMode.PRE_POPULATE,"test_id",null,null,null,null,HashMap())
 
     @JvmField
-    val ConfigNormal = TestSession.Configuration(SessionMode.ONE_PHASE,ProvisionMode.TEST_PROFILE,"test_id","flavor_one","flavor_two",null,null,HashMap())
+    val ConfigNormal = TestSession.Configuration(SessionMode.ONE_PHASE,ProvisionMode.TEST_PROFILE,ClassifierMode.PRE_POPULATE,"test_id","flavor_one","flavor_two",null,null,HashMap())
 
     @JvmField
     val SessionProvisioned = TestSession("unique_id",

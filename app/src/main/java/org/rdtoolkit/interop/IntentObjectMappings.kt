@@ -2,15 +2,13 @@ package org.rdtoolkit.interop
 
 import android.os.Bundle
 import org.rdtoolkit.model.Mapper
-import org.rdtoolkit.model.session.ProvisionMode
-import org.rdtoolkit.model.session.STATUS
-import org.rdtoolkit.model.session.SessionMode
-import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.model.session.*
 import java.util.*
 import kotlin.collections.HashMap
 
 const val INTENT_EXTRA_RDT_PROVISION_MODE = "rdt_config_provision_mode"
 const val INTENT_EXTRA_RDT_PROVISION_MODE_DATA = "rdt_config_provision_mode_data"
+const val INTENT_EXTRA_RDT_CLASSIFIER_MODE = "rdt_config_classifier_mode"
 const val INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_ONE = "rdt_config_flavor_one"
 const val INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_TWO = "rdt_config_flavor_two"
 const val INTENT_EXTRA_RDT_CONFIG_OUTPUT_TRANSLATOR_SESSION = "rdt_config_translator_session"
@@ -28,6 +26,7 @@ const val INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED = "rdt_session_time_expired"
 const val INTENT_EXTRA_RDT_RESULT_TIME_READ = "rdt_session_result_time_read"
 const val INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH = "rdt_session_result_raw_image_path"
 const val INTENT_EXTRA_RDT_RESULT_MAP = "rdt_session_result_map"
+const val INTENT_EXTRA_RDT_INTERPRETER_RESULT_MAP = "rdt_session_interpreter_result_map"
 
 const val INTENT_EXTRA_RDT_RESULT_BUNDLE = "rdt_session_result_bundle"
 
@@ -41,6 +40,7 @@ class BundleToConfiguration : Mapper<Bundle, TestSession.Configuration> {
         return TestSession.Configuration(
                 SessionMode.valueOf(input.getString(INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE)!!),
                 ProvisionMode.valueOf(input.getString(INTENT_EXTRA_RDT_PROVISION_MODE)!!),
+                ClassifierMode.valueOf(input.getString(INTENT_EXTRA_RDT_CLASSIFIER_MODE)!!),
                 input.getString(INTENT_EXTRA_RDT_PROVISION_MODE_DATA)!!,
                 input.getString(INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_ONE),
                 input.getString(INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_TWO),
@@ -56,6 +56,7 @@ class ConfigurationToBundle : Mapper<TestSession.Configuration, Bundle> {
         var b = Bundle()
         b.putString(INTENT_EXTRA_RDT_PROVISION_MODE, input.provisionMode.name)
         b.putString(INTENT_EXTRA_RDT_PROVISION_MODE_DATA, input.provisionModeData)
+        b.putString(INTENT_EXTRA_RDT_CLASSIFIER_MODE, input.classifierMode.name)
         b.putString(INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_ONE, input.flavorText)
         b.putString(INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_TWO, input.flavorTextTwo)
         b.putString(INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE, input.sessionType.name)
@@ -71,20 +72,26 @@ class ConfigurationToBundle : Mapper<TestSession.Configuration, Bundle> {
 class BundleToResult : Mapper<Bundle, TestSession.TestResult> {
     override fun map(input: Bundle): TestSession.TestResult {
         val mapBundle = input.getBundle(INTENT_EXTRA_RDT_RESULT_MAP)
+        val interpreterBundle = input.getBundle(INTENT_EXTRA_RDT_INTERPRETER_RESULT_MAP)
 
-        var map = HashMap<String,String>()
-
-        if  (mapBundle != null) {
-            for (k in mapBundle.keySet()) {
-                map.put(k, mapBundle.getString(k)!!)
-            }
-        }
 
         return TestSession.TestResult(
                 Date(input.getLong(INTENT_EXTRA_RDT_RESULT_TIME_READ)),
                 input.getString(INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH),
-                map
+                getMapFromBundle(mapBundle),
+                getMapFromBundle(interpreterBundle)
         )
+    }
+
+    fun getMapFromBundle(bundle : Bundle?) : HashMap<String,String> {
+        var map = HashMap<String,String>()
+
+        if  (bundle != null) {
+            for (k in bundle.keySet()) {
+                map.put(k, bundle.getString(k)!!)
+            }
+        }
+        return map
     }
 }
 
@@ -94,12 +101,17 @@ class ResultToBundle : Mapper<TestSession.TestResult, Bundle> {
         b.putLong(INTENT_EXTRA_RDT_RESULT_TIME_READ, input.timeRead!!.time)
         b.putString(INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH, input.rawCapturedImageFilePath)
 
+        b.putBundle(INTENT_EXTRA_RDT_RESULT_MAP, getBundleFromMap(input.results))
+        b.putBundle(INTENT_EXTRA_RDT_INTERPRETER_RESULT_MAP, getBundleFromMap(input.classifierResults))
+        return b
+    }
+
+    fun getBundleFromMap(inputMap : Map<String, String>) : Bundle {
         var map = Bundle()
-        for (k in input.results) {
+        for (k in inputMap) {
             map.putString(k.key, k.value)
         }
-        b.putBundle(INTENT_EXTRA_RDT_RESULT_MAP, map)
-        return b
+        return map
     }
 }
 

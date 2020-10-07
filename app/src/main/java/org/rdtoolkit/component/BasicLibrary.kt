@@ -44,7 +44,7 @@ class DefaultImageCaptureComponent : TestImageCaptureComponent(), ActivityLifecy
         return image
     }
 
-    override fun triggerCallout(activity: Activity) {
+    fun triggerCallout(activity: Activity) {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
             // Create the File where the photo should go

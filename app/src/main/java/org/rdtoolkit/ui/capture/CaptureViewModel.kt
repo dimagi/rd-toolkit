@@ -6,11 +6,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.rdtoolkit.component.ComponentRepository
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
+import org.rdtoolkit.model.diagnostics.Pamphlet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
-import org.rdtoolkit.model.session.STATUS
-import org.rdtoolkit.model.session.SessionRepository
-import org.rdtoolkit.model.session.TestReadableState
-import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.model.session.*
 import org.rdtoolkit.util.CombinedLiveData
 import java.util.*
 import kotlin.collections.HashMap
@@ -44,6 +42,20 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     private val inCommitMode : MutableLiveData<Boolean> = MutableLiveData(false)
 
     val sessionCommit = CombinedLiveData<Boolean, TestSession>(inCommitMode, testSession)
+
+    private var classifierMode : ClassifierMode? = null
+
+    private var processingStateValue : MutableLiveData<ProcessingState> = MutableLiveData(ProcessingState.PRE_CAPTURE)
+
+    private var processingErrorValue : MutableLiveData<Pair<String, Pamphlet?>> = MutableLiveData()
+
+    fun getProcessingError() : LiveData<Pair<String, Pamphlet?>> {
+        return processingErrorValue
+    }
+
+    fun getProcessingState() : LiveData<ProcessingState> {
+        return processingStateValue
+    }
 
     fun getTestSession() : LiveData<TestSession> {
         return testSession
@@ -92,7 +104,40 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
             val result = testSessionResult.value!!
             result.timeRead = Date()
             result.rawCapturedImageFilePath = rawImagePath
+
+
+            result.results.clear()
+            result.classifierResults.clear()
+            processingErrorValue.value = null
+            testSessionResult.value = testSessionResult.value
+
+            if (classifierMode != ClassifierMode.NONE) {
+                processingStateValue.value = ProcessingState.PROCESSING
+            } else {
+                processingStateValue.value = ProcessingState.COMPLETE
+            }
         }
+    }
+
+    fun disableProcessing() {
+        if (classifierMode != ClassifierMode.NONE) {
+            classifierMode = ClassifierMode.NONE
+            if(processingStateValue.value == ProcessingState.PROCESSING ||
+                    processingStateValue.value == ProcessingState.ERROR) {
+                processingStateValue.value = ProcessingState.COMPLETE
+            }
+        }
+    }
+
+
+    fun setClassifierResults(classifierResults : MutableMap<String, String>) {
+        testSessionResult.value!!.classifierResults.putAll(classifierResults)
+        processingStateValue.value = ProcessingState.COMPLETE
+    }
+
+    fun setProcessingError(error: String, details: Pamphlet?) {
+        processingStateValue.value = ProcessingState.ERROR
+        this.processingErrorValue.value = Pair(error, details)
     }
 
     fun loadSession(sessionId: String) {
@@ -102,13 +147,14 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
             testSession.postValue(session)
 
             if (session.result == null) {
-                session.result = TestSession.TestResult(null, null, HashMap())
+                session.result = TestSession.TestResult(null, null, HashMap(), HashMap())
             }
 
             testSessionResult.postValue(session.result)
 
             testState.postValue(session.getTestReadableState())
 
+            classifierMode = session.configuration.classifierMode
             startTimersForState(session, diagnosticsRepository.getTestProfile(session.testProfileId))
         }
     }
@@ -170,4 +216,11 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     init {
         testState.value = TestReadableState.LOADING
     }
+}
+
+enum class ProcessingState {
+    PRE_CAPTURE,
+    PROCESSING,
+    COMPLETE,
+    ERROR
 }
