@@ -71,7 +71,7 @@ class TestTimerService : LifecycleService() {
             val timer = object : CountDownTimer(session.timeResolved.time - System.currentTimeMillis(), 500) {
                 override fun onTick(millisUntilFinished: Long) {
                     builder.setContentTitle(getString(R.string.service_message_resolving_title).format(session.configuration.flavorText))
-                    builder.setContentText(getString(R.string.service_message_resolving_title).format(getFormattedTimeForSpan(millisUntilFinished)))
+                    builder.setContentText(getString(R.string.service_message_resolving_text).format(getFormattedTimeForSpan(millisUntilFinished)))
                     NotificationManagerCompat.from(this@TestTimerService)
                             .notify(sessionId, SERVICE_TIMER, builder.build())
 
