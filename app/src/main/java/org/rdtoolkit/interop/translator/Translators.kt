@@ -3,6 +3,7 @@ package org.rdtoolkit.interop.translator
 import android.content.Intent
 import android.os.Bundle
 import org.rdtoolkit.interop.*
+import org.rdtoolkit.interop.translator.FlatIntentMapper.Companion.DEFAULT_PREFIX_MAP
 import org.rdtoolkit.model.Mapper
 import org.rdtoolkit.model.chain
 import org.rdtoolkit.model.session.TestSession
@@ -15,7 +16,7 @@ const val TRANSLATOR_PROVISION_FLAT = "provision_flat"
 
 fun getBootstrappedTranslators() : Map<String, Mapper<Intent, Intent>> {
     val translators = HashMap<String, Mapper<Intent, Intent>>()
-    translators.put(TRANSLATOR_XFORM_RESULT, FlatIntentMapper(XFormDateFlatener()).chain(XFormsResponseIntentMapper()))
+    translators.put(TRANSLATOR_XFORM_RESULT, FlatIntentMapper(XFormDateFlatener(), DEFAULT_PREFIX_MAP).chain(XFormsResponseIntentMapper()))
 
     translators.put(TRANSLATOR_PROVISION_FLAT,
     RollupIntentRemapper(BundleToStringMap(FixedSetKeyQualifier(setOf())), StringMapToBundle(), INTENT_EXTRA_RDT_CONFIG_FLAGS).chain(
@@ -55,25 +56,35 @@ class RollupIntentRemapper<T>(val inMapper: Mapper<Bundle?, T>,
 }
 
 /**
- * Take nested bundles and flatten any unambigious elements into basic string/string
- * maps
+ * Take nested bundles and flatten any unambigious elements into basic string/string maps
+ *
+ * @param flattener: Provides the strategy for serializing the raw data values to strings
+ * @param prefixSet: A set of prefixes for the 'child" keys of certain elements to disambiguate
  */
-class FlatIntentMapper(val flattener : TypeFlattener = TypeFlattener()): Mapper<Intent, Intent> {
+class FlatIntentMapper(val flattener : TypeFlattener = TypeFlattener(),
+                       val prefixSet : Map<String, String>): Mapper<Intent, Intent> {
     override fun map(input: Intent): Intent {
         var response = Intent()
-        aggregateKeysRecursive(response, input.extras!!)
+        aggregateKeysRecursive(response, input.extras!!, "")
         return response
     }
 
-    private fun aggregateKeysRecursive(accumulator : Intent, current : Bundle) {
+    private fun aggregateKeysRecursive(accumulator : Intent, current : Bundle, prefix : String) {
         for (key in current.keySet()) {
             val value = current.get(key)
             if (value is Bundle) {
-                aggregateKeysRecursive(accumulator, value)
+                val prefix = if(key in prefixSet) prefixSet[key]!! else  ""
+                aggregateKeysRecursive(accumulator, value, prefix)
             } else {
-                accumulator.putExtra(key, value?.let { flattener.flatten(key, value) })
+                accumulator.putExtra("$prefix$key", value?.let { flattener.flatten(key, value) })
             }
         }
+    }
+
+    companion object {
+        val DEFAULT_PREFIX_MAP = mapOf(
+                INTENT_EXTRA_RDT_RESULT_MAP to "result_"
+                ,INTENT_EXTRA_RDT_INTERPRETER_RESULT_MAP to "result_classifier_")
     }
 }
 

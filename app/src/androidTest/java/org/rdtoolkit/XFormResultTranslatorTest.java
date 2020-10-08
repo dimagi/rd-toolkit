@@ -13,6 +13,8 @@ import org.rdtoolkit.interop.IntentObjectMappingsKt;
 import org.rdtoolkit.interop.translator.InteropRepository;
 
 import java.util.Map;
+
+import static org.rdtoolkit.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_RESULT_MAP;
 import static org.rdtoolkit.interop.translator.TranslatorsKt.TRANSLATOR_XFORM_RESULT;
 
 /**
@@ -32,6 +34,10 @@ public class XFormResultTranslatorTest {
         b.putLong("second_level", 2L);
         testIntent.putExtra("test_nested", b);
 
+        Bundle btwo = new Bundle();
+        btwo.putLong("second_level", 3L);
+        testIntent.putExtra(INTENT_EXTRA_RDT_RESULT_MAP, btwo);
+
         Intent output = new InteropRepository().getTranslator(TRANSLATOR_XFORM_RESULT).map(testIntent);
 
         Assert.assertTrue(output.hasExtra("odk_intent_bundle"));
@@ -41,6 +47,7 @@ public class XFormResultTranslatorTest {
         Bundle xformBundle = output.getBundleExtra("odk_intent_bundle");
         Assert.assertEquals("one", xformBundle.getString("base_level"));
         Assert.assertEquals("2", xformBundle.getString("second_level"));
+        Assert.assertEquals("3", xformBundle.getString("result_second_level"));
     }
 
     @Test
@@ -55,7 +62,7 @@ public class XFormResultTranslatorTest {
         Map<String, String> results = Constants.SessionCompleted.getResult().getResults();
 
         for (String key : results.keySet()) {
-            Assert.assertEquals(xformBundle.getString(key), results.get(key));
+            Assert.assertEquals(results.get(key), xformBundle.getString(String.format("result_%s",key)));
         }
     }
 
