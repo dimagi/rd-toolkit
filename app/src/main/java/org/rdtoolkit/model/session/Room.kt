@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import org.rdtoolkit.model.Converters
+import java.util.*
 
 @Dao
 interface TestSessionDao {
@@ -24,6 +25,9 @@ interface TestSessionDao {
 
     @Query("SELECT * FROM DbTestSessionConfiguration WHERE sessionId = :sessionId")
     fun loadConfig(sessionId: String): DbTestSessionConfiguration
+
+    @Query("SELECT sessionId FROM DbTestSession WHERE state = 'RUNNING' and (timeExpired is null or :now < timeExpired)")
+    fun getPendingSessionIds(now : Date) : List<String>
 
     @Transaction
     fun save(dbSession: DataTestSession) {

@@ -71,7 +71,7 @@ class TestTimerService : LifecycleService() {
 
     private fun checkForServiceClosure() {
         synchronized(pendingTimers) {
-            if(pendingTimers.size == 0) {
+            if(this.pendingTimers.isEmpty()) {
                 this.stopForeground(true)
             }
         }
