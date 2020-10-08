@@ -23,7 +23,7 @@
     <string name="capture_btn_retake_prompt">Retake Test Image</string>
     <string name="capture_btn_take_prompt">Capture Test Image</string>
     <string name="card_view_session_capture_button_text">CAPTURE RESULT</string>
-    <string name="fragment_capture_record_results_button_text">Record Test Results</string>
+    <string name="fragment_capture_record_results_button_text">Record Results</string>
     <string name="fragment_capture_enter_results_prompt">Please provide your interpretation of the test result</string>
     <string name="fragment_capture_loading_message">Loading Test...</string>
     <string name="fragment_capture_error_see_more_button_text">See More...</string>

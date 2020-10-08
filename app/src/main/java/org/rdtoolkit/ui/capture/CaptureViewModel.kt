@@ -30,6 +30,10 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         session -> diagnosticsRepository.getTestProfile(session.testProfileId)
     }
 
+    private val sessionConfig : LiveData<TestSession.Configuration> = Transformations.map(testSession) {
+        session -> session.configuration
+    }
+
     private val resolveMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
 
     private val readableMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
@@ -47,6 +51,22 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     private var processingStateValue : MutableLiveData<ProcessingState> = MutableLiveData(ProcessingState.PRE_CAPTURE)
 
     private var processingErrorValue : MutableLiveData<Pair<String, Pamphlet?>> = MutableLiveData()
+
+    val allowOverrideValue : MutableLiveData<Boolean> = MutableLiveData()
+
+    fun getSessionConfiguration() : LiveData<TestSession.Configuration> {
+        return sessionConfig
+    }
+
+    fun getExpireOverrideChecked() : LiveData<Boolean> {
+        return allowOverrideValue
+    }
+
+    fun setExpireOverrideChecked(isChecked : Boolean) {
+        if (isChecked != allowOverrideValue.value) {
+            allowOverrideValue.value = isChecked
+        }
+    }
 
     fun getProcessingError() : LiveData<Pair<String, Pamphlet?>> {
         return processingErrorValue
@@ -189,6 +209,11 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                 }.start()
             }
         }
+    }
+
+    fun setExpirationOverriden() {
+        //TODO: Move this into a flag on the session
+        testState.value = TestReadableState.READABLE
     }
 
     fun commitResult() {

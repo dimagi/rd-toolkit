@@ -29,4 +29,17 @@
         android:name="org.rdtoolkit.ui.capture.CaptureRecordFragment"
         android:label="Record Test Results"
         tools:layout="@layout/fragment_capture_record" />
+
+    <action
+        android:id="@+id/capture_expire_to_record"
+        app:popUpTo="@+id/capture_timer"
+        app:popUpToInclusive="true"
+        app:destination="@id/capture_record" />
+
+    <action
+        android:id="@+id/capture_override_expire"
+        app:popUpTo="@+id/capture_record"
+        app:popUpToInclusive="true"
+        app:destination="@id/capture_timer" />
+
 </navigation>

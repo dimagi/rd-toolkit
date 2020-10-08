@@ -28,6 +28,7 @@ import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.model.diagnostics.Pamphlet;
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
 import org.rdtoolkit.model.session.STATUS;
+import org.rdtoolkit.model.session.TestReadableState;
 import org.rdtoolkit.model.session.TestSession;
 import org.rdtoolkit.util.InjectorUtils;
 
@@ -66,12 +67,35 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
         MenuItem resultsTab = ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
                 findItem(R.id.capture_results);
 
+        MenuItem captureTab = ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
+                findItem(R.id.capture_timer);
+
+
+        MenuItem recordTab = ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
+                findItem(R.id.capture_record);
+
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
         captureViewModel.loadSession(sessionId);
+
+        captureViewModel.getTestState().observe(this, result -> {
+            if (result == TestReadableState.EXPIRED) {
+                captureTab.setVisible(false);
+                resultsTab.setVisible(false);
+                recordTab.setEnabled(true);
+
+                navController.navigate(R.id.capture_expire_to_record);
+            } else {
+                captureTab.setVisible(true);
+                resultsTab.setVisible(true);
+
+                setConfirmAvailable(captureViewModel.getTestSessionResult().getValue());
+            }
+        });
+
 
         captureViewModel.getProcessingState().observe(this, value -> {
             switch (value) {
@@ -105,11 +129,7 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
         });
 
         captureViewModel.getTestSessionResult().observe(this, value -> {
-            RdtDiagnosticProfile profile = captureViewModel.getTestProfile().getValue();
-            boolean recordEnabled = profile.isResultSetComplete(value);
-
-            ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
-                    findItem(R.id.capture_record).setEnabled(recordEnabled);
+            setConfirmAvailable(value);
         });
 
         captureViewModel.getTestProfile().observe(this, result -> {
@@ -138,6 +158,17 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
         });
     }
 
+    private void setConfirmAvailable(TestSession.TestResult result) {
+        boolean recordEnabled = false;
+        RdtDiagnosticProfile profile = captureViewModel.getTestProfile().getValue();
+        if(profile != null && result != null) {
+            recordEnabled = profile.isResultSetComplete(result);
+        }
+
+        ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
+                findItem(R.id.capture_record).setEnabled(recordEnabled);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -150,6 +181,11 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
 
     public void recordResults(View v) {
         captureViewModel.commitResult();
+    }
+
+    public void overrideExpiration(View v) {
+        captureViewModel.setExpirationOverriden();
+        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.capture_override_expire);
     }
 
     private void finishSession(TestSession session) {

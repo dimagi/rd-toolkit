@@ -16,4 +16,6 @@
     <color name="color_progress_unfinished">#D3D6DA</color>
 
     <color name="background_unavailable_overlay">#80D3D6DA</color>
+
+    <color name="color_button_disabled">#D3D6DA</color>
 </resources>

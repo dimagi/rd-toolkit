@@ -6,12 +6,78 @@
     android:orientation="vertical"
     tools:context=".ui.capture.CaptureRecordFragment">
 
-    <Button
-        android:id="@+id/capture_record_btn_commit"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="recordResults"
-        style="@style/Button"
-        android:text="@string/fragment_capture_record_results_button_text" />
+        android:id="@+id/capture_frame_record_expired"
+        android:visibility="gone"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            style="@style/TextInstructions"
+            android:text="This test is expired. A new test should be started to ensure an accurate result."
+            />
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_timer_bad_400" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/capture_frame_record_expired_override"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                style="@style/TextInstructions"
+                android:text="You may choose to override this warning and continue. This will be recorded with the test result."
+                />
+
+            <CheckBox
+                android:id="@+id/capture_frame_record_cbx_enable_override"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:text="I acknowledge that this test result has expired and may no longer be valid"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/capture_btn_override_expiration"
+            style="@style/Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_baseline_arrow_back_white_24"
+            android:drawableRight="@drawable/ic_baseline_camera_white_24"
+            android:enabled="false"
+            android:onClick="overrideExpiration"
+            android:visibility="gone"
+            android:text="Override" />
+
+        <Button
+            android:id="@+id/capture_record_btn_commit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="recordResults"
+            android:drawableRight="@drawable/ic_baseline_arrow_forward_white_24"
+            style="@style/Button"
+            android:text="@string/fragment_capture_record_results_button_text" />
+    </LinearLayout>
 </LinearLayout>

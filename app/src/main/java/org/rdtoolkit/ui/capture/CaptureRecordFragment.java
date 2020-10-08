@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.rdtoolkit.R;
+import org.rdtoolkit.model.session.TestReadableState;
 
 public class CaptureRecordFragment extends Fragment {
 
@@ -32,8 +36,38 @@ public class CaptureRecordFragment extends Fragment {
 
         mViewModel = new ViewModelProvider(requireActivity()).get(CaptureViewModel.class);
 
+        CheckBox allowOverride = view.findViewById(R.id.capture_frame_record_cbx_enable_override);
+
+        Button overrideButton = view.findViewById(R.id.capture_btn_override_expiration);
+
+        allowOverride.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mViewModel.setExpireOverrideChecked(b);
+            }
+        });
+
         mViewModel.getSessionCommit().observe(getViewLifecycleOwner(), result -> {
             view.findViewById(R.id.capture_record_btn_commit).setEnabled(!result.getFirst());
+        });
+
+        mViewModel.getExpireOverrideChecked().observe(getViewLifecycleOwner(), result -> {
+            allowOverride.setChecked(result);
+            overrideButton.setEnabled(result);
+        });
+
+        mViewModel.getTestState().observe(getViewLifecycleOwner(), result -> {
+            int overrideVisibility = View.VISIBLE;
+
+            if (result == TestReadableState.EXPIRED) {
+                view.findViewById(R.id.capture_frame_record_expired).setVisibility(View.VISIBLE);
+
+                view.findViewById(R.id.capture_frame_record_expired_override).setVisibility(overrideVisibility);
+                overrideButton.setVisibility(overrideVisibility);
+            } else {
+                view.findViewById(R.id.capture_frame_record_expired).setVisibility(View.GONE);
+                overrideButton.setVisibility(View.GONE);
+            }
         });
     }
 }
