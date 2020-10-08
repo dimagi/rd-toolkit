@@ -1,39 +1,25 @@
 package org.rdtoolkit;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
-import android.widget.ImageView;
+import android.view.View;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import org.rdtoolkit.component.capture.WindowCaptureActivity;
-import org.rdtoolkit.interop.BundleToSession;
-import org.rdtoolkit.interop.DispatcherActivity;
+import com.google.android.material.navigation.NavigationView;
+
 import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.interop.TestIntentBuilder;
 import org.rdtoolkit.model.session.ProvisionMode;
-import org.rdtoolkit.model.session.TestSession;
-import org.rdtoolkit.ui.capture.CaptureActivity;
 
-import java.io.File;
 import java.util.UUID;
-
-import static android.content.Intent.FLAG_ACTIVITY_FORWARD_RESULT;
-import static org.rdtoolkit.component.capture.WindowCaptureActivity.EXTRA_CROPPED_IMAGE;
-import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_SESSION_BUNDLE;
 
 public class MainActivity extends AppCompatActivity {
 

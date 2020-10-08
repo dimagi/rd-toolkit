@@ -1,7 +1,6 @@
 package org.rdtoolkit.model.diagnostics
 
 import org.json.JSONObject
-import java.lang.Exception
 
 fun parseFolio(body : String, folioContext: FolioContext) : Folio {
     var folio = JSONObject(body)

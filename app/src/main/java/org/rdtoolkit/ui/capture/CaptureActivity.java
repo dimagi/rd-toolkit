@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,16 +27,12 @@ import org.rdtoolkit.component.TestImageCaptureComponent;
 import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.model.diagnostics.Pamphlet;
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
-import org.rdtoolkit.model.session.ClassifierMode;
 import org.rdtoolkit.model.session.STATUS;
 import org.rdtoolkit.model.session.TestSession;
 import org.rdtoolkit.util.InjectorUtils;
 
 import java.util.HashSet;
 import java.util.Map;
-
-import kotlin.Unit;
-import kotlin.coroutines.Continuation;
 
 import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID;
 import static org.rdtoolkit.interop.InterfacesKt.captureReturnIntent;

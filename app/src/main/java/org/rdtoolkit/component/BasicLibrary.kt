@@ -4,14 +4,9 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.navigation.Navigation
-import org.rdtoolkit.component.capture.WindowCaptureActivity
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat

@@ -1,12 +1,9 @@
 package org.rdtoolkit.component.processing
 
-import android.app.Activity
-import android.content.Intent
 import kotlinx.coroutines.delay
-import org.rdtoolkit.component.*
-import org.rdtoolkit.component.capture.EXTRA_RETICLE_RATIO
-import org.rdtoolkit.component.capture.WindowCaptureActivity
-import java.io.File
+import org.rdtoolkit.component.Config
+import org.rdtoolkit.component.ImageClassifierComponent
+import org.rdtoolkit.component.ToolkitComponentManifest
 
 val COMPONENT_WINDOWED_CAPTURE = "classifier_mock"
 val TAG_READINESS_MOCK = "mock"

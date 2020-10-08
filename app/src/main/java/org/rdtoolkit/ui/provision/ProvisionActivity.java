@@ -4,10 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,19 +14,19 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.rdtoolkit.R;
 import org.rdtoolkit.interop.BundleToConfiguration;
 import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.model.session.SessionMode;
 import org.rdtoolkit.model.session.TestSession;
+import org.rdtoolkit.service.TestTimerService;
 import org.rdtoolkit.ui.capture.CaptureActivity;
 import org.rdtoolkit.ui.instruct.PamphletViewModel;
 import org.rdtoolkit.util.InjectorUtils;
 
-import org.rdtoolkit.R;
-import org.rdtoolkit.service.TestTimerService;
-
 import static android.content.Intent.FLAG_ACTIVITY_FORWARD_RESULT;
-import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_OUTPUT_SESSION_TRANSLATOR;
 import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RESPONSE_TRANSLATOR;
 import static org.rdtoolkit.interop.InterfacesKt.provisionReturnIntent;
 import static org.rdtoolkit.service.TestTimerServiceKt.NOTIFICATION_TAG_TEST_ID;

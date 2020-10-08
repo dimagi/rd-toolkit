@@ -7,7 +7,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.model.session.getDatabase
 import org.rdtoolkit.service.NOTIFICATION_TAG_TEST_ID
 import org.rdtoolkit.service.TestTimerService

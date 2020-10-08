@@ -1,9 +1,6 @@
 package org.rdtoolkit.model.session
 
-import androidx.lifecycle.LiveData
 import org.rdtoolkit.model.ListMapperImpl
-import org.rdtoolkit.model.session.DbTestSession
-import org.rdtoolkit.model.session.TestSessionDao
 
 class SessionRepository(var testSessionDao : TestSessionDao) {
 

@@ -3,18 +3,15 @@ package org.rdtoolkit.service
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.app.Service
 import android.content.Intent
 import android.os.Build
 import android.os.CountDownTimer
 import android.os.IBinder
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.rdtoolkit.MainActivity
 import org.rdtoolkit.R
@@ -22,8 +19,6 @@ import org.rdtoolkit.model.session.STATUS
 import org.rdtoolkit.model.session.TestSession
 import org.rdtoolkit.util.InjectorUtils
 import org.rdtoolkit.util.getFormattedTimeForSpan
-import java.util.*
-import kotlin.collections.HashMap
 
 const val CHANNEL_ID_COUNTDOWN ="Test"
 const val CHANNEL_ID_FIRE ="Fire"

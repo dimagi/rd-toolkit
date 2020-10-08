@@ -1,10 +1,7 @@
 package org.rdtoolkit.component.capture
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.view.Window
-import androidx.camera.core.AspectRatio
 import org.rdtoolkit.component.*
 import java.io.File
 

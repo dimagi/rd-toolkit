@@ -2,13 +2,11 @@ package org.rdtoolkit.ui.capture;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -23,13 +21,9 @@ import net.vrgsoft.arcprogress.ArcProgressBar;
 
 import org.rdtoolkit.R;
 import org.rdtoolkit.model.session.TestReadableState;
-import org.rdtoolkit.ui.provision.ProvisionViewModel;
-
-import java.util.Date;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static android.view.View.resolveSize;
 import static org.rdtoolkit.util.MediaUtilKt.setImageBitmapFromFile;
 import static org.rdtoolkit.util.UtilsKt.getFormattedTimeForSpan;
 

@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.rdtoolkit.interop.translator.InteropRepository;
 import org.rdtoolkit.ui.capture.CaptureActivity;
-import org.rdtoolkit.ui.provision.ProvisionActivity;
 
 import static org.rdtoolkit.interop.InterfacesKt.bootstrap;
 import static org.rdtoolkit.interop.InterfacesKt.provisionIntent;

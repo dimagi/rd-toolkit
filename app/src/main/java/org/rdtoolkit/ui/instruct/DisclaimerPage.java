@@ -4,9 +4,8 @@ import android.content.Context;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.rdtoolkit.model.diagnostics.Page;
-
 import org.rdtoolkit.R;
+import org.rdtoolkit.model.diagnostics.Page;
 
 import java.io.InputStream;
 

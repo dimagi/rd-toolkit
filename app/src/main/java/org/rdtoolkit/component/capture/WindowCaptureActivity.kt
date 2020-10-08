@@ -1,11 +1,5 @@
 package org.rdtoolkit.component.capture
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import org.rdtoolkit.R
-import java.io.File
-import java.util.concurrent.ExecutorService
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -15,25 +9,28 @@ import android.content.pm.PackageManager
 import android.graphics.*
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
-import android.net.Uri
+import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.util.Rational
-import android.util.Size
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.camera2.interop.Camera2CameraInfo
 import androidx.camera.core.*
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector.LENS_FACING_BACK
-import androidx.camera.core.CameraSelector.LENS_FACING_FRONT
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_window_capture.*
+import org.rdtoolkit.R
+import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 val EXTRA_RETICLE_RATIO = "windowed_capture_reticle_ratio"

@@ -6,7 +6,6 @@ import org.rdtoolkit.interop.*
 import org.rdtoolkit.model.Mapper
 import org.rdtoolkit.model.chain
 import org.rdtoolkit.model.session.TestSession
-import java.lang.reflect.Type
 import java.util.*
 import kotlin.collections.HashMap
 

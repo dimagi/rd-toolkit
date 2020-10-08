@@ -1,7 +1,6 @@
 package org.rdtoolkit.model.session
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import org.rdtoolkit.model.Converters
 import java.util.*

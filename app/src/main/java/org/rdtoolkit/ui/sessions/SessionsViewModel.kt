@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.invoke
 import kotlinx.coroutines.launch
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.session.SessionRepository

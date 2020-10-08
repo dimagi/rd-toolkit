@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.rdtoolkit.model.diagnostics.DiagnosticsRepository;
 import org.rdtoolkit.model.diagnostics.Page;
 import org.rdtoolkit.model.diagnostics.Pamphlet;
-import org.rdtoolkit.model.session.SessionRepository;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,9 +3,6 @@ package org.rdtoolkit.interop.translator
 import android.content.Intent
 import org.rdtoolkit.interop.INTENT_EXTRA_RESPONSE_TRANSLATOR
 import org.rdtoolkit.model.Mapper
-import org.rdtoolkit.model.session.TestSession
-import org.rdtoolkit.model.session.TestSessionDao
-import java.util.HashMap
 
 class InteropRepository() {
     private val builtInTranslators : Map<String, Mapper<Intent, Intent>> = getBootstrappedTranslators()

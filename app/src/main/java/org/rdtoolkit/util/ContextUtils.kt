@@ -1,7 +1,6 @@
 package org.rdtoolkit.util
 
 import android.content.Context
-import androidx.fragment.app.Fragment
 import org.rdtoolkit.R
 
 class ContextUtils(val context : Context) {

@@ -1,6 +1,5 @@
 package org.rdtoolkit.ui.sessions
 
-import android.media.browse.MediaBrowser
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,7 @@ import org.rdtoolkit.R
 import org.rdtoolkit.model.session.STATUS
 import org.rdtoolkit.model.session.TestReadableState
 import org.rdtoolkit.model.session.TestSession
-import org.rdtoolkit.ui.capture.CaptureViewModel
-import org.rdtoolkit.ui.sessions.TestSessionsAdapter.*
+import org.rdtoolkit.ui.sessions.TestSessionsAdapter.TestSessionViewHolder
 
 
 class TestSessionsAdapter(private val sessionsViewModel : SessionsViewModel
