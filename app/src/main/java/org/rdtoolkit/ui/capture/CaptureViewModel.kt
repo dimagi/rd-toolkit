@@ -30,10 +30,6 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         session -> diagnosticsRepository.getTestProfile(session.testProfileId)
     }
 
-    private val sessionConfig : LiveData<TestSession.Configuration> = Transformations.map(testSession) {
-        session -> session.configuration
-    }
-
     private val resolveMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
 
     private val readableMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
@@ -53,10 +49,6 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     private var processingErrorValue : MutableLiveData<Pair<String, Pamphlet?>> = MutableLiveData()
 
     val allowOverrideValue : MutableLiveData<Boolean> = MutableLiveData()
-
-    fun getSessionConfiguration() : LiveData<TestSession.Configuration> {
-        return sessionConfig
-    }
 
     fun getExpireOverrideChecked() : LiveData<Boolean> {
         return allowOverrideValue
@@ -220,7 +212,12 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         val concreteSession = testSession.value!!
         inCommitMode.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            concreteSession.result = testSessionResult.value
+            if (testState.value == TestReadableState.EXPIRED && testSessionResult.value!!.results.isEmpty()) {
+                //TODO: this should really be reflected in the test state somewhere
+                concreteSession.result = null
+            } else {
+                concreteSession.result = testSessionResult.value
+            }
             concreteSession.state = STATUS.COMPLETE
             sessionRepository.write(concreteSession)
             testSession.postValue(concreteSession)

@@ -6,6 +6,7 @@ import org.rdtoolkit.interop.*
 import org.rdtoolkit.interop.translator.FlatIntentMapper.Companion.DEFAULT_PREFIX_MAP
 import org.rdtoolkit.model.Mapper
 import org.rdtoolkit.model.chain
+import org.rdtoolkit.model.session.FLAG_PREFIX_KEY
 import org.rdtoolkit.model.session.TestSession
 import java.util.*
 import kotlin.collections.HashMap
@@ -19,7 +20,7 @@ fun getBootstrappedTranslators() : Map<String, Mapper<Intent, Intent>> {
     translators.put(TRANSLATOR_XFORM_RESULT, FlatIntentMapper(XFormDateFlatener(), DEFAULT_PREFIX_MAP).chain(XFormsResponseIntentMapper()))
 
     translators.put(TRANSLATOR_PROVISION_FLAT,
-    RollupIntentRemapper(BundleToStringMap(FixedSetKeyQualifier(setOf())), StringMapToBundle(), INTENT_EXTRA_RDT_CONFIG_FLAGS).chain(
+    RollupIntentRemapper(BundleToStringMap(PrefixKeyQualifier(FLAG_PREFIX_KEY)), StringMapToBundle(), INTENT_EXTRA_RDT_CONFIG_FLAGS).chain(
             RollupIntentRemapper(BundleToConfiguration() as Mapper<Bundle?, TestSession.Configuration>, ConfigurationToBundle(), INTENT_EXTRA_RDT_CONFIG_BUNDLE, true)
     ))
 

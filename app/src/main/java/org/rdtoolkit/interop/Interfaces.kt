@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import org.rdtoolkit.interop.translator.InteropRepository
-import org.rdtoolkit.model.session.ClassifierMode
-import org.rdtoolkit.model.session.ProvisionMode
-import org.rdtoolkit.model.session.SessionMode
-import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.model.session.*
 import org.rdtoolkit.ui.provision.ProvisionActivity
 
 const val ACTION_TEST_PROVISION = "org.rdtoolkit.action.Provision"
@@ -80,6 +77,11 @@ class TestIntentBuilder() {
 
     fun setSessionId(sessionId : String) : TestIntentBuilder {
         intent.putExtra(INTENT_EXTRA_RDT_SESSION_ID,sessionId)
+        return this
+    }
+
+    fun setHardExpiration() : TestIntentBuilder {
+        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_SESSION_NO_EXPIRATION_OVERRIDE, FLAG_VALUE_SET);
         return this
     }
 

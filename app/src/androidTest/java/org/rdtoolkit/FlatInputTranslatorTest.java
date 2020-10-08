@@ -20,6 +20,8 @@ import static org.rdtoolkit.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_CONF
 import static org.rdtoolkit.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_PROVISION_MODE;
 import static org.rdtoolkit.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_PROVISION_MODE_DATA;
 import static org.rdtoolkit.interop.translator.TranslatorsKt.TRANSLATOR_PROVISION_FLAT;
+import static org.rdtoolkit.model.session.SessionFlagsKt.FLAG_SESSION_NO_EXPIRATION_OVERRIDE;
+import static org.rdtoolkit.model.session.SessionFlagsKt.FLAG_VALUE_SET;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -35,6 +37,7 @@ public class FlatInputTranslatorTest {
         testIntent.putExtra(INTENT_EXTRA_RDT_PROVISION_MODE_DATA, "TestType");
         testIntent.putExtra(INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE, SessionMode.ONE_PHASE.toString());
         testIntent.putExtra(INTENT_EXTRA_RDT_CLASSIFIER_MODE, ClassifierMode.PRE_POPULATE.toString());
+        testIntent.putExtra(FLAG_SESSION_NO_EXPIRATION_OVERRIDE, FLAG_VALUE_SET);
 
         Intent output = new InteropRepository().getTranslator(TRANSLATOR_PROVISION_FLAT).map(testIntent);
 
@@ -44,6 +47,7 @@ public class FlatInputTranslatorTest {
                 new BundleToConfiguration().map(output.getBundleExtra(INTENT_EXTRA_RDT_CONFIG_BUNDLE));
 
         Assert.assertEquals(SessionMode.ONE_PHASE, config.getSessionType());
+        Assert.assertEquals(FLAG_VALUE_SET, config.getFlags().get(FLAG_SESSION_NO_EXPIRATION_OVERRIDE));
     }
 
 }

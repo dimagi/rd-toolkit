@@ -16,6 +16,10 @@ import androidx.lifecycle.ViewModelProvider;
 import org.rdtoolkit.R;
 import org.rdtoolkit.model.session.TestReadableState;
 
+import static org.rdtoolkit.model.session.SessionFlagsKt.FLAG_SESSION_NO_EXPIRATION_OVERRIDE;
+import static org.rdtoolkit.model.session.SessionFlagsKt.FLAG_VALUE_SET;
+import static org.rdtoolkit.model.session.SessionFlagsKt.FLAG_VALUE_UNSET;
+
 public class CaptureRecordFragment extends Fragment {
 
     private CaptureViewModel mViewModel;
@@ -57,7 +61,10 @@ public class CaptureRecordFragment extends Fragment {
         });
 
         mViewModel.getTestState().observe(getViewLifecycleOwner(), result -> {
-            int overrideVisibility = View.VISIBLE;
+            int overrideVisibility =
+                    FLAG_VALUE_SET.equals(mViewModel.getTestSession().getValue().getConfiguration().getFlags().get(FLAG_SESSION_NO_EXPIRATION_OVERRIDE)) ?
+                    View.GONE :
+                    View.VISIBLE;
 
             if (result == TestReadableState.EXPIRED) {
                 view.findViewById(R.id.capture_frame_record_expired).setVisibility(View.VISIBLE);
