@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kit de ferramentas de diagnóstico rápido</string>
+    <string name="nav_header_title">Kit de ferramentas de diagnóstico rápido</string>
+    <string name="nav_header_subtitle">Biblioteca Padrão</string>
+    <string name="action_settings">Configurações</string>
+
+    <string name="menu_home">Inicio</string>
+    <string name="title_activity_provision_session">Novo Teste</string>
+    <string name="title_home">Inicio</string>
+    <string name="title_activity_capture">Resultado do teste de captura</string>
+    <string name="provision_begin_resolve_msg">Este teste levará %s para resolver</string>
+    <string name="capture_timer_expiring_countdown_msg">Os resultados expiram em: %s</string>
+    <string name="adapter_result_name_msg">Insira o resultado para: %s</string>
+    <string name="menu_sessions">Sessões de Teste</string>
+    <string name="sessions_card_title_text">%s</string>
+    <string name="home_message_txt">Bem-vindo ao Rapid Diagnostic Toolkit.\n\nEste aplicativo deve ser iniciado a partir de outro aplicativo compatível, mas pode fazer o teste abaixo</string>
+    <string name="tile_txt_flavor_one">%s - %s</string>
+    <string name="tile_txt_test_line">%s</string>
+    <string name="provision_begin_action">Quando a cassete de teste estiver preparada, pressione o botão abaixo</string>
+    <string name="provision_begin_button_text">Iniciar cronômetro</string>
+    <string name="reference_disclaimer_msg">NOTA: Esta informação não é aprovada por nenhum órgão e é incluída apenas para referência, não é uma substituição para o fabricante\'s instruções fornecidas.\n\nConsulte os materiais fornecidos pelo fabricante do teste para obter instruções sobre a aplicação de um teste.</string>
+    <string name="reference_disclaimer_cbx_msg">Eu entendo e irei me referir aos fabricantes\' instruções para este teste</string>
+    <string name="capture_btn_retake_prompt">Refazer a imagem de teste</string>
+    <string name="capture_btn_take_prompt">Capturar imagem de teste</string>
+    <string name="card_view_session_capture_button_text">RESULTADO DA CAPTURA</string>
+    <string name="fragment_capture_record_results_button_text">Registre os resultados do teste</string>
+    <string name="fragment_capture_enter_results_prompt">Por favor, forneça sua interpretação do resultado do teste</string>
+    <string name="fragment_capture_loading_message">Carregando o Teste…</string>
+    <string name="fragment_capture_error_see_more_button_text">Ver mais…</string>
+    <string name="home_simulate_request_button_text">Simular Solicitação de Teste</string>
+    <string name="fragment_provision_test_name_caption">Teste a ser realizado</string>
+    <string name="fragment_provision_test_name_none_selected">Nenhum teste selecionado</string>
+    <string name="fragment_provision_test_resolve_time_caption">Tempo para Executar</string>
+    <string name="fragment_provision_cassette_preview_title">Cassete</string>
+    <string name="fragment_provision_cassette_preview_missing_text">Nenhuma visualização disponível</string>
+    <string name="fragment_provision_show_instructions_cbx_message">Mostrar instruções para este RDT</string>
+    <string name="fragment_capture_test_status_loading">Carregando Detalhes do Teste…</string>
+    <string name="fragment_capture_test_status_preparing">O teste ainda não está preparado</string>
+    <string name="fragment_capture_test_status_resolving">Test em execução, aguarde o cronômetro</string>
+    <string name="fragment_capture_test_status_readable">O teste está disponível para leitura</string>
+    <string name="fragment_capture_test_status_expired">O resultado do teste expirou e não pode ser lido</string>
+    <string name="button_next">Próximo</string>
+    <string name="button_back">Anterior</string>
+    <string name="bottom_menu_text_define">Definir</string>
+    <string name="bottom_menu_text_instructions">Instruções</string>
+    <string name="bottom_menu_text_start">Começar</string>
+    <string name="bottom_menu_text_timer">Cronômetro</string>
+    <string name="bottom_menu_text_results">Resultados</string>
+    <string name="bottom_menu_text_confirm">Confirme</string>
+    <string name="error_message_grant_camera">O scanner de teste requer permissões de câmera, autorize-as e continue</string>
+    <string name="component_classifier_unknown_error">Erro desconhecido ao processar imagem %s</string>
+    <string name="service_message_resolving_title">Teste - %s</string>
+    <string name="service_message_resolving_text">Tempo restante: %s</string>
+    <string name="service_message_ready_text">Teste Pronto - %s</string>
+    <string name="service_message_valid_text">Resultados válidos para: %s</string>
+    <string name="service_message_expired_title">Teste Expirado: %s</string>
+    <string name="service_message_expired_text">O teste não é mais válido para leitura</string>
+    <string name="service_pending_intent_title_running">Os testes estão sendo executados</string>
+    <string name="service_channel_running_name">Cronômetros em execução</string>
+    <string name="service_channel_running_description">Cronômetros que estão a processar</string>
+    <string name="service_channel_triggered_name">Cronômetros acionados</string>
+    <string name="service_channel_triggered_description">Cronômetros que dispararam</string>
+
+    <string name="time_in_seconds">%d Segundos</string>
+    <string name="time_in_minutes">%d Minutos</string>
+</resources>
