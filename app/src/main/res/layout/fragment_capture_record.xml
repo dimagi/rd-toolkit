@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="16dp"
             style="@style/TextInstructions"
-            android:text="This test is expired. A new test should be started to ensure an accurate result."
+            android:text="@string/fragment_capture_test_expired_message"
             />
 
         <ImageView
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
                 style="@style/TextInstructions"
-                android:text="You may choose to override this warning and continue. This will be recorded with the test result."
+                android:text="@string/fragment_capture_expired_override_message"
                 />
 
             <CheckBox
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                android:text="I acknowledge that this test result has expired and may no longer be valid"
+                android:text="@string/fragment_capture_override_checkbox_message"
                 />
         </LinearLayout>
     </LinearLayout>
@@ -68,7 +68,7 @@
             android:enabled="false"
             android:onClick="overrideExpiration"
             android:visibility="gone"
-            android:text="Override" />
+            android:text="@string/fragment_capture_test_override_button_prompt" />
 
         <Button
             android:id="@+id/capture_record_btn_commit"
