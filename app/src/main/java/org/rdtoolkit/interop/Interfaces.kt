@@ -80,6 +80,11 @@ class TestIntentBuilder() {
         return this
     }
 
+    fun setCallingPackage(packageId : String) : TestIntentBuilder {
+        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_CALLING_PACKAGE, packageId)
+        return this
+    }
+
     fun setHardExpiration() : TestIntentBuilder {
         configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_SESSION_NO_EXPIRATION_OVERRIDE, FLAG_VALUE_SET);
         return this

@@ -15,6 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.rdtoolkit.MainActivity
 import org.rdtoolkit.R
+import org.rdtoolkit.interop.ACTION_TEST_CAPTURE
+import org.rdtoolkit.interop.INTENT_EXTRA_RDT_SESSION_ID
+import org.rdtoolkit.model.session.FLAG_CALLING_PACKAGE
 import org.rdtoolkit.model.session.STATUS
 import org.rdtoolkit.model.session.TestSession
 import org.rdtoolkit.util.InjectorUtils
@@ -75,7 +78,8 @@ class TestTimerService : LifecycleService() {
     private fun startResolvingTestTimer(session: TestSession) {
         val sessionId = session.sessionId
         synchronized(pendingTimers) {
-            var builder = getNotificationBuilder();
+            var builder = getNotificationBuilder()
+            setReturnIntent(builder, session)
             val timer = object : CountDownTimer(session.timeResolved.time - System.currentTimeMillis(), 500) {
                 override fun onTick(millisUntilFinished: Long) {
                     builder.setContentTitle(getString(R.string.service_message_resolving_title).format(session.configuration.flavorText))
@@ -113,10 +117,26 @@ class TestTimerService : LifecycleService() {
         }
     }
 
+    private fun setReturnIntent(builder: NotificationCompat.Builder, session: TestSession) {
+        var launchIntent = Intent()
+        launchIntent.action = ACTION_TEST_CAPTURE
+        launchIntent.putExtra(INTENT_EXTRA_RDT_SESSION_ID, session.sessionId)
+
+        if (FLAG_CALLING_PACKAGE in session.configuration.flags) {
+            getPackageManager().getLaunchIntentForPackage(session.configuration.flags[FLAG_CALLING_PACKAGE]!!)?.let {
+                launchIntent = it
+            }
+        }
+        val notificationIntent = PendingIntent.getActivity(this,
+                session.sessionId.hashCode(), launchIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        builder.setContentIntent(notificationIntent)
+    }
+
     private fun beginTestReady(session: TestSession) {
         var manager = NotificationManagerCompat.from(this)
 
         var builder = getFinishedNotificationBuilder().setContentTitle(getString(R.string.service_message_ready_text).format(session.configuration.flavorText))
+        setReturnIntent(builder, session)
         manager.notify(session.sessionId, SERVICE_TIMER,
                 builder.setContentText(getText(R.string.service_message_ready_text)).build())
 
