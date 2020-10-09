@@ -81,8 +81,8 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
 
         captureViewModel.loadSession(sessionId);
 
-        captureViewModel.getTestState().observe(this, result -> {
-            if (result == TestReadableState.EXPIRED) {
+        captureViewModel.getSessionStateInputs().observe(this, result -> {
+            if (result.getFirst() == TestReadableState.EXPIRED && result.getSecond()) {
                 captureTab.setVisible(false);
                 resultsTab.setVisible(false);
                 recordTab.setEnabled(true);

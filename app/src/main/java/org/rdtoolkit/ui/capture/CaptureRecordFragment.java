@@ -60,13 +60,13 @@ public class CaptureRecordFragment extends Fragment {
             overrideButton.setEnabled(result);
         });
 
-        mViewModel.getTestState().observe(getViewLifecycleOwner(), result -> {
+        mViewModel.getSessionStateInputs().observe(getViewLifecycleOwner(), result -> {
             int overrideVisibility =
                     FLAG_VALUE_SET.equals(mViewModel.getTestSession().getValue().getConfiguration().getFlags().get(FLAG_SESSION_NO_EXPIRATION_OVERRIDE)) ?
                     View.GONE :
                     View.VISIBLE;
 
-            if (result == TestReadableState.EXPIRED) {
+            if (result.getFirst() == TestReadableState.EXPIRED && result.getSecond()) {
                 view.findViewById(R.id.capture_frame_record_expired).setVisibility(View.VISIBLE);
 
                 view.findViewById(R.id.capture_frame_record_expired_override).setVisibility(overrideVisibility);

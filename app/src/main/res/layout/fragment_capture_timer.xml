@@ -121,6 +121,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_baseline_problem_24"
             android:drawablePadding="5dp"
+            android:visibility="invisible"
             android:onClick="viewErrorDetails"
             android:text="@string/fragment_capture_error_see_more_button_text" />
 

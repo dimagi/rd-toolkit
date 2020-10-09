@@ -50,6 +50,12 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     val allowOverrideValue : MutableLiveData<Boolean> = MutableLiveData()
 
+    val captureIsIncomplete = Transformations.map(CombinedLiveData<TestSession.TestResult, ProcessingState>(testSessionResult,processingStateValue)) {
+        combinedData -> combinedData.first.rawCapturedImageFilePath == null || !(combinedData.second == ProcessingState.COMPLETE || combinedData.second == ProcessingState.PROCESSING)
+    }
+
+    val sessionStateInputs = CombinedLiveData(testState, captureIsIncomplete)
+
     fun getExpireOverrideChecked() : LiveData<Boolean> {
         return allowOverrideValue
     }
