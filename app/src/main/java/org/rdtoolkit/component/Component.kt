@@ -3,7 +3,9 @@ package org.rdtoolkit.component
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.ImageCapture
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
@@ -132,8 +134,25 @@ class NoConfig : Config {
 
 }
 
+val CAPTURE_TYPE_PLAIN = "plain"
+val CAPTURE_TYPE_RETICLE = "reticle"
+
+open class ImageCaptureResult(val imagePath : String) {
+    open fun getCaptureType() : String {
+        return CAPTURE_TYPE_PLAIN
+    }
+}
+
+class ReticleCaptureResult(val rawImagePath : String,
+                           val croppedImagePath : String,
+                           val reticleOffset : Rect) : ImageCaptureResult(croppedImagePath) {
+    override fun getCaptureType() : String {
+        return CAPTURE_TYPE_RETICLE
+    }
+}
+
 interface ComponentEventListener {
-    fun testImageCaptured(imagePath : String)
+    fun testImageCaptured(imagePath : ImageCaptureResult)
 
     fun onClassifierError(error: String, details: Pamphlet?)
     fun onClassifierComplete(results: MutableMap<String, String>)
@@ -155,6 +174,10 @@ interface ToolkitComponentManifest<C : Component, G> {
     fun getValue() : Int {
         return VALUE_DEFAULT
     }
+
+    fun getCompatibleOutputs(diagnosticId: String) : Set<String> {
+        return setOf()
+    }
 }
 
 interface ActivityLifecycleComponent {
@@ -162,21 +185,21 @@ interface ActivityLifecycleComponent {
 }
 
 abstract class TestImageCaptureComponent : Component() {
-    abstract fun getResultImage() : String
+    abstract fun getResultImage() : ImageCaptureResult
     abstract fun captureImage()
 }
 
 abstract class ImageClassifierComponent : Component() {
     private var currentJob : Job? = null
 
-    fun doImageProcessing(inputFilePath : String) {
+    fun doImageProcessing(inputResult : ImageCaptureResult) {
         scope!!.launch {
             currentJob?.let {
                 it.cancelAndJoin()
             }
             currentJob = launch {
                 try{
-                    processImage(inputFilePath)
+                    processImage(inputResult)
                 } catch(e: Exception){
                     e.printStackTrace()
                     listener?.let {
@@ -187,7 +210,12 @@ abstract class ImageClassifierComponent : Component() {
         }
     }
 
-    protected abstract suspend fun processImage(inputFilePath : String)
+    protected abstract suspend fun processImage(inputResult : ImageCaptureResult)
+
+    open fun compatibleCaptureModes() : List<String> {
+        return listOf(CAPTURE_TYPE_PLAIN)
+    }
+
 
     override fun unregister() {
         super.unregister()

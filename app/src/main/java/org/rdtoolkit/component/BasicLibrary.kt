@@ -22,6 +22,10 @@ class PlainCameraComponentManifest : ToolkitComponentManifest<TestImageCaptureCo
     override fun getComponent(config: NoConfig) : TestImageCaptureComponent {
         return DefaultImageCaptureComponent()
     }
+
+    override fun getCompatibleOutputs(diagnosticId: String) : Set<String> {
+        return setOf(CAPTURE_TYPE_PLAIN)
+    }
 }
 
 class DefaultImageCaptureComponent : TestImageCaptureComponent(), ActivityLifecycleComponent {
@@ -66,13 +70,13 @@ class DefaultImageCaptureComponent : TestImageCaptureComponent(), ActivityLifecy
         if (requestCode == componentInterfaceId && resultCode == Activity.RESULT_OK) {
             val returnPhoto = File(returnPhotoPath)
             if (returnPhoto.exists()) {
-                listener!!.testImageCaptured(returnPhotoPath!!)
+                listener!!.testImageCaptured(getResultImage())
             }
         }
     }
 
-    override fun getResultImage(): String {
-        return returnPhotoPath!!
+    override fun getResultImage(): ImageCaptureResult {
+        return ImageCaptureResult(returnPhotoPath!!)
     }
 
     override fun captureImage() {

@@ -22,6 +22,7 @@ import org.rdtoolkit.R;
 import org.rdtoolkit.component.ComponentEventListener;
 import org.rdtoolkit.component.ComponentManager;
 import org.rdtoolkit.component.ComponentRepository;
+import org.rdtoolkit.component.ImageCaptureResult;
 import org.rdtoolkit.component.ImageClassifierComponent;
 import org.rdtoolkit.component.TestImageCaptureComponent;
 import org.rdtoolkit.interop.InterfacesKt;
@@ -33,7 +34,9 @@ import org.rdtoolkit.model.session.TestSession;
 import org.rdtoolkit.util.InjectorUtils;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID;
 import static org.rdtoolkit.interop.InterfacesKt.captureReturnIntent;
@@ -136,10 +139,15 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
             HashSet<String> defaultTags = new HashSet<>();
             defaultTags.add("production");
             ComponentRepository repository = InjectorUtils.Companion.provideComponentRepository(this);
-            TestImageCaptureComponent captureComponent = repository.
-                    getCaptureComponentForTest(result.id(), defaultTags);
 
+            //TODO: Unify into a single plan method that can intersect these more carefully. Right now
+            //it's possible for a classifier to lack a compatible capture
             ImageClassifierComponent classifierComponent = repository.getClassifierComponentForTest(result.id(), defaultTags);
+
+            List<String> captureModes = classifierComponent == null ? null :  classifierComponent.compatibleCaptureModes();
+
+            TestImageCaptureComponent captureComponent = repository.
+                    getCaptureComponentForTest(result.id(), defaultTags, captureModes);
 
             if (classifierComponent != null) {
                 componentManager.registerComponents(captureComponent, classifierComponent);
@@ -199,21 +207,21 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
     }
 
     @Override
-    public void testImageCaptured(@NotNull String imagePath) {
-        captureViewModel.setRawImageCapturePath(imagePath);
+    public void testImageCaptured(@NotNull ImageCaptureResult imageResult) {
+        captureViewModel.setRawImageCapturePath(imageResult.getImagePath());
         ImageClassifierComponent classifier = componentManager.getImageClassifierComponent();
         if(classifier != null) {
-            processImage(imagePath);
+            processImage(imageResult);
         } else {
             Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
                     R.id.action_capture_timer_to_capture_resultsFragment);
         }
     }
 
-    private void processImage(String imagePath) {
+    private void processImage(ImageCaptureResult imageResult) {
         ImageClassifierComponent classifier = componentManager.getImageClassifierComponent();
 
-        classifier.doImageProcessing(imagePath);
+        classifier.doImageProcessing(imageResult);
     }
 
     @Override

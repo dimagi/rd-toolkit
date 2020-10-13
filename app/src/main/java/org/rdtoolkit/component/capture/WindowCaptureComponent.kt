@@ -2,6 +2,7 @@ package org.rdtoolkit.component.capture
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Rect
 import org.rdtoolkit.component.*
 import java.io.File
 
@@ -9,7 +10,13 @@ val COMPONENT_WINDOWED_CAPTURE = "capture_windowed"
 
 class WindowCaptureComponentManifest : ToolkitComponentManifest<TestImageCaptureComponent, WindowCaptureConfig> {
 
-    private val availableCaptureConfigs :  Map<String, WindowCaptureConfig>
+    private val availableCaptureConfigs :  Map<String, WindowCaptureConfig> = mapOf (
+            "debug_mal_pf_pv" to WindowCaptureConfig("7:2")
+            ,"debug_sf_mal_pf_pv" to WindowCaptureConfig("7:2")
+            ,"sd_bioline_mal_pf_pv" to WindowCaptureConfig("7:2")
+            ,"carestart_mal_pf_pv" to WindowCaptureConfig("6:2")
+            ,"firstresponse_mal_pf_pv" to WindowCaptureConfig("7:2")
+    )
 
     private val defaultCaptureConfig = WindowCaptureConfig("7:2")
 
@@ -37,14 +44,8 @@ class WindowCaptureComponentManifest : ToolkitComponentManifest<TestImageCapture
         return WindowCaptureComponent(config)
     }
 
-    init {
-        availableCaptureConfigs = mapOf (
-                "debug_mal_pf_pv" to WindowCaptureConfig("7:2")
-                ,"debug_sf_mal_pf_pv" to WindowCaptureConfig("7:2")
-                ,"sd_bioline_mal_pf_pv" to WindowCaptureConfig("7:2")
-                ,"carestart_mal_pf_pv" to WindowCaptureConfig("6:2")
-                ,"firstresponse_mal_pf_pv" to WindowCaptureConfig("7:2")
-        )
+    override fun getCompatibleOutputs(diagnosticId: String) : Set<String> {
+        return setOf(CAPTURE_TYPE_PLAIN, CAPTURE_TYPE_RETICLE)
     }
 }
 
@@ -53,7 +54,9 @@ data class WindowCaptureConfig(val cassetteAspectRatio : String): Config
 
 class WindowCaptureComponent(private val config : WindowCaptureConfig) :
         TestImageCaptureComponent(), ActivityLifecycleComponent {
-    var returnPhotoPath : String? = null
+    var croppedPhotoPath : String? = null
+    var rawPhotoPath : String? = null
+    var cropWindow : Rect? = null
 
     fun triggerCallout(activity: Activity) {
         val calloutIntent = Intent(activity, WindowCaptureActivity::class.java)
@@ -67,17 +70,19 @@ class WindowCaptureComponent(private val config : WindowCaptureConfig) :
                                        data : Intent?) {
         if (requestCode == componentInterfaceId && resultCode == Activity.RESULT_OK) {
 
-            val returnPhoto = File(data!!.getStringExtra(WindowCaptureActivity.EXTRA_CROPPED_IMAGE))
-            if (returnPhoto.exists()) {
-                returnPhotoPath = returnPhoto.absolutePath
-                listener!!.testImageCaptured(returnPhotoPath!!)
+            val croppedPhoto = File(data!!.getStringExtra(WindowCaptureActivity.EXTRA_CROPPED_IMAGE))
+            if (croppedPhoto.exists()) {
+                croppedPhotoPath = croppedPhoto.absolutePath
+                rawPhotoPath = File(data!!.getStringExtra(WindowCaptureActivity.EXTRA_ORIGINAL_IMAGE)).absolutePath
+                cropWindow = data.getParcelableExtra(WindowCaptureActivity.EXTRA_RETICLE_RECT)
+                listener!!.testImageCaptured(getResultImage())
             }
         }
     }
 
 
-    override fun getResultImage(): String {
-        return returnPhotoPath!!
+    override fun getResultImage(): ReticleCaptureResult {
+        return ReticleCaptureResult(rawPhotoPath!!, croppedPhotoPath!!, cropWindow!!)
     }
 
     override fun captureImage() {

@@ -215,15 +215,16 @@ class WindowCaptureActivity : AppCompatActivity() {
             override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                 val croppedFile = cropFileForReticle(photoFile, reticalProportions)
                 val returnData = Intent()
-                returnData.putExtra(EXTRA_CROPPED_IMAGE, croppedFile.absolutePath)
+                returnData.putExtra(EXTRA_CROPPED_IMAGE, croppedFile.first.absolutePath)
                 returnData.putExtra(EXTRA_ORIGINAL_IMAGE, photoFile.absolutePath)
+                returnData.putExtra(EXTRA_RETICLE_RECT, croppedFile.second)
                 setResult(Activity.RESULT_OK, returnData)
                 finish()
             }
         })
     }
 
-    private fun cropFileForReticle(file : File, reticleConstraints : Pair<Rational, Rational>) : File {
+    private fun cropFileForReticle(file : File, reticleConstraints : Pair<Rational, Rational>) : Pair<File, Rect> {
         val sizeDecoderOptions = BitmapFactory.Options()
         sizeDecoderOptions.inJustDecodeBounds = true
         BitmapFactory.decodeFile(file.absolutePath, sizeDecoderOptions)
@@ -248,7 +249,7 @@ class WindowCaptureActivity : AppCompatActivity() {
 
         val croppedImage = BitmapRegionDecoder.newInstance(file.absolutePath, false).decodeRegion(reticleCrop, null)
 
-        return saveCroppedFileVersion(file, croppedImage!!)
+        return Pair(saveCroppedFileVersion(file, croppedImage!!), reticleCrop)
     }
 
     private fun saveCroppedFileVersion(file: File, croppedImage: Bitmap): File {
@@ -275,6 +276,7 @@ class WindowCaptureActivity : AppCompatActivity() {
         private const val LOG_TAG = "WindowCaptureActivity"
         const val EXTRA_ORIGINAL_IMAGE = "ORIGNAL_PATH"
         const val EXTRA_CROPPED_IMAGE = "CROPPED_PATH"
+        const val EXTRA_RETICLE_RECT = "RETICLE_RECT"
         private const val FILENAME_FORMAT = "yyyyMMdd_HHmmss"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)

@@ -17,8 +17,11 @@ class ComponentRepository() {
         classifierManifests.add(manifest as ToolkitComponentManifest<ImageClassifierComponent, Any>)
     }
 
-    fun getCaptureComponentForTest(testProfileId: String, tags : Set<String>) : TestImageCaptureComponent {
-        val matchingComponents = imageCaptureManifests.filter { it.getTagsForDiagnostic(testProfileId).containsAll(tags) }.sortedByDescending { it.getValue() }
+    fun getCaptureComponentForTest(testProfileId: String, tags: MutableSet<String>, compatibleCaptureFormats : List<String>?) : TestImageCaptureComponent {
+        val matchingComponents =
+                imageCaptureManifests.filter { it.getTagsForDiagnostic(testProfileId).containsAll(tags) }
+                        .filter { compatibleCaptureFormats == null || it.getCompatibleOutputs(testProfileId).intersect(compatibleCaptureFormats).isNotEmpty() }
+                        .sortedByDescending { it.getValue() }
         if (matchingComponents.isEmpty()) {
             throw Exception("No matching Capture Components available!")
         }
