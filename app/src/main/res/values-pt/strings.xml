@@ -64,8 +64,8 @@
 
     <string name="time_in_seconds">%d Segundos</string>
     <string name="time_in_minutes">%d Minutos</string>
-    <string name="fragment_capture_test_expired_message">This test is expired. A new test should be started to ensure an accurate result.</string>
-    <string name="fragment_capture_expired_override_message">You may choose to override this warning and continue. This will be recorded with the test result.</string>
-    <string name="fragment_capture_override_checkbox_message">I acknowledge that this test result has expired and may no longer be valid</string>
-    <string name="fragment_capture_test_override_button_prompt">Override</string>
+    <string name="fragment_capture_test_expired_message">Este teste expirou. Um novo teste deve ser iniciado para garantir um resultado preciso.</string>
+    <string name="fragment_capture_expired_override_message">Podes optar por ignorar este aviso e continuar. Isso será registrado com o resultado do teste.</string>
+    <string name="fragment_capture_override_checkbox_message">Reconheço que o resultado do teste expirou e pode não ser mais válido</string>
+    <string name="fragment_capture_test_override_button_prompt">Sobrepor</string>
 </resources>
