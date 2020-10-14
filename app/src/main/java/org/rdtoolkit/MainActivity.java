@@ -16,10 +16,13 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 
 import org.rdtoolkit.interop.InterfacesKt;
-import org.rdtoolkit.interop.TestIntentBuilder;
-import org.rdtoolkit.model.session.ProvisionMode;
+import org.rdtoolkit.support.interop.RdtIntentBuilder;
+import org.rdtoolkit.support.model.session.ProvisionMode;
 
 import java.util.UUID;
+
+import static org.rdtoolkit.support.interop.RdtIntentBuilder.ACTION_TEST_CAPTURE;
+import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void simulateTestRequest(View view) {
 
-        Intent i = new TestIntentBuilder()
+        Intent i = new RdtIntentBuilder()
                 .forProvisioning().setSessionId(UUID.randomUUID().toString())
                 //.requestTestProfile("debug_mal_pf_pv")
                 //.requestTestProfile("sd_bioline_mal_pf_pv")
@@ -90,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
     public void goToCapture(View view) {
         String sessionId = (String)view.getTag();
         Intent captureActivity = new Intent();
-        captureActivity.setAction(InterfacesKt.ACTION_TEST_CAPTURE);
-        captureActivity.putExtra(InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID, sessionId);
+        captureActivity.setAction(ACTION_TEST_CAPTURE);
+        captureActivity.putExtra(INTENT_EXTRA_RDT_SESSION_ID, sessionId);
         this.startActivityForResult(captureActivity, ACTIVITY_PROVISION);
     }
 }

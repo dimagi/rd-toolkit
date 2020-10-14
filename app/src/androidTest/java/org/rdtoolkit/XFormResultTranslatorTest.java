@@ -9,12 +9,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rdtoolkit.interop.InterfacesKt;
-import org.rdtoolkit.interop.IntentObjectMappingsKt;
 import org.rdtoolkit.interop.translator.InteropRepository;
 
 import java.util.Map;
 
-import static org.rdtoolkit.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_RESULT_MAP;
+import static org.rdtoolkit.support.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_RESULT_MAP;
 import static org.rdtoolkit.interop.translator.TranslatorsKt.TRANSLATOR_XFORM_RESULT;
 
 /**

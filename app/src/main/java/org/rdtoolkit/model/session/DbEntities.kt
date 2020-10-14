@@ -4,6 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import org.rdtoolkit.support.model.session.*
 import java.util.*
 
 @Entity
@@ -60,18 +61,6 @@ data class DbTestSessionConfiguration(
         val outputResultTranslatorId: String?,
         val flags: Map<String, String>
 )
-
-enum class TestReadableState {
-    LOADING,
-    PREPARING,
-    RESOLVING,
-    READABLE,
-    EXPIRED
-}
-
-enum class STATUS {
-    BUILDING, RUNNING, COMPLETE
-}
 
 data class DataTestSession (
         @Embedded

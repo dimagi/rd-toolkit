@@ -1,25 +1,22 @@
 package org.rdtoolkit;
 
-import android.content.Context;
 import android.content.Intent;
 
 import androidx.core.util.Pair;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rdtoolkit.interop.BundleToConfiguration;
-import org.rdtoolkit.interop.BundleToResult;
-import org.rdtoolkit.interop.BundleToSession;
-import org.rdtoolkit.interop.ConfigurationToBundle;
-import org.rdtoolkit.interop.ResultToBundle;
-import org.rdtoolkit.interop.SessionToBundle;
-import org.rdtoolkit.model.Mapper;
-import org.rdtoolkit.model.session.TestSession;
+import org.rdtoolkit.support.interop.BundleToConfiguration;
+import org.rdtoolkit.support.interop.BundleToResult;
+import org.rdtoolkit.support.interop.BundleToSession;
+import org.rdtoolkit.support.interop.ConfigurationToBundle;
+import org.rdtoolkit.support.interop.ResultToBundle;
+import org.rdtoolkit.support.interop.SessionToBundle;
+import org.rdtoolkit.support.model.Mapper;
+import org.rdtoolkit.support.model.session.TestSession;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 

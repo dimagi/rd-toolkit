@@ -3,10 +3,10 @@ package org.rdtoolkit.model
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.rdtoolkit.model.session.ClassifierMode
-import org.rdtoolkit.model.session.ProvisionMode
-import org.rdtoolkit.model.session.STATUS
-import org.rdtoolkit.model.session.SessionMode
+import org.rdtoolkit.support.model.session.ClassifierMode
+import org.rdtoolkit.support.model.session.ProvisionMode
+import org.rdtoolkit.support.model.session.STATUS
+import org.rdtoolkit.support.model.session.SessionMode
 import java.lang.reflect.Type
 import java.util.*
 

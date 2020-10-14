@@ -1,4 +1,4 @@
-package org.rdtoolkit.model.session
+package org.rdtoolkit.support.model.session
 
 import java.util.*
 
@@ -42,6 +42,18 @@ data class TestSession (
             val outputResultTranslatorId: String?,
             val flags: Map<String, String>
     )
+}
+
+enum class TestReadableState {
+    LOADING,
+    PREPARING,
+    RESOLVING,
+    READABLE,
+    EXPIRED
+}
+
+enum class STATUS {
+    BUILDING, RUNNING, COMPLETE
 }
 
 enum class ClassifierMode {

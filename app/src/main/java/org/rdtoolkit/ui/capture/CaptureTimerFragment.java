@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import net.vrgsoft.arcprogress.ArcProgressBar;
 
 import org.rdtoolkit.R;
-import org.rdtoolkit.model.session.TestReadableState;
+import org.rdtoolkit.support.model.session.TestReadableState;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;

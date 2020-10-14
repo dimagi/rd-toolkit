@@ -2,7 +2,7 @@
 ![Logo][logo] The Rapid Diagnostics Toolkit is a middleware layer for improving access to digital technologies
 which facilitate the use of Rapid Diagnostic Tests at the point of care in global health.
 
-The toolkit provides out of the box support for
+The toolkit provides out of the box support for:
 
 * Timers for test resolution and expiration (and support for running many timers simultaneously)
 * Image Capture and Cropping for RDT Cassettes
@@ -12,6 +12,12 @@ The toolkit provides out of the box support for
 * An up to date library of RDTs
 
 ![Screenshot One][screenshot_one] ![Screenshot Two][screenshot_two]
+
+
+## Getting Started (For Implementers)
+
+The easiest way to interact with the Toolkit is through the support library, which is published
+through jitpack. You can find instructions on integrating the dependency [here](https://jitpack.io/#dimagi/rd-toolkit/0.4.0).
 
 
 [logo]: docs/icon.png "Logo"

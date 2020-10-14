@@ -1,4 +1,4 @@
-package org.rdtoolkit.model.session
+package org.rdtoolkit.support.model.session
 
 const val FLAG_PREFIX_KEY = "FLAG_"
 
