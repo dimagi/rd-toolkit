@@ -33,8 +33,20 @@
       "page_2": "4: Apriete el extremo de la punta del dedo y pinche el área limpiada usando la lanceta proporcionado (también se puede obtener la muestra de sangre mediante venupunción). Deseche la lanceta en una caja para objetos punzantes.\n\n5: Limpie la primera gota de sangre con una gasa o algodón estéril.",
       "page_3": "6: Tome la muestra de sangre (5μl) utilizando el dispositivo de transferencia de muestra proporcionado o una micro pipeta.",
       "page_4": "Tome la muestra hasta a la línea especificada.",
-      "page_5": "7: Tome la muestra hasta a la línea especificada.",
+      "page_5": "7: Agregue 5μl de sangre al pocillo “S”",
       "page_6": "8: Agregue 2 gotas (60μl) de la solución tampón en la cavidad “A”. Empiece el conteo de tiempo."
+    }
+  }
+  ,{
+    "lang":  "es",
+    "strings":
+    {
+      "page_1": "1: Coloque um novo par de luvas.\n\n2: Escreva o nome do paciente no dispositivo de teste.\n\n3: Limpe a área na ponta do dedo a ser perfurado usando um algodão embebido em álcool. Aguarde até que o álcool seque completamente antes de avançar para a etapa a seguinte.",
+      "page_2": "4: Comprima a extremidade da ponta do dedo e perfure a área limpa utilizando a lanceta fornecida (amostra de sangue também pode ser recolhida por punção venosa). Descarte a lanceta num recipiente de materiais cortantes.\n\n5: Limpe a primeira gota de sangue com gaze esterilizada ou algodão.",
+      "page_3": "6: Recolha a amostra de sangue (5μl) utilizando o dispositivo de transferência de amostra fornecido ou uma micro-pipeta.",
+      "page_4": "Recolter a amostra para a linha especificada.",
+      "page_5": "7: Adicione 5µl de sangue no alvéolo “S”",
+      "page_6": "8: Adicione 2 gotas (60μl) de solução tampão de ensaio no receptáculo “A”. Incie o cronómetro."
     }
   }
   ],

@@ -12,7 +12,7 @@ class WindowCaptureComponentManifest : ToolkitComponentManifest<TestImageCapture
 
     private val availableCaptureConfigs :  Map<String, WindowCaptureConfig> = mapOf (
             "debug_mal_pf_pv" to WindowCaptureConfig("7:2")
-            ,"debug_sf_mal_pf_pv" to WindowCaptureConfig("7:2")
+            ,"debug_sf_mal_pf_pv" to WindowCaptureConfig("6:2")
             ,"sd_bioline_mal_pf_pv" to WindowCaptureConfig("7:2")
             ,"carestart_mal_pf_pv" to WindowCaptureConfig("6:2")
             ,"firstresponse_mal_pf_pv" to WindowCaptureConfig("7:2")
