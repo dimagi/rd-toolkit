@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 .requestProfileCriteria("fake", ProvisionMode.CRITERIA_SET_OR)
                 .setFlavorOne("Tedros Adhanom")
                 .setFlavorTwo("#4SFS")
-                .setResultResponseTranslator("xform_response")
                 .build();
 
         this.startActivityForResult(i, ACTIVITY_PROVISION);
