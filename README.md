@@ -17,8 +17,9 @@ The toolkit provides out of the box support for:
 ## Getting Started (For Implementers)
 
 The easiest way to interact with the Toolkit is through the support library, which is published
-through jitpack. You can find instructions on integrating the dependency [here](https://jitpack.io/#dimagi/rd-toolkit/0.4.0).
+through jitpack. You can find instructions on integrating the dependency [here](https://jitpack.io/#dimagi/rd-toolkit/0.5.0).
 
+From there, you can use the built in intent builder [to start interacting with the toolkit](docs/usage.md)
 
 [logo]: docs/icon.png "Logo"
 [screenshot_one]: docs/sample_screen_provision.png "Provisioning Screenshot"
