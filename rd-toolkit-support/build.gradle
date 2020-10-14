@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.dimagi'
+group='com.github.dimagi.rd-toolkit'
 
 android {
     compileSdkVersion 30
