@@ -1,6 +1,7 @@
 package org.rdtoolkit.model.session
 
-import org.rdtoolkit.model.Mapper
+import org.rdtoolkit.support.model.Mapper
+import org.rdtoolkit.support.model.session.TestSession
 
 class SessionToDataMapper() : Mapper<TestSession, DataTestSession> {
     override fun map(input: TestSession): DataTestSession {

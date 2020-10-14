@@ -10,6 +10,8 @@ import org.rdtoolkit.ui.capture.CaptureActivity;
 
 import static org.rdtoolkit.interop.InterfacesKt.bootstrap;
 import static org.rdtoolkit.interop.InterfacesKt.provisionIntent;
+import static org.rdtoolkit.support.interop.RdtIntentBuilder.ACTION_TEST_PROVISION;
+import static org.rdtoolkit.support.interop.RdtIntentBuilder.ACTION_TEST_PROVISION_AND_CAPTURE;
 
 /**
  * Primary entry point for external requests for the toolkit. Determines how to process requests
@@ -28,8 +30,8 @@ public class DispatcherActivity extends AppCompatActivity {
 
         Intent inbound = getIntent();
         String action = inbound.getAction();
-        if (action.equals(InterfacesKt.ACTION_TEST_PROVISION) ||
-                action.equals(InterfacesKt.ACTION_TEST_PROVISION_AND_CAPTURE)) {
+        if (action.equals(ACTION_TEST_PROVISION) ||
+                action.equals(ACTION_TEST_PROVISION_AND_CAPTURE)) {
 
             Intent passthrough = provisionIntent(this, inbound);
             this.startActivityForResult(passthrough, ACTIVITY_RESULT_PASSTHROUGH);

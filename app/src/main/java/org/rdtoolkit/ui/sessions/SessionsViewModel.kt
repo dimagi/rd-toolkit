@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.session.SessionRepository
-import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.support.model.session.TestSession
 
 class SessionsViewModel(var sessionRepository: SessionRepository,
                        var diagnosticsRepository: DiagnosticsRepository

@@ -2,12 +2,13 @@ package org.rdtoolkit.interop.translator
 
 import android.content.Intent
 import android.os.Bundle
-import org.rdtoolkit.interop.*
 import org.rdtoolkit.interop.translator.FlatIntentMapper.Companion.DEFAULT_PREFIX_MAP
-import org.rdtoolkit.model.Mapper
-import org.rdtoolkit.model.chain
-import org.rdtoolkit.model.session.FLAG_PREFIX_KEY
-import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.support.interop.*
+import org.rdtoolkit.support.interop.RdtIntentBuilder.Companion.INTENT_EXTRA_RDT_CONFIG_BUNDLE
+import org.rdtoolkit.support.model.Mapper
+import org.rdtoolkit.support.model.chain
+import org.rdtoolkit.support.model.session.FLAG_PREFIX_KEY
+import org.rdtoolkit.support.model.session.TestSession
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -41,9 +42,9 @@ class XFormsResponseIntentMapper : Mapper<Intent, Intent> {
  * a copy of the intent with a name
  */
 class RollupIntentRemapper<T>(val inMapper: Mapper<Bundle?, T>,
-                                       val outMapper: Mapper<T, Bundle>,
-                                       val newKeyName: String,
-                                       val cleanOutput : Boolean = false) : Mapper<Intent, Intent> {
+                              val outMapper: Mapper<T, Bundle>,
+                              val newKeyName: String,
+                              val cleanOutput : Boolean = false) : Mapper<Intent, Intent> {
     override fun map(input: Intent) : Intent {
         val output = Intent()
 

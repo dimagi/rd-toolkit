@@ -15,11 +15,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.rdtoolkit.MainActivity
 import org.rdtoolkit.R
-import org.rdtoolkit.interop.ACTION_TEST_CAPTURE
-import org.rdtoolkit.interop.INTENT_EXTRA_RDT_SESSION_ID
-import org.rdtoolkit.model.session.FLAG_CALLING_PACKAGE
-import org.rdtoolkit.model.session.STATUS
-import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.support.interop.RdtIntentBuilder.Companion.ACTION_TEST_CAPTURE
+import org.rdtoolkit.support.interop.RdtIntentBuilder.Companion.INTENT_EXTRA_RDT_SESSION_ID
+import org.rdtoolkit.support.model.session.FLAG_CALLING_PACKAGE
+import org.rdtoolkit.support.model.session.STATUS
+import org.rdtoolkit.support.model.session.TestSession
 import org.rdtoolkit.util.InjectorUtils
 import org.rdtoolkit.util.getFormattedTimeForSpan
 

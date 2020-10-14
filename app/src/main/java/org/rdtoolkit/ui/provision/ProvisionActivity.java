@@ -17,19 +17,21 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.rdtoolkit.R;
-import org.rdtoolkit.interop.BundleToConfiguration;
 import org.rdtoolkit.interop.InterfacesKt;
-import org.rdtoolkit.model.session.SessionMode;
-import org.rdtoolkit.model.session.TestSession;
+import org.rdtoolkit.support.interop.BundleToConfiguration;
+import org.rdtoolkit.support.model.session.SessionMode;
+import org.rdtoolkit.support.model.session.TestSession;
 import org.rdtoolkit.service.TestTimerService;
 import org.rdtoolkit.ui.capture.CaptureActivity;
 import org.rdtoolkit.ui.instruct.PamphletViewModel;
 import org.rdtoolkit.util.InjectorUtils;
 
 import static android.content.Intent.FLAG_ACTIVITY_FORWARD_RESULT;
-import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RESPONSE_TRANSLATOR;
 import static org.rdtoolkit.interop.InterfacesKt.provisionReturnIntent;
 import static org.rdtoolkit.service.TestTimerServiceKt.NOTIFICATION_TAG_TEST_ID;
+import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_CONFIG_BUNDLE;
+import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID;
+import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RESPONSE_TRANSLATOR;
 
 public class ProvisionActivity extends AppCompatActivity {
 
@@ -53,9 +55,9 @@ public class ProvisionActivity extends AppCompatActivity {
                         .get(PamphletViewModel.class);
 
         provisionViewModel.setConfig(
-                getIntent().getStringExtra(InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID),
+                getIntent().getStringExtra(INTENT_EXTRA_RDT_SESSION_ID),
                 new BundleToConfiguration().map(
-                        getIntent().getBundleExtra(InterfacesKt.INTENT_EXTRA_RDT_CONFIG_BUNDLE)));
+                        getIntent().getBundleExtra(INTENT_EXTRA_RDT_CONFIG_BUNDLE)));
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -128,7 +130,7 @@ public class ProvisionActivity extends AppCompatActivity {
         if (config.getSessionType() == SessionMode.ONE_PHASE) {
             Intent captureActivity = new Intent(this, CaptureActivity.class);
             captureActivity.setFlags(FLAG_ACTIVITY_FORWARD_RESULT);
-            captureActivity.putExtra(InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID, session.getSessionId());
+            captureActivity.putExtra(INTENT_EXTRA_RDT_SESSION_ID, session.getSessionId());
             this.startActivity(captureActivity);
             this.finish();
         } else {

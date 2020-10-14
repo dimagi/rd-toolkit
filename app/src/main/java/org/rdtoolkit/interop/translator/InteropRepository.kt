@@ -1,8 +1,8 @@
 package org.rdtoolkit.interop.translator
 
 import android.content.Intent
-import org.rdtoolkit.interop.INTENT_EXTRA_RESPONSE_TRANSLATOR
-import org.rdtoolkit.model.Mapper
+import org.rdtoolkit.support.interop.RdtIntentBuilder.Companion.INTENT_EXTRA_RESPONSE_TRANSLATOR
+import org.rdtoolkit.support.model.Mapper
 
 class InteropRepository() {
     private val builtInTranslators : Map<String, Mapper<Intent, Intent>> = getBootstrappedTranslators()

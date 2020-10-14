@@ -8,6 +8,10 @@ import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.Pamphlet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
 import org.rdtoolkit.model.session.*
+import org.rdtoolkit.support.model.session.ClassifierMode
+import org.rdtoolkit.support.model.session.STATUS
+import org.rdtoolkit.support.model.session.TestReadableState
+import org.rdtoolkit.support.model.session.TestSession
 import org.rdtoolkit.util.CombinedLiveData
 import java.util.*
 import kotlin.collections.HashMap

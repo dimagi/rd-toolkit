@@ -1,27 +1,17 @@
 package org.rdtoolkit;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.core.util.Pair;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rdtoolkit.interop.BundleToConfiguration;
-import org.rdtoolkit.interop.BundleToResult;
-import org.rdtoolkit.interop.BundleToSession;
-import org.rdtoolkit.interop.BundleToStringMap;
-import org.rdtoolkit.interop.ConfigurationToBundle;
-import org.rdtoolkit.interop.FixedSetKeyQualifier;
-import org.rdtoolkit.interop.PrefixKeyQualifier;
-import org.rdtoolkit.interop.ResultToBundle;
-import org.rdtoolkit.interop.SessionToBundle;
-import org.rdtoolkit.interop.StringMapToBundle;
-import org.rdtoolkit.model.Mapper;
-import org.rdtoolkit.model.session.TestSession;
+import org.rdtoolkit.support.interop.BundleToStringMap;
+import org.rdtoolkit.support.interop.FixedSetKeyQualifier;
+import org.rdtoolkit.support.interop.PrefixKeyQualifier;
+import org.rdtoolkit.support.interop.StringMapToBundle;
 
 import java.util.HashMap;
 import java.util.HashSet;

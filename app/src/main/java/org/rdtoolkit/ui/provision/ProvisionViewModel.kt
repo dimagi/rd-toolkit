@@ -7,10 +7,10 @@ import kotlinx.coroutines.runBlocking
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.Pamphlet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
-import org.rdtoolkit.model.session.ProvisionMode
-import org.rdtoolkit.model.session.STATUS
+import org.rdtoolkit.support.model.session.ProvisionMode
+import org.rdtoolkit.support.model.session.STATUS
 import org.rdtoolkit.model.session.SessionRepository
-import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.support.model.session.TestSession
 import java.util.*
 
 const val TAG = "ProvisionViewModel"
@@ -100,8 +100,8 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
                 profile.id(),
                 sessionConfiguration.value!!,
                 Date(),
-                Date(Date().time +  1000 * profile.timeToResolve()),
-                profile.timeToExpire()?.let{Date(Date().time + 1000 * profile.timeToExpire())},
+                Date(Date().time + 1000 * profile.timeToResolve()),
+                profile.timeToExpire()?.let { Date(Date().time + 1000 * profile.timeToExpire()) },
                 null)
 
         val job = viewModelScope.launch(Dispatchers.IO) {

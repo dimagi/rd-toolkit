@@ -14,11 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.rdtoolkit.R;
-import org.rdtoolkit.model.session.TestReadableState;
+import org.rdtoolkit.support.model.session.TestReadableState;
 
-import static org.rdtoolkit.model.session.SessionFlagsKt.FLAG_SESSION_NO_EXPIRATION_OVERRIDE;
-import static org.rdtoolkit.model.session.SessionFlagsKt.FLAG_VALUE_SET;
-import static org.rdtoolkit.model.session.SessionFlagsKt.FLAG_VALUE_UNSET;
+import static org.rdtoolkit.support.model.session.SessionFlagsKt.FLAG_SESSION_NO_EXPIRATION_OVERRIDE;
+import static org.rdtoolkit.support.model.session.SessionFlagsKt.FLAG_VALUE_SET;
 
 public class CaptureRecordFragment extends Fragment {
 

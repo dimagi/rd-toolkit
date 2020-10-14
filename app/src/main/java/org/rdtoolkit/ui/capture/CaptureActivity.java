@@ -28,18 +28,18 @@ import org.rdtoolkit.component.TestImageCaptureComponent;
 import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.model.diagnostics.Pamphlet;
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
-import org.rdtoolkit.model.session.STATUS;
-import org.rdtoolkit.model.session.TestReadableState;
-import org.rdtoolkit.model.session.TestSession;
+import org.rdtoolkit.support.model.session.STATUS;
+import org.rdtoolkit.support.model.session.TestReadableState;
+import org.rdtoolkit.support.model.session.TestSession;
 import org.rdtoolkit.util.InjectorUtils;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_SESSION_ID;
 import static org.rdtoolkit.interop.InterfacesKt.captureReturnIntent;
+import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID;
+import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RESPONSE_TRANSLATOR;
 
 public class CaptureActivity extends AppCompatActivity implements ComponentEventListener {
 
@@ -199,7 +199,7 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
     private void finishSession(TestSession session) {
         Intent returnIntent = captureReturnIntent(session);
         if (session.getConfiguration().getOutputResultTranslatorId() != null) {
-            returnIntent.putExtra(InterfacesKt.INTENT_EXTRA_RESPONSE_TRANSLATOR,
+            returnIntent.putExtra(INTENT_EXTRA_RESPONSE_TRANSLATOR,
                     session.getConfiguration().getOutputResultTranslatorId());
         }
         this.setResult(RESULT_OK, returnIntent);

@@ -1,8 +1,10 @@
-package org.rdtoolkit.interop
+package org.rdtoolkit.support.interop
 
 import android.os.Bundle
-import org.rdtoolkit.model.Mapper
-import org.rdtoolkit.model.session.*
+import org.rdtoolkit.support.interop.RdtIntentBuilder.Companion.INTENT_EXTRA_RDT_CONFIG_BUNDLE
+import org.rdtoolkit.support.interop.RdtIntentBuilder.Companion.INTENT_EXTRA_RDT_SESSION_ID
+import org.rdtoolkit.support.model.Mapper
+import org.rdtoolkit.support.model.session.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -148,7 +150,7 @@ class BundleToSession : Mapper<Bundle, TestSession> {
                 Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_STARTED)),
                 Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_RESOLVED)),
                 Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED)),
-                input.getBundle(INTENT_EXTRA_RDT_RESULT_BUNDLE)?.let{BundleToResult().map(it)}
+                input.getBundle(INTENT_EXTRA_RDT_RESULT_BUNDLE)?.let { BundleToResult().map(it) }
         )
     }
 }

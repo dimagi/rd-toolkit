@@ -1,6 +1,7 @@
 package org.rdtoolkit.model.session
 
-import org.rdtoolkit.model.ListMapperImpl
+import org.rdtoolkit.support.model.ListMapperImpl
+import org.rdtoolkit.support.model.session.TestSession
 
 class SessionRepository(var testSessionDao : TestSessionDao) {
 

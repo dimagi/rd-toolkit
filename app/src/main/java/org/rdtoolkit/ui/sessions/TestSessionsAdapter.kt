@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.rdtoolkit.R
-import org.rdtoolkit.model.session.STATUS
-import org.rdtoolkit.model.session.TestReadableState
-import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.support.model.session.STATUS
+import org.rdtoolkit.support.model.session.TestReadableState
+import org.rdtoolkit.support.model.session.TestSession
 import org.rdtoolkit.ui.sessions.TestSessionsAdapter.TestSessionViewHolder
 
 

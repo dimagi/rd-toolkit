@@ -1,6 +1,6 @@
 package org.rdtoolkit.model.diagnostics
 
-import org.rdtoolkit.model.session.TestSession
+import org.rdtoolkit.support.model.session.TestSession
 
 interface RdtDiagnosticProfile {
     fun id() : String

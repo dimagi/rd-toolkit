@@ -1,15 +1,9 @@
 package org.rdtoolkit.interop
 
-import android.os.Bundle
-import com.google.gson.Gson
 import org.json.JSONObject
-import org.rdtoolkit.model.Mapper
-import org.rdtoolkit.model.session.*
+import org.rdtoolkit.support.model.Mapper
+import org.rdtoolkit.support.model.session.TestSession
 import org.rdtoolkit.util.getIsoUTCTimestamp
-import java.util.*
-import kotlin.collections.HashMap
-
-
 
 
 class ConfigurationToJson : Mapper<TestSession.Configuration, JSONObject> {
