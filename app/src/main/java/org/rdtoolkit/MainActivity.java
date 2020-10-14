@@ -17,7 +17,9 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.support.interop.RdtIntentBuilder;
+import org.rdtoolkit.support.interop.RdtUtils;
 import org.rdtoolkit.support.model.session.ProvisionMode;
+import org.rdtoolkit.support.model.session.TestSession;
 
 import java.util.UUID;
 
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void simulateTestRequest(View view) {
 
-        Intent i = new RdtIntentBuilder()
+        Intent i = RdtIntentBuilder
                 .forProvisioning().setSessionId(UUID.randomUUID().toString())
                 //.requestTestProfile("debug_mal_pf_pv")
                 //.requestTestProfile("sd_bioline_mal_pf_pv")
@@ -86,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == ACTIVITY_PROVISION && resultCode == RESULT_OK) {
-
+            TestSession session = RdtUtils.getRdtSession(data);
+            System.out.println(String.format("Test will be available to read at %s", session.getTimeResolved().toString()));
         }
     }
 

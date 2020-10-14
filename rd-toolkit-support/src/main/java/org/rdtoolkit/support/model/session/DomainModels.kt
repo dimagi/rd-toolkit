@@ -58,7 +58,7 @@ enum class STATUS {
 
 enum class ClassifierMode {
     /**
-     * No image classifier will be applied to the
+     * No image classifier will be applied to the captured image, even if one is avaialble
      */
     NONE,
     /**

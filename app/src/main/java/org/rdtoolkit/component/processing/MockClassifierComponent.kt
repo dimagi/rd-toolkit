@@ -7,7 +7,7 @@ import org.rdtoolkit.component.ImageClassifierComponent
 import org.rdtoolkit.component.ToolkitComponentManifest
 
 val COMPONENT_WINDOWED_CAPTURE = "classifier_mock"
-val TAG_READINESS_MOCK = "production"
+val TAG_READINESS_MOCK = "mock"
 
 class MockClassifierManifest : ToolkitComponentManifest<ImageClassifierComponent, MockClassifierConfig> {
 

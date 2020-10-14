@@ -1,75 +1,18 @@
 package org.rdtoolkit.support.interop
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import org.rdtoolkit.support.model.session.*
 
-class RdtIntentBuilder() {
+abstract open class RdtIntentBuilder<T : RdtIntentBuilder<T>>() {
 
-    private var intent = Intent()
-    private var configBundle = Bundle()
+    protected var intent = Intent()
+    protected var configBundle = Bundle()
 
-    fun forProvisioning() : RdtIntentBuilder  {
-        intent.action = ACTION_TEST_PROVISION
-        configBundle.putString(INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE, SessionMode.TWO_PHASE.name)
-        return this
-    }
-
-    fun forCapture() : RdtIntentBuilder  {
-        intent.action = ACTION_TEST_CAPTURE
-        return this
-    }
-
-    fun forProvisionAndCapture() : RdtIntentBuilder  {
-        intent.action = ACTION_TEST_PROVISION_AND_CAPTURE
-        configBundle.putString(INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE, SessionMode.ONE_PHASE.name)
-        return this
-    }
-
-    fun setClassifierBehavior(mode: ClassifierMode) {
-        configBundle.putString(INTENT_EXTRA_RDT_CLASSIFIER_MODE, mode.name)
-    }
-
-    fun requestTestProfile(testProfile : String) : RdtIntentBuilder {
-        configBundle.putString(INTENT_EXTRA_RDT_PROVISION_MODE, ProvisionMode.TEST_PROFILE.name)
-        configBundle.putString(INTENT_EXTRA_RDT_PROVISION_MODE_DATA, testProfile)
-        return this
-    }
-
-    fun requestProfileCriteria(tags : String, mode: ProvisionMode) : RdtIntentBuilder {
-        configBundle.putString(INTENT_EXTRA_RDT_PROVISION_MODE, mode.name)
-        configBundle.putString(INTENT_EXTRA_RDT_PROVISION_MODE_DATA, tags)
-        return this
-    }
-
-    fun setFlavorOne(flavorText : String)  : RdtIntentBuilder  {
-        configBundle.putString(INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_ONE, flavorText)
-        return this
-    }
-
-    fun setFlavorTwo(flavorText : String) : RdtIntentBuilder  {
-        configBundle.putString(INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_TWO, flavorText)
-        return this
-    }
-
-    fun setResultResponseTranslator(responseTranslatorId : String) : RdtIntentBuilder  {
-        configBundle.putString(INTENT_EXTRA_OUTPUT_RESULT_TRANSLATOR, responseTranslatorId)
-        return this
-    }
-
-    fun setSessionId(sessionId : String) : RdtIntentBuilder {
-        intent.putExtra(INTENT_EXTRA_RDT_SESSION_ID,sessionId)
-        return this
-    }
-
-    fun setCallingPackage(packageId : String) : RdtIntentBuilder {
-        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_CALLING_PACKAGE, packageId)
-        return this
-    }
-
-    fun setHardExpiration() : RdtIntentBuilder {
-        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_SESSION_NO_EXPIRATION_OVERRIDE, FLAG_VALUE_SET);
-        return this
+    fun setSessionId(sessionId : String) : T {
+        intent.putExtra(INTENT_EXTRA_RDT_SESSION_ID, sessionId)
+        return this as T
     }
 
     init {
@@ -81,6 +24,7 @@ class RdtIntentBuilder() {
         intent.putExtra(INTENT_EXTRA_RDT_CONFIG_BUNDLE, configBundle);
         return intent
     }
+
     companion object {
         const val ACTION_TEST_PROVISION = "org.rdtoolkit.action.Provision"
         const val ACTION_TEST_PROVISION_AND_CAPTURE = "org.rdtoolkit.action.ProvisionAndCapture"
@@ -96,5 +40,112 @@ class RdtIntentBuilder() {
         const val INTENT_EXTRA_OUTPUT_RESULT_TRANSLATOR = "rdt_output_result_translate"
 
         const val INTENT_EXTRA_RESPONSE_TRANSLATOR = "rdt_output_response_translate"
+
+        @JvmStatic
+        fun forProvisioning() : RdtProvisioningIntentBuilder  {
+            val toReturn = RdtProvisioningIntentBuilder()
+            toReturn.intent.action = ACTION_TEST_PROVISION
+            toReturn.configBundle.putString(INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE, SessionMode.TWO_PHASE.name)
+            return toReturn
+        }
+
+        @JvmStatic
+        fun forCapture() : CaptureIntentBuilder  {
+            val toReturn = CaptureIntentBuilder()
+            toReturn.intent.action = ACTION_TEST_CAPTURE
+            return toReturn
+        }
+
+        @JvmStatic
+        fun forProvisionAndCapture() : RdtProvisioningIntentBuilder  {
+            val toReturn = RdtProvisioningIntentBuilder()
+            toReturn.intent.action = ACTION_TEST_PROVISION_AND_CAPTURE
+            toReturn.configBundle.putString(INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE, SessionMode.ONE_PHASE.name)
+            return toReturn
+        }
+    }
+}
+
+class CaptureIntentBuilder() : RdtIntentBuilder<CaptureIntentBuilder>() {
+
+}
+
+
+class RdtProvisioningIntentBuilder() : RdtIntentBuilder<RdtProvisioningIntentBuilder>() {
+
+    /**
+     * Request a session for a specific, single RDT, rather than letting the user choose one
+     */
+    fun requestTestProfile(testProfile : String) : RdtProvisioningIntentBuilder {
+        configBundle.putString(INTENT_EXTRA_RDT_PROVISION_MODE, ProvisionMode.TEST_PROFILE.name)
+        configBundle.putString(INTENT_EXTRA_RDT_PROVISION_MODE_DATA, testProfile)
+        return this
+    }
+
+    /**
+     * Request an RDT which meets provided tag criteria, for example, a list of required
+     * diagnostic outcomes, or a list of possible tests to choose from
+     */
+    fun requestProfileCriteria(tags : String, mode: ProvisionMode) : RdtProvisioningIntentBuilder {
+        configBundle.putString(INTENT_EXTRA_RDT_PROVISION_MODE, mode.name)
+        configBundle.putString(INTENT_EXTRA_RDT_PROVISION_MODE_DATA, tags)
+        return this
+    }
+
+    /**
+     * Specify how (if at all) the output of available image classifiers should be made available
+     * to the user.
+     */
+    fun setClassifierBehavior(mode: ClassifierMode) : RdtProvisioningIntentBuilder {
+        configBundle.putString(INTENT_EXTRA_RDT_CLASSIFIER_MODE, mode.name)
+        return this
+    }
+
+    /**
+     * Set the first "flavor" text shown to the user to differentiate running tests
+     */
+    fun setFlavorOne(flavorText : String)  : RdtProvisioningIntentBuilder  {
+        configBundle.putString(INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_ONE, flavorText)
+        return this
+    }
+
+    /**
+     * Set the second "flavor" text shown to the user to differentiate running tests
+     */
+    fun setFlavorTwo(flavorText : String) : RdtProvisioningIntentBuilder  {
+        configBundle.putString(INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_TWO, flavorText)
+        return this
+    }
+
+    /**
+     * Specify a package id to be launched when a user chooses a test notification
+     */
+    fun setCallingPackage(packageId : String) : RdtProvisioningIntentBuilder {
+        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_CALLING_PACKAGE, packageId)
+        return this
+    }
+
+    /**
+     * Directs the user back to this applicaiton when a user chooses a test notification
+     */
+    fun setReturnApplication(context : Context) : RdtProvisioningIntentBuilder {
+        return setCallingPackage(context.packageName)
+    }
+
+    /**
+     * Force users to not be able to provide a test result if the validity window for the test has
+     * expired
+     */
+    fun setHardExpiration() : RdtProvisioningIntentBuilder {
+        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_SESSION_NO_EXPIRATION_OVERRIDE, FLAG_VALUE_SET);
+        return this
+    }
+
+    /**
+     * Apply a result response translator before returning the session intent
+     */
+    fun setResultResponseTranslator(responseTranslatorId : String) : RdtProvisioningIntentBuilder  {
+        configBundle.putString(INTENT_EXTRA_OUTPUT_RESULT_TRANSLATOR, responseTranslatorId)
+        return this
     }
 }

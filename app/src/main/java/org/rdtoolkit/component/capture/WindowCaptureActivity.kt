@@ -26,6 +26,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_window_capture.*
 import org.rdtoolkit.R
+import org.rdtoolkit.support.interop.RdtIntentBuilder
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
