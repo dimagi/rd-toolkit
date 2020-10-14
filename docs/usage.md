@@ -11,12 +11,66 @@ Activity action and API contract.
 
 ## Provisioning
 
-Android Action ID: `org.rdtoolkit.action.Provision`
+To provision a new test, use the RdtIntentBuilder. Most requirements are optional, but a common
+example is explained below.
 
-### Triggering Intent
+```
+        Intent i = RdtIntentBuilder.forProvisioning()
+                .setSessionId(databaseId) // Explicitly declare an ID for the session
+                .requestProfileCriteria("mal_pf mal_pv", ProvisionMode.CRITERIA_SET_AND) // Let the user choose any available RDT which provides a PF and a PV result
+                .setFlavorOne(patientName) // Text to differentiate running tests
+                .setFlavorTwo(patientID) // Text to differentiate running tests
+                .build();
 
-### Return Intent
+```
 
+You can retrieve the resulting test session from the return value of the intent. If you did not
+set an explicit session ID when provisioning, you should retrieve the session ID for
 
+In Java
+```
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-[logo]: docs/icon.png "Logo"
+        if (requestCode == ACTIVITY_PROVISION && resultCode == RESULT_OK) {
+            TestSession session = RdtUtils.getRdtSession(data);
+            System.out.println(String.format("Test will be available to read at %s", session.getTimeResolved().toString()));
+        }
+    }
+```
+
+In Kotlin
+```
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == ACTIVITY_PROVISION && resultCode == RESULT_OK) {
+            val session = data.getRdtSession()
+            println("Test will be available to read at ${session.timeResolved}")
+        }
+    }
+```
+
+## Capture
+
+Once tests have resolved, use the session id to request a test capture with the intent builder.
+
+```
+        Intent i = RdtIntentBuilder.forCapture()
+                .setSessionId(sessionId) //Populated during provisioning callout, or result
+                .build();
+
+```
+
+After a successful capture activity callout, the results will be available in the incoming
+TestSession record
+
+In Java
+```
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ACTIVITY_CAPTURE && resultCode == RESULT_OK) {
+            TestSession session = RdtUtils.getRdtSession(data);
+            TestResult result = session.getResults()
+```
