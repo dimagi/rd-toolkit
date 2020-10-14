@@ -1,4 +1,4 @@
-# rd-toolkit
+# Rapid Diagnostics Toolkit
 The Rapid Diagnostics Toolkit is a middleware layer for improving access to digital technologies
 which facilitate the use of Rapid Diagnostic Tests at the point of care in global health.
 
