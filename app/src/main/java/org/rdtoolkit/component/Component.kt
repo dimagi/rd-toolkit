@@ -26,6 +26,11 @@ val VALUE_DEFAULT = 1
 
 val VALUE_PREFERRED = 3
 
+/**
+ * Components are the digital processing units for test capture and analysis.
+ * The component base class provides the appropriate hooks for managing UI lifecycles
+ * related to each type of activity
+ */
 abstract class Component {
     protected var activity : Activity? = null
     protected var listener: ComponentEventListener? = null
