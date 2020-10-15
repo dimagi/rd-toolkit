@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/capture_timer"
         android:name="org.rdtoolkit.ui.capture.CaptureTimerFragment"
-        android:label="Test Timer"
+        android:label="@string/capture_timer_title"
         tools:layout="@layout/fragment_capture_timer" >
         <action
             android:id="@+id/action_capture_timer_to_capture_resultsFragment"
@@ -18,18 +18,31 @@
     <fragment
         android:id="@+id/capture_results"
         android:name="org.rdtoolkit.ui.capture.CaptureResultsFragment"
-        android:label="Test Results" >
+        android:label="@string/capture_results_title" >
         <action
             android:id="@+id/action_capture_results_to_captureRecordFragment"
             app:destination="@id/capture_record" />
+        <action
+            android:id="@+id/action_capture_results_to_captureJobAid"
+            app:destination="@id/capture_job_aid" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/capture_job_aid"
+        android:name="org.rdtoolkit.ui.instruct.SessionInstruct"
+        android:label="Job Aid"
+        tools:layout="@layout/fragment_provision_instruct" >
+        <action
+            android:id="@+id/action_capture_job_aid_to_results"
+            app:popUpTo="@+id/capture_results" />
     </fragment>
 
     <fragment
         android:id="@+id/capture_record"
         android:name="org.rdtoolkit.ui.capture.CaptureRecordFragment"
-        android:label="Record Test Results"
-        tools:layout="@layout/fragment_capture_record" />
-
+        android:label="@string/capture_record_title"
+        tools:layout="@layout/fragment_capture_record">
+    </fragment>
     <action
         android:id="@+id/capture_expire_to_record"
         app:popUpTo="@+id/capture_timer"

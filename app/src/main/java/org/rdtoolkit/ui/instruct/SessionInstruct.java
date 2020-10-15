@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +48,21 @@ public class SessionInstruct extends Fragment {
             tv.setText(value.getText());
             disclaimer.setText(value.getConfirmationText());
             disclaimer.setVisibility(value.getConfirmationText() == null ? View.GONE : View.VISIBLE);
+
+            Button back = view.findViewById(R.id.provision_info_btn_back);
+            if (pamphletViewModel.hasBack()) {
+                back.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+            } else {
+                back.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_arrow_back_white_24,0,0,0);
+            }
+
+
+            Button next = view.findViewById(R.id.provision_info_btn_next);
+            if (pamphletViewModel.hasNext()) {
+                next.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
+            } else {
+                next.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_baseline_arrow_forward_white_24,0);
+            }
         });
     }
 }

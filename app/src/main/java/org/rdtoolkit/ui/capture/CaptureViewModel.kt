@@ -46,6 +46,16 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     val sessionCommit = CombinedLiveData<Boolean, TestSession>(inCommitMode, testSession)
 
+    val jobAidPamphlets : LiveData<List<Pamphlet>> = Transformations.map(testProfile) {
+        profile -> profile?.let{diagnosticsRepository.getReferencePamphlets("interpret", listOf(profile.id()))}
+    }
+
+    val jobAidAvailable : LiveData<Boolean> = Transformations.map(jobAidPamphlets) {
+        instructions ->  !instructions.isNullOrEmpty()
+    }
+
+    private val currentPageValue : MutableLiveData<CurrentState> = MutableLiveData()
+
     private var classifierMode : ClassifierMode? = null
 
     private var processingStateValue : MutableLiveData<ProcessingState> = MutableLiveData(ProcessingState.PRE_CAPTURE)
@@ -59,6 +69,20 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     }
 
     val sessionStateInputs = CombinedLiveData(testState, captureIsIncomplete)
+
+    val jobAidButtonVisible = Transformations.map(CombinedLiveData<CurrentState, Boolean>(currentPageValue,jobAidAvailable)) {
+        combinedData -> combinedData.first == CurrentState.RESULTS && combinedData.second
+    }
+
+    fun getCurrentPage() : LiveData<CurrentState> {
+        return currentPageValue
+    }
+
+    fun setCurrentPage(state : CurrentState) {
+        if(currentPageValue.value != state) {
+            currentPageValue.value = state
+        }
+    }
 
     fun getExpireOverrideChecked() : LiveData<Boolean> {
         return allowOverrideValue
@@ -254,4 +278,11 @@ enum class ProcessingState {
     PROCESSING,
     COMPLETE,
     ERROR
+}
+
+enum class CurrentState {
+    TIMER,
+    RESULTS,
+    RECORD,
+    JOB_AID
 }

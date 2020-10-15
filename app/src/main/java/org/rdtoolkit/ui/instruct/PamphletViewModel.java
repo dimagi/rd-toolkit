@@ -37,16 +37,17 @@ public class PamphletViewModel extends ViewModel {
             pageList.add(disclaimerPage);
         }
         pageList.addAll(sourcePamphlet.getPages());
-        pageNumber = 0;
+        goToPageOne();
+    }
 
+    public void goToPageOne() {
+        pageNumber = 0;
         currentPage.setValue(pageList.get(0));
     }
 
     public LiveData<Page> getCurrentPage() {
         return currentPage;
     }
-
-
 
     public boolean hasBack() {
         return pageNumber > 0;

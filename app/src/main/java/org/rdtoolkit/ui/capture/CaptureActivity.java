@@ -2,6 +2,7 @@ package org.rdtoolkit.ui.capture;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -25,12 +26,12 @@ import org.rdtoolkit.component.ComponentRepository;
 import org.rdtoolkit.component.ImageCaptureResult;
 import org.rdtoolkit.component.ImageClassifierComponent;
 import org.rdtoolkit.component.TestImageCaptureComponent;
-import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.model.diagnostics.Pamphlet;
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
 import org.rdtoolkit.support.model.session.STATUS;
 import org.rdtoolkit.support.model.session.TestReadableState;
 import org.rdtoolkit.support.model.session.TestSession;
+import org.rdtoolkit.ui.instruct.PamphletViewModel;
 import org.rdtoolkit.util.InjectorUtils;
 
 import java.util.HashSet;
@@ -44,6 +45,7 @@ import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RESPON
 public class CaptureActivity extends AppCompatActivity implements ComponentEventListener {
 
     CaptureViewModel captureViewModel;
+    PamphletViewModel pamphletViewModel;
 
     ComponentManager componentManager = new ComponentManager(this, this);
 
@@ -60,6 +62,11 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
                 new ViewModelProvider(this,
                         InjectorUtils.Companion.provideCaptureViewModelFactory(this))
                         .get(CaptureViewModel.class);
+
+        pamphletViewModel =
+                new ViewModelProvider(this,
+                        InjectorUtils.Companion.providePamphletViewModelFactory(this))
+                        .get(PamphletViewModel.class);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -82,7 +89,22 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            invalidateOptionsMenu();
+        }
+        );
+
         captureViewModel.loadSession(sessionId);
+
+        captureViewModel.getJobAidAvailable().observe(this, value -> {
+            invalidateOptionsMenu();
+        });
+
+        captureViewModel.getJobAidPamphlets().observe(this, value -> {
+            if (value.size() > 0) {
+                pamphletViewModel.setSourcePamphlet(value.get(0));
+            }
+        });
 
         captureViewModel.getSessionStateInputs().observe(this, result -> {
             if (result.getFirst() == TestReadableState.EXPIRED && result.getSecond()) {
@@ -166,6 +188,43 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
         });
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        return Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
+                || super.onSupportNavigateUp();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.capture_actions, menu);
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+        MenuItem jobAidMenuItem = menu.findItem(R.id.action_view_job_aid);
+        jobAidMenuItem.setVisible(navController.getCurrentDestination().getId() == R.id.capture_results && Boolean.TRUE.equals(captureViewModel.getJobAidAvailable().getValue()));
+
+        MenuItem backFromJobAid = menu.findItem(R.id.action_back_from_job_aid);
+        backFromJobAid.setVisible(navController.getCurrentDestination().getId() == R.id.capture_job_aid);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_view_job_aid:
+                pamphletViewModel.goToPageOne();
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_capture_results_to_captureJobAid);
+                return true;
+            case R.id.action_back_from_job_aid:
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_capture_job_aid_to_results);
+                return true;
+        }
+        return false;
+    }
+
+
     private void setConfirmAvailable(TestSession.TestResult result) {
         boolean recordEnabled = false;
         RdtDiagnosticProfile profile = captureViewModel.getTestProfile().getValue();
@@ -235,4 +294,23 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
         Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
                 R.id.action_capture_timer_to_capture_resultsFragment);
     }
+
+    public void infoBackPressed(View view) {
+        if (pamphletViewModel.hasBack()) {
+            pamphletViewModel.pageBack();
+            return;
+        } else {
+            Navigation.findNavController(view).navigate(R.id.action_capture_job_aid_to_results);
+        }
+    }
+
+    public void infoNextPressed(View view) {
+        if (pamphletViewModel.hasNext()) {
+            pamphletViewModel.pageNext();
+            return;
+        } else {
+            Navigation.findNavController(view).navigate(R.id.action_capture_job_aid_to_results);
+        }
+    }
+
 }
