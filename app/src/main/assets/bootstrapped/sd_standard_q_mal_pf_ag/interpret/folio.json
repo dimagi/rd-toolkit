@@ -16,7 +16,7 @@
     "strings":
     {
       "page_1": "The presence of only one colored band(\"C\" Control line) within the result window indicates a negative result.",
-      "page_2": "The presence of two colored bands (\"C\" Control line and \"P.f\" Plasmodium falciparum line) within the result window, no matter which band appears first, indicates a P.f. positive result.\n\nThe presence of any line, no matter how faint the result is considered positive.",
+      "page_2": "The presence of two colored bands (\"C\" Control line and \"P.f\" Plasmodium falciparum line) within the result window, no matter which band appears first, indicates a P.f. positive result.",
       "page_2a": "The presence of any line, no matter how faint the result is considered positive.",
       "page_3": "If the control band (\"C\" Control line) is not visible within the result window, the result is considered invalid. The directions may not have been followed correctly or the test device may have deteriorated. Re-test with a new specimen and a new test device."
     }
