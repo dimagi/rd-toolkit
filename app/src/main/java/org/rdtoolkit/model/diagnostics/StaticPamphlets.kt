@@ -15,6 +15,14 @@ class StaticPamphlets(val context : Context) : PamphletSource {
             folio.setLocale(locale.language)
             response.add(folio.getPamphlet())
         }
+
+        if (category.equals("reference") && tags.contains("sd_standard_q_mal_pf_ag")) {
+            var folioContext = AssetFolioContext("bootstrapped/sd_standard_q_mal_pf_ag", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
         return response
     }
 }

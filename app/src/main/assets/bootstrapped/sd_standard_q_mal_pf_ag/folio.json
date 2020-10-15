@@ -1,0 +1,58 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "1: Select the finger that is not calloused and clean the fingertip by wiping with analcohol swab.",
+        "page_2": "2: Dry and pierce the wiped fingertip with a sterile lancet to bleed.",
+        "page_3": "3: Wipe away the first drop of blood with sterile gauze.",
+        "page_4": "4: Take the inverted cup (5ul) provided and collect 5ul of the capillary whole blood specimen by dipping the circular end of the inverted cup into the specimen.",
+        "page_5": "5: To apply the collected capillary whole blood specimen to the specimen well (circle) of the test device, place the circular end of the inverted cup on the specimen well pad and then press down lightly.",
+        "page_6": "6: Hold the buffer bottle at 90˚ (perpendicular) to the test device and not touching the specimen well to avoid contamination. Add 3 drops (90μl) of the buffer into the buffer well (square) of the test device."
+      }
+    }
+    ,{
+    "lang":  "pt",
+    "strings":
+    {
+      "page_1": "1: Select the finger that is not calloused and clean the fingertip by wiping with analcohol swab.",
+      "page_2": "2: Dry and pierce the wiped fingertip with a sterile lancet to bleed.",
+      "page_3": "3: Wipe away the first drop of blood with sterile gauze.",
+      "page_4": "4: Take the inverted cup (5ul) provided and collect 5ul of the capillary whole blood specimen by dipping the circular end of the inverted cup into the specimen.",
+      "page_5": "5: To apply the collected capillary whole blood specimen to the specimen well (circle) of the test device, place the circular end of the inverted cup on the specimen well pad and then press down lightly.",
+      "page_6": "6: Hold the buffer bottle at 90˚ (perpendicular) to the test device and not touching the specimen well to avoid contamination. Add 3 drops (90μl) of the buffer into the buffer well (square) of the test device."
+    }
+  }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "sd_std_q_1.png"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "sd_std_q_2.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "sd_std_q_3.png"
+      }
+    ,{
+        "textKey": "page_4",
+        "image": "sd_std_q_4.png"
+      }
+    ,{
+        "textKey": "page_5",
+        "image": "sd_std_q_5.png"
+      }
+    ,{
+        "textKey": "page_6",
+        "image": "sd_std_q_6.png"
+      }
+    ]
+  }
+}
+
