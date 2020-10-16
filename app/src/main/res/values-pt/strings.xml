@@ -73,4 +73,6 @@
     <string name="capture_timer_title">Test Timer</string>
     <string name="capture_results_title">Test Results</string>
     <string name="capture_record_title">Record Test Results</string>
+    <string name="capture_summary_status_timer">Timer</string>
+    <string name="capture_summary_status_timer_valid">Valid</string>
 </resources>

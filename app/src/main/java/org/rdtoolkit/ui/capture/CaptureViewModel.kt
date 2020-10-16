@@ -54,8 +54,6 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         instructions ->  !instructions.isNullOrEmpty()
     }
 
-    private val currentPageValue : MutableLiveData<CurrentState> = MutableLiveData()
-
     private var classifierMode : ClassifierMode? = null
 
     private var processingStateValue : MutableLiveData<ProcessingState> = MutableLiveData(ProcessingState.PRE_CAPTURE)
@@ -68,21 +66,12 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         combinedData -> combinedData.first.rawCapturedImageFilePath == null || !(combinedData.second == ProcessingState.COMPLETE || combinedData.second == ProcessingState.PROCESSING)
     }
 
+    val testCapturedLate = Transformations.map(CombinedLiveData<TestSession.TestResult, TestReadableState>(testSessionResult,testState)) {
+        combinedData -> (testSession.value!!.timeExpired != null && combinedData.first.timeRead != null &&
+            (combinedData.first.timeRead!!.after(testSession.value!!.timeExpired)) || combinedData.first.timeRead == null && combinedData.second == TestReadableState.EXPIRED)
+    }
+
     val sessionStateInputs = CombinedLiveData(testState, captureIsIncomplete)
-
-    val jobAidButtonVisible = Transformations.map(CombinedLiveData<CurrentState, Boolean>(currentPageValue,jobAidAvailable)) {
-        combinedData -> combinedData.first == CurrentState.RESULTS && combinedData.second
-    }
-
-    fun getCurrentPage() : LiveData<CurrentState> {
-        return currentPageValue
-    }
-
-    fun setCurrentPage(state : CurrentState) {
-        if(currentPageValue.value != state) {
-            currentPageValue.value = state
-        }
-    }
 
     fun getExpireOverrideChecked() : LiveData<Boolean> {
         return allowOverrideValue
@@ -221,18 +210,20 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                     }
                 }.start()
             } else if (session.getTestReadableState() == TestReadableState.READABLE) {
-                readableTimer = object : CountDownTimer(session.timeExpired.time - System.currentTimeMillis(), 1000) {
-                    override fun onTick(millisUntilFinished: Long) {
-                        readableMillisecondsLeft.postValue(millisUntilFinished)
-                    }
+                if(session.timeExpired != null) {
+                    readableTimer = object : CountDownTimer(session.timeExpired!!.time - System.currentTimeMillis(), 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            readableMillisecondsLeft.postValue(millisUntilFinished)
+                        }
 
-                    override fun onFinish() {
-                        // There can be some slight overlap on these so wait an extra hair before
-                        // moving on
-                        Thread.sleep(200L)
-                        testState.postValue(session.getTestReadableState())
-                    }
-                }.start()
+                        override fun onFinish() {
+                            // There can be some slight overlap on these so wait an extra hair before
+                            // moving on
+                            Thread.sleep(200L)
+                            testState.postValue(session.getTestReadableState())
+                        }
+                    }.start()
+                }
             }
         }
     }
@@ -278,11 +269,4 @@ enum class ProcessingState {
     PROCESSING,
     COMPLETE,
     ERROR
-}
-
-enum class CurrentState {
-    TIMER,
-    RESULTS,
-    RECORD,
-    JOB_AID
 }

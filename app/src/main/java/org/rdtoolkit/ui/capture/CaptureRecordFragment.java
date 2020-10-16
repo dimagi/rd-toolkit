@@ -7,17 +7,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.rdtoolkit.R;
+import org.rdtoolkit.model.diagnostics.ResultProfile;
 import org.rdtoolkit.support.model.session.TestReadableState;
+
+import java.util.ArrayList;
 
 import static org.rdtoolkit.support.model.session.SessionFlagsKt.FLAG_SESSION_NO_EXPIRATION_OVERRIDE;
 import static org.rdtoolkit.support.model.session.SessionFlagsKt.FLAG_VALUE_SET;
+import static org.rdtoolkit.util.MediaUtilKt.setImageBitmapFromFile;
 
 public class CaptureRecordFragment extends Fragment {
 
@@ -36,6 +43,11 @@ public class CaptureRecordFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView summaryRecycler = view.findViewById(R.id.capture_summary_results);
+        LinearLayoutManager entryLayoutManager = new LinearLayoutManager(requireContext());
+        summaryRecycler.setLayoutManager(entryLayoutManager);
+
 
         mViewModel = new ViewModelProvider(requireActivity()).get(CaptureViewModel.class);
 
@@ -59,6 +71,22 @@ public class CaptureRecordFragment extends Fragment {
             overrideButton.setEnabled(result);
         });
 
+        mViewModel.getTestCapturedLate().observe(getViewLifecycleOwner(), value -> {
+            if(value) {
+                view.findViewById(R.id.capture_summary_timer_valid_label).setVisibility(View.GONE);
+                view.findViewById(R.id.capture_summary_timer_expired_label).setVisibility(View.VISIBLE);
+            } else {
+                view.findViewById(R.id.capture_summary_timer_valid_label).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.capture_summary_timer_expired_label).setVisibility(View.GONE);
+            }
+        });
+
+        mViewModel.getTestSessionResult().observe(getViewLifecycleOwner(), result -> {
+            ArrayList<ResultProfile> values= new ArrayList();
+            values.addAll(mViewModel.getTestProfile().getValue().resultProfiles());
+            summaryRecycler.setAdapter(new ResultSummaryAdapter(values, result.getResults()));
+        });
+
         mViewModel.getSessionStateInputs().observe(getViewLifecycleOwner(), result -> {
             int overrideVisibility =
                     FLAG_VALUE_SET.equals(mViewModel.getTestSession().getValue().getConfiguration().getFlags().get(FLAG_SESSION_NO_EXPIRATION_OVERRIDE)) ?
@@ -67,13 +95,22 @@ public class CaptureRecordFragment extends Fragment {
 
             if (result.getFirst() == TestReadableState.EXPIRED && result.getSecond()) {
                 view.findViewById(R.id.capture_frame_record_expired).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.capture_frame_record_summary).setVisibility(View.GONE);
+
 
                 view.findViewById(R.id.capture_frame_record_expired_override).setVisibility(overrideVisibility);
                 overrideButton.setVisibility(overrideVisibility);
             } else {
                 view.findViewById(R.id.capture_frame_record_expired).setVisibility(View.GONE);
+                view.findViewById(R.id.capture_frame_record_summary).setVisibility(View.VISIBLE);
                 overrideButton.setVisibility(View.GONE);
             }
         });
+
+        mViewModel.getRawImageCapturePath().observe(getViewLifecycleOwner(), value ->{
+            setImageBitmapFromFile(
+                    (ImageView)view.findViewById(R.id.capture_results_test_image), value);
+        });
+
     }
 }

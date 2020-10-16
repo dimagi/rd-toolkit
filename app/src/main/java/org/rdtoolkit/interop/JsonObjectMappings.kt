@@ -73,7 +73,9 @@ class SessionToJson : Mapper<TestSession, JSONObject> {
         root.put("test_profile_id", input.testProfileId)
         root.put("time_started", getIsoUTCTimestamp(input.timeStarted))
         root.put("time_resolved", getIsoUTCTimestamp(input.timeResolved))
-        root.put("time_expired", getIsoUTCTimestamp(input.timeExpired))
+        input.timeExpired?.let {
+            root.put("time_expired", getIsoUTCTimestamp(it))
+        }
 
         root.put("configuration", ConfigurationToJson().map(input.configuration))
 

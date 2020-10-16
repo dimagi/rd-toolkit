@@ -11,6 +11,8 @@
     <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#ffffff</color>
 
+    <color name="color_bad">#c73d39</color>
+
     <color name="color_progress_start">@color/secondaryLightColor</color>
     <color name="color_progress_end">@color/secondaryDarkColor</color>
     <color name="color_progress_unfinished">#D3D6DA</color>

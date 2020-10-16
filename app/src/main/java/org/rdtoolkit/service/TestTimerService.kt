@@ -147,42 +147,44 @@ class TestTimerService : LifecycleService() {
 
         val sessionId = session.sessionId
 
-        synchronized(pendingTimers) {
-            var timer = object : CountDownTimer(session.timeExpired.time - System.currentTimeMillis(), COUNTDOWN_INTERVAL_MS) {
-                override fun onTick(millisUntilFinished: Long) {
-                    builder.setContentText(getString(R.string.service_message_valid_text).format(getFormattedTimeForSpan(millisUntilFinished)))
-                    NotificationManagerCompat.from(this@TestTimerService)
-                            .notify(sessionId, SERVICE_TIMER, builder.build())
+        session.timeExpired?.let {
+            synchronized(pendingTimers) {
+                var timer = object : CountDownTimer(it.time - System.currentTimeMillis(), COUNTDOWN_INTERVAL_MS) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        builder.setContentText(getString(R.string.service_message_valid_text).format(getFormattedTimeForSpan(millisUntilFinished)))
+                        NotificationManagerCompat.from(this@TestTimerService)
+                                .notify(sessionId, SERVICE_TIMER, builder.build())
 
-                    val timer = this
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        if (sessionRepository.getTestSession(sessionId).state != STATUS.RUNNING) {
-                            synchronized(pendingTimers) {
-                                timer.cancel()
-                                NotificationManagerCompat.from(this@TestTimerService).cancel(sessionId,
-                                        SERVICE_TIMER);
-                                pendingTimers.remove(sessionId)
-                                checkForServiceClosure()
+                        val timer = this
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            if (sessionRepository.getTestSession(sessionId).state != STATUS.RUNNING) {
+                                synchronized(pendingTimers) {
+                                    timer.cancel()
+                                    NotificationManagerCompat.from(this@TestTimerService).cancel(sessionId,
+                                            SERVICE_TIMER);
+                                    pendingTimers.remove(sessionId)
+                                    checkForServiceClosure()
+                                }
                             }
                         }
                     }
-                }
 
 
-                override fun onFinish() {
-                    synchronized(pendingTimers) {
-                        builder.setContentTitle(getString(R.string.service_message_expired_title).format(session.configuration.flavorText))
-                        builder.setContentText(getString(R.string.service_message_expired_text))
-                        NotificationManagerCompat.from(this@TestTimerService)
-                                .notify(session.sessionId, SERVICE_TIMER, builder.setTimeoutAfter(EXPIRED_NOTIFICATION_TIMEOUT_MS).build())
-                        pendingTimers.remove(session.sessionId)
-                        checkForServiceClosure()
+                    override fun onFinish() {
+                        synchronized(pendingTimers) {
+                            builder.setContentTitle(getString(R.string.service_message_expired_title).format(session.configuration.flavorText))
+                            builder.setContentText(getString(R.string.service_message_expired_text))
+                            NotificationManagerCompat.from(this@TestTimerService)
+                                    .notify(session.sessionId, SERVICE_TIMER, builder.setTimeoutAfter(EXPIRED_NOTIFICATION_TIMEOUT_MS).build())
+                            pendingTimers.remove(session.sessionId)
+                            checkForServiceClosure()
+                        }
+
                     }
-
                 }
+                pendingTimers.set(session.sessionId, timer);
+                timer.start();
             }
-            pendingTimers.set(session.sessionId, timer);
-            timer.start();
         }
     }
 

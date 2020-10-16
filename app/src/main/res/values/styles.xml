@@ -27,6 +27,15 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextEmphasis">
+        <item name="android:textColor">@color/primaryDarkColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextBad" parent="TextEmphasis">
+        <item name="android:textColor">@color/color_bad</item>
+    </style>
+
     <style name="TextInstructions" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">20dp</item>
     </style>

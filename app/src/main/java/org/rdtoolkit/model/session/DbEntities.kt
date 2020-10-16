@@ -17,7 +17,7 @@ data class DbTestSession (
         val testProfileId: String,
         val timeStarted: Date,
         val timeResolved : Date,
-        val timeExpired : Date
+        val timeExpired : Date?
 ) {
     fun getTestReadableState() : TestReadableState {
         if (timeStarted == null) {
