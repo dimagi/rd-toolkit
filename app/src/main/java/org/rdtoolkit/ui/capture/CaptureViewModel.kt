@@ -63,7 +63,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     val allowOverrideValue : MutableLiveData<Boolean> = MutableLiveData()
 
     val captureIsIncomplete = Transformations.map(CombinedLiveData<TestSession.TestResult, ProcessingState>(testSessionResult,processingStateValue)) {
-        combinedData -> combinedData.first.rawCapturedImageFilePath == null || !(combinedData.second == ProcessingState.COMPLETE || combinedData.second == ProcessingState.PROCESSING)
+        combinedData -> combinedData.first.mainImage == null || !(combinedData.second == ProcessingState.COMPLETE || combinedData.second == ProcessingState.PROCESSING)
     }
 
     val testCapturedLate = Transformations.map(CombinedLiveData<TestSession.TestResult, TestReadableState>(testSessionResult,testState)) {
@@ -131,13 +131,15 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         return rawImageCapturePath
     }
 
-    fun setRawImageCapturePath(rawImagePath : String) {
-        if (rawImageCapturePath.value != rawImagePath) {
-            rawImageCapturePath.value = rawImagePath
+    fun setCapturedImage(imageData: Pair<String, MutableMap<String, String>>) {
+        if (rawImageCapturePath.value != imageData.first) {
+            rawImageCapturePath.value = imageData.first
 
             val result = testSessionResult.value!!
             result.timeRead = Date()
-            result.rawCapturedImageFilePath = rawImagePath
+            result.mainImage = imageData.first
+            result.images.clear()
+            result.images.putAll(imageData.second)
 
 
             result.results.clear()
@@ -181,7 +183,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
             testSession.postValue(session)
 
             if (session.result == null) {
-                session.result = TestSession.TestResult(null, null, HashMap(), HashMap())
+                session.result = TestSession.TestResult(null, null, HashMap(), HashMap(), HashMap())
             }
 
             testSessionResult.postValue(session.result)

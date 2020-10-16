@@ -160,17 +160,25 @@ class NoConfig : Config {
 val CAPTURE_TYPE_PLAIN = "plain"
 val CAPTURE_TYPE_RETICLE = "reticle"
 
-open class ImageCaptureResult(val imagePath : String) {
+open class ImageCaptureResult(private val imagePath : String) {
     open fun getCaptureType() : String {
         return CAPTURE_TYPE_PLAIN
+    }
+
+    open fun getImages() : Pair<String, Map<String, String>> {
+        return Pair(imagePath, mapOf("raw" to imagePath))
     }
 }
 
 class ReticleCaptureResult(val rawImagePath : String,
                            val croppedImagePath : String,
-                           val reticleOffset : Rect) : ImageCaptureResult(croppedImagePath) {
+                           val reticleOffset : Rect) : ImageCaptureResult(rawImagePath) {
     override fun getCaptureType() : String {
         return CAPTURE_TYPE_RETICLE
+    }
+    override fun getImages() : Pair<String, Map<String, String>> {
+        return Pair(croppedImagePath, mapOf("raw" to rawImagePath,
+                "cropped" to croppedImagePath))
     }
 }
 

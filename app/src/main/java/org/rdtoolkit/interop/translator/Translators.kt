@@ -86,7 +86,8 @@ class FlatIntentMapper(val flattener : TypeFlattener = TypeFlattener(),
     companion object {
         val DEFAULT_PREFIX_MAP = mapOf(
                 INTENT_EXTRA_RDT_RESULT_MAP to "result_"
-                ,INTENT_EXTRA_RDT_INTERPRETER_RESULT_MAP to "result_classifier_")
+                ,INTENT_EXTRA_RDT_RESULT_INTERPRETER_MAP to "result_classifier_"
+                , INTENT_EXTRA_RDT_RESULT_IMAGES to "captured_image_")
     }
 }
 

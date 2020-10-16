@@ -9,6 +9,7 @@ import org.rdtoolkit.model.diagnostics.StaticPamphlets
 import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.model.session.SessionRepositoryImpl
 import org.rdtoolkit.model.session.getDatabase
+import org.rdtoolkit.processing.WorkCoordinator
 import org.rdtoolkit.ui.capture.CaptureViewModel
 import org.rdtoolkit.ui.instruct.DisclaimerPage
 import org.rdtoolkit.ui.instruct.PamphletViewModel
@@ -55,7 +56,7 @@ class InjectorUtils() {
         }
 
         fun provideSessionRepository(context: Context) : SessionRepository {
-            return SessionRepositoryImpl(getDatabase(context).testSessionDao())
+            return SessionRepositoryImpl(getDatabase(context).testSessionDao(), WorkCoordinator(context))
         }
 
 

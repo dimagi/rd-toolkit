@@ -185,7 +185,7 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
 
         captureViewModel.getSessionCommit().observe(this, result -> {
             if (result.getFirst() == false &&
-                    result.getSecond().getState() == STATUS.COMPLETE) {
+                    (result.getSecond().getState() == STATUS.COMPLETE || result.getSecond().getState() == STATUS.QUEUED)) {
                 finishSession(result.getSecond());
             }
         });
@@ -270,7 +270,7 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
 
     @Override
     public void testImageCaptured(@NotNull ImageCaptureResult imageResult) {
-        captureViewModel.setRawImageCapturePath(imageResult.getImagePath());
+        captureViewModel.setCapturedImage(imageResult.getImages());
         ImageClassifierComponent classifier = componentManager.getImageClassifierComponent();
         if(classifier != null) {
             processImage(imageResult);

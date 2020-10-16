@@ -28,13 +28,13 @@ class DataToSessionMapper() : Mapper<DataTestSession, TestSession> {
 
 class ResultToDataMapper(val sessionId: String) : Mapper<TestSession.TestResult?, DbTestSessionResult?> {
     override fun map(input: TestSession.TestResult?): DbTestSessionResult? {
-        return input?.let{ DbTestSessionResult(sessionId, input.timeRead, input.rawCapturedImageFilePath, input.results, input.classifierResults) }
+        return input?.let{ DbTestSessionResult(sessionId, input.timeRead, input.mainImage, input.images, input.results, input.classifierResults) }
     }
 }
 
 class DataToResultMapper() : Mapper<DbTestSessionResult?, TestSession.TestResult?> {
     override fun map(input: DbTestSessionResult?): TestSession.TestResult? {
-        return input?.let{ TestSession.TestResult(input.timeRead, input.rawCapturedImageFilePath, input.results, input.classifierResults) }
+        return input?.let{ TestSession.TestResult(input.timeRead, input.mainImage, input.images, input.results, input.classifierResults) }
     }
 }
 

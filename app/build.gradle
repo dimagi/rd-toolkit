@@ -53,6 +53,7 @@ dependencies {
     implementation project(':rd-toolkit-support')
 
     implementation 'androidx.room:room-runtime:2.2.5'
+    implementation 'androidx.work:work-runtime:2.4.0'
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
 

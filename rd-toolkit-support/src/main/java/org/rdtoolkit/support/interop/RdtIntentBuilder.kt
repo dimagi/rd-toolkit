@@ -148,4 +148,9 @@ class RdtProvisioningIntentBuilder() : RdtIntentBuilder<RdtProvisioningIntentBui
         configBundle.putString(INTENT_EXTRA_OUTPUT_RESULT_TRANSLATOR, responseTranslatorId)
         return this
     }
+
+    fun setCloudworksBackend(cloudworksDns : String, cloudworksContext : String?) {
+        configBundle.putString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS, cloudworksDns)
+        configBundle.putString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_CONTEXT, cloudworksContext)
+    }
 }

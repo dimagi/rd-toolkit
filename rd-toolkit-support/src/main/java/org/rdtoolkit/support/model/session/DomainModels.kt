@@ -9,7 +9,7 @@ data class TestSession (
         val configuration: Configuration,
         val timeStarted : Date,
         val timeResolved : Date,
-        val timeExpired : Date,
+        val timeExpired : Date?,
         var result: TestResult?
 ) {
     fun getTestReadableState() : TestReadableState {
@@ -26,7 +26,8 @@ data class TestSession (
 
     data class TestResult(
             var timeRead: Date?,
-            var rawCapturedImageFilePath: String?,
+            var mainImage: String?,
+            val images: MutableMap<String, String>,
             val results: MutableMap<String, String>,
             val classifierResults: MutableMap<String, String>
     )
@@ -40,6 +41,8 @@ data class TestSession (
             val flavorTextTwo: String?,
             val outputSessionTranslatorId: String?,
             val outputResultTranslatorId: String?,
+            val cloudworksDns: String?,
+            val cloudworksContext: String?,
             val flags: Map<String, String>
     )
 }
@@ -53,7 +56,7 @@ enum class TestReadableState {
 }
 
 enum class STATUS {
-    BUILDING, RUNNING, COMPLETE
+    BUILDING, RUNNING, COMPLETE, QUEUED
 }
 
 enum class ClassifierMode {

@@ -6,29 +6,25 @@ import org.rdtoolkit.support.model.session.TestSession
 import org.rdtoolkit.util.getIsoUTCTimestamp
 
 
-class ConfigurationToJson : Mapper<TestSession.Configuration, JSONObject> {
+class ConfigurationToJson(val stripSensitive : Boolean = false) : Mapper<TestSession.Configuration, JSONObject> {
     override fun map(input: TestSession.Configuration): JSONObject {
         val root = JSONObject()
 
+        root.put("session_type", input.sessionType.name)
         root.put("provision_mode", input.provisionMode.name)
         root.put("provision_mode_data", input.provisionModeData)
         root.put("classifier_mode", input.classifierMode.name)
 
-        input.flavorText?.let {
-            root.put("flavor_text", it)
+        if (!stripSensitive) {
+            input.flavorText?.let {
+                root.put("flavor_text", it)
+            }
 
+            input.flavorTextTwo?.let {
+                root.put("flavor_text_two", it)
+            }
         }
 
-        input.flavorTextTwo?.let {
-            root.put("flavor_text_two", it)
-
-        }
-        input.flavorText?.let {
-            root.put("flavor_text", it)
-
-        }
-
-        root.put("session_type", input.sessionType.name)
         input.outputSessionTranslatorId?.let {
             root.put("output_session_translator_id", it)
         }
@@ -36,8 +32,10 @@ class ConfigurationToJson : Mapper<TestSession.Configuration, JSONObject> {
             root.put("output_result_translator_id", it)
         }
 
-        input.cloudworksDns?.let {
-            root.put("cloudworks_dns", it)
+        if(!stripSensitive) {
+            input.cloudworksDns?.let {
+                root.put("cloudworks_dns", it)
+            }
         }
 
         input.cloudworksContext?.let {
@@ -52,15 +50,23 @@ class ConfigurationToJson : Mapper<TestSession.Configuration, JSONObject> {
 }
 
 
-class ResultToJson : Mapper<TestSession.TestResult, JSONObject> {
+class ResultToJson() : Mapper<TestSession.TestResult, JSONObject> {
     override fun map(input: TestSession.TestResult): JSONObject {
         val root = JSONObject()
         input.timeRead?.let {
             root.put("time_read", getIsoUTCTimestamp(it))
         }
 
-        input.rawCapturedImageFilePath?.let {
-            root.put("raw_image_file_path", it)
+        input.mainImage?.let {
+            root.put("main_image_path", it)
+        }
+
+        if(input.images.size > 0) {
+            val images = JSONObject()
+            for (image in input.images) {
+                images.put(image.key, image.value)
+            }
+            root.put("images",images)
         }
 
         root.put("results", JSONObject(input.results.toMap()))
@@ -72,7 +78,7 @@ class ResultToJson : Mapper<TestSession.TestResult, JSONObject> {
 }
 
 
-class SessionToJson : Mapper<TestSession, JSONObject> {
+class SessionToJson(val stripSensitive : Boolean = false) : Mapper<TestSession, JSONObject> {
     override fun map(input: TestSession): JSONObject {
         val root = JSONObject()
 
@@ -85,7 +91,7 @@ class SessionToJson : Mapper<TestSession, JSONObject> {
             root.put("time_expired", getIsoUTCTimestamp(it))
         }
 
-        root.put("configuration", ConfigurationToJson().map(input.configuration))
+        root.put("configuration", ConfigurationToJson(stripSensitive).map(input.configuration))
 
         input.result?.let {
             root.put("result", ResultToJson().map(it))

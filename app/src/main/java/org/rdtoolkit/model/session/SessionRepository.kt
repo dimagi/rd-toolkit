@@ -9,4 +9,6 @@ interface SessionRepository {
     fun getTestSession(sessionId : String) : TestSession
 
     fun loadSessions(): List<TestSession>
+
+    fun clearSession(sessionId: String) : Boolean
 }

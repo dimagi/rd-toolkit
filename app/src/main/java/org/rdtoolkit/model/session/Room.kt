@@ -28,11 +28,28 @@ interface TestSessionDao {
     @Query("SELECT sessionId FROM DbTestSession WHERE state = 'RUNNING' and (timeExpired is null or :now < timeExpired)")
     fun getPendingSessionIds(now : Date) : List<String>
 
+    @Query("DELETE FROM DbTestSession WHERE sessionId = :sessionId")
+    fun deleteSession(sessionId: String): Int
+
+    @Query("DELETE FROM DbTestSessionResult WHERE sessionId = :sessionId")
+    fun deleteResult(sessionId: String): Int
+
+    @Query("DELETE FROM DbTestSessionConfiguration WHERE sessionId = :sessionId")
+    fun deleteConfig(sessionId: String): Int
+
     @Transaction
     fun save(dbSession: DataTestSession) {
         save(dbSession.session)
         saveConfig(dbSession.config)
         dbSession.result?.let{ saveResult(it) }
+    }
+
+    @Transaction
+    fun delete(sessionId : String) : Int {
+        val session = deleteSession(sessionId)
+        deleteResult(sessionId)
+        deleteConfig(sessionId)
+        return session
     }
 
     fun loadDataSession(sessionId: String): DataTestSession {

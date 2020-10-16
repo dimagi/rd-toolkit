@@ -39,7 +39,8 @@ data class DbTestSession (
 data class DbTestSessionResult(
         @PrimaryKey val sessionId: String,
         var timeRead: Date?,
-        var rawCapturedImageFilePath: String?,
+        var mainImage: String?,
+        val images: MutableMap<String, String>,
         val results: MutableMap<String, String>,
         val classifierResults: MutableMap<String, String>
 )

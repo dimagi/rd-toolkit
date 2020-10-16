@@ -7,10 +7,10 @@ import kotlin.collections.HashMap
 
 object TestObjects {
     @JvmField
-    val TestResultNoValues = TestSession.TestResult(Date(), "testpath", HashMap(), HashMap())
+    val TestResultNoValues = TestSession.TestResult(Date(), "testpath", HashMap(), HashMap(), HashMap())
 
     @JvmField
-    val TestResultsSampleValues = TestSession.TestResult(Date(Date().time - 500), "testpath", HashMap(mapOf("diag_one" to "positive", "diag_two" to "negative")), HashMap())
+    val TestResultsSampleValues = TestSession.TestResult(Date(Date().time - 500), "testpath", HashMap(mapOf("raw" to "testpath")), HashMap(mapOf("diag_one" to "positive", "diag_two" to "negative")), HashMap())
 
     @JvmField
     val ConfigMinimal = TestSession.Configuration(SessionMode.ONE_PHASE, ProvisionMode.TEST_PROFILE, ClassifierMode.PRE_POPULATE,"test_id",null,null,null,null,null, null, HashMap())

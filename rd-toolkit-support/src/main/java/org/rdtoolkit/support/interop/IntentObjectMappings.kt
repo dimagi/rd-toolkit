@@ -15,6 +15,8 @@ const val INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_ONE = "rdt_config_flavor_one"
 const val INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_TWO = "rdt_config_flavor_two"
 const val INTENT_EXTRA_RDT_CONFIG_OUTPUT_TRANSLATOR_SESSION = "rdt_config_translator_session"
 const val INTENT_EXTRA_RDT_CONFIG_OUTPUT_TRANSLATOR_RESULT = "rdt_config_translator_result"
+const val INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS = "rdt_config_cloudworks_dns"
+const val INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_CONTEXT = "rdt_config_cloudworks_context"
 
 const val INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE = "rdt_config_session_type"
 const val INTENT_EXTRA_RDT_CONFIG_FLAGS = "rdt_config_session_flags"
@@ -28,7 +30,8 @@ const val INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED = "rdt_session_time_expired"
 const val INTENT_EXTRA_RDT_RESULT_TIME_READ = "rdt_session_result_time_read"
 const val INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH = "rdt_session_result_raw_image_path"
 const val INTENT_EXTRA_RDT_RESULT_MAP = "rdt_session_result_map"
-const val INTENT_EXTRA_RDT_INTERPRETER_RESULT_MAP = "rdt_session_interpreter_result_map"
+const val INTENT_EXTRA_RDT_RESULT_INTERPRETER_MAP = "rdt_session_result_interpreter_map"
+const val INTENT_EXTRA_RDT_RESULT_IMAGES = "rdt_session_result_extra_images"
 
 const val INTENT_EXTRA_RDT_RESULT_BUNDLE = "rdt_session_result_bundle"
 
@@ -48,6 +51,8 @@ class BundleToConfiguration : Mapper<Bundle, TestSession.Configuration> {
                 input.getString(INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_TWO),
                 input.getString(INTENT_EXTRA_RDT_CONFIG_OUTPUT_TRANSLATOR_SESSION),
                 input.getString(INTENT_EXTRA_RDT_CONFIG_OUTPUT_TRANSLATOR_RESULT),
+                input.getString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS),
+                input.getString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_CONTEXT),
                 map
         )
     }
@@ -66,6 +71,9 @@ class ConfigurationToBundle : Mapper<TestSession.Configuration, Bundle> {
         b.putString(INTENT_EXTRA_RDT_CONFIG_OUTPUT_TRANSLATOR_SESSION, input.outputSessionTranslatorId)
         b.putString(INTENT_EXTRA_RDT_CONFIG_OUTPUT_TRANSLATOR_RESULT, input.outputResultTranslatorId)
 
+        b.putString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS, input.cloudworksDns)
+        b.putString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_CONTEXT, input.cloudworksContext)
+
         b.putBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS, StringMapToBundle().map(input.flags))
         return b
     }
@@ -74,12 +82,13 @@ class ConfigurationToBundle : Mapper<TestSession.Configuration, Bundle> {
 class BundleToResult : Mapper<Bundle, TestSession.TestResult> {
     override fun map(input: Bundle): TestSession.TestResult {
         val mapBundle = input.getBundle(INTENT_EXTRA_RDT_RESULT_MAP)
-        val interpreterBundle = input.getBundle(INTENT_EXTRA_RDT_INTERPRETER_RESULT_MAP)
-
+        val interpreterBundle = input.getBundle(INTENT_EXTRA_RDT_RESULT_INTERPRETER_MAP)
+        val extraImages = input.getBundle(INTENT_EXTRA_RDT_RESULT_IMAGES)
 
         return TestSession.TestResult(
                 Date(input.getLong(INTENT_EXTRA_RDT_RESULT_TIME_READ)),
                 input.getString(INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH),
+                getMapFromBundle(extraImages),
                 getMapFromBundle(mapBundle),
                 getMapFromBundle(interpreterBundle)
         )
@@ -101,10 +110,12 @@ class ResultToBundle : Mapper<TestSession.TestResult, Bundle> {
     override fun map(input: TestSession.TestResult): Bundle {
         var b = Bundle()
         b.putLong(INTENT_EXTRA_RDT_RESULT_TIME_READ, input.timeRead!!.time)
-        b.putString(INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH, input.rawCapturedImageFilePath)
+        b.putString(INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH, input.mainImage)
+
+        b.putBundle(INTENT_EXTRA_RDT_RESULT_IMAGES, getBundleFromMap(input.images))
 
         b.putBundle(INTENT_EXTRA_RDT_RESULT_MAP, getBundleFromMap(input.results))
-        b.putBundle(INTENT_EXTRA_RDT_INTERPRETER_RESULT_MAP, getBundleFromMap(input.classifierResults))
+        b.putBundle(INTENT_EXTRA_RDT_RESULT_INTERPRETER_MAP, getBundleFromMap(input.classifierResults))
         return b
     }
 
@@ -128,7 +139,9 @@ class SessionToBundle : Mapper<TestSession, Bundle> {
         b.putBundle(INTENT_EXTRA_RDT_CONFIG_BUNDLE, ConfigurationToBundle().map(input.configuration))
         b.putLong(INTENT_EXTRA_RDT_SESSION_TIME_STARTED, input.timeStarted.time)
         b.putLong(INTENT_EXTRA_RDT_SESSION_TIME_RESOLVED, input.timeResolved.time)
-        b.putLong(INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED, input.timeExpired.time)
+        input.timeExpired?.let {
+            b.putLong(INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED, it.time)
+        }
         input.result?.let{
             b.putBundle(INTENT_EXTRA_RDT_RESULT_BUNDLE, ResultToBundle().map(it))}
 
@@ -149,7 +162,7 @@ class BundleToSession : Mapper<Bundle, TestSession> {
                 BundleToConfiguration().map(input.getBundle(INTENT_EXTRA_RDT_CONFIG_BUNDLE)!!),
                 Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_STARTED)),
                 Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_RESOLVED)),
-                Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED)),
+                input.get(INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED)?.let { Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED))},
                 input.getBundle(INTENT_EXTRA_RDT_RESULT_BUNDLE)?.let { BundleToResult().map(it) }
         )
     }
