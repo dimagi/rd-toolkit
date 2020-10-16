@@ -25,6 +25,7 @@ import org.rdtoolkit.component.ComponentManager;
 import org.rdtoolkit.component.ComponentRepository;
 import org.rdtoolkit.component.ImageCaptureResult;
 import org.rdtoolkit.component.ImageClassifierComponent;
+import org.rdtoolkit.component.Sandbox;
 import org.rdtoolkit.component.TestImageCaptureComponent;
 import org.rdtoolkit.model.diagnostics.Pamphlet;
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
@@ -162,14 +163,16 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
             defaultTags.add("production");
             ComponentRepository repository = InjectorUtils.Companion.provideComponentRepository(this);
 
+            Sandbox sandbox = new Sandbox(this, sessionId);
+
             //TODO: Unify into a single plan method that can intersect these more carefully. Right now
             //it's possible for a classifier to lack a compatible capture
-            ImageClassifierComponent classifierComponent = repository.getClassifierComponentForTest(result.id(), defaultTags);
+            ImageClassifierComponent classifierComponent = repository.getClassifierComponentForTest(result.id(), defaultTags, sandbox);
 
             List<String> captureModes = classifierComponent == null ? null :  classifierComponent.compatibleCaptureModes();
 
             TestImageCaptureComponent captureComponent = repository.
-                    getCaptureComponentForTest(result.id(), defaultTags, captureModes);
+                    getCaptureComponentForTest(result.id(), defaultTags, captureModes, sandbox);
 
             if (classifierComponent != null) {
                 componentManager.registerComponents(captureComponent, classifierComponent);

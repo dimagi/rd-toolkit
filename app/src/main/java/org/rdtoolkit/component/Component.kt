@@ -1,9 +1,11 @@
 package org.rdtoolkit.component
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Rect
+import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageCapture
 import androidx.core.app.ActivityCompat
@@ -18,6 +20,7 @@ import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
 import org.rdtoolkit.R
 import org.rdtoolkit.model.diagnostics.Pamphlet
+import java.io.File
 
 val TAG_READINESS_PRODUCTION = "production"
 val TAG_READINESS_AVAILABLE = "available"
@@ -131,6 +134,21 @@ class ComponentManager(private val activity : AppCompatActivity,
     }
 }
 
+class Sandbox(val context : Context, val sessionId: String) {
+    /**
+     * Get the file system location for any files that need to be stored by the component
+     */
+    fun getFileRoot() : File {
+        val externalDir = File(context.getExternalFilesDir(DIRECTORY_SESSIONS),sessionId)
+        externalDir.mkdirs()
+        return externalDir
+    }
+
+    companion object {
+        const val DIRECTORY_SESSIONS = "session_media"
+    }
+}
+
 interface Config {
 
 }
@@ -170,7 +188,7 @@ interface ToolkitComponentManifest<C : Component, G> {
         return NoConfig() as G
     }
 
-    fun getComponent(config: G) : C
+    fun getComponent(config: G, sandbox : Sandbox) : C
 
     fun getDownstreamTags() : Set<String> {
         return setOf()

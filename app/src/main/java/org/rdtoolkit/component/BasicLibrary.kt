@@ -19,8 +19,8 @@ class PlainCameraComponentManifest : ToolkitComponentManifest<TestImageCaptureCo
         return setOf(COMPONENT_NATIVE_CAMERA_CAPTURE, TAG_READINESS_PRODUCTION)
     }
 
-    override fun getComponent(config: NoConfig) : TestImageCaptureComponent {
-        return DefaultImageCaptureComponent()
+    override fun getComponent(config: NoConfig, sandbox : Sandbox) : TestImageCaptureComponent {
+        return DefaultImageCaptureComponent(sandbox.getFileRoot())
     }
 
     override fun getCompatibleOutputs(diagnosticId: String) : Set<String> {
@@ -28,7 +28,7 @@ class PlainCameraComponentManifest : ToolkitComponentManifest<TestImageCaptureCo
     }
 }
 
-class DefaultImageCaptureComponent : TestImageCaptureComponent(), ActivityLifecycleComponent {
+class DefaultImageCaptureComponent(val storageDir : File) : TestImageCaptureComponent(), ActivityLifecycleComponent {
     var returnPhotoPath: String? = null
 
     @Throws(IOException::class)
@@ -36,7 +36,6 @@ class DefaultImageCaptureComponent : TestImageCaptureComponent(), ActivityLifecy
         // Create an image file name
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "TEST_" + timeStamp + "_"
-        val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val image = File.createTempFile(imageFileName, ".jpg", storageDir)
 
         returnPhotoPath = image.absolutePath

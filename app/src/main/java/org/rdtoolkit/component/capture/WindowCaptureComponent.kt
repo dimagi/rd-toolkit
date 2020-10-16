@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Rect
 import org.rdtoolkit.component.*
+import org.rdtoolkit.component.capture.WindowCaptureActivity.Companion.EXTRA_FILE_ROOT
+import org.rdtoolkit.component.capture.WindowCaptureActivity.Companion.EXTRA_RETICLE_RATIO
 import java.io.File
 
 val COMPONENT_WINDOWED_CAPTURE = "capture_windowed"
@@ -41,8 +43,8 @@ class WindowCaptureComponentManifest : ToolkitComponentManifest<TestImageCapture
         }
     }
 
-    override fun getComponent(config: WindowCaptureConfig) : TestImageCaptureComponent {
-        return WindowCaptureComponent(config)
+    override fun getComponent(config: WindowCaptureConfig, sandbox : Sandbox) : TestImageCaptureComponent {
+        return WindowCaptureComponent(config, sandbox)
     }
 
     override fun getCompatibleOutputs(diagnosticId: String) : Set<String> {
@@ -53,7 +55,7 @@ class WindowCaptureComponentManifest : ToolkitComponentManifest<TestImageCapture
 data class WindowCaptureConfig(val cassetteAspectRatio : String): Config
 
 
-class WindowCaptureComponent(private val config : WindowCaptureConfig) :
+class WindowCaptureComponent(private val config : WindowCaptureConfig, private val sandbox: Sandbox) :
         TestImageCaptureComponent(), ActivityLifecycleComponent {
     var croppedPhotoPath : String? = null
     var rawPhotoPath : String? = null
@@ -62,6 +64,7 @@ class WindowCaptureComponent(private val config : WindowCaptureConfig) :
     fun triggerCallout(activity: Activity) {
         val calloutIntent = Intent(activity, WindowCaptureActivity::class.java)
         calloutIntent.putExtra(EXTRA_RETICLE_RATIO, config.cassetteAspectRatio)
+        calloutIntent.putExtra(EXTRA_FILE_ROOT, sandbox.getFileRoot().absolutePath)
 
         activity.startActivityForResult(calloutIntent, componentInterfaceId!!)
     }

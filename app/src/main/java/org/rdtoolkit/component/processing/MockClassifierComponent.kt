@@ -1,10 +1,7 @@
 package org.rdtoolkit.component.processing
 
 import kotlinx.coroutines.delay
-import org.rdtoolkit.component.Config
-import org.rdtoolkit.component.ImageCaptureResult
-import org.rdtoolkit.component.ImageClassifierComponent
-import org.rdtoolkit.component.ToolkitComponentManifest
+import org.rdtoolkit.component.*
 
 val COMPONENT_WINDOWED_CAPTURE = "classifier_mock"
 val TAG_READINESS_MOCK = "mock"
@@ -19,7 +16,7 @@ class MockClassifierManifest : ToolkitComponentManifest<ImageClassifierComponent
         return MockClassifierConfig(diagnosticId)
     }
 
-    override fun getComponent(config: MockClassifierConfig) : MockClassifierComponent {
+    override fun getComponent(config: MockClassifierConfig, sandbox : Sandbox) : MockClassifierComponent {
         return MockClassifierComponent(config)
     }
 }

@@ -1,3 +1,4 @@
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
     <external-files-path name="raw_test_captures" path="Pictures" />
+    <external-files-path name="session_media_data" path="session_media" />
 </paths>

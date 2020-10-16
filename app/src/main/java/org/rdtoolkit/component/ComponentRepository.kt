@@ -17,7 +17,7 @@ class ComponentRepository() {
         classifierManifests.add(manifest as ToolkitComponentManifest<ImageClassifierComponent, Any>)
     }
 
-    fun getCaptureComponentForTest(testProfileId: String, tags: MutableSet<String>, compatibleCaptureFormats : List<String>?) : TestImageCaptureComponent {
+    fun getCaptureComponentForTest(testProfileId: String, tags: MutableSet<String>, compatibleCaptureFormats : List<String>?, sandbox: Sandbox) : TestImageCaptureComponent {
         val matchingComponents =
                 imageCaptureManifests.filter { it.getTagsForDiagnostic(testProfileId).containsAll(tags) }
                         .filter { compatibleCaptureFormats == null || it.getCompatibleOutputs(testProfileId).intersect(compatibleCaptureFormats).isNotEmpty() }
@@ -26,16 +26,16 @@ class ComponentRepository() {
             throw Exception("No matching Capture Components available!")
         }
         val component = matchingComponents.first()
-        return component.getComponent(component.getConfigForDiagnostic(testProfileId))
+        return component.getComponent(component.getConfigForDiagnostic(testProfileId), sandbox)
     }
 
-    fun getClassifierComponentForTest(testProfileId: String, tags : Set<String>) : ImageClassifierComponent? {
+    fun getClassifierComponentForTest(testProfileId: String, tags : Set<String>, sandbox: Sandbox) : ImageClassifierComponent? {
         val matchingComponents = classifierManifests.filter { it.getTagsForDiagnostic(testProfileId).containsAll(tags) }.sortedByDescending { it.getValue() }
         if (matchingComponents.isEmpty()) {
             return null
         }
         val component = matchingComponents.first()
-        return component.getComponent(component.getConfigForDiagnostic(testProfileId))
+        return component.getComponent(component.getConfigForDiagnostic(testProfileId), sandbox)
     }
 
     init {

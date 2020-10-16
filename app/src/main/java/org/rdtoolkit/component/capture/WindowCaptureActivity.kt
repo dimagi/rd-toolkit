@@ -34,8 +34,6 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-val EXTRA_RETICLE_RATIO = "windowed_capture_reticle_ratio"
-
 class WindowCaptureActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
 
@@ -65,7 +63,11 @@ class WindowCaptureActivity : AppCompatActivity() {
 
         camera_rotate_button.setOnClickListener { rotateCameras() }
 
-        outputDirectory = getOutputDirectory()
+        if(intent.hasExtra(EXTRA_FILE_ROOT)) {
+            outputDirectory = File(intent.getStringExtra(EXTRA_FILE_ROOT)!!)
+        } else {
+            outputDirectory = getOutputDirectory()
+        }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -275,9 +277,16 @@ class WindowCaptureActivity : AppCompatActivity() {
     }
     companion object {
         private const val LOG_TAG = "WindowCaptureActivity"
+
+        //in
+        const val EXTRA_RETICLE_RATIO = "windowed_capture_reticle_ratio"
+        const val EXTRA_FILE_ROOT = "windowed_capture_file_root"
+
+        //out
         const val EXTRA_ORIGINAL_IMAGE = "ORIGNAL_PATH"
         const val EXTRA_CROPPED_IMAGE = "CROPPED_PATH"
         const val EXTRA_RETICLE_RECT = "RETICLE_RECT"
+
         private const val FILENAME_FORMAT = "yyyyMMdd_HHmmss"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
