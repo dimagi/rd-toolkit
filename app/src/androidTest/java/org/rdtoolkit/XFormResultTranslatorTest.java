@@ -13,6 +13,7 @@ import org.rdtoolkit.interop.translator.InteropRepository;
 
 import java.util.Map;
 
+import static org.rdtoolkit.support.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_ONE;
 import static org.rdtoolkit.support.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_RESULT_MAP;
 import static org.rdtoolkit.interop.translator.TranslatorsKt.TRANSLATOR_XFORM_RESULT;
 
@@ -55,7 +56,7 @@ public class XFormResultTranslatorTest {
         Intent output = new InteropRepository().getTranslator(TRANSLATOR_XFORM_RESULT).map(sessionIntent);
         Bundle xformBundle = output.getBundleExtra("odk_intent_bundle");
 
-        Assert.assertEquals(xformBundle.getString(IntentObjectMappingsKt.INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_ONE),
+        Assert.assertEquals(xformBundle.getString(INTENT_EXTRA_RDT_CONFIG_FLAVOR_TEXT_ONE),
                 Constants.SessionCompleted.getConfiguration().getFlavorText());
 
         Map<String, String> results = Constants.SessionCompleted.getResult().getResults();

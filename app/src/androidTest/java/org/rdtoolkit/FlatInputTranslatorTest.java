@@ -15,11 +15,11 @@ import org.rdtoolkit.support.model.session.SessionMode;
 import org.rdtoolkit.support.model.session.TestSession;
 
 import static org.rdtoolkit.support.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_CLASSIFIER_MODE;
-import static org.rdtoolkit.interop.InterfacesKt.INTENT_EXTRA_RDT_CONFIG_BUNDLE;
 import static org.rdtoolkit.support.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_CONFIG_SESSION_TYPE;
 import static org.rdtoolkit.support.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_PROVISION_MODE;
 import static org.rdtoolkit.support.interop.IntentObjectMappingsKt.INTENT_EXTRA_RDT_PROVISION_MODE_DATA;
 import static org.rdtoolkit.interop.translator.TranslatorsKt.TRANSLATOR_PROVISION_FLAT;
+import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_CONFIG_BUNDLE;
 import static org.rdtoolkit.support.model.session.SessionFlagsKt.FLAG_SESSION_NO_EXPIRATION_OVERRIDE;
 import static org.rdtoolkit.support.model.session.SessionFlagsKt.FLAG_VALUE_SET;
 

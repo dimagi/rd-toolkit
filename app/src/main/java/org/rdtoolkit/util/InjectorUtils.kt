@@ -7,6 +7,7 @@ import org.rdtoolkit.component.ComponentRepository
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.StaticPamphlets
 import org.rdtoolkit.model.session.SessionRepository
+import org.rdtoolkit.model.session.SessionRepositoryImpl
 import org.rdtoolkit.model.session.getDatabase
 import org.rdtoolkit.ui.capture.CaptureViewModel
 import org.rdtoolkit.ui.instruct.DisclaimerPage
@@ -54,7 +55,7 @@ class InjectorUtils() {
         }
 
         fun provideSessionRepository(context: Context) : SessionRepository {
-            return SessionRepository(getDatabase(context).testSessionDao())
+            return SessionRepositoryImpl(getDatabase(context).testSessionDao())
         }
 
 

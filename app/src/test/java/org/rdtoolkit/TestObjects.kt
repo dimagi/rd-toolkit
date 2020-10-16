@@ -13,10 +13,10 @@ object TestObjects {
     val TestResultsSampleValues = TestSession.TestResult(Date(Date().time - 500), "testpath", HashMap(mapOf("diag_one" to "positive", "diag_two" to "negative")), HashMap())
 
     @JvmField
-    val ConfigMinimal = TestSession.Configuration(SessionMode.ONE_PHASE, ProvisionMode.TEST_PROFILE, ClassifierMode.PRE_POPULATE,"test_id",null,null,null,null,HashMap())
+    val ConfigMinimal = TestSession.Configuration(SessionMode.ONE_PHASE, ProvisionMode.TEST_PROFILE, ClassifierMode.PRE_POPULATE,"test_id",null,null,null,null,null, null, HashMap())
 
     @JvmField
-    val ConfigNormal = TestSession.Configuration(SessionMode.ONE_PHASE, ProvisionMode.TEST_PROFILE, ClassifierMode.PRE_POPULATE,"test_id","flavor_one","flavor_two",null,null,HashMap())
+    val ConfigNormal = TestSession.Configuration(SessionMode.ONE_PHASE, ProvisionMode.TEST_PROFILE, ClassifierMode.PRE_POPULATE,"test_id","flavor_one","flavor_two",null,null,"https://test.com","cloudworks_context_data", HashMap())
 
     @JvmField
     val SessionProvisioned = TestSession("unique_id",

@@ -59,6 +59,8 @@ data class DbTestSessionConfiguration(
         val flavorTextTwo: String?,
         val outputSessionTranslatorId: String?,
         val outputResultTranslatorId: String?,
+        val cloudworksDns: String?,
+        val cloudworksContext: String?,
         val flags: Map<String, String>
 )
 

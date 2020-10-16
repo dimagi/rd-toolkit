@@ -40,12 +40,12 @@ class DataToResultMapper() : Mapper<DbTestSessionResult?, TestSession.TestResult
 
 class ConfigToDataMapper(val sessionId : String) : Mapper<TestSession.Configuration, DbTestSessionConfiguration> {
     override fun map(input: TestSession.Configuration): DbTestSessionConfiguration {
-        return DbTestSessionConfiguration(sessionId, input.sessionType, input.provisionMode, input.classifierMode, input.provisionModeData, input.flavorText, input.flavorTextTwo, input.outputSessionTranslatorId, input.outputResultTranslatorId, input.flags)
+        return DbTestSessionConfiguration(sessionId, input.sessionType, input.provisionMode, input.classifierMode, input.provisionModeData, input.flavorText, input.flavorTextTwo, input.outputSessionTranslatorId, input.outputResultTranslatorId, input.cloudworksDns, input.cloudworksContext, input.flags)
     }
 }
 
 class DataToConfigMapper() : Mapper<DbTestSessionConfiguration, TestSession.Configuration> {
     override fun map(input : DbTestSessionConfiguration): TestSession.Configuration {
-        return TestSession.Configuration(input.sessionType, input.provisionMode, input.classifierMode, input.provisionModeData, input.flavorText, input.flavorTextTwo, input.outputSessionTranslatorId, input.outputResultTranslatorId, input.flags)
+        return TestSession.Configuration(input.sessionType, input.provisionMode, input.classifierMode, input.provisionModeData, input.flavorText, input.flavorTextTwo, input.outputSessionTranslatorId, input.outputResultTranslatorId, input.cloudworksDns, input.cloudworksContext, input.flags)
     }
 }

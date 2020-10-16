@@ -36,6 +36,14 @@ class ConfigurationToJson : Mapper<TestSession.Configuration, JSONObject> {
             root.put("output_result_translator_id", it)
         }
 
+        input.cloudworksDns?.let {
+            root.put("cloudworks_dns", it)
+        }
+
+        input.cloudworksContext?.let {
+            root.put("cloudworks_context", it)
+        }
+
         val flags = JSONObject(input.flags)
         root.put("flags", flags)
 
