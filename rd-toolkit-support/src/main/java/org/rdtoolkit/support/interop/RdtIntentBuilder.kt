@@ -144,13 +144,14 @@ class RdtProvisioningIntentBuilder() : RdtIntentBuilder<RdtProvisioningIntentBui
     /**
      * Apply a result response translator before returning the session intent
      */
-    fun setResultResponseTranslator(responseTranslatorId : String) : RdtProvisioningIntentBuilder  {
+    fun setResultResponseTranslator(responseTranslatorId : String) : RdtProvisioningIntentBuilder {
         configBundle.putString(INTENT_EXTRA_OUTPUT_RESULT_TRANSLATOR, responseTranslatorId)
         return this
     }
 
-    fun setCloudworksBackend(cloudworksDns : String, cloudworksContext : String?) {
+    fun setCloudworksBackend(cloudworksDns : String, cloudworksContext : String? = null ) : RdtProvisioningIntentBuilder {
         configBundle.putString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS, cloudworksDns)
         configBundle.putString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_CONTEXT, cloudworksContext)
+        return this
     }
 }

@@ -51,7 +51,7 @@ class WorkCoordinator(val context : Context) {
                 .addTag(session.sessionId)
                 .addTag(TAG_PURGE)
                 .setInputData(purgeData)
-                .setInitialDelay(20, TimeUnit.SECONDS)
+                .setInitialDelay(1, TimeUnit.DAYS)
                 .build()
     }
 
