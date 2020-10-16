@@ -7,11 +7,20 @@
     tools:context=".ui.provision.ProvisionCommitFragment">
 
     <LinearLayout
+        android:id="@+id/provision_begin_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/provision_btn_start"
         android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/provision_begin_timer_icon"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_timer_400" />
+
         <TextView
             android:id="@+id/provision_begin_resolve"
             android:layout_width="match_parent"
