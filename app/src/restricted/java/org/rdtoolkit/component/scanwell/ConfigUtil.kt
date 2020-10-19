@@ -1,6 +1,5 @@
 package org.rdtoolkit.component.scanwell
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.scanwell.rdtr.model.RdtMeasurements
