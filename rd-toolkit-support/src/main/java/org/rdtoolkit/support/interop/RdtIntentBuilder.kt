@@ -154,4 +154,13 @@ class RdtProvisioningIntentBuilder() : RdtIntentBuilder<RdtProvisioningIntentBui
         configBundle.putString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_CONTEXT, cloudworksContext)
         return this
     }
+
+    /**
+     * Configure the test session in a testing / qa mode which will allow for overriding certain
+     * actions for smoothness
+     */
+    fun setInTestQaMode() : RdtProvisioningIntentBuilder {
+        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_SESSION_TESTING_QA, FLAG_VALUE_SET);
+        return this
+    }
 }

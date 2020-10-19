@@ -3,6 +3,7 @@ package org.rdtoolkit.support.model.session
 const val FLAG_PREFIX_KEY = "FLAG_"
 
 const val FLAG_SESSION_NO_EXPIRATION_OVERRIDE = "FLAG_NO_OVERRIDE"
+const val FLAG_SESSION_TESTING_QA = "FLAG_TESTING_QA"
 
 const val FLAG_CALLING_PACKAGE = "FLAG_ANDROID_CALLING_PACKAGE"
 
