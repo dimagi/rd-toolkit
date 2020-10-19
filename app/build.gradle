@@ -114,7 +114,9 @@ dependencies {
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
-    restrictedImplementation files("$restrictedLibraryRoot/scanwell-rdt-reader.aar")
+    if (project.hasProperty("restrictedLibraryRoot")) {
+        restrictedImplementation files("$restrictedLibraryRoot/scanwell-rdt-reader.aar")
+    }
     restrictedImplementation 'com.quickbirdstudios:opencv:4.3.0'
 }
 
