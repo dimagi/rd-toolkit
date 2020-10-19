@@ -17,6 +17,10 @@ import org.rdtoolkit.BuildConfig;
 import org.rdtoolkit.R;
 import org.rdtoolkit.util.ContextUtils;
 
+import static org.rdtoolkit.support.model.session.SessionFlagsKt.FLAG_SESSION_NO_EXPIRATION_OVERRIDE;
+import static org.rdtoolkit.support.model.session.SessionFlagsKt.FLAG_SESSION_TESTING_QA;
+import static org.rdtoolkit.support.model.session.SessionFlagsKt.FLAG_VALUE_SET;
+
 public class ProvisionCommitFragment extends Fragment {
 
     private ProvisionViewModel mViewModel;
@@ -44,9 +48,11 @@ public class ProvisionCommitFragment extends Fragment {
 
         CheckBox resolveImmediately = ((CheckBox)view.findViewById(R.id.provision_begin_cbx_resolve_immediately));
 
-        if (BuildConfig.DEBUG) {
-            resolveImmediately.setVisibility(View.VISIBLE);
-        }
+        mViewModel.getSessionConfig().observe(getViewLifecycleOwner(), value -> {
+            if (FLAG_VALUE_SET.equals(value.getFlags().get(FLAG_SESSION_TESTING_QA)) || BuildConfig.DEBUG) {
+                resolveImmediately.setVisibility(View.VISIBLE);
+            }
+        });
 
         resolveImmediately.setOnCheckedChangeListener((compoundButton, b) -> {
             mViewModel.setDebugResolveImmediately(b);
