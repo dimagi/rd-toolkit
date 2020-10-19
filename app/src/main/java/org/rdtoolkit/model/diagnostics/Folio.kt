@@ -13,6 +13,7 @@ import java.util.zip.ZipInputStream
  */
 interface Folio {
     fun getText(key: String) : String
+    fun getText(key: String, default: String) : String
     fun getPamphlet() : Pamphlet
     fun setLocale(locale: String)
     fun validate()
@@ -172,6 +173,11 @@ class FolioRep  (
     override fun getText(key: String) : String {
         return dictFor(currentLocale)[key] ?: dictFor(defaultLocale)[key] ?:
           throw InvalidFolioException("Missing translation for $key")
+    }
+
+    override fun getText(key: String, default: String) : String {
+        return dictFor(currentLocale)[key] ?: dictFor(defaultLocale)[key] ?:
+        return default
     }
 
     private fun dictFor(key : String) : Map<String, String> {

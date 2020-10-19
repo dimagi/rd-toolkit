@@ -1,9 +1,10 @@
 package org.rdtoolkit.component
 
+import android.content.Context
 import org.rdtoolkit.component.capture.WindowCaptureComponentManifest
 import org.rdtoolkit.component.processing.MockClassifierManifest
 
-class ComponentRepository() {
+class ComponentRepository(context: Context) {
 
     val imageCaptureManifests = HashSet<ToolkitComponentManifest<TestImageCaptureComponent, Any>>()
 
@@ -42,5 +43,8 @@ class ComponentRepository() {
         registerCaptureComponent(PlainCameraComponentManifest())
         registerCaptureComponent(WindowCaptureComponentManifest())
         registerClassifierComponent(MockClassifierManifest())
+
+        //NOTE: I don't love this because it's pretty one-to-one
+        StaticComponentRegistry(context).bootstrap(this)
     }
 }

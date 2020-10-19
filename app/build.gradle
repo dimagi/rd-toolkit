@@ -16,6 +16,19 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.1"
 
+    flavorDimensions "licenses"
+
+    productFlavors {
+        open {
+            dimension "licenses"
+        }
+
+        restricted {
+            dimension "licenses"
+            loadRestrictedProperties()
+        }
+    }
+
     signingConfigs {
         release {
             storeFile file(project.ext.RELEASE_STORE_FILE)
@@ -73,6 +86,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     // CameraX core library using camera2 implementation
     implementation "androidx.camera:camera-camera2:$camerax_version"
@@ -99,4 +113,16 @@ dependencies {
 
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+
+    restrictedImplementation files("$restrictedLibraryRoot/scanwell-rdt-reader.aar")
+    restrictedImplementation 'com.quickbirdstudios:opencv:4.3.0'
+}
+
+def loadRestrictedProperties() {
+    //Load a local properties file if one exists
+    if (file("$project.rootDir/local.restricted.properties").exists()) {
+        def localProperties = new Properties()
+        localProperties.load(new FileInputStream("$project.rootDir/local.restricted.properties"))
+        localProperties.each { prop -> project.ext.set(prop.key, prop.value) }
+    }
 }

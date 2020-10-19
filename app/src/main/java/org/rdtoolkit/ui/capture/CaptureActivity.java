@@ -132,6 +132,8 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
                     break;
                 case COMPLETE:
                     resultsTab.setEnabled(true);
+                    Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
+                            R.id.action_capture_timer_to_capture_resultsFragment);
                     break;
             }
         });
@@ -274,9 +276,6 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
         ImageClassifierComponent classifier = componentManager.getImageClassifierComponent();
         if(classifier != null) {
             processImage(imageResult);
-        } else {
-            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
-                    R.id.action_capture_timer_to_capture_resultsFragment);
         }
     }
 
@@ -294,8 +293,6 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
     @Override
     public void onClassifierComplete(@NotNull Map<String, String> results) {
         captureViewModel.setClassifierResults(results);
-        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
-                R.id.action_capture_timer_to_capture_resultsFragment);
     }
 
     public void infoBackPressed(View view) {
@@ -315,5 +312,4 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
             Navigation.findNavController(view).navigate(R.id.action_capture_job_aid_to_results);
         }
     }
-
 }

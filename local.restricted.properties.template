@@ -1,0 +1,2 @@
+#Sets the directory root for restrict license *.aar library resources
+restrictedLibraryRoot=

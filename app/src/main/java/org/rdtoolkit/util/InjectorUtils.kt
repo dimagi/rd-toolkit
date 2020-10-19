@@ -67,7 +67,7 @@ class InjectorUtils() {
         }
 
         fun provideComponentRepository(context: Context) : ComponentRepository {
-            return ComponentRepository()
+            return ComponentRepository(context)
         }
 
     }

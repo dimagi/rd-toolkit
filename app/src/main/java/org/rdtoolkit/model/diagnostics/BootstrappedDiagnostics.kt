@@ -20,7 +20,8 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     var standard_q_pf = ConcreteProfile("sd_standard_q_mal_pf_ag", "SD Standard Q Malaria P.f Ag", "sample_standard_q_pf",60*15,60*30, listOf(pf_result), listOf("real"))
 
     var carestart = ConcreteProfile("carestart_mal_pf_pv", "CareStart™ Malaria Pf/Pv (HRP2/pLDH) Ag Combo RDT", "sample_carestart",60*20,60*30, listOf(pf_result, pv_result), listOf("real"))
-    var firstresponse = ConcreteProfile("firstresponse_mal_pf_pv", "First Response® Malaria Ag P.f./P.v. (HRP2/pLDH) Card Test","sample_firstresponse", 60*20,60*30, listOf(pf_result, pv_result), listOf("real"))
+    var firstresponse = ConcreteProfile("firstresponse_mal_pf_pv", "First Response® Malaria Ag P.f./P.v. (HRP2/pLDH) Card Test",null, 60*20,60*30, listOf(pf_result, pv_result), listOf("real"))
+    var firstresponse_pf = ConcreteProfile("firstresponse_mal_pf", "First Response® Malaria Ag P. falciparum (HRP2) Card Test","sample_firstresponse", 60*20,60*30, listOf(pf_result, pv_result), listOf("real"))
 
     var quicktest = ConcreteProfile("debug_mal_pf_pv", "FastResolve Malaria P.f./P.v", null,120,240, listOf(pf_result, pv_result), listOf("fake"))
     var lightnighttest = ConcreteProfile("debug_sf_mal_pf_pv", "LightningQuick Malaria P.f./P.v", null,5,25, listOf(pf_result, pv_result), listOf("fake"))
@@ -31,6 +32,7 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     returnSet.put(standard_q_pf.id, standard_q_pf)
     returnSet.put(carestart.id(), carestart)
     returnSet.put(firstresponse.id(), firstresponse)
+    returnSet.put(firstresponse_pf.id(), firstresponse_pf)
     returnSet.put(quicktest.id(), quicktest)
     returnSet.put(lightnighttest.id(), lightnighttest)
 

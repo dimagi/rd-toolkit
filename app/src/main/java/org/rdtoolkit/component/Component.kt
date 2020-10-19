@@ -14,10 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.rdtoolkit.R
 import org.rdtoolkit.model.diagnostics.Pamphlet
 import java.io.File
@@ -186,7 +183,7 @@ interface ComponentEventListener {
     fun testImageCaptured(imagePath : ImageCaptureResult)
 
     fun onClassifierError(error: String, details: Pamphlet?)
-    fun onClassifierComplete(results: MutableMap<String, String>)
+    fun onClassifierComplete(results: Map<String, String>)
 }
 
 interface ToolkitComponentManifest<C : Component, G> {
@@ -228,7 +225,7 @@ abstract class ImageClassifierComponent : Component() {
             currentJob?.let {
                 it.cancelAndJoin()
             }
-            currentJob = launch {
+            currentJob = launch(Dispatchers.Default) {
                 try{
                     processImage(inputResult)
                 } catch(e: Exception){

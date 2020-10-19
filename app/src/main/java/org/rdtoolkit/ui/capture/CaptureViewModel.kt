@@ -2,6 +2,7 @@ package org.rdtoolkit.ui.capture
 
 import android.os.CountDownTimer
 import androidx.lifecycle.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
@@ -168,12 +169,12 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     fun setClassifierResults(classifierResults : MutableMap<String, String>) {
         testSessionResult.value!!.classifierResults.putAll(classifierResults)
-        processingStateValue.value = ProcessingState.COMPLETE
+        processingStateValue.postValue(ProcessingState.COMPLETE)
     }
 
     fun setProcessingError(error: String, details: Pamphlet?) {
-        processingStateValue.value = ProcessingState.ERROR
-        this.processingErrorValue.value = Pair(error, details)
+        processingStateValue.postValue(ProcessingState.ERROR)
+        this.processingErrorValue.postValue(Pair(error, details))
     }
 
     fun loadSession(sessionId: String) {
