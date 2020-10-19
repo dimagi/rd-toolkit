@@ -68,11 +68,11 @@
     <string name="fragment_capture_expired_override_message">Podes optar por ignorar este aviso e continuar. Isso será registrado com o resultado do teste.</string>
     <string name="fragment_capture_override_checkbox_message">Reconheço que o resultado do teste expirou e pode não ser mais válido</string>
     <string name="fragment_capture_test_override_button_prompt">Sobrepor</string>
-    <string name="action_job_aid">Job Aid</string>
+    <string name="action_job_aid">Ajuda de trabalho</string>
     <string name="action_job_aid_back">Anterior</string>
-    <string name="capture_timer_title">Test Timer</string>
-    <string name="capture_results_title">Test Results</string>
-    <string name="capture_record_title">Record Test Results</string>
-    <string name="capture_summary_status_timer">Timer</string>
-    <string name="capture_summary_status_timer_valid">Valid</string>
+    <string name="capture_timer_title">Cronômetro de Teste</string>
+    <string name="capture_results_title">Resultados do Teste</string>
+    <string name="capture_record_title">Registrar Resultados do Teste</string>
+    <string name="capture_summary_status_timer">Cronômetro</string>
+    <string name="capture_summary_status_timer_valid">Válido</string>
 </resources>
