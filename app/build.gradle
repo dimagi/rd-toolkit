@@ -21,6 +21,7 @@ android {
     productFlavors {
         open {
             dimension "licenses"
+            getIsDefault().set(true)
         }
 
         restricted {
