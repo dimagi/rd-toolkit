@@ -28,12 +28,20 @@
             style="@style/TextInstructions"
             android:text="@string/provision_begin_resolve_msg" />
 
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/provision_begin_cbx_resolve_immediately"
+            android:visibility="gone"
+            android:text="[Debug Only] Resolve Immediately" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             style="@style/TextInstructions"
             android:text="@string/provision_begin_action" />
+
     </LinearLayout>
 
     <Button

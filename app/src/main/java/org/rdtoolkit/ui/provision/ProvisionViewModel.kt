@@ -28,6 +28,8 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
 
     private val testProfileOptions: MutableLiveData<List<RdtDiagnosticProfile>> = MutableLiveData()
 
+    private val debugResolveImmediately: MutableLiveData<Boolean> = MutableLiveData(false)
+
     private val instructionSets : LiveData<List<Pamphlet>> = Transformations.map(testProfile) {
         profile -> profile?.let{diagnosticsRepository.getReferencePamphlets("reference", listOf(profile.id()))}
     }
@@ -37,6 +39,16 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
     }
 
     private val startAvailable: MutableLiveData<Boolean>
+
+    fun getDebugResolveImmediately() : LiveData<Boolean> {
+        return debugResolveImmediately
+    }
+
+    fun setDebugResolveImmediately(value : Boolean) {
+        if(value != debugResolveImmediately.value) {
+            debugResolveImmediately.value = value
+        }
+    }
 
     fun getInstructionSets() : LiveData<List<Pamphlet>> {
         return instructionSets
@@ -96,12 +108,23 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
 
     fun commitSession() : TestSession {
         var profile = testProfile.value!!
+
+        var dateTimeToResolve = Date(Date().time + 1000 * profile.timeToResolve())
+        var dateTimeToExpire = profile.timeToExpire()?.let { Date(Date().time + 1000 * profile.timeToExpire()) }
+
+        if (debugResolveImmediately.value!!) {
+            dateTimeToResolve = Date(Date().time + 5000)
+            profile.timeToExpire()?.let {
+                dateTimeToExpire = Date(Date().time + 5000 + 1000 * (profile.timeToExpire() - profile.timeToResolve()))
+            }
+        }
+
         val session = TestSession(sessionId, STATUS.RUNNING,
                 profile.id(),
                 sessionConfiguration.value!!,
                 Date(),
-                Date(Date().time + 1000 * profile.timeToResolve()),
-                profile.timeToExpire()?.let { Date(Date().time + 1000 * profile.timeToExpire()) },
+                dateTimeToResolve,
+                dateTimeToExpire,
                 null)
 
         val job = viewModelScope.launch(Dispatchers.IO) {

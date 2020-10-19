@@ -114,48 +114,5 @@
                 "mal_pv" : "mal_pv_pos"
             }
         }
-    },
-    "debug_sf_mal_pf_pv":
-    {
-        "measurements" : {
-            "rdtShortSide": 20,
-            "rdtLongSide": 60,
-            "assayShortSide": 3,
-            "assayLongSide": 11,
-            "assayShortPosInRdt": 8.5,
-            "assayLongPosInRdt": 21,
-            "assayRecessShortSide": 10,
-            "assayRecessLongSide": 17.5,
-            "controlLineCenterDistFromAssayTop": 1.5,
-            "testLineCenterDistFromControlLineCenter": 3,
-            "lineWidths": 0.9,
-            "numTestLines": 2
-        },
-        "responses" :
-        {
-            "-2": {
-
-            },
-            "-1": {
-                "mal_pf" : "universal_control_failure",
-                "mal_pv" : "universal_control_failure"
-            },
-            "0": {
-                "mal_pf" : "mal_pf_neg",
-                "mal_pv" : "mal_pv_neg"
-            },
-            "1": {
-                "mal_pf" : "mal_pf_neg",
-                "mal_pv" : "mal_pv_pos"
-            },
-            "2": {
-                "mal_pf" : "mal_pf_pos",
-                "mal_pv" : "mal_pv_neg"
-            },
-            "3": {
-                "mal_pf" : "mal_pf_pos",
-                "mal_pv" : "mal_pv_pos"
-            }
-        }
     }
 }
