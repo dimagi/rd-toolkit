@@ -6,10 +6,10 @@ apply plugin: 'kotlin-kapt'
 ext {
     // Obtained from ~/.gradle/gradle.properties on build server (mobile agent), or your local
     // ~/.gradle/gradle.properties file, or loads default empty strings if neither is present
-    RELEASE_STORE_FILE = project.properties['RELEASE_STORE_FILE'] ?: "."
-    RELEASE_STORE_PASSWORD = project.properties['RELEASE_STORE_PASSWORD'] ?: ""
-    RELEASE_KEY_ALIAS = project.properties['RELEASE_KEY_ALIAS'] ?: ""
-    RELEASE_KEY_PASSWORD = project.properties['RELEASE_KEY_PASSWORD'] ?: ""
+    RELEASE_STORE_FILE = project.properties['TOOLKIT_RELEASE_STORE_FILE'] ?: "."
+    RELEASE_STORE_PASSWORD = project.properties['TOOLKIT_RELEASE_STORE_PASSWORD'] ?: ""
+    RELEASE_KEY_ALIAS = project.properties['TOOLKIT_RELEASE_KEY_ALIAS'] ?: ""
+    RELEASE_KEY_PASSWORD = project.properties['TOOLKIT_RELEASE_KEY_PASSWORD'] ?: ""
 }
 
 android {
@@ -32,10 +32,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file(project.ext.TOOLKIT_RELEASE_STORE_FILE)
-            storePassword project.ext.TOOLKIT_RELEASE_STORE_PASSWORD
-            keyAlias project.ext.TOOLKIT_RELEASE_KEY_ALIAS
-            keyPassword project.ext.TOOLKIT_RELEASE_KEY_PASSWORD
+            storeFile file(project.ext.RELEASE_STORE_FILE)
+            storePassword project.ext.RELEASE_STORE_PASSWORD
+            keyAlias project.ext.RELEASE_KEY_ALIAS
+            keyPassword project.ext.RELEASE_KEY_PASSWORD
         }
     }
 
@@ -48,7 +48,7 @@ android {
         applicationId "org.rdtoolkit"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode int(System.getenv().get("BUILD_NUMBER", 1))
+        versionCode (int)(System.getenv().get("BUILD_NUMBER", 1))
         versionName "0.6.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
