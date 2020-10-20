@@ -48,7 +48,7 @@ android {
         applicationId "org.rdtoolkit"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode System.getenv("BUILD_NUMBER") ?: 1
+        versionCode Integer.valueOf(System.getenv("BUILD_NUMBER") ?: 1).intValue()
         versionName "0.6.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
