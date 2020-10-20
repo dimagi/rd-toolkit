@@ -32,10 +32,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file(project.ext.RELEASE_STORE_FILE)
-            storePassword project.ext.RELEASE_STORE_PASSWORD
-            keyAlias project.ext.RELEASE_KEY_ALIAS
-            keyPassword project.ext.RELEASE_KEY_PASSWORD
+            storeFile file(project.ext.TOOLKIT_RELEASE_STORE_FILE)
+            storePassword project.ext.TOOLKIT_RELEASE_STORE_PASSWORD
+            keyAlias project.ext.TOOLKIT_RELEASE_KEY_ALIAS
+            keyPassword project.ext.TOOLKIT_RELEASE_KEY_PASSWORD
         }
     }
 
