@@ -48,8 +48,8 @@ android {
         applicationId "org.rdtoolkit"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode System.getenv().get("BUILD_NUMBER", 1)
+        versionName "0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
