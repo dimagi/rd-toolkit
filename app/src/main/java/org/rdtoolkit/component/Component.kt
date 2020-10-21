@@ -232,6 +232,8 @@ abstract class ImageClassifierComponent : Component() {
                     e.printStackTrace()
                     listener?.let {
                         it.onClassifierError(activity?.getString(R.string.component_classifier_unknown_error)?.format(e.message)!!, null);
+                    } ?: run {
+                        throw e
                     }
                 }
             }
