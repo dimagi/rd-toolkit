@@ -12,7 +12,10 @@
 #   public *;
 #}
 
--keep class com.scanwell.rdtr.model.RdtMeasurements
+-keep public class com.scanwell.rdtr.model.RdtMeasurements {
+*;
+}
+
 
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard
