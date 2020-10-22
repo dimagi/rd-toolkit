@@ -19,30 +19,34 @@ public class PamphletViewModel extends ViewModel {
         this.disclaimerPage = disclaimerPage;
     }
 
-    private List<Page> pageList;
+    private MutableLiveData<List<Page>> pageList = new MutableLiveData<>();
 
     private int pageNumber = PAGE_NONE;
 
     private Pamphlet sourcePamphlet;
 
     private MutableLiveData<Page> currentPage = new MutableLiveData();
-    //private MutableLiveData<Boolean> checked = new MutableLiveData();
 
     public void setSourcePamphlet(Pamphlet pamphlet) {
         this.sourcePamphlet = pamphlet;
         pageNumber = PAGE_NONE;
 
-        pageList = new ArrayList();
+        List<Page> pages = new ArrayList();
         if(disclaimerPage != null) {
-            pageList.add(disclaimerPage);
+            pages.add(disclaimerPage);
         }
-        pageList.addAll(sourcePamphlet.getPages());
+        pages.addAll(sourcePamphlet.getPages());
+        pageList.setValue(pages);
         goToPageOne();
+    }
+
+    public LiveData<List<Page>> getPages() {
+        return pageList;
     }
 
     public void goToPageOne() {
         pageNumber = 0;
-        currentPage.setValue(pageList.get(0));
+        currentPage.setValue(pageList.getValue().get(0));
     }
 
     public LiveData<Page> getCurrentPage() {
@@ -54,20 +58,20 @@ public class PamphletViewModel extends ViewModel {
     }
 
     public boolean hasNext() {
-        return pageNumber < (pageList.size() - 1);
+        return pageNumber < (pageList.getValue().size() - 1);
     }
 
     public void pageBack() {
         if(hasBack()) {
             pageNumber--;
-            currentPage.setValue(pageList.get(pageNumber));
+            currentPage.setValue(pageList.getValue().get(pageNumber));
         }
     }
 
     public void pageNext() {
         if(hasNext()) {
             pageNumber++;
-            currentPage.setValue(pageList.get(pageNumber));
+            currentPage.setValue(pageList.getValue().get(pageNumber));
         }
     }
 }

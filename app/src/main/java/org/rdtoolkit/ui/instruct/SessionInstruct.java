@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.rdtoolkit.R;
+import org.rdtoolkit.util.StatusDotView;
 
 import static org.rdtoolkit.util.MediaUtilKt.configureImageView;
 
@@ -38,7 +39,14 @@ public class SessionInstruct extends Fragment {
                         .get(PamphletViewModel.class);
 
 
+        pamphletViewModel.getPages().observe(this.getViewLifecycleOwner(), value -> {
+            ((StatusDotView)view.findViewById(R.id.provision_info_progress_dots)).setListLength(value.size());
+        });
+
         pamphletViewModel.getCurrentPage().observe(this.getViewLifecycleOwner(), value -> {
+            int currentIndex = pamphletViewModel.getPages().getValue().indexOf(value);
+            ((StatusDotView)view.findViewById(R.id.provision_info_progress_dots)).setCurrentItem(currentIndex);
+
             ImageView iv = view.findViewById(R.id.provision_info_page_image);
             TextView tv = view.findViewById(R.id.provision_info_page_text);
             CheckBox disclaimer = view.findViewById(R.id.provision_checkbox_disclaimer);
