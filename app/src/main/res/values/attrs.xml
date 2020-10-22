@@ -1,0 +1,7 @@
+<resources>
+    <declare-styleable name="StatusDots">
+        <attr name="maxDots" format="integer" />
+        <attr name="listLength" format="integer" />
+        <attr name="currentItem" format="integer" />
+    </declare-styleable>
+</resources>

@@ -7,8 +7,6 @@
     android:layout_gravity="center"
     tools:context=".ui.instruct.SessionInstruct">
 
-
-
     <ImageView
         android:id="@+id/provision_info_page_image"
         android:layout_width="match_parent"
@@ -50,7 +48,7 @@
         android:id="@+id/provision_info_nav_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/provision_info_progress_dots"
         android:orientation="horizontal">
         <Button
             android:id="@+id/provision_info_btn_back"
@@ -71,5 +69,16 @@
             android:text="@string/button_next" />
 
     </LinearLayout>
+    <org.rdtoolkit.util.StatusDotView
+        android:id="@+id/provision_info_progress_dots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        app:maxDots="16"
+        app:currentItem="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
