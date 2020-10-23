@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.rdtoolkit.MainActivity
 import org.rdtoolkit.R
+import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.support.interop.RdtIntentBuilder.Companion.ACTION_TEST_CAPTURE
 import org.rdtoolkit.support.interop.RdtIntentBuilder.Companion.INTENT_EXTRA_RDT_SESSION_ID
 import org.rdtoolkit.support.model.session.FLAG_CALLING_PACKAGE
@@ -34,8 +35,13 @@ const val EXPIRED_NOTIFICATION_TIMEOUT_MS = 1000 * 30L
 
 class TestTimerService : LifecycleService() {
 
-    var sessionRepository = InjectorUtils.provideSessionRepository(this)
+    private lateinit var sessionRepository : SessionRepository;
     val pendingTimers : MutableMap<String, CountDownTimer> = HashMap()
+
+    override fun onCreate() {
+        super.onCreate()
+        sessionRepository = InjectorUtils.provideSessionRepository(this)
+    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)

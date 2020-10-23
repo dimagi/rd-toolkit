@@ -132,8 +132,12 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
                     break;
                 case COMPLETE:
                     resultsTab.setEnabled(true);
-                    Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
-                            R.id.action_capture_timer_to_capture_resultsFragment);
+                    if (navController.getCurrentDestination().getId() == R.id.capture_timer) {
+                        navController.navigate(
+                                R.id.action_capture_timer_to_capture_resultsFragment);
+                    } else {
+                        navController.navigate(R.id.capture_results);
+                    }
                     break;
             }
         });

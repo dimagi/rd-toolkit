@@ -222,6 +222,7 @@ class WindowCaptureActivity : AppCompatActivity() {
             }
 
             override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                //replacePhoto(photoFile)
                 val croppedFile = cropFileForReticle(photoFile, reticalProportions)
                 val returnData = Intent()
                 returnData.putExtra(EXTRA_CROPPED_IMAGE, croppedFile.first.absolutePath)
@@ -231,6 +232,17 @@ class WindowCaptureActivity : AppCompatActivity() {
                 finish()
             }
         })
+    }
+
+    private fun replacePhoto(photoFile: File) {
+        photoFile.delete()
+        photoFile.createNewFile()
+        with(photoFile.outputStream()) {
+            val out = this
+            with(assets.open("image.jpg")){
+                this.copyTo(out)
+            }
+        }
     }
 
     private fun freezeFrame() {
