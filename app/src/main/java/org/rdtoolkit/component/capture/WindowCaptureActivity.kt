@@ -36,6 +36,8 @@ import java.util.concurrent.Executors
 
 class WindowCaptureActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
+    private var imagePreview: Preview? = null
+    private var freezeFrame : Boolean = true
 
     @SuppressLint("UnsafeExperimentalUsageError")
     private val rotatingCameraFilter = CurrentCameraFilter()
@@ -136,7 +138,7 @@ class WindowCaptureActivity : AppCompatActivity() {
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
             // Preview
-            val preview = Preview.Builder()
+            imagePreview = Preview.Builder()
                     .build()
                     .also {
                             it.setSurfaceProvider(capture_window_camera_preview.surfaceProvider)
@@ -158,7 +160,7 @@ class WindowCaptureActivity : AppCompatActivity() {
 
             // Bind use cases to camera
             var camera = cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture)
+                    this, cameraSelector, imagePreview, imageCapture)
 
             if (rotatingCameraFilter.areMultipleCamerasAvailable()) {
                 camera_rotate_button.visibility = View.VISIBLE
@@ -207,6 +209,10 @@ class WindowCaptureActivity : AppCompatActivity() {
         // Create output options object which contains file + metadata
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
+        if(freezeFrame) {
+            freezeFrame()
+        }
+
         // Set up image capture listener, which is triggered after photo has
         // been taken
         imageCapture.takePicture(
@@ -225,6 +231,11 @@ class WindowCaptureActivity : AppCompatActivity() {
                 finish()
             }
         })
+    }
+
+    private fun freezeFrame() {
+        capture_window_freeze_frame.setImageBitmap(capture_window_camera_preview.bitmap)
+        capture_window_freeze_frame.visibility = View.VISIBLE
     }
 
     private fun cropFileForReticle(file : File, reticleConstraints : Pair<Rational, Rational>) : Pair<File, Rect> {
