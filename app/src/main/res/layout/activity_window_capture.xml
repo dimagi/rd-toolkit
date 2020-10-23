@@ -12,13 +12,13 @@
         android:id="@+id/camera_rotate_button"
         android:layout_width="100dp"
         android:layout_height="75dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
         android:layout_marginEnd="50dp"
         style="@style/Button"
         android:src="@drawable/ic_baseline_flip_camera_android_24"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:elevation="2dp" />
 
     <ImageButton
@@ -26,11 +26,11 @@
         android:layout_width="100dp"
         android:layout_height="75dp"
         android:layout_marginRight="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/ic_baseline_camera_white_24"
         android:elevation="2dp"
         style="@style/Button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
