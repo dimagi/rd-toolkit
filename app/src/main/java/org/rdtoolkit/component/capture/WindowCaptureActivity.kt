@@ -1,20 +1,28 @@
 package org.rdtoolkit.component.capture
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.*
+import android.graphics.drawable.ColorDrawable
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.util.Rational
+import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.camera2.interop.Camera2CameraInfo
 import androidx.camera.core.*
@@ -24,9 +32,9 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.android.synthetic.main.activity_window_capture.*
 import org.rdtoolkit.R
-import org.rdtoolkit.support.interop.RdtIntentBuilder
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -86,7 +94,15 @@ class WindowCaptureActivity : AppCompatActivity() {
                 updateReticleMapping()
             }
         })
+    }
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
+                || keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            takePhoto()
+            return true
+        }
+        return false
     }
 
     private fun setTargetReticleRatio() {
@@ -248,6 +264,20 @@ class WindowCaptureActivity : AppCompatActivity() {
     private fun freezeFrame() {
         capture_window_freeze_frame.setImageBitmap(capture_window_camera_preview.bitmap)
         capture_window_freeze_frame.visibility = View.VISIBLE
+        flash()
+    }
+
+    private fun flash() {
+        capture_window_flash_frame.visibility = View.VISIBLE
+        capture_window_flash_frame.setImageDrawable(ColorDrawable(Color.WHITE))
+        capture_window_flash_frame.animate()
+                .alpha(0f)
+                .setDuration(1000)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        capture_window_flash_frame.visibility = View.INVISIBLE
+                    }
+                })
     }
 
     private fun cropFileForReticle(file : File, reticleConstraints : Pair<Rational, Rational>) : Pair<File, Rect> {
@@ -300,6 +330,9 @@ class WindowCaptureActivity : AppCompatActivity() {
     }
     companion object {
         private const val LOG_TAG = "WindowCaptureActivity"
+
+        const val KEY_EVENT_ACTION = "key_event_action"
+        const val KEY_EVENT_EXTRA = "key_event_extra"
 
         //in
         const val EXTRA_RETICLE_RATIO = "windowed_capture_reticle_ratio"

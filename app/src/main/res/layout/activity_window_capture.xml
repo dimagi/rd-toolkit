@@ -54,6 +54,12 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             />
+        <ImageView
+            android:id="@+id/capture_window_flash_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
 
         <ImageView
             android:id="@+id/capture_window_test_reticle"
