@@ -79,7 +79,7 @@ class WindowCaptureComponent(private val config : WindowCaptureConfig, private v
                 croppedPhotoPath = croppedPhoto.absolutePath
                 rawPhotoPath = File(data!!.getStringExtra(WindowCaptureActivity.EXTRA_ORIGINAL_IMAGE)).absolutePath
                 cropWindow = data.getParcelableExtra(WindowCaptureActivity.EXTRA_RETICLE_RECT)
-                listener!!.testImageCaptured(getResultImage())
+                getListener().testImageCaptured(getResultImage())
             }
         }
     }

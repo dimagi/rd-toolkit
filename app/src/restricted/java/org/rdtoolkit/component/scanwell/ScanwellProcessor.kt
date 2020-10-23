@@ -58,19 +58,25 @@ class ScanwellProcessor(private val config : ScanwellClassifierConfig) : ImageCl
                     config.configData.measurements,
                    reticleResult.reticleOffset)!!
 
-            Log.d(LOG_TAG,"result: ${result.getResult().getRdtResult()}");
-            Log.d(LOG_TAG,"error code: ${result.getErrorCode()}");
-            Log.d(LOG_TAG,"output: ${result.getOutput()}");
+            Log.d(LOG_TAG,"result: ${result.result.rdtResult}");
+            Log.d(LOG_TAG,"error code: ${result.errorCode}");
+            Log.d(LOG_TAG,"output: ${result.output}");
+
+            val resultCode = result.result.rdtResult.toString()
 
             if (result.errorCode == 0) {
-                this.listener!!.onClassifierComplete(config.configData.responses[result.result.rdtResult.toString()]!!)
+                if (config.configData.responses.containsKey(resultCode)) {
+                    getListener().onClassifierComplete(config.configData.responses[resultCode]!!)
+                } else {
+                    getListener().onClassifierError("Unexpected response code from classifier: ${resultCode}", null)
+                }
             } else {
-                this.listener!!.onClassifierError(config.folio.getText("error${result.errorCode}", config.folio.getText("error").format(result.errorCode)), null)
+                getListener().onClassifierError(config.folio.getText("error${result.errorCode}", config.folio.getText("error").format(result.errorCode)), null)
             }
 
         } catch (e: Exception) {
             e.printStackTrace()
-            this.listener!!.onClassifierError("Unexpected Error from Image Processor: ${e.message}", null)
+            getListener().onClassifierError("Unexpected Error from Image Processor: ${e.message}", null)
         }
     }
 

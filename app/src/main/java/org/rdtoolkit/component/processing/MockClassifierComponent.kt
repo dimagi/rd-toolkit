@@ -31,9 +31,9 @@ class MockClassifierComponent(private val config : MockClassifierConfig) : Image
         delay(3000L)
         if(failCount  < 1) {
             failCount++
-            this.listener!!.onClassifierError("Failed to process $failCount times", null)
+            getListener().onClassifierError("Failed to process $failCount times", null)
         } else {
-            this.listener!!.onClassifierComplete(mapOf<String,String>().toMutableMap())
+            getListener().onClassifierComplete(mapOf<String,String>().toMutableMap())
         }
     }
 }

@@ -33,7 +33,7 @@ val VALUE_PREFERRED = 3
  */
 abstract class Component {
     protected var activity : Activity? = null
-    protected var listener: ComponentEventListener? = null
+    private var listener: ComponentEventListener? = null
     protected var scope: CoroutineScope? = null
     var componentInterfaceId : Int? = null
 
@@ -58,6 +58,13 @@ abstract class Component {
 
     protected open fun getRequiredPermissions() : Array<String> {
         return arrayOf()
+    }
+
+    protected fun getListener() : ComponentEventListener {
+        if (listener == null) {
+            throw Exception("Request for listener on deregistered component")
+        }
+        return listener!!
     }
 
     protected fun hasAllPermissions() : Boolean {
@@ -90,8 +97,8 @@ class ComponentManager(private val activity : AppCompatActivity,
     fun registerComponents(vararg components: Component) {
         deregisterComponents()
         for (component in components) {
-            managedComponents.add(component)
             component.register(activity, listener, activity.lifecycleScope, activityCodeBaseId + managedComponents.size)
+            managedComponents.add(component)
         }
     }
 
@@ -230,11 +237,7 @@ abstract class ImageClassifierComponent : Component() {
                     processImage(inputResult)
                 } catch(e: Exception){
                     e.printStackTrace()
-                    listener?.let {
-                        it.onClassifierError(activity?.getString(R.string.component_classifier_unknown_error)?.format(e.message)!!, null);
-                    } ?: run {
-                        throw e
-                    }
+                    getListener().onClassifierError(activity?.getString(R.string.component_classifier_unknown_error)?.format(e.message)!!, null);
                 }
             }
         }

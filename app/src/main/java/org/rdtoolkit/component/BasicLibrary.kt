@@ -68,7 +68,7 @@ class DefaultImageCaptureComponent(val storageDir : File) : TestImageCaptureComp
         if (requestCode == componentInterfaceId && resultCode == Activity.RESULT_OK) {
             val returnPhoto = File(returnPhotoPath)
             if (returnPhoto.exists()) {
-                listener!!.testImageCaptured(getResultImage())
+                getListener().testImageCaptured(getResultImage())
             }
         }
     }
