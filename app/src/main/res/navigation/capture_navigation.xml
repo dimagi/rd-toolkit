@@ -50,7 +50,7 @@
         app:destination="@id/capture_record" />
 
     <action
-        android:id="@+id/capture_override_expire"
+        android:id="@+id/capture_start_fresh"
         app:popUpTo="@+id/capture_record"
         app:popUpToInclusive="true"
         app:destination="@id/capture_timer" />

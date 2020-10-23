@@ -130,14 +130,19 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
                 case ERROR:
                 case PROCESSING:
                     resultsTab.setEnabled(false);
+                    if (navController.getCurrentDestination().getId() != R.id.capture_timer) {
+                        navController.navigate(R.id.capture_start_fresh);
+                    }
                     break;
                 case COMPLETE:
                     resultsTab.setEnabled(true);
-                    if (navController.getCurrentDestination().getId() == R.id.capture_timer) {
-                        navController.navigate(
-                                R.id.action_capture_timer_to_capture_resultsFragment);
-                    } else {
-                        navController.navigate(R.id.capture_results);
+                    if(navController.getCurrentDestination().getId() != R.id.capture_results) {
+                        if (navController.getCurrentDestination().getId() == R.id.capture_timer) {
+                            navController.navigate(
+                                    R.id.action_capture_timer_to_capture_resultsFragment);
+                        } else {
+                            navController.navigate(R.id.capture_results);
+                        }
                     }
                     break;
             }
@@ -262,7 +267,7 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
 
     public void overrideExpiration(View v) {
         captureViewModel.setExpirationOverriden();
-        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.capture_override_expire);
+        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.capture_start_fresh);
     }
 
     private void finishSession(TestSession session) {
