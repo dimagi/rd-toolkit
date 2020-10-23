@@ -5,11 +5,11 @@ import android.content.SharedPreferences
 import org.rdtoolkit.R
 
 class AppRepository(private val context : Context) {
-    fun hasAcknwoledgedDisclaimer() : Boolean {
+    fun hasAcknowledgedDisclaimer() : Boolean {
         return prefs().getBoolean(PREFERENCE_ACKNOWLEDGED_DISCLAIMER, false)
     }
 
-    fun setAcknwoledgedDisclaimer(acknowledged : Boolean) {
+    fun setAcknowledgedDisclaimer(acknowledged : Boolean) {
         prefs().edit().putBoolean(PREFERENCE_ACKNOWLEDGED_DISCLAIMER, acknowledged).apply()
     }
 

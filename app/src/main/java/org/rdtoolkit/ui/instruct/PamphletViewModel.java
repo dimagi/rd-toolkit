@@ -24,7 +24,7 @@ public class PamphletViewModel extends ViewModel {
         this.disclaimerPage = disclaimerPage;
         this.appRepository = appRepository;
         currentPage = new MutableLiveData();
-        disclaimerAcknowledged = new MutableLiveData(appRepository.hasAcknwoledgedDisclaimer());
+        disclaimerAcknowledged = new MutableLiveData(appRepository.hasAcknowledgedDisclaimer());
     }
 
     private MutableLiveData<List<Page>> pageList = new MutableLiveData<>();
@@ -39,7 +39,7 @@ public class PamphletViewModel extends ViewModel {
 
     public void setDisclaimerAcknowledged(boolean acknowledged) {
         if(disclaimerAcknowledged.getValue() != acknowledged) {
-            appRepository.setAcknwoledgedDisclaimer(acknowledged);
+            appRepository.setAcknowledgedDisclaimer(acknowledged);
             disclaimerAcknowledged.setValue(acknowledged);
         }
     }
