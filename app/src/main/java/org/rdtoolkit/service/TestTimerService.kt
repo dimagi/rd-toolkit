@@ -1,9 +1,13 @@
 package org.rdtoolkit.service
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.os.CountDownTimer
 import android.os.IBinder
@@ -24,8 +28,9 @@ import org.rdtoolkit.support.model.session.TestSession
 import org.rdtoolkit.util.InjectorUtils
 import org.rdtoolkit.util.getFormattedTimeForSpan
 
+
 const val CHANNEL_ID_COUNTDOWN ="Test"
-const val CHANNEL_ID_FIRE ="Fire"
+const val CHANNEL_ID_FIRE ="Triggered"
 
 const val SERVICE_TIMER = 1
 const val NOTIFICATION_TAG_TEST_ID = "test_id"
@@ -195,6 +200,8 @@ class TestTimerService : LifecycleService() {
     }
 
     private fun createNotificationChannels() {
+        val defaultSoundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val countdown = NotificationChannel(CHANNEL_ID_COUNTDOWN,
                     getString(R.string.service_channel_running_name),
@@ -204,6 +211,18 @@ class TestTimerService : LifecycleService() {
             val fireChannel = NotificationChannel(CHANNEL_ID_FIRE,
                     getString(R.string.service_channel_triggered_name),
                     NotificationManager.IMPORTANCE_HIGH)
+
+            fireChannel.enableLights(true)
+
+            fireChannel.enableVibration(true)
+            fireChannel.setSound(defaultSoundUri,
+                    AudioAttributes.Builder()
+                            .setUsage(AudioAttributes.USAGE_ALARM)
+                            .setFlags(AudioAttributes.FLAG_AUDIBILITY_ENFORCED)
+                            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                            .build()
+            )
+
             countdown.description = getString(R.string.service_channel_triggered_description)
 
             // Register the channel with the system; you can't change the importance
@@ -239,6 +258,7 @@ class TestTimerService : LifecycleService() {
                 .setSmallIcon(R.drawable.ic_baseline_timer_24)
                 .setOnlyAlertOnce(true)
                 .setContentIntent(contentIntent)
+                .setCategory(Notification.CATEGORY_ALARM)
     }
 
     override fun onBind(intent: Intent): IBinder? {
