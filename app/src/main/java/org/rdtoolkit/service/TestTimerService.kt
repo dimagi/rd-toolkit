@@ -70,7 +70,7 @@ class TestTimerService : LifecycleService() {
 
         }
         // If we get killed, after returning from here, restart
-        return START_STICKY
+        return START_REDELIVER_INTENT
     }
 
     private fun checkForServiceClosure() {

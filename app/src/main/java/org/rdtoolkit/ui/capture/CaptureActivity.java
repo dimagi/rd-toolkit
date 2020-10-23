@@ -25,6 +25,7 @@ import org.rdtoolkit.component.ComponentManager;
 import org.rdtoolkit.component.ComponentRepository;
 import org.rdtoolkit.component.ImageCaptureResult;
 import org.rdtoolkit.component.ImageClassifierComponent;
+import org.rdtoolkit.component.ProcessingListener;
 import org.rdtoolkit.component.Sandbox;
 import org.rdtoolkit.component.TestImageCaptureComponent;
 import org.rdtoolkit.model.diagnostics.Pamphlet;
@@ -274,6 +275,23 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
         this.finish();
     }
 
+    private void processImage(ImageCaptureResult imageResult) {
+        ImageClassifierComponent classifier = componentManager.getImageClassifierComponent();
+
+        classifier.doImageProcessing(imageResult, new ProcessingListener() {
+            @Override
+            public void onClassifierError(@NotNull String error, @Nullable Pamphlet details) {
+                captureViewModel.setProcessingError(error, details);
+
+            }
+
+            @Override
+            public void onClassifierComplete(@NotNull Map<String, String> results) {
+                captureViewModel.setClassifierResults(results);
+            }
+        });
+    }
+
     @Override
     public void testImageCaptured(@NotNull ImageCaptureResult imageResult) {
         captureViewModel.setCapturedImage(imageResult.getImages());
@@ -281,22 +299,6 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
         if(classifier != null) {
             processImage(imageResult);
         }
-    }
-
-    private void processImage(ImageCaptureResult imageResult) {
-        ImageClassifierComponent classifier = componentManager.getImageClassifierComponent();
-
-        classifier.doImageProcessing(imageResult);
-    }
-
-    @Override
-    public void onClassifierError(@NotNull String error, @Nullable Pamphlet details) {
-        captureViewModel.setProcessingError(error, details);
-    }
-
-    @Override
-    public void onClassifierComplete(@NotNull Map<String, String> results) {
-        captureViewModel.setClassifierResults(results);
     }
 
     public void infoBackPressed(View view) {

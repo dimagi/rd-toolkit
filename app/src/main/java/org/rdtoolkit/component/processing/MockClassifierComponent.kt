@@ -27,13 +27,13 @@ data class MockClassifierConfig(val diagnosticId: String) : Config
 class MockClassifierComponent(private val config : MockClassifierConfig) : ImageClassifierComponent() {
     var failCount = 0
 
-    override suspend fun processImage(inputResult: ImageCaptureResult) {
+    override suspend fun processImage(inputResult: ImageCaptureResult, listener : ProcessingListener) {
         delay(3000L)
         if(failCount  < 1) {
             failCount++
-            getListener().onClassifierError("Failed to process $failCount times", null)
+            listener.onClassifierError("Failed to process $failCount times", null)
         } else {
-            getListener().onClassifierComplete(mapOf<String,String>().toMutableMap())
+            listener.onClassifierComplete(mapOf<String,String>().toMutableMap())
         }
     }
 }

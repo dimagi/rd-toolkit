@@ -48,7 +48,7 @@ data class ScanwellClassifierConfig(val configData : ScanwellConfigData, val fol
 }
 
 class ScanwellProcessor(private val config : ScanwellClassifierConfig) : ImageClassifierComponent() {
-    override suspend fun processImage(inputResult: ImageCaptureResult) {
+    override suspend fun processImage(inputResult: ImageCaptureResult, listener : ProcessingListener) {
         val reticleResult = inputResult as ReticleCaptureResult
 
         val reader = RdtReader()
@@ -57,7 +57,7 @@ class ScanwellProcessor(private val config : ScanwellClassifierConfig) : ImageCl
                     "file://" + reticleResult.rawImagePath,
                     config.configData.measurements,
                    reticleResult.reticleOffset)!!
-
+            
             Log.d(LOG_TAG,"result: ${result.result.rdtResult}");
             Log.d(LOG_TAG,"error code: ${result.errorCode}");
             Log.d(LOG_TAG,"output: ${result.output}");
@@ -66,17 +66,17 @@ class ScanwellProcessor(private val config : ScanwellClassifierConfig) : ImageCl
 
             if (result.errorCode == 0) {
                 if (config.configData.responses.containsKey(resultCode)) {
-                    getListener().onClassifierComplete(config.configData.responses[resultCode]!!)
+                    listener.onClassifierComplete(config.configData.responses[resultCode]!!)
                 } else {
-                    getListener().onClassifierError("Unexpected response code from classifier: ${resultCode}", null)
+                    listener.onClassifierError("Unexpected response code from classifier: ${resultCode}", null)
                 }
             } else {
-                getListener().onClassifierError(config.folio.getText("error${result.errorCode}", config.folio.getText("error").format(result.errorCode)), null)
+                listener.onClassifierError(config.folio.getText("error${result.errorCode}", config.folio.getText("error").format(result.errorCode)), null)
             }
 
         } catch (e: Exception) {
             e.printStackTrace()
-            getListener().onClassifierError("Unexpected Error from Image Processor: ${e.message}", null)
+            listener.onClassifierError(unexepctedErrorMsg.format(e.message), null)
         }
     }
 

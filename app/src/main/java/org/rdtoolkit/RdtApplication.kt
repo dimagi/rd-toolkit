@@ -3,6 +3,7 @@ package org.rdtoolkit
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -29,6 +30,10 @@ class RdtApplication : Application() {
     private fun restartServiceTimer(sessionId : String) {
         val testTimerIntent = Intent(this, TestTimerService::class.java)
         testTimerIntent.putExtra(NOTIFICATION_TAG_TEST_ID, sessionId)
-        startService(testTimerIntent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(testTimerIntent)
+        } else {
+            startService(testTimerIntent)
+        }
     }
 }

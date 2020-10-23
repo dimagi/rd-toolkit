@@ -37,7 +37,7 @@ abstract class Component {
     protected var scope: CoroutineScope? = null
     var componentInterfaceId : Int? = null
 
-    fun register(activity: Activity, listener : ComponentEventListener,
+    open fun register(activity: Activity, listener : ComponentEventListener,
                  scope : CoroutineScope, componentId: Int) {
         this.activity = activity
         this.listener = listener
@@ -188,7 +188,9 @@ class ReticleCaptureResult(val rawImagePath : String,
 
 interface ComponentEventListener {
     fun testImageCaptured(imagePath : ImageCaptureResult)
+}
 
+interface ProcessingListener {
     fun onClassifierError(error: String, details: Pamphlet?)
     fun onClassifierComplete(results: Map<String, String>)
 }
@@ -227,23 +229,31 @@ abstract class TestImageCaptureComponent : Component() {
 abstract class ImageClassifierComponent : Component() {
     private var currentJob : Job? = null
 
-    fun doImageProcessing(inputResult : ImageCaptureResult) {
+    protected var unexepctedErrorMsg = "Unexpected Error from Image Processor %s"
+
+    override fun register(activity: Activity, listener: ComponentEventListener, scope: CoroutineScope, componentId: Int) {
+        super.register(activity, listener, scope, componentId)
+        unexepctedErrorMsg = activity.getString(R.string.component_classifier_unknown_error)
+
+    }
+
+    fun doImageProcessing(inputResult : ImageCaptureResult, listener : ProcessingListener) {
         scope!!.launch {
             currentJob?.let {
                 it.cancelAndJoin()
             }
             currentJob = launch(Dispatchers.Default) {
                 try{
-                    processImage(inputResult)
+                    processImage(inputResult, listener)
                 } catch(e: Exception){
                     e.printStackTrace()
-                    getListener().onClassifierError(activity?.getString(R.string.component_classifier_unknown_error)?.format(e.message)!!, null);
+                    listener.onClassifierError(unexepctedErrorMsg.format(e.message), null);
                 }
             }
         }
     }
 
-    protected abstract suspend fun processImage(inputResult : ImageCaptureResult)
+    protected abstract suspend fun processImage(inputResult : ImageCaptureResult, listener : ProcessingListener)
 
     open fun compatibleCaptureModes() : List<String> {
         return listOf(CAPTURE_TYPE_PLAIN)
