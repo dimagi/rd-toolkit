@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +39,29 @@ public class SessionInstruct extends Fragment {
                 new ViewModelProvider(requireActivity())
                         .get(PamphletViewModel.class);
 
+        ImageView iv = view.findViewById(R.id.provision_info_page_image);
+        TextView tv = view.findViewById(R.id.provision_info_page_text);
+        CheckBox disclaimer = view.findViewById(R.id.provision_checkbox_disclaimer);
+        Button back = view.findViewById(R.id.provision_info_btn_back);
+        Button next = view.findViewById(R.id.provision_info_btn_next);
+
+        pamphletViewModel.isDisclaimerAcknowledged().observe(this.getViewLifecycleOwner(), value -> {
+            disclaimer.setChecked(value);
+            if(value) {
+                next.setEnabled(true);
+            } else {
+                next.setEnabled(false);
+                pamphletViewModel.goToPageOne();
+            }
+        });
+
+        disclaimer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                pamphletViewModel.setDisclaimerAcknowledged(b);
+            }
+        });
+
 
         pamphletViewModel.getPages().observe(this.getViewLifecycleOwner(), value -> {
             ((StatusDotView)view.findViewById(R.id.provision_info_progress_dots)).setListLength(value.size());
@@ -47,25 +71,18 @@ public class SessionInstruct extends Fragment {
             int currentIndex = pamphletViewModel.getPages().getValue().indexOf(value);
             ((StatusDotView)view.findViewById(R.id.provision_info_progress_dots)).setCurrentItem(currentIndex);
 
-            ImageView iv = view.findViewById(R.id.provision_info_page_image);
-            TextView tv = view.findViewById(R.id.provision_info_page_text);
-            CheckBox disclaimer = view.findViewById(R.id.provision_checkbox_disclaimer);
-
             configureImageView(iv, value.getImageStream());
 
             tv.setText(value.getText());
             disclaimer.setText(value.getConfirmationText());
             disclaimer.setVisibility(value.getConfirmationText() == null ? View.GONE : View.VISIBLE);
 
-            Button back = view.findViewById(R.id.provision_info_btn_back);
             if (pamphletViewModel.hasBack()) {
                 back.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
             } else {
                 back.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_arrow_back_white_24,0,0,0);
             }
 
-
-            Button next = view.findViewById(R.id.provision_info_btn_next);
             if (pamphletViewModel.hasNext()) {
                 next.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
             } else {

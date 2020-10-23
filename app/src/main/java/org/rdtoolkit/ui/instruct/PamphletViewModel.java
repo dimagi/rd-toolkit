@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import org.rdtoolkit.model.diagnostics.Page;
 import org.rdtoolkit.model.diagnostics.Pamphlet;
+import org.rdtoolkit.model.session.AppRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,16 @@ public class PamphletViewModel extends ViewModel {
     public static final int PAGE_NONE = -2;
 
     private Page disclaimerPage;
+    private AppRepository appRepository;
 
-    public PamphletViewModel(DisclaimerPage disclaimerPage) {
+    private MutableLiveData<Page> currentPage;
+    private MutableLiveData<Boolean> disclaimerAcknowledged;
+
+    public PamphletViewModel(DisclaimerPage disclaimerPage, AppRepository appRepository) {
         this.disclaimerPage = disclaimerPage;
+        this.appRepository = appRepository;
+        currentPage = new MutableLiveData();
+        disclaimerAcknowledged = new MutableLiveData(appRepository.hasAcknwoledgedDisclaimer());
     }
 
     private MutableLiveData<List<Page>> pageList = new MutableLiveData<>();
@@ -25,7 +33,16 @@ public class PamphletViewModel extends ViewModel {
 
     private Pamphlet sourcePamphlet;
 
-    private MutableLiveData<Page> currentPage = new MutableLiveData();
+    public LiveData<Boolean> isDisclaimerAcknowledged() {
+        return disclaimerAcknowledged;
+    }
+
+    public void setDisclaimerAcknowledged(boolean acknowledged) {
+        if(disclaimerAcknowledged.getValue() != acknowledged) {
+            appRepository.setAcknwoledgedDisclaimer(acknowledged);
+            disclaimerAcknowledged.setValue(acknowledged);
+        }
+    }
 
     public void setSourcePamphlet(Pamphlet pamphlet) {
         this.sourcePamphlet = pamphlet;
@@ -37,7 +54,7 @@ public class PamphletViewModel extends ViewModel {
         }
         pages.addAll(sourcePamphlet.getPages());
         pageList.setValue(pages);
-        goToPageOne();
+        goToPageOne(true);
     }
 
     public LiveData<List<Page>> getPages() {
@@ -45,8 +62,14 @@ public class PamphletViewModel extends ViewModel {
     }
 
     public void goToPageOne() {
-        pageNumber = 0;
-        currentPage.setValue(pageList.getValue().get(0));
+        goToPageOne(false);
+    }
+
+    public void goToPageOne(boolean force) {
+        if(force || pageNumber != 0) {
+            pageNumber = 0;
+            currentPage.setValue(pageList.getValue().get(0));
+        }
     }
 
     public LiveData<Page> getCurrentPage() {

@@ -1,4 +1,5 @@
 <resources>
+    <string name="default_preference_key" translatable="false">org.rd-toolkit.basepreferences</string>
     <string name="app_name">Rapid Diagnostic Toolkit</string>
     <string name="nav_header_title">Rapid Diagnostic Toolkit</string>
     <string name="action_settings">Settings</string>

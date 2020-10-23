@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import org.rdtoolkit.component.ComponentRepository
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.StaticPamphlets
+import org.rdtoolkit.model.session.AppRepository
 import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.model.session.SessionRepositoryImpl
 import org.rdtoolkit.model.session.getDatabase
@@ -50,7 +51,7 @@ class InjectorUtils() {
         fun providePamphletViewModelFactory(context: Context): ViewModelProvider.Factory {
             return object : ViewModelProvider.Factory {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                    return PamphletViewModel(DisclaimerPage(context)) as T
+                    return PamphletViewModel(DisclaimerPage(context), AppRepository(context)) as T
                 }
             }
         }
