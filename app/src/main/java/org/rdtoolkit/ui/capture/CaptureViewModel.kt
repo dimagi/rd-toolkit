@@ -75,6 +75,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     val sessionStateInputs = CombinedLiveData(testState, captureIsIncomplete)
 
+
     fun getExpireOverrideChecked() : LiveData<Boolean> {
         return allowOverrideValue
     }
@@ -183,7 +184,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
             testSession.postValue(session)
 
-            if (session.result == null) {
+            if (session.result == null && session.state == STATUS.RUNNING) {
                 Log.d(TAG, "Creating new placeholder result")
                 session.result = TestSession.TestResult(null, null, HashMap(), HashMap(), HashMap())
             }
@@ -193,7 +194,9 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
             testState.postValue(session.getTestReadableState())
 
             classifierMode = session.configuration.classifierMode
-            startTimersForState(session, diagnosticsRepository.getTestProfile(session.testProfileId))
+            if (session.state == STATUS.RUNNING) {
+                startTimersForState(session, diagnosticsRepository.getTestProfile(session.testProfileId))
+            }
         }
     }
 

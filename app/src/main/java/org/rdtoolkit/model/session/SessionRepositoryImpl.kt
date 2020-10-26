@@ -4,6 +4,7 @@ import org.rdtoolkit.processing.WorkCoordinator
 import org.rdtoolkit.support.model.ListMapperImpl
 import org.rdtoolkit.support.model.session.STATUS
 import org.rdtoolkit.support.model.session.TestSession
+import java.lang.Exception
 
 class SessionRepositoryImpl(private var testSessionDao : TestSessionDao,
                             private val workCoordinator : WorkCoordinator) : SessionRepository{
@@ -18,7 +19,11 @@ class SessionRepositoryImpl(private var testSessionDao : TestSessionDao,
     }
 
     override fun getTestSession(sessionId : String) : TestSession {
-        return DataToSessionMapper().map(testSessionDao.loadDataSession(sessionId))
+        if(testSessionDao.hasSession(sessionId)) {
+            return DataToSessionMapper().map(testSessionDao.loadDataSession(sessionId))
+        } else {
+            throw Exception("Requested unavailable test $sessionId")
+        }
     }
 
     override fun loadSessions(): List<TestSession> {

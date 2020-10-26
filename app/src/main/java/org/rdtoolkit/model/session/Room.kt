@@ -16,6 +16,9 @@ interface TestSessionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveConfig(session : DbTestSessionConfiguration)
 
+    @Query("SELECT count(*) FROM DbTestSession WHERE sessionId = :sessionId")
+    fun getSessionCount(sessionId: String): Int
+
     @Query("SELECT * FROM DbTestSession WHERE sessionId = :sessionId")
     fun load(sessionId: String): DbTestSession
 
@@ -50,6 +53,10 @@ interface TestSessionDao {
         deleteResult(sessionId)
         deleteConfig(sessionId)
         return session
+    }
+
+    fun hasSession(sessionId: String) : Boolean {
+        return getSessionCount(sessionId) > 0
     }
 
     fun loadDataSession(sessionId: String): DataTestSession {
