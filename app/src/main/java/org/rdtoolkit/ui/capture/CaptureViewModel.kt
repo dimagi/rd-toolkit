@@ -1,6 +1,7 @@
 package org.rdtoolkit.ui.capture
 
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -142,11 +143,10 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
             result.images.clear()
             result.images.putAll(imageData.second)
 
-
             result.results.clear()
             result.classifierResults.clear()
             processingErrorValue.value = null
-            testSessionResult.value = testSessionResult.value
+            testSessionResult.value = result
 
             if (classifierMode != ClassifierMode.NONE) {
                 processingStateValue.value = ProcessingState.PROCESSING
@@ -184,6 +184,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
             testSession.postValue(session)
 
             if (session.result == null) {
+                Log.d(TAG, "Creating new placeholder result")
                 session.result = TestSession.TestResult(null, null, HashMap(), HashMap(), HashMap())
             }
 
@@ -264,6 +265,9 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     init {
         testState.value = TestReadableState.LOADING
+    }
+    companion object {
+        const val TAG = "CaptureViewModel"
     }
 }
 

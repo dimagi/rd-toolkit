@@ -96,7 +96,9 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
         }
         );
 
-        captureViewModel.loadSession(sessionId);
+        if(captureViewModel.getTestSession().getValue() == null) {
+            captureViewModel.loadSession(sessionId);
+        }
 
         captureViewModel.getJobAidAvailable().observe(this, value -> {
             invalidateOptionsMenu();
