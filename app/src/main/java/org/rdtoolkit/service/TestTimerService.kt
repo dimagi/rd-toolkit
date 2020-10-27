@@ -248,6 +248,8 @@ class TestTimerService : LifecycleService() {
     }
 
     private fun getFinishedNotificationBuilder(): NotificationCompat.Builder {
+        val defaultSoundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
         // The PendingIntent to launch our activity if the user selects
         // this notification
         val title = getString(R.string.service_message_ready_text)
@@ -259,6 +261,10 @@ class TestTimerService : LifecycleService() {
                 .setOnlyAlertOnce(true)
                 .setContentIntent(contentIntent)
                 .setCategory(Notification.CATEGORY_ALARM)
+                //Only relevant for SDK 21 - 26
+                .setSound(defaultSoundUri)
+                .setPriority(NotificationManager.IMPORTANCE_HIGH)
+                .setDefaults(Notification.DEFAULT_ALL)
     }
 
     override fun onBind(intent: Intent): IBinder? {
