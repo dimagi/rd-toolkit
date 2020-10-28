@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rdtoolkit.R;
+import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
 import org.rdtoolkit.model.diagnostics.ResultProfile;
 
 import static org.rdtoolkit.util.MediaUtilKt.setImageBitmapFromFile;
@@ -47,6 +48,21 @@ public class CaptureResultsFragment extends Fragment {
         resultEntryRecyclerView.setLayoutManager(entryLayoutManager);
 
         mViewModel = new ViewModelProvider(requireActivity()).get(CaptureViewModel.class);
+
+        mViewModel.getTestSessionResult().observe(getViewLifecycleOwner(), value -> {
+            RdtDiagnosticProfile profile = mViewModel.getTestProfile().getValue();
+            boolean complete = false;
+            if(profile != null && value != null) {
+                complete = profile.isResultSetComplete(value);
+            }
+            if(complete) {
+                view.findViewById(R.id.capture_results_proceed).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.capture_results_instruct).setVisibility(View.INVISIBLE);
+            } else {
+                view.findViewById(R.id.capture_results_proceed).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.capture_results_instruct).setVisibility(View.VISIBLE);
+            }
+        });
 
         mViewModel.getTestProfile().observe(getViewLifecycleOwner(), value -> {
             // specify an adapter (see also next example)
