@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.rdtoolkit.interop.SessionToJson
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.Pamphlet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
@@ -251,6 +252,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                 concreteSession.result = testSessionResult.value
             }
             concreteSession.state = STATUS.COMPLETE
+            Log.d(TAG, SessionToJson().map(concreteSession).toString(4))
             sessionRepository.write(concreteSession)
             testSession.postValue(concreteSession)
             inCommitMode.postValue(false)

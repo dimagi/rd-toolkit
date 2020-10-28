@@ -11,16 +11,25 @@ import org.rdtoolkit.support.interop.RdtIntentBuilder
 import org.rdtoolkit.util.InjectorUtils
 import java.io.File
 
-class SessionSubmissionWorker(appContext: Context, workerParams: WorkerParameters):
+class SessionSubmissionWorker(val appContext: Context, workerParams: WorkerParameters):
         Worker(appContext, workerParams){
+
     override fun doWork(): Result {
         val sessionId = inputData.getString(RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID)!!
         val cloudworksEndpoint = inputData.getString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS)!!
 
         Log.i(SessionPurgeWorker.LOG_TAG, "Submitting session data for $sessionId")
-        Thread.sleep(5000)
 
-        CloudworksApi(cloudworksEndpoint, this.applicationContext)
+        val session = InjectorUtils.provideSessionRepository(appContext).getTestSession(sessionId)
+        //TODO: How to cancel this whole submission if the session is gone somehow
+
+
+        try {
+            CloudworksApi(cloudworksEndpoint, sessionId, this.applicationContext).submitSessionJson(session)
+        } catch(e : Exception) {
+            return Result.retry()
+        }
+
         return Result.success()
     }
 
@@ -33,13 +42,18 @@ class SessionSubmissionWorker(appContext: Context, workerParams: WorkerParameter
 class ImageSubmissionWorker(appContext: Context, workerParams: WorkerParameters):
         Worker(appContext, workerParams){
     override fun doWork(): Result {
-        val sessionId = inputData.getString(RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID)
+        val sessionId = inputData.getString(RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID)!!
         val cloudworksEndpoint = inputData.getString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS)!!
-        val key = inputData.getString(DATA_MEDIA_KEY)
+        val key = inputData.getString(DATA_MEDIA_KEY)!!
         val file = File(inputData.getString(DATA_FILE_PATH))
 
-        Log.i(SessionPurgeWorker.LOG_TAG, "Submitting image $key for $sessionId")
-        Thread.sleep(5000)
+        Log.i(LOG_TAG, "Submitting image $key for $sessionId")
+
+        try {
+            CloudworksApi(cloudworksEndpoint, sessionId, this.applicationContext).submitSessionMedia(key, file)
+        } catch(e : Exception) {
+            return Result.retry()
+        }
 
         return Result.success()
     }

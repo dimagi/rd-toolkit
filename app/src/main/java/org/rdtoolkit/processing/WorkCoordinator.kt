@@ -39,6 +39,10 @@ class WorkCoordinator(val context : Context) {
                 .addTag(TAG_SESSION)
                 .setInputData(sessionData)
                 .setConstraints(networkConstraints)
+                .setBackoffCriteria(
+                        BackoffPolicy.EXPONENTIAL,
+                        1000,
+                        TimeUnit.MILLISECONDS)
                 .build()
     }
 
@@ -52,6 +56,10 @@ class WorkCoordinator(val context : Context) {
                 .addTag(TAG_PURGE)
                 .setInputData(purgeData)
                 .setInitialDelay(1, TimeUnit.DAYS)
+                .setBackoffCriteria(
+                        BackoffPolicy.EXPONENTIAL,
+                        1000,
+                        TimeUnit.MILLISECONDS)
                 .build()
     }
 
@@ -78,6 +86,10 @@ class WorkCoordinator(val context : Context) {
                 .addTag(TAG_MEDIA)
                 .setInputData(imageData)
                 .setConstraints(networkConstraints)
+                .setBackoffCriteria(
+                        BackoffPolicy.EXPONENTIAL,
+                        1000,
+                        TimeUnit.MILLISECONDS)
                 .build()
     }
 
