@@ -59,6 +59,17 @@
             android:gravity="right"
             app:layout_constraintBottom_toBottomOf="parent">
             <TextView
+                android:id="@+id/sessions_card_actions"
+                android:textSize="16dp"
+                android:padding="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:textColor="@color/primaryDarkColor"
+                android:text=""/>
+            <TextView
                 android:id="@+id/sessions_card_button_capture"
                 android:textSize="16dp"
                 android:padding="8dp"

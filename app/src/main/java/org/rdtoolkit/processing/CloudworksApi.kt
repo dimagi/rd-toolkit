@@ -37,7 +37,7 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
 
         val response = client.newCall(sessionBodyRequest).execute()
 
-        if (!(response.code == 201 || response.code == 200)) {
+        if (!(response.code == 201 || response.code == 200 || response.code == 409)) {
             throw Exception("Invalid server response ${response.code} with body ${response.body?.string()}")
         }
     }
@@ -50,7 +50,7 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
 
         val response = client.newCall(sessionBodyRequest).execute()
 
-        if (!(response.code == 201 || response.code == 200)) {
+        if (!(response.code == 201 || response.code == 200 || response.code == 409)) {
             throw Exception("Invalid server response ${response.code} with body ${response.body?.string()}")
         }
     }

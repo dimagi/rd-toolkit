@@ -16,15 +16,20 @@ import java.util.concurrent.TimeUnit
 
 
 class WorkCoordinator(val context : Context) {
+    val manager = WorkManager.getInstance(context)
+    fun processTestSession(session : TestSession, purgeImmediately : Boolean = false) {
 
-    fun processTestSession(session : TestSession) {
         if (session.configuration.cloudworksDns != null) {
-            WorkManager.getInstance(context).beginWith(getSessionSubmitRequest(session))
+            manager.beginUniqueWork(getUniqueWorkRootTag(session.sessionId),
+                        ExistingWorkPolicy.REPLACE,
+                        getSessionSubmitRequest(session))
                     .then(getImageSubmitters(session))
-                    .then(getPurgeRequest(session))
+                    .then(getPurgeRequest(session, purgeImmediately))
                     .enqueue()
         } else {
-            WorkManager.getInstance(context).beginWith(getPurgeRequest(session))
+            manager.beginUniqueWork(getUniqueWorkRootTag(session.sessionId),
+                        ExistingWorkPolicy.REPLACE,
+                        getPurgeRequest(session, purgeImmediately))
                     .enqueue()
         }
     }
@@ -47,7 +52,7 @@ class WorkCoordinator(val context : Context) {
                 .build()
     }
 
-    private fun getPurgeRequest(session: TestSession) : OneTimeWorkRequest {
+    private fun getPurgeRequest(session: TestSession, purgeImmediately: Boolean) : OneTimeWorkRequest {
         var purgeData = Data.Builder()
                 .putString(INTENT_EXTRA_RDT_SESSION_ID, session.sessionId)
                 .build()
@@ -56,12 +61,15 @@ class WorkCoordinator(val context : Context) {
                 .addTag(session.sessionId)
                 .addTag(TAG_PURGE)
                 .setInputData(purgeData)
-                .setInitialDelay(1, TimeUnit.DAYS)
+                .also {
+                    if (!purgeImmediately) {
+                        it.setInitialDelay(1, TimeUnit.DAYS)
+                    }
+                }
                 .setBackoffCriteria(
                         BackoffPolicy.EXPONENTIAL,
                         MIN_BACKOFF_MILLIS,
-                        TimeUnit.MILLISECONDS)
-                .build()
+                        TimeUnit.MILLISECONDS).build()
     }
 
     private fun getImageSubmitters(session: TestSession) : List<OneTimeWorkRequest> {
@@ -99,5 +107,10 @@ class WorkCoordinator(val context : Context) {
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresBatteryNotLow(true)
                 .build()
+
+        @JvmStatic
+        fun getUniqueWorkRootTag(sessionId : String) : String{
+            return "session_work_${sessionId}"
+        }
     }
 }
