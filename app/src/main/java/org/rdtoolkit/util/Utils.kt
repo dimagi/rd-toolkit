@@ -10,7 +10,7 @@ fun getFormattedTimeForSpan(span : Long) : String{
 }
 
 fun getIsoUTCTimestamp(input : Date) : String? {
-    val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ")
     formatter.setTimeZone(TimeZone.getTimeZone("UTC"))
     return formatter.format(input)
 }

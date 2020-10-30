@@ -252,7 +252,6 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                 concreteSession.result = testSessionResult.value
             }
             concreteSession.state = STATUS.COMPLETE
-            Log.d(TAG, SessionToJson().map(concreteSession).toString(4))
             sessionRepository.write(concreteSession)
             testSession.postValue(concreteSession)
             inCommitMode.postValue(false)

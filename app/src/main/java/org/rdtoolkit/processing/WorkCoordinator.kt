@@ -2,6 +2,7 @@ package org.rdtoolkit.processing
 
 import android.content.Context
 import androidx.work.*
+import androidx.work.WorkRequest.MIN_BACKOFF_MILLIS
 import org.rdtoolkit.processing.ImageSubmissionWorker.Companion.DATA_FILE_PATH
 import org.rdtoolkit.processing.ImageSubmissionWorker.Companion.DATA_MEDIA_KEY
 import org.rdtoolkit.processing.ImageSubmissionWorker.Companion.TAG_MEDIA
@@ -41,7 +42,7 @@ class WorkCoordinator(val context : Context) {
                 .setConstraints(networkConstraints)
                 .setBackoffCriteria(
                         BackoffPolicy.EXPONENTIAL,
-                        1000,
+                        MIN_BACKOFF_MILLIS,
                         TimeUnit.MILLISECONDS)
                 .build()
     }
@@ -58,7 +59,7 @@ class WorkCoordinator(val context : Context) {
                 .setInitialDelay(1, TimeUnit.DAYS)
                 .setBackoffCriteria(
                         BackoffPolicy.EXPONENTIAL,
-                        1000,
+                        MIN_BACKOFF_MILLIS,
                         TimeUnit.MILLISECONDS)
                 .build()
     }
@@ -88,7 +89,7 @@ class WorkCoordinator(val context : Context) {
                 .setConstraints(networkConstraints)
                 .setBackoffCriteria(
                         BackoffPolicy.EXPONENTIAL,
-                        1000,
+                        MIN_BACKOFF_MILLIS,
                         TimeUnit.MILLISECONDS)
                 .build()
     }

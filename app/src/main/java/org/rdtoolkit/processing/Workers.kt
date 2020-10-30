@@ -18,7 +18,7 @@ class SessionSubmissionWorker(val appContext: Context, workerParams: WorkerParam
         val sessionId = inputData.getString(RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID)!!
         val cloudworksEndpoint = inputData.getString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS)!!
 
-        Log.i(SessionPurgeWorker.LOG_TAG, "Submitting session data for $sessionId")
+        Log.i(LOG_TAG, "Submitting session data for $sessionId")
 
         val session = InjectorUtils.provideSessionRepository(appContext).getTestSession(sessionId)
         //TODO: How to cancel this whole submission if the session is gone somehow
@@ -83,8 +83,6 @@ class SessionPurgeWorker(appContext: Context, workerParams: WorkerParameters):
     }
 
     companion object {
-        const val DATA_MEDIA_KEY = "media_key"
-        const val DATA_FILE_PATH = "media_file"
         const val TAG_PURGE = "worker_purge"
         const val LOG_TAG = "SessionPurgeWorker"
     }

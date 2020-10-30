@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="16dp"
             android:text="@string/fragment_capture_enter_results_prompt" />
-
+m
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/capture_results_entry_list"
             android:layout_width="match_parent"

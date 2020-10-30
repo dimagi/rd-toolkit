@@ -35,7 +35,6 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
                 .addHeader("Content-Disposition", "attachment; filename=${filename}")
                 .build()
 
-        Log.d("RdtNetwork", "url: $url")
         val response = client.newCall(sessionBodyRequest).execute()
 
         if (!(response.code == 201 || response.code == 200)) {
@@ -49,7 +48,6 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
                 .put(body)
                 .build()
 
-        Log.d("RdtNetwork", "url: $url")
         val response = client.newCall(sessionBodyRequest).execute()
 
         if (!(response.code == 201 || response.code == 200)) {
