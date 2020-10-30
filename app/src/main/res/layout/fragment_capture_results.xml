@@ -22,13 +22,27 @@
         android:layout_weight="8"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/capture_results_instruct"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
-            android:text="@string/fragment_capture_enter_results_prompt" />
-m
+
+            android:paddingBottom="8dp">
+            <TextView
+                android:id="@+id/capture_results_instruct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/fragment_capture_enter_results_prompt" />
+
+            <Button
+                android:id="@+id/capture_results_proceed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="proceedToResults"
+                style="@style/Button"
+                android:text="@string/button_next" />
+
+        </FrameLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/capture_results_entry_list"
             android:layout_width="match_parent"

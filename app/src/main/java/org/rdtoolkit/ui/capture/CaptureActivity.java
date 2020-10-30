@@ -263,6 +263,10 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
         componentManager.getCaptureComponent().captureImage();
     }
 
+    public void proceedToResults(View v) {
+        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_capture_results_to_captureRecordFragment);
+    }
+
     public void recordResults(View v) {
         captureViewModel.commitResult();
     }
