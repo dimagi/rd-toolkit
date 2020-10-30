@@ -50,7 +50,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode Integer.valueOf(System.getenv("BUILD_NUMBER") ?: 1).intValue()
-        versionName "0.6.12"
+        versionName "0.6.13"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -109,6 +109,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'com.github.ctsims:ArcProgressBar:master-SNAPSHOT'
+
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.json:json:20160212'

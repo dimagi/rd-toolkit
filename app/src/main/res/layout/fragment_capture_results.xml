@@ -25,6 +25,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:paddingBottom="8dp">
             <TextView
                 android:id="@+id/capture_results_instruct"
@@ -42,7 +43,6 @@
                 android:text="@string/button_next" />
 
         </FrameLayout>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/capture_results_entry_list"
             android:layout_width="match_parent"
