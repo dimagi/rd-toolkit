@@ -1,0 +1,39 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "POSITIVE\n\nCaution: Visible test lines should be considered positive, even if faint.",
+        "page_2": "NEGATIVE\n\n",
+        "page_3": "INVALID: The control line should appear for all results. If it does not appear, the result is considered invalid and the specimen should be retested using a new test kit."
+      }
+    }
+  ,{
+    "lang":  "pt",
+    "strings":
+    {
+      "page_1": "POSITIVO\n\nAtenção: As linhas de teste visíveis devem ser consideradas um resultado positivo, ainda que sejam ténues.",
+      "page_2": "NEGATIVO\n\n",
+      "page_3": "INVÁLIDO: A linha de controlo deve aparecer em todos os resultados. Se esta não aparecer, o resultado será considerado inválido e a amostra deve ser testada novamente com um novo kit de teste."
+    }
+  }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "sd_bioline_pf_positive.png"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "sd_bioline_pf_negative.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "sd_bioline_pf_bad.png"
+      }
+    ]
+  }
+}

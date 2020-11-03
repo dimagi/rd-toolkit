@@ -7,7 +7,7 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     var pf_pos = cdo("mal_pf_pos", "Pf Positive")
     var pf_neg = cdo("mal_pf_neg", "Pf Negative")
 
-    var control_failure = cdo("universal_control_failure", "Control Failed - No Result")
+    var control_failure = cdo("universal_control_failure", "Invalid: Control Failed")
 
     var pv_pos = cdo("mal_pv_pos", "Pv Positive")
     var pv_neg = cdo("mal_pv_neg", "Pv Negative")
