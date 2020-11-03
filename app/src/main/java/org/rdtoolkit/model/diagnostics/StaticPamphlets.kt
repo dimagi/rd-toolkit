@@ -31,6 +31,15 @@ class StaticPamphlets(val context : Context) : PamphletSource {
             folio.setLocale(locale.language)
             response.add(folio.getPamphlet())
         }
+
+        if (category.equals("reference") && tags.contains("sd_bioline_mal_pf")) {
+            var folioContext = AssetFolioContext("bootstrapped/sd_bioline_mal_pf/reference", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
         return response
     }
 }

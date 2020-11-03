@@ -1,0 +1,70 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "1: Check the expiration date. If the device is expired, use another kit.",
+        "page_2": "2: Put on disposable gloves. Use new gloves for each patient.",
+        "page_3": "3: Open the test pouch and check the desiccant. another kit. If the color is green, use Write the patient’s name on the test device.",
+        "page_4": "4: Open the alcohol swab and clean the patient’s finger.\n\nThe alcohol must be dried before pricking, or the test may NOT work.",
+        "page_5": "5: Prick the patient’s finger with the lancet.\n\nDiscard the used lancet in the biohazard box immediately after pricking the finger.",
+        "page_6": "6: Use the inverted cup to collect the drop of blood",
+        "page_7": "7: Add drawn specimen of blood into the round specimen well.\n\nDiscard the inverted cup in the biohazard box after use.",
+        "page_8": "8: Add 4 drops of assay diluent into the square assay diluent well."
+      }
+    }
+    ,{
+    "lang":  "pt",
+    "strings":
+    {
+      "page_1": "1: Verifique a data de expiração. Se o dispositivo tiver expirado, utilize outro kit.",
+      "page_2": "2: Coloque luvas descartáveis. Utilize luvas novas para cada doente.",
+      "page_3": "3: Abra a bolsa do teste e verifique o dessecante. outro kit. Escreva o nome do doente no Se a cor for verde, utilize dispositivo de teste.",
+      "page_4": "4: Abra a gaze com álcool e limpe o dedo do doente.\n\nO álcool deve estar seco antes da punção, ou o teste poderá NÃO funcionar.",
+      "page_5": "5: Puncione o dedo do doente com a lanceta.\n\nElimine a lanceta usada na caixa de perigo biológico, imediatamente após a punção do dedo.",
+      "page_6": "6: Utilize o copo invertido para colher a gota de sangue.",
+      "page_7": "7: Adicione a amostra extraída de sangue ao orifício de amostragem redondo.\n\nElimine o copo invertido na caixa de perigo biológico, após a utilização.",
+      "page_8": "8: Adicione 4 gotas de diluente de ensaio ao orifício quadrado de diluente de ensaio."
+    }
+  }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "sd_bioline_pf_st_1.png"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "sd_bioline_pf_st_2.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "sd_bioline_pf_st_3.png"
+      }
+    ,{
+        "textKey": "page_4",
+        "image": "sd_bioline_pf_st_4.png"
+      }
+    ,{
+        "textKey": "page_5",
+        "image": "sd_bioline_pf_st_5.png"
+      }
+    ,{
+        "textKey": "page_6",
+        "image": "sd_bioline_pf_st_6.png"
+      }
+    ,{
+        "textKey": "page_7",
+        "image": "sd_bioline_pf_st_7.png"
+      }
+    ,{
+        "textKey": "page_8",
+        "image": "sd_bioline_pf_st_8.png"
+      }
+    ]
+  }
+}
+
