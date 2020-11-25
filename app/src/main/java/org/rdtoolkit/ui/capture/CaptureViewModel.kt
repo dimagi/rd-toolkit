@@ -127,7 +127,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         val results = testSessionResult.value!!.results
         if (!results.containsKey(key) || results[key] != value) {
             results.put(key, value)
-            testSessionResult.value = testSessionResult.value
+            testSessionResult.postValue(testSessionResult.value)
         }
     }
 
@@ -171,6 +171,12 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     fun setClassifierResults(classifierResults : MutableMap<String, String>) {
         testSessionResult.value!!.classifierResults.putAll(classifierResults)
+        //Disabled for now until cleared
+        if (false && classifierMode == ClassifierMode.PRE_POPULATE) {
+            for (e in classifierResults) {
+                setResultValue(e.key, e.value)
+            }
+        }
         processingStateValue.postValue(ProcessingState.COMPLETE)
     }
 
