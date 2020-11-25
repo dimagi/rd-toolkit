@@ -3,17 +3,28 @@ package org.rdtoolkit.model.diagnostics
 import org.rdtoolkit.model.diagnostics.ConcreteDiagnosticOutcome as cdo
 import org.rdtoolkit.model.diagnostics.ConcreteResultProfile as crp
 
+val DIAG_PF_POS = "mal_pf_pos"
+val DIAG_PF_NEG = "mal_pf_neg"
+
+val DIAG_PV_POS = "mal_pv_pos"
+val DIAG_PV_NEG = "mal_pv_neg"
+
+val DIAG_PF = "mal_pf"
+val DIAG_PV = "mal_pv"
+
+val UNIVERSAL_CONTROL_FAILURE = "universal_control_failure"
+
 fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> {
-    var pf_pos = cdo("mal_pf_pos", "Pf Positive")
-    var pf_neg = cdo("mal_pf_neg", "Pf Negative")
+    var pf_pos = cdo(DIAG_PF_POS, "Pf Positive")
+    var pf_neg = cdo(DIAG_PF_NEG, "Pf Negative")
 
-    var control_failure = cdo("universal_control_failure", "Invalid: Control Failed")
+    var control_failure = cdo(UNIVERSAL_CONTROL_FAILURE, "Invalid: Control Failed")
 
-    var pv_pos = cdo("mal_pv_pos", "Pv Positive")
-    var pv_neg = cdo("mal_pv_neg", "Pv Negative")
+    var pv_pos = cdo(DIAG_PV_POS, "Pv Positive")
+    var pv_neg = cdo(DIAG_PV_NEG, "Pv Negative")
 
-    var pf_result = crp("mal_pf", "Malaria: P. falciparum", listOf(pf_pos, pf_neg, control_failure))
-    var pv_result = crp("mal_pv", "Malaria: P. vivax", listOf(pv_pos, pv_neg, control_failure))
+    var pf_result = crp(DIAG_PF, "Malaria: P. falciparum", listOf(pf_pos, pf_neg, control_failure))
+    var pv_result = crp(DIAG_PV, "Malaria: P. vivax", listOf(pv_pos, pv_neg, control_failure))
 
 
     var bioline = ConcreteProfile("sd_bioline_mal_pf_pv", "SD Bioline Malaria Ag Pf/Pv", "sample_bioline",60*15,60*30, listOf(pf_result, pv_result), listOf("real"))
