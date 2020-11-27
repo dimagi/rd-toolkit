@@ -22,6 +22,8 @@ import net.vrgsoft.arcprogress.ArcProgressBar;
 import org.rdtoolkit.R;
 import org.rdtoolkit.support.model.session.TestReadableState;
 
+import kotlin.NotImplementedError;
+
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static org.rdtoolkit.util.MediaUtilKt.setImageBitmapFromFile;
@@ -56,12 +58,15 @@ public class CaptureTimerFragment extends Fragment {
             switch (value) {
                 case PRE_CAPTURE:
                 case COMPLETE:
+                case SKIPPED:
                 case ERROR:
                     processingOverlay.setVisibility(View.INVISIBLE);
                     break;
                 case PROCESSING:
                     processingOverlay.setVisibility(View.VISIBLE);
                     break;
+                default:
+                    throw new NotImplementedError("Unimplemented capture processing state");
             }
         });
 

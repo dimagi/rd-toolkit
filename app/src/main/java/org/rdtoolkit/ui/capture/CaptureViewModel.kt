@@ -37,6 +37,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         session -> diagnosticsRepository.getTestProfile(session.testProfileId)
     }
 
+    private val numberOfFailedCaptures = MutableLiveData(0)
+
     private val resolveMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
 
     private val readableMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
@@ -66,7 +68,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     val allowOverrideValue : MutableLiveData<Boolean> = MutableLiveData()
 
     val captureIsIncomplete = Transformations.map(CombinedLiveData<TestSession.TestResult, ProcessingState>(testSessionResult,processingStateValue)) {
-        combinedData -> combinedData.first.mainImage == null || !(combinedData.second == ProcessingState.COMPLETE || combinedData.second == ProcessingState.PROCESSING)
+        combinedData -> combinedData.first.mainImage == null || !(combinedData.second == ProcessingState.COMPLETE || combinedData.second == ProcessingState.PROCESSING || combinedData.second == ProcessingState.SKIPPED)
     }
 
     val testCapturedLate = Transformations.map(CombinedLiveData<TestSession.TestResult, TestReadableState>(testSessionResult,testState)) {
@@ -75,6 +77,11 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     }
 
     val sessionStateInputs = CombinedLiveData(testState, captureIsIncomplete)
+
+
+    val permitCaptureOverride = Transformations.map(CombinedLiveData<Int, ProcessingState>(numberOfFailedCaptures,processingStateValue)) {
+        it.first >= 3 && it.second == ProcessingState.ERROR
+    }
 
 
     fun getExpireOverrideChecked() : LiveData<Boolean> {
@@ -183,6 +190,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     fun setProcessingError(error: String, details: Pamphlet?) {
         processingStateValue.postValue(ProcessingState.ERROR)
         this.processingErrorValue.postValue(Pair(error, details))
+        this.numberOfFailedCaptures.postValue(numberOfFailedCaptures.value!! + 1)
     }
 
     fun loadSession(sessionId: String) {
@@ -273,6 +281,10 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         readableTimer?.cancel()
     }
 
+    fun setProcessingSkipped() {
+        this.processingStateValue.value = ProcessingState.SKIPPED
+    }
+
     init {
         testState.value = TestReadableState.LOADING
     }
@@ -284,6 +296,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 enum class ProcessingState {
     PRE_CAPTURE,
     PROCESSING,
+    SKIPPED,
     COMPLETE,
     ERROR
 }

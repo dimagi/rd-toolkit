@@ -75,4 +75,5 @@
     <string name="capture_summary_status_timer">Timer</string>
     <string name="capture_summary_status_timer_valid">Valid</string>
     <string name="capture_summary_status_timer_expired">Expired</string>
+    <string name="capture_timer_accept_error_image">Accept Image</string>
 </resources>

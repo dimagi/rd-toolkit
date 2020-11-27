@@ -40,6 +40,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import kotlin.NotImplementedError;
+
 import static org.rdtoolkit.interop.InterfacesKt.captureReturnIntent;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RESPONSE_TRANSLATOR;
@@ -125,6 +127,14 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
             }
         });
 
+        captureViewModel.getPermitCaptureOverride().observe(this, value -> {
+            if (value) {
+                findViewById(R.id.capture_timer_button_accept_error_image).setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.capture_timer_button_accept_error_image).setVisibility(View.GONE);
+            }
+        });
+
 
         captureViewModel.getProcessingState().observe(this, value -> {
             switch (value) {
@@ -137,6 +147,7 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
                     }
                     break;
                 case COMPLETE:
+                case SKIPPED:
                     resultsTab.setEnabled(true);
                     if(navController.getCurrentDestination().getId() != R.id.capture_results) {
                         if (navController.getCurrentDestination().getId() == R.id.capture_timer) {
@@ -147,6 +158,8 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
                         }
                     }
                     break;
+                default:
+                    throw new NotImplementedError("Unimplemented Capture processing state");
             }
         });
 
@@ -269,6 +282,10 @@ public class CaptureActivity extends AppCompatActivity implements ComponentEvent
 
     public void recordResults(View v) {
         captureViewModel.commitResult();
+    }
+
+    public void overrideCaptureError(View v) {
+        captureViewModel.setProcessingSkipped();
     }
 
     public void overrideExpiration(View v) {
