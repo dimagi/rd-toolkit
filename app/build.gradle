@@ -56,7 +56,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode Integer.valueOf(System.getenv("BUILD_NUMBER") ?: 1).intValue()
-        versionName "0.7.1"
+        versionName "0.7.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -77,6 +77,9 @@ android {
         pickFirst 'lib/arm64-v8a/libopencv_java4.so'
         pickFirst 'lib/arm64-v8a/libc++_shared.so'
         pickFirst 'lib/armeabi-v7a/libopencv_java4.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
     }
 }
 
@@ -139,7 +142,7 @@ dependencies {
 
     if (project.hasProperty("restrictedLibraryRoot")) {
         restrictedImplementation files("$restrictedLibraryRoot/scanwell-rdt-reader.aar")
-        restrictedImplementation files("$restrictedLibraryRoot/diatomic-reader.aar")
+        restrictedImplementation files("$restrictedLibraryRoot/diatomic-reader-1201.aar")
     }
     restrictedImplementation 'com.quickbirdstudios:opencv:4.3.0'
 }
