@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -14,8 +13,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity;
 
-import org.rdtoolkit.interop.InterfacesKt;
 import org.rdtoolkit.support.interop.RdtIntentBuilder;
 import org.rdtoolkit.support.interop.RdtUtils;
 import org.rdtoolkit.support.model.session.ProvisionMode;
@@ -26,7 +25,7 @@ import java.util.UUID;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.ACTION_TEST_CAPTURE;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends LocaleAwareCompatActivity {
 
     private static final int ACTIVITY_PROVISION = 1;
 
@@ -35,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -67,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void simulateTestRequest(View view) {
-
         Intent i = RdtIntentBuilder
                 .forProvisioning().setSessionId(UUID.randomUUID().toString())
                 //.requestTestProfile("debug_mal_pf_pv")

@@ -1,5 +1,6 @@
 <resources>
     <string name="default_preference_key" translatable="false">org.rd-toolkit.basepreferences</string>
+    <string name="locale_key">English</string>
     <string name="app_name">Rapid Diagnostic Toolkit</string>
     <string name="nav_header_title">Rapid Diagnostic Toolkit</string>
     <string name="action_settings">Settings</string>
@@ -75,5 +76,7 @@
     <string name="capture_summary_status_timer">Timer</string>
     <string name="capture_summary_status_timer_valid">Valid</string>
     <string name="capture_summary_status_timer_expired">Expired</string>
+    <string name="preference_app_language">Application Language</string>
+    <string name="preference_app_language_system_default">System Default (%s)</string>
     <string name="capture_timer_accept_error_image">Accept Image</string>
 </resources>
