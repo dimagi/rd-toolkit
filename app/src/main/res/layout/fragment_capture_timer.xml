@@ -88,6 +88,7 @@
         android:gravity="center_horizontal"
         android:visibility="invisible"
         android:layout_margin="16dp">
+
         <FrameLayout
             android:layout_gravity="center"
             android:paddingBottom="8dp"
@@ -105,6 +106,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </FrameLayout>
+
+        <Button
+            android:id="@+id/capture_timer_button_accept_error_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="overrideCaptureError"
+            android:visibility="gone"
+            style="@style/Button"
+            android:text="@string/capture_timer_accept_error_image" />
 
         <TextView
             android:id="@+id/capture_timer_process_status"
