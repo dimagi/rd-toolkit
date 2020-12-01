@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,13 +14,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity;
 
 import org.rdtoolkit.R;
-import org.rdtoolkit.interop.InterfacesKt;
+import org.rdtoolkit.service.TestTimerService;
 import org.rdtoolkit.support.interop.BundleToConfiguration;
 import org.rdtoolkit.support.model.session.SessionMode;
 import org.rdtoolkit.support.model.session.TestSession;
-import org.rdtoolkit.service.TestTimerService;
 import org.rdtoolkit.ui.capture.CaptureActivity;
 import org.rdtoolkit.ui.instruct.PamphletViewModel;
 import org.rdtoolkit.util.InjectorUtils;
@@ -33,7 +32,7 @@ import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_CO
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RESPONSE_TRANSLATOR;
 
-public class ProvisionActivity extends AppCompatActivity {
+public class ProvisionActivity extends LocaleAwareCompatActivity {
 
     ProvisionViewModel provisionViewModel;
     PamphletViewModel pamphletViewModel;

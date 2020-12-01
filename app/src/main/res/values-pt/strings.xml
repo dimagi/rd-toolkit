@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="locale_key">Português</string>
     <string name="app_name">Kit de ferramentas de diagnóstico rápido</string>
     <string name="nav_header_title">Kit de ferramentas de diagnóstico rápido</string>
     <string name="action_settings">Configurações</string>

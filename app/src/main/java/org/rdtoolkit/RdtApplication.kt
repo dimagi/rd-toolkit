@@ -1,9 +1,9 @@
 package org.rdtoolkit
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import com.zeugmasolutions.localehelper.LocaleAwareApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -13,7 +13,8 @@ import org.rdtoolkit.service.NOTIFICATION_TAG_TEST_ID
 import org.rdtoolkit.service.TestTimerService
 import java.util.*
 
-class RdtApplication : Application() {
+class RdtApplication : LocaleAwareApplication() {
+
     override fun onCreate() {
         super.onCreate()
 
