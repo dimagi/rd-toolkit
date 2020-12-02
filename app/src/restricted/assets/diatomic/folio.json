@@ -5,16 +5,16 @@
       "lang":  "en",
       "strings":
       {
-        "error-1": "The image size sent by the camera was not correct. Please report this issue",
-        "error-2": "Could not confirm that the RDT is properly oriented. Ensure the RDT is on a plain, non-white background with nothing else in the picture and no harsh shadows. Then line up the outline of the RDT with the green rectangle on screen, and take a picture again. [%s]",
-        "error-3": "Could not confirm that the RDT is properly oriented. Ensure the RDT is on a plain, non-white background with nothing else in the picture and no harsh shadows. Then line up the outline of the RDT with the green rectangle on screen, and take a picture again. [%s]",
-        "error-4": "Could not confirm that the RDT is properly oriented. Ensure the RDT is on a plain, non-white background with nothing else in the picture and no harsh shadows. Then line up the outline of the RDT with the green rectangle on screen, and take a picture again. [%s]",
-        "error-5": "Could not confirm that the RDT is properly oriented. Ensure the RDT is on a plain, non-white background with nothing else in the picture and no harsh shadows. Then line up the outline of the RDT with the green rectangle on screen, and take a picture again. [%s]",
-        "error-6": "The picture was too blurry to analyze.  Please take a picture again.",
-        "error-7": "There is not enough light to analyze the RDT.  Please move to a brighter area, or turn on more lights. Then, take a picture again.",
-        "error-8": "Uneven lighting detected on the RDT that is preventing appropriate analysis. Please avoid shadows and direct reflection of light on the surface of the RDT and take a picture again.",
-        "error-9": "Did not recognize the RDT. Please ensure that you are using a matching test.",
-        "error-10": "Uneven lighting detected on the RDT that is preventing appropriate analysis. Please avoid shadows and direct reflection of light on the surface of the RDT and take a picture again.",
+        "error-1": "An internal error has occurred",
+        "error-2": "Could not confirm that the RDT is oriented properly. Please make sure that the RDT is on a non-white background and that there are no shadows cast over the cassette. Hold the phone parallel to the RDT, align the RDT to the reticle, and take a picture again. [%s]",
+        "error-3": "Could not confirm that the RDT is oriented properly. Please make sure that the RDT is on a non-white background and that there are no shadows cast over the cassette. Hold the phone parallel to the RDT, align the RDT to the reticle, and take a picture again. [%s]",
+        "error-4": "Could not confirm that the RDT is oriented properly. Please make sure that the RDT is on a non-white background and that there are no shadows cast over the cassette. Hold the phone parallel to the RDT, align the RDT to the reticle, and take a picture again. [%s]",
+        "error-5": "Could not confirm that the RDT is oriented properly. Please make sure that the RDT is on a non-white background and that there are no shadows cast over the cassette. Hold the phone parallel to the RDT, align the RDT to the reticle, and take a picture again. [%s]",
+        "error-6": "The picture was too blurry to analyze.  Please ensure there is enough light for a sharp image, hold steady, and take a picture  again.",
+        "error-7": "The image is too dark to analyze. Please move to a location with more light and try again.",
+        "error-8": "The image appears overexposed. Avoid harsh and direct light on the RDT, and take a picture again. If this persists and you have a dark background, try a lighter (but not white) background.",
+        "error-9": "This does not appear to be the correct RDT. Please ensure the correct RDT is used, then try again.",
+        "error-10": "Glare detected in the assay window. Please avoid direct reflection of light off of the surface of the RDT and take a picture again.",
         "error-generic": "An error occurred [%s] while analyzing the RDT. Please take a picture again. If this error persists, please start again using a new RDT."
       }
   }
