@@ -22,7 +22,7 @@
     <string name="capture_btn_take_prompt">Capturer une image de test</string>
     <string name="card_view_session_capture_button_text">ENREGISTREZ LES RESULTATS</string>
     <string name="fragment_capture_record_results_button_text">Enregistrer Les Résultats</string>
-    <string name="fragment_capture_enter_results_bprompt">Veuillez fournir votre interprétation du résultat du test</string>
+    <string name="fragment_capture_enter_results_prompt">Veuillez fournir votre interprétation du résultat du test</string>
     <string name="fragment_capture_loading_message">Chargement du Test...</string>
     <string name="fragment_capture_error_see_more_button_text">En Savoir Plus...</string>
     <string name="home_simulate_request_button_text">Simuler Une Demande de Test</string>
