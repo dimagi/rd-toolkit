@@ -49,6 +49,19 @@
       "page_6": "8: Adicione 2 gotas (60μl) de solução tampão de ensaio no receptáculo “A”. Incie o cronómetro."
     }
   }
+  ,{
+    "lang":  "mg",
+    "strings":
+    {
+      "page_1": "1: Mampidira aro-tanana roa vaovao.\n\n2: Soraty eo amin'ilay fitaovam-pitiliana ny anaran'ny marary.\n\n3: Diovy amin'ny alikaola ny faritry ny ratsan-tanana. Avelao ho maina tanteraka ny alikaola alohan'ny hifindrana amin'ny dingana manaraka",
+      "page_2": "4: Tereo kely lohan-drantsan-tanana ary tsindrony amin'ilay fanindrona kely(lancette) ny faritra voadio (azo alaina amin'ny lalan-dra ihany koa ny santionan-drà hotiliana). Apetraho ao anaty boaty ny 'lancette'.\n\n5: Fafao amin'ny 'gaz sterile' na vovoa ny tentina rà voalohany.",
+      "page_3": "6: Angony ireo santinan-drà (5µl) amin'ny fampiasana ny fitaovam-pamindrana na 'micro-pipette'",
+      "page_4": "Angony ireo santionana hatramin'ny",
+      "page_5": "7: Ampio rà 5µl ao anatin'ny 'puit “S”",
+      "page_6": "8: Ampio indroa mitete (60µl) amin'ny 'solution tampon' ao antin'ny 'puit A'. Alefaso ny 'minuterie'",
+      "page_7": "9: Jereo afaka 20 minitra ny valiny."
+    }
+  }
   ],
   "pamphlet" : {
     "pages": [
