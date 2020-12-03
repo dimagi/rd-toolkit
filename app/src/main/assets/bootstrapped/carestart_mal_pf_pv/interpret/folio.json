@@ -1,0 +1,84 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "The presence of a line next to “CON” indicates a negative result",
+        "page_2": "The presence of two lines (one line in the result window next to “CON” and another in the result window next to “Pf”) indicates a positive result for P. falciparum.",
+        "page_3": "The presence of two lines (one line in the result window next to “CON” and another line in the result window next to “Pv”) indicates a positive result for P. vivax",
+        "page_4": "The presence of three lines (3 lines in the result window next to CON”, “Pv” and “Pf”) indicates a positive result for P. falciparum and P. vivax.",
+        "page_5": "The test is invalid when a line does not appear next to “CON”. If this occurs, the test should be repeated using a new cassette"
+      }
+    }
+   ,{
+      "lang":  "fr",
+      "strings":
+      {
+        "page_1": "La présence d’une ligne à côté du “CON” indique un résultat négatif.",
+        "page_2": "La présence de deux lignes (une ligne dans l’écran à côté du “CON” et une autre ligne dans l’écran à côté du “Pf”) indique un résultat positif au P. falciparum.",
+        "page_3": "La présence de deux lignes (une ligne dans l’écran à côté du “CON” et une autre ligne dans l’écran à côté du “Pv”) indique un résultat positif au P. vivax.",
+        "page_4": "La présence de trois lignes (3 lignes à l’écran à côté du CON”, “Pv” et “Pf”) indique un résultat positif au P. falciparum et P. vivax.",
+        "page_5": "Si la bande de contrôle “CON” n'apparaît pas dans la fenêtre des résultats, le résultat est invalide. Il est recommandé de réaliser un nouveau test sur le prélèvement."
+      }
+    }
+  ,{
+    "lang":  "es",
+    "strings":
+    {
+      "page_1": "La presencia de una línea al lado de la “CON” indica un resultado negativo.",
+      "page_2": "La presencia de dos líneas (una línea en la pantalla de resultados al ladode la “CON” y otra línea en la pantalla de resultados al lado del “Pf”) indica un resultado positivo para P. falciparum.",
+      "page_3": "La presencia de dos líneas (una línea en la pantalla de resultados al lado de la “CON” y otra línea en la pantalla de resultados al lado del “Pv”) indica un resultado positivo para P. vivax.",
+      "page_4": "La presencia de tres líneas (3 líneas en la pantalla de resultados al lado de la CON”, “Pv” y “Pf”) indica un resultado positivo para P. falciparum y P. vivax, P. ovale, o P. malariae.",
+      "page_5": "Si no aparece una línea cerca de la “CON”, la prueba se considera inválida. En este caso, la prueba debe repetirse usando un nuevo dispositivo."
+    }
+  }
+  ,{
+    "lang":  "pt",
+    "strings":
+    {
+      "page_1": "A presença de uma linha ao lado de “CON” indica um resultado negativo.",
+      "page_2": "A presença de duas linhas (uma linha na tela ao lado de “CON” e uma outra linha na tela ao lado de “Pf”) indica um resultado positivo para P. falciparum.",
+      "page_3": "A presença de duas linhas (uma linha na tela ao lado de “CON” e uma outra linha na tela ao lado de “Pv”) indica um resultado positivo para P. vivax.",
+      "page_4": "A presença de três linhas (três linhas na tela ao lado de “CON”, “Pv” e “Pf”) indica um resultado positivo para P. falciparum e P. vivax.",
+      "page_5": "O teste é inválido quando uma linha não aparece ao lado de “CON”. Se isso ocorrer, o teste deve ser repetido utilizando um novo dispositivo."
+    }
+  }
+  ,{
+    "lang":  "mg",
+    "strings":
+    {
+      "page_1": "Raha misy tsipika iray (1) eo akaikin'ny “CON”, dia midika izay fa negatifa ny valiny",
+      "page_2": "Raha misy tsipika roa (2) (tsipika iray eo akaikin'ny “CON” ary tsipika iray eo akaikin'ny “Pf”) dia midika izay fa positifa amin'ny P. falciparum ny valiny",
+      "page_3": "Raha misy tsipika roa (2) (tsipika iray eo akaikin'ny “CON” ary tsipika iray eo akaikin'ny “Pv”) dia midika izay fa positifa amin'ny P. vivax ny valiny",
+      "page_4": "Raha misy tsipka telo (3) (tsipika telo eo akaikin'ny “CON”, “Pv”, ary “Pf”) dia midika izay fa positifa amin'ny P. falciparum sy P. vivax ny valiny",
+      "page_5": "Tsy manankery ilay valiny raha tsy mipoitra ilay 'bande de contrôle “CON” '. Mila mamerina fitiliana vaovao raha izay no miseho"
+    }
+  }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "negative.png"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "pf_pos.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "pv_pos.png"
+      }
+    ,{
+        "textKey": "page_4",
+        "image": "pf_pv_pos.png"
+      }
+    ,{
+        "textKey": "page_5",
+        "image": "invalid.png"
+      }
+    ]
+  }
+}

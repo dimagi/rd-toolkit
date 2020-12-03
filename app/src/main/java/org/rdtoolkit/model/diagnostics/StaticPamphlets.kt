@@ -9,7 +9,15 @@ class StaticPamphlets(val context : Context) : PamphletSource {
         val response = ArrayList<Pamphlet>()
         val locale = Locale.getDefault()
         if (category.equals("reference") && tags.contains("carestart_mal_pf_pv")) {
-            var folioContext = AssetFolioContext("bootstrapped/carestart_mal_pf_pv", context.assets)
+            var folioContext = AssetFolioContext("bootstrapped/carestart_mal_pf_pv/reference", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
+        if (category.equals("interpret") && tags.contains("carestart_mal_pf_pv")) {
+            var folioContext = AssetFolioContext("bootstrapped/carestart_mal_pf_pv/interpret", context.assets)
             var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
             val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
             folio.setLocale(locale.language)
