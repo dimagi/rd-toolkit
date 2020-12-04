@@ -18,6 +18,23 @@
         "error-generic": "An error occurred [%s] while analyzing the RDT. Please take a picture again. If this error persists, please start again using a new RDT."
       }
   }
+  ,{
+    "lang":  "mg",
+    "strings":
+    {
+      "error-1": "Nisy lesoka tao anatiny'",
+      "error-2": "Tsy afaka nanamarina fa mipetraka tsara ny TDR. Tazomy ny telefonina hifanitsy amin’ny TDR, kendreo tsara eo amin’ny lafiny tsy fotsy ary tsy misy alokaloka amin’ny kasety, ary makà sary indray. [%s]",
+      "error-3": "Tsy afaka nanamarina fa fa mipetraka tsara ny TDR. Tazomy ny telefonina hifanitsy amin’ny TDR, hamarino azafady fa vokendry tsara eo amin’ny lafiny tsy fotsy ary tsy misy alokaloka amin’ny kasety, ary makà sary indray. [%s]",
+      "error-4": "Tsy afaka nanamarina fa fa mipetraka tsara ny TDR. Tazomy ny telefonina hifanitsy amin’ny TDR, hamarino azafady fa vokendry tsara eo amin’ny lafiny tsy fotsy ary tsy misy alokaloka amin’ny kasety, ary makà sary indray. [%s]",
+      "error-5": "Tsy afaka nanamarina fa fa mipetraka tsara ny TDR. Tazomy ny telefonina hifanitsy amin’ny TDR, hamarino azafady fa vokendry tsara eo amin’ny lafiny tsy fotsy ary tsy misy alokaloka amin’ny kasety, ary makà sary indray. [%s]",
+      "error-6": "Lehibe loatra ilay sary ka tsy mety vakiana ny valiny, hamarino fa mazava tsara ilay fitiliana alaina sary ary makà sary indray.",
+      "error-7": "Maizina loatra ny sary ka tsy mety vakiana ny valiny, mifindrà amin’ny toerana mazava kokoa azafady ary manandrama indray.",
+      "error-8": "Lehibe loatra ilay sary, azafady avereno alaina ny sary, ataovy mazava tsara ny TDR ary avereno alaina sary ilay lafiny tsy fotsy.",
+      "error-9": "Ohatran’ny tsy mety ilay TDR, hamarino ary avereno alaina sary avy eo.",
+      "error-10": "Mazava loatra ilay sary, apetraho amina toerana tsy misy hazavana be loatra ilay TDR ary makà sary indray azafady.",
+      "error-generic": "Nisy olana [% s] rehefa nizaha ny TDR nalaina sary, avereno azafady ary raha mbola miseho ny olana dia miangavy anao hampiasa TDR vaovao indray..."
+    }
+  }
   ],
   "pamphlet" : {
     "pages": [
