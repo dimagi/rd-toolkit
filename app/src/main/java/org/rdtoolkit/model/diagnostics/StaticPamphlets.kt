@@ -56,6 +56,21 @@ class StaticPamphlets(val context : Context) : PamphletSource {
             response.add(folio.getPamphlet())
         }
 
+        if (category.equals("reference") && tags.contains("sd_standard_q_c19")) {
+            var folioContext = AssetFolioContext("bootstrapped/sd_standard_q_c19/reference", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
+        if (category.equals("interpret") && tags.contains("sd_standard_q_c19")) {
+            var folioContext = AssetFolioContext("bootstrapped/sd_standard_q_c19/interpret", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
 
         return response
     }

@@ -1,0 +1,51 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "Carefully read instructions for using the STANDARD Q COVID-19 Ag Test",
+        "page_2": "Check the expiry date at the back of the foil pouch. Do not use the kit, if expiry date has passed.",
+        "page_3": "Yellow: Valid\nGreen: Invalid\n\nCheck the test device and the desiccant pack in the foil pouch.",
+        "page_4": "Insert a sterile swab into the nostril of the patient, swab over the surface of the posterior nasopharynx. Withdraw the sterile swab from the nasal cavity.",
+        "page_5": "Insert the swab into an extraction buffer tube. While squeezing the buffer tube, stir the swab more than 5 times.",
+        "page_6": "Remove the swab while squeezing the sides of the tube to extract the liquid from the swab.\n\n4. Press the nozzle cap tightly onto the tube.",
+        "page_7": "Apply 3 drops of extracted specimen to the specimen well of the test device.\n\nRead the test result in 15-30 minutes."
+      }
+    }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "p_1_test.png"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "p_2_expiry.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "p_3_silica.png"
+      }
+    ,{
+        "textKey": "page_4",
+        "image": "c_1_swab.png"
+      }
+    ,{
+        "textKey": "page_5",
+        "image": "c_2_stir.png"
+      }
+    ,{
+        "textKey": "page_6",
+        "image": "c_3_extract.png"
+      }
+    ,{
+        "textKey": "page_7",
+        "image": "a_1_drops.png"
+      }
+    ]
+  }
+}
+
