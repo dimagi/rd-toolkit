@@ -79,4 +79,5 @@
     <string name="preference_app_language">Application Language</string>
     <string name="preference_app_language_system_default">System Default (%s)</string>
     <string name="capture_timer_accept_error_image">Accept Image</string>
+    <string name="fragment_capture_review_results">Review My Choices</string>
 </resources>

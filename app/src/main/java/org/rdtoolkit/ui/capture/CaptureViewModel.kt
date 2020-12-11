@@ -78,9 +78,33 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     val sessionStateInputs = CombinedLiveData(testState, captureIsIncomplete)
 
-
     val permitCaptureOverride = Transformations.map(CombinedLiveData<Int, ProcessingState>(numberOfFailedCaptures,processingStateValue)) {
         it.first >= 3 && it.second == ProcessingState.ERROR
+    }
+
+    private val needsWorkCheck = Transformations.map(CombinedLiveData<TestSession, TestSession.TestResult>(testSession, testSessionResult)) {
+        it.first.configuration.classifierMode == ClassifierMode.CHECK_YOUR_WORK &&
+            it.second.classifierResults.isNotEmpty() && it.second.results.isNotEmpty() &&
+            areClassifierOutcomesDifferent(it.second)
+    }
+
+    private val workChecked : MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val requireWorkCheck = Transformations.map(CombinedLiveData(needsWorkCheck, workChecked)) {
+        it.first && !it.second
+    }
+
+    private fun areClassifierOutcomesDifferent(it: TestSession.TestResult): Boolean {
+        for (entry in it.results) {
+            if (!it.classifierResults[entry.key].equals(entry.value)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun setWorkCheckTriggered() {
+        workChecked.value = true
     }
 
 
@@ -154,6 +178,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
             result.results.clear()
             result.classifierResults.clear()
+            workChecked.value = false
             processingErrorValue.value = null
             testSessionResult.value = result
 

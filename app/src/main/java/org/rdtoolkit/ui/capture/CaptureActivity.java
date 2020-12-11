@@ -112,6 +112,11 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
             }
         });
 
+        //Needed to ensure this declarative check processes.
+        captureViewModel.getRequireWorkCheck().observe(this, result ->{
+
+        });
+
         captureViewModel.getSessionStateInputs().observe(this, result -> {
             if (result.getFirst() == TestReadableState.EXPIRED && result.getSecond()) {
                 captureTab.setVisible(false);
@@ -281,6 +286,19 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
     }
 
     public void recordResults(View v) {
+        if (!captureViewModel.getRequireWorkCheck().getValue()) {
+            captureViewModel.commitResult();
+        } else {
+            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_capture_record_to_work_check);
+        }
+    }
+
+    public void reviewChoices(View v) {
+        captureViewModel.setWorkCheckTriggered();
+        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.capture_trigger_work_check);
+    }
+
+    public void confirmRecordResults(View v) {
         captureViewModel.commitResult();
     }
 
