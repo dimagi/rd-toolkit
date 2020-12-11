@@ -74,6 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:maxDots="16"
         app:currentItem="0"
         app:layout_constraintStart_toStartOf="parent"
