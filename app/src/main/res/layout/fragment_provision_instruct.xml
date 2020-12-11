@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/instruct_image_frame"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/provision_info_page_text"
-        android:layout_gravity="center">
+        app:layout_constraintBottom_toTopOf="@id/provision_info_page_text">
         <ImageView
             android:id="@+id/provision_info_page_image"
             android:layout_width="match_parent"
