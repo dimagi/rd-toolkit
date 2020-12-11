@@ -23,8 +23,8 @@
             />
 
         <ImageView
-            android:layout_width="300dp"
-            android:layout_height="150dp"
+            android:layout_width="@dimen/prompt_image_width"
+            android:layout_height="@dimen/prompt_image_height"
             android:layout_gravity="center"
             android:src="@drawable/ic_baseline_timer_bad_400" />
 
@@ -135,7 +135,7 @@
         <Button
             android:id="@+id/capture_record_btn_commit"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="recordResults"
             android:drawableRight="@drawable/ic_baseline_arrow_forward_white_24"

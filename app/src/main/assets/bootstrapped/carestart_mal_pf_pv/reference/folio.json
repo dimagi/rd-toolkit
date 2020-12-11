@@ -6,7 +6,8 @@
       "strings":
       {
         "page_1": "Step 1: Put on a new pair of gloves.\n\nStep 2: Write the patent’s name on the cassette\n\nStep 3: Clean the area to be pierced using an alcohol swab. Let the alcohol dry completely before proceeding to the next step.",
-        "page_2": "Step 4: Squeeze the end of a fingertip and pierce the cleaned area of the fingertip using a lancet provided. Discard the lancet in the sharps box\n\nStep 5: Wipe out the first drop of blood with sterile gauze or cotton.",
+        "page_2": "Step 4: Squeeze the end of a fingertip and pierce the cleaned area of the fingertip using a lancet provided. Discard the lancet in the sharps box",
+        "page_2a": "Step 5: Wipe out the first drop of blood with sterile gauze or cotton.",
         "page_3": "Step 6: Collect the blood sample (5μl) using a provided specimen transfer device or a micopipette.",
         "page_4": "Collect the specimen to the specified line",
         "page_5": "Step 7: Add 5μl of whole blood into “S” well",
@@ -18,7 +19,8 @@
     "strings":
     {
       "page_1": "1: Mettez une nouvelle paire de gants.\n\n2: Écrivez le nom du patent sur le dispositif de test.\n\n3: Nettoyez la zone du doigt a en utilisant un tampon d’alcool. Laissez l’alcool sécher complètement avant de passer à l’étape suivante",
-      "page_2": "4: Pincez l'extrémité du bout du doigt et piquez la zone nettoyée à l'aide de la lancette fournie (l'échantillon de sang peut également être prélevé par ponction veineuse). Jetez la lancette dans la boîte de sécurité.\n\n5: Essuyez la première goutte de sang avec une gaze stérile ou du coton.",
+      "page_2": "4: Pincez l'extrémité du bout du doigt et piquez la zone nettoyée à l'aide de la lancette fournie (l'échantillon de sang peut également être prélevé par ponction veineuse). Jetez la lancette dans la boîte de sécurité.",
+      "page_2a": "5: Essuyez la première goutte de sang avec une gaze stérile ou du coton.",
       "page_3": "6: Recueillez l'échantillon de sang (5μl) en utilisant le dispositif de transfert ou la micro-pipette.",
       "page_4": "Recueillir l’échantillon jusqu’ à la ligne",
       "page_5": "7: Ajoutez 5μl de sang dans le puit “S”.",
@@ -30,7 +32,8 @@
     "strings":
     {
       "page_1": "1: Póngase un par de guantes nuevos.\n\n2: Anote el nombre del paciente en el dispositivo de prueba.\n\n3: Limpie el área en la punta del dedo que se pinchará utilizando una gasa con alcohol. Permita que el alcohol se seque completamente antes de continuar al siguiente paso.",
-      "page_2": "4: Apriete el extremo de la punta del dedo y pinche el área limpiada usando la lanceta proporcionado (también se puede obtener la muestra de sangre mediante venupunción). Deseche la lanceta en una caja para objetos punzantes.\n\n5: Limpie la primera gota de sangre con una gasa o algodón estéril.",
+      "page_2": "4: Apriete el extremo de la punta del dedo y pinche el área limpiada usando la lanceta proporcionado (también se puede obtener la muestra de sangre mediante venupunción). Deseche la lanceta en una caja para objetos punzantes.",
+      "page_2a":"5: Limpie la primera gota de sangre con una gasa o algodón estéril.",
       "page_3": "6: Tome la muestra de sangre (5μl) utilizando el dispositivo de transferencia de muestra proporcionado o una micro pipeta.",
       "page_4": "Tome la muestra hasta a la línea especificada.",
       "page_5": "7: Agregue 5μl de sangre al pocillo “S”",
@@ -42,7 +45,8 @@
     "strings":
     {
       "page_1": "1: Coloque um novo par de luvas.\n\n2: Escreva o nome do paciente no dispositivo de teste.\n\n3: Limpe a área na ponta do dedo a ser perfurado usando um algodão embebido em álcool. Aguarde até que o álcool seque completamente antes de avançar para a etapa a seguinte.",
-      "page_2": "4: Comprima a extremidade da ponta do dedo e perfure a área limpa utilizando a lanceta fornecida (amostra de sangue também pode ser recolhida por punção venosa). Descarte a lanceta num recipiente de materiais cortantes.\n\n5: Limpe a primeira gota de sangue com gaze esterilizada ou algodão.",
+      "page_2": "4: Comprima a extremidade da ponta do dedo e perfure a área limpa utilizando a lanceta fornecida (amostra de sangue também pode ser recolhida por punção venosa). Descarte a lanceta num recipiente de materiais cortantes.",
+      "page_2a":"5: Limpe a primeira gota de sangue com gaze esterilizada ou algodão.",
       "page_3": "6: Recolha a amostra de sangue (5μl) utilizando o dispositivo de transferência de amostra fornecido ou uma micro-pipeta.",
       "page_4": "Recolter a amostra para a linha especificada.",
       "page_5": "7: Adicione 5µl de sangue no alvéolo “S”",
@@ -54,7 +58,8 @@
     "strings":
     {
       "page_1": "1: Mampidira aro-tanana roa vaovao.\n\n2: Soraty eo amin'ilay fitaovam-pitiliana ny anaran'ny marary.\n\n3: Diovy amin'ny alikaola ny faritry ny ratsan-tanana. Avelao ho maina tanteraka ny alikaola alohan'ny hifindrana amin'ny dingana manaraka",
-      "page_2": "4: Tereo kely lohan-drantsan-tanana ary tsindrony amin'ilay fanindrona kely(lancette) ny faritra voadio (azo alaina amin'ny lalan-dra ihany koa ny santionan-drà hotiliana). Apetraho ao anaty boaty ny 'lancette'.\n\n5: Fafao amin'ny 'gaz sterile' na vovoa ny tentina rà voalohany.",
+      "page_2": "4: Tereo kely lohan-drantsan-tanana ary tsindrony amin'ilay fanindrona kely(lancette) ny faritra voadio (azo alaina amin'ny lalan-dra ihany koa ny santionan-drà hotiliana). Apetraho ao anaty boaty ny 'lancette'.",
+      "page_2a":"5: Fafao amin'ny 'gaz sterile' na vovoa ny tentina rà voalohany.",
       "page_3": "6: Angony ireo santinan-drà (5µl) amin'ny fampiasana ny fitaovam-pamindrana na 'micro-pipette'",
       "page_4": "Angony ireo santionana hatramin'ny",
       "page_5": "7: Ampio rà 5µl ao anatin'ny 'puit “S”",
@@ -70,6 +75,10 @@
       }
     ,{
         "textKey": "page_2",
+        "image": "cs_st_4.png"
+      }
+    ,{
+        "textKey": "page_2a",
         "image": "cs_st_4.png"
       }
     ,{

@@ -71,7 +71,11 @@ public class SessionInstruct extends Fragment {
             int currentIndex = pamphletViewModel.getPages().getValue().indexOf(value);
             ((StatusDotView)view.findViewById(R.id.provision_info_progress_dots)).setCurrentItem(currentIndex);
 
-            configureImageView(iv, value.getImageStream());
+            if (configureImageView(iv, value.getImageStream())) {
+                iv.setVisibility(View.VISIBLE);
+            } else {
+                iv.setVisibility(View.GONE);
+            }
 
             tv.setText(value.getText());
             disclaimer.setText(value.getConfirmationText());

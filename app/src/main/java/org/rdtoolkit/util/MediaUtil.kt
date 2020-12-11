@@ -4,13 +4,14 @@ import android.graphics.BitmapFactory
 import android.widget.ImageView
 import java.io.InputStream
 
-fun configureImageView(iv: ImageView, stream: InputStream?) {
+fun configureImageView(iv: ImageView, stream: InputStream?) : Boolean {
     if (stream == null) {
         iv.setImageBitmap(null)
-        return
+        return false
     }
     stream.use {
         iv.setImageBitmap(BitmapFactory.decodeStream(it))
+        return true
     }
 }
 
