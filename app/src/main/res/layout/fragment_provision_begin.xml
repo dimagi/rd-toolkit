@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/provision_begin_timer_icon"
-            android:layout_width="300dp"
-            android:layout_height="150dp"
+            android:layout_width="@dimen/prompt_image_width"
+            android:layout_height="@dimen/prompt_image_height"
             android:layout_gravity="center"
             android:src="@drawable/ic_baseline_timer_400" />
 

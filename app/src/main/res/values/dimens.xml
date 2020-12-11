@@ -10,4 +10,6 @@
     <dimen name="single_pad">8dp</dimen>
     <dimen name="card_header_height">40dp</dimen>
     <dimen name="content_frame_provision_height">400dp</dimen>
+    <dimen name="prompt_image_height">100dp</dimen>
+    <dimen name="prompt_image_width">240dp</dimen>
 </resources>
