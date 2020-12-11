@@ -7,22 +7,29 @@
     android:layout_gravity="center"
     tools:context=".ui.instruct.SessionInstruct">
 
-    <ImageView
-        android:id="@+id/provision_info_page_image"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/instruct_image_frame"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/provision_info_page_text"
-        android:layout_gravity="center" />
+        android:layout_gravity="center">
+        <ImageView
+            android:id="@+id/provision_info_page_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+    </FrameLayout>
 
 
-    <TextView
+    <org.rdtoolkit.util.ResizingTextView
         android:id="@+id/provision_info_page_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintTop_toBottomOf="@id/instruct_image_frame"
         style="@style/TextInstructions"
         android:padding="8dp"
-        app:layout_constraintBottom_toTopOf="@id/provision_checkbox_disclaimer"
+        app:layout_constraintBottom_toTopOf= "@id/provision_checkbox_disclaimer"
         android:text="Step 4: Squeeze the end of a fingertip and pierce the cleaned area of the fingertip using a lancet provided. Discard the lancet in the sharps box." />
 
 

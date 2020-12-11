@@ -38,6 +38,11 @@
 
     <style name="TextInstructions" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">20sp</item>
+        <item name="text_size_small">20sp</item>
+        <item name="autoSizeStepGranularity">0.5sp</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">12sp</item>
+        <item name="autoSizeMaxTextSize">20sp</item>
     </style>
 
     <style name="Button" parent="Widget.MaterialComponents.Button">
