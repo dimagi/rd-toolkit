@@ -77,9 +77,12 @@ enum class ClassifierMode {
     /**
      * The user will not receive any specific feedback about the classifier's outputs unless the
      * classifier disagrees with a user selected input. If so, the classifier will notify the user
-     * and suggest corrections, which the user can
+     * and suggest reviewing their inputs, which they can choose to do or not do.
+     *
+     * The user will not be notified about which fields are incorrect, and will only be asked to
+     * check their work once, even if values continue to disagree
      */
-    CORRECTION,
+    CHECK_YOUR_WORK,
     /**
      * The classifier will present the user with its interpretation of the test result without
      * allowing the user to override or suggest an alternative

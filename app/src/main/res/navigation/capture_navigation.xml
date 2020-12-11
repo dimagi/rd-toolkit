@@ -42,7 +42,24 @@
         android:name="org.rdtoolkit.ui.capture.CaptureRecordFragment"
         android:label="@string/capture_record_title"
         tools:layout="@layout/fragment_capture_record">
+        <action
+            android:id="@+id/action_capture_record_to_work_check"
+            app:destination="@id/capture_check"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/capture_check"
+        android:name="org.rdtoolkit.ui.capture.CaptureCheckFragment"
+        android:label="@string/capture_record_title"
+        tools:layout="@layout/fragment_capture_check">
+    </fragment>
+
+    <action
+        android:id="@+id/capture_trigger_work_check"
+        app:popUpTo="@+id/capture_timer"
+        app:popUpToInclusive="true"
+        app:destination="@id/capture_results" />
+
     <action
         android:id="@+id/capture_expire_to_record"
         app:popUpTo="@+id/capture_timer"

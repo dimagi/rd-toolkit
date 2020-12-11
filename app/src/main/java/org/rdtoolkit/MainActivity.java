@@ -17,6 +17,7 @@ import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity;
 
 import org.rdtoolkit.support.interop.RdtIntentBuilder;
 import org.rdtoolkit.support.interop.RdtUtils;
+import org.rdtoolkit.support.model.session.ClassifierMode;
 import org.rdtoolkit.support.model.session.ProvisionMode;
 import org.rdtoolkit.support.model.session.TestSession;
 
@@ -77,6 +78,7 @@ public class MainActivity extends LocaleAwareCompatActivity {
                 //.requestProfileCriteria("fake", ProvisionMode.CRITERIA_SET_OR)
                 .setFlavorOne("Tedros Adhanom")
                 .setFlavorTwo("#4SFS")
+                //.setClassifierBehavior(ClassifierMode.CHECK_YOUR_WORK)
                 .setInTestQaMode()
                 .build();
 

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.capture.CaptureCheckFragment">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/capture_frame_record_summary"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/capture_results_test_image"
+            android:layout_width="@dimen/timer_countdown_size"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            style="@style/TextInstructions"
+            android:text="Are you sure?\n\nAccording to automated review, your choices might need another look. You can use the Job Aid for help interpreting the test result."
+            ></TextView>
+
+
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+
+                android:text="@string/capture_summary_status_timer" />
+
+            <TextView
+                android:paddingLeft="8dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_weight="0.5"
+                android:id="@+id/capture_summary_timer_valid_label"
+                style="@style/TextEmphasis"
+                android:text="@string/capture_summary_status_timer_valid" />
+
+            <TextView
+                android:paddingLeft="8dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_weight="0.5"
+                android:visibility="gone"
+                android:id="@+id/capture_summary_timer_expired_label"
+                style="@style/TextBad"
+                android:text="@string/capture_summary_status_timer_expired" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/capture_summary_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            tools:listitem="@layout/component_result_row"
+            tools:itemCount="3"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/capture_btn_override_expiration"
+            style="@style/Button"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:drawableLeft="@drawable/ic_baseline_arrow_back_white_24"
+            android:layout_marginBottom="8dp"
+            android:onClick="reviewChoices"
+            android:text="@string/fragment_capture_review_results" />
+
+        <Button
+            android:id="@+id/capture_record_btn_commit"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:onClick="confirmRecordResults"
+            android:drawableRight="@drawable/ic_baseline_arrow_forward_white_24"
+            style="@style/Button"
+            android:text="@string/fragment_capture_record_results_button_text" />
+    </LinearLayout>
+</LinearLayout>
