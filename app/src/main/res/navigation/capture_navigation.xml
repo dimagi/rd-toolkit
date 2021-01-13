@@ -30,7 +30,7 @@
     <fragment
         android:id="@+id/capture_job_aid"
         android:name="org.rdtoolkit.ui.instruct.SessionInstruct"
-        android:label="Job Aid"
+        android:label="@string/capture_job_aid_title"
         tools:layout="@layout/fragment_provision_instruct" >
         <action
             android:id="@+id/action_capture_job_aid_to_results"

@@ -34,7 +34,7 @@
     <string name="fragment_provision_test_resolve_time_caption">Tempo para Executar</string>
     <string name="fragment_provision_cassette_preview_title">Cassete</string>
     <string name="fragment_provision_cassette_preview_missing_text">Nenhuma visualização disponível</string>
-    <string name="fragment_provision_show_instructions_cbx_message">Mostrar instruções para este RDT</string>
+    <string name="fragment_provision_show_instructions_cbx_message">Mostrar instruções para este TDR</string>
     <string name="fragment_capture_test_status_loading">Carregando Detalhes do Teste…</string>
     <string name="fragment_capture_test_status_preparing">O teste ainda não está preparado</string>
     <string name="fragment_capture_test_status_resolving">Test em execução, aguarde o cronômetro</string>
@@ -80,4 +80,8 @@
     <string name="preference_app_language_system_default">System Default (%s) (totranslate)</string>
     <string name="capture_timer_accept_error_image">Accept Image (totranslate)</string>
     <string name="fragment_capture_review_results">Review My Choices (totranslate)</string>
+    <string name="provision_define_title">Provision a Test</string>
+    <string name="provision_instructions_title">Instructions</string>
+    <string name="provision_timer_title">Test Timer</string>
+    <string name="capture_job_aid_title">Job Aid</string>
 </resources>

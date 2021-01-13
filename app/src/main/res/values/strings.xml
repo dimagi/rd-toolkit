@@ -80,4 +80,8 @@
     <string name="preference_app_language_system_default">System Default (%s)</string>
     <string name="capture_timer_accept_error_image">Accept Image</string>
     <string name="fragment_capture_review_results">Review My Choices</string>
+    <string name="provision_define_title">Provision a Test</string>
+    <string name="provision_instructions_title">Instructions</string>
+    <string name="provision_timer_title">Test Timer</string>
+    <string name="capture_job_aid_title">Job Aid</string>
 </resources>
