@@ -76,4 +76,8 @@
     <string name="capture_summary_status_timer">Cronômetro</string>
     <string name="capture_summary_status_timer_valid">Válido</string>
     <string name="capture_summary_status_timer_expired">Expirado</string>
+    <string name="preference_app_language">Application Language (totranslate)</string>
+    <string name="preference_app_language_system_default">System Default (%s) (totranslate)</string>
+    <string name="capture_timer_accept_error_image">Accept Image (totranslate)</string>
+    <string name="fragment_capture_review_results">Review My Choices (totranslate)</string>
 </resources>
