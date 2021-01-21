@@ -34,7 +34,8 @@ class InjectorUtils() {
             return object : ViewModelProvider.Factory {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                     return CaptureViewModel(provideSessionRepository(context),
-                            provideDiagnosticsRepository(context)) as T
+                            provideDiagnosticsRepository(context),
+                            AppRepository(context)) as T
                 }
             }
         }

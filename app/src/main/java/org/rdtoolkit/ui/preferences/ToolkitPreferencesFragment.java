@@ -23,6 +23,7 @@ import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity;
 import com.zeugmasolutions.localehelper.LocaleHelper;
 
 import org.rdtoolkit.R;
+import org.rdtoolkit.model.session.AppRepository;
 
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -32,6 +33,7 @@ public class ToolkitPreferencesFragment extends PreferenceFragmentCompat impleme
 
     static final String LANG_CODE_SYSTEM_DEFAULT = "system_default";
     static final String PREFERENCE_KEY_LANGUAGE = "language";
+    static final String PREFERENCE_KEY_RESET_DISCLAIMERS = "reset_disclaimers";
     static final String TAG = ToolkitPreferencesFragment.class.getName();
 
     LinkedHashMap<String, Locale> locales;
@@ -42,10 +44,15 @@ public class ToolkitPreferencesFragment extends PreferenceFragmentCompat impleme
         locales = getTranslatedLocales();
 
         addLanguagePreference();
+        findPreference(PREFERENCE_KEY_RESET_DISCLAIMERS).setOnPreferenceClickListener(it -> {
+            new AppRepository(this.getContext()).clearDisclaimers();
+            it.setEnabled(false);
+            return true;
+        });
     }
 
     private void addLanguagePreference() {
-        final ListPreference listPreference = (ListPreference) findPreference(PREFERENCE_KEY_LANGUAGE);
+        final ListPreference listPreference = findPreference(PREFERENCE_KEY_LANGUAGE);
 
         Pair<CharSequence[], CharSequence[]> values = getSettingsPreferenceValues();
 

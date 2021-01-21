@@ -3,18 +3,13 @@ package org.rdtoolkit.ui.capture
 import android.os.CountDownTimer
 import android.util.Log
 import androidx.lifecycle.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.rdtoolkit.interop.SessionToJson
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.Pamphlet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
 import org.rdtoolkit.model.session.*
-import org.rdtoolkit.support.model.session.ClassifierMode
-import org.rdtoolkit.support.model.session.STATUS
-import org.rdtoolkit.support.model.session.TestReadableState
-import org.rdtoolkit.support.model.session.TestSession
+import org.rdtoolkit.support.model.session.*
 import org.rdtoolkit.util.CombinedLiveData
 import java.util.*
 import kotlin.collections.HashMap
@@ -22,7 +17,8 @@ import kotlin.collections.HashMap
 const val TAG = "CaptureViewModel"
 
 class CaptureViewModel(var sessionRepository: SessionRepository,
-                       var diagnosticsRepository: DiagnosticsRepository
+                       var diagnosticsRepository: DiagnosticsRepository,
+                       var appRepository: AppRepository
 ) : ViewModel() {
 
     private var resolveTimer : CountDownTimer? = null
@@ -65,7 +61,21 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     private var processingErrorValue : MutableLiveData<Pair<String, Pamphlet?>> = MutableLiveData()
 
-    val allowOverrideValue : MutableLiveData<Boolean> = MutableLiveData()
+    private val allowOverrideValue : MutableLiveData<Boolean> = MutableLiveData()
+
+    private val earlyReadsEnabled : LiveData<Boolean> =  Transformations.map(testSession) {
+        FLAG_VALUE_SET != it.configuration.flags[FLAG_SESSION_NO_EARLY_READS]
+    }
+
+    private val timerDisclaimerAcknowledged : MutableLiveData<Boolean> = MutableLiveData()
+
+    val timerSkipDisclaimerAvailable : LiveData<Boolean> = Transformations.map(CombinedLiveData(earlyReadsEnabled,timerDisclaimerAcknowledged)) {
+        it.first && !it.second
+    }
+
+    val timerSkipAvailable : LiveData<Boolean> = Transformations.map(CombinedLiveData(earlyReadsEnabled,timerDisclaimerAcknowledged)) {
+        it.first && it.second
+    }
 
     val captureIsIncomplete = Transformations.map(CombinedLiveData<TestSession.TestResult, ProcessingState>(testSessionResult,processingStateValue)) {
         combinedData -> combinedData.first.mainImage == null || !(combinedData.second == ProcessingState.COMPLETE || combinedData.second == ProcessingState.PROCESSING || combinedData.second == ProcessingState.SKIPPED)
@@ -107,7 +117,6 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         workChecked.value = true
     }
 
-
     fun getExpireOverrideChecked() : LiveData<Boolean> {
         return allowOverrideValue
     }
@@ -116,6 +125,11 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         if (isChecked != allowOverrideValue.value) {
             allowOverrideValue.value = isChecked
         }
+    }
+
+    fun setTimerDisclaimerAcknowledged(acknowledged : Boolean) {
+        appRepository.setAcknowledgedEarlyTimerDisclaimer(acknowledged)
+        timerDisclaimerAcknowledged.value = acknowledged
     }
 
     fun getProcessingError() : LiveData<Pair<String, Pamphlet?>> {
@@ -231,7 +245,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
             testSessionResult.postValue(session.result)
 
-            testState.postValue(session.getTestReadableState())
+            updateTestState(session.getTestReadableState())
 
             classifierMode = session.configuration.classifierMode
             if (session.state == STATUS.RUNNING) {
@@ -246,13 +260,16 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                 resolveTimer = object : CountDownTimer(session.timeResolved.time - System.currentTimeMillis(), 1000) {
                     override fun onTick(millisUntilFinished: Long) {
                         resolveMillisecondsLeft.postValue(millisUntilFinished)
+                        if (session.timeExpired != null) {
+                           readableMillisecondsLeft.postValue(session.timeExpired!!.time- System.currentTimeMillis())
+                        }
                     }
 
                     override fun onFinish() {
                         // There can be some slight overlap on these so wait an extra hair before
                         // moving on
                         Thread.sleep(200L)
-                        testState.postValue(session.getTestReadableState())
+                        updateTestState(session.getTestReadableState())
                         startTimersForState(session, profile)
                     }
                 }.start()
@@ -267,7 +284,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                             // There can be some slight overlap on these so wait an extra hair before
                             // moving on
                             Thread.sleep(200L)
-                            testState.postValue(session.getTestReadableState())
+                            updateTestState(session.getTestReadableState())
                         }
                     }.start()
                 }
@@ -275,9 +292,17 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
         }
     }
 
-    fun setExpirationOverriden() {
-        //TODO: Move this into a flag on the session
-        testState.value = TestReadableState.READABLE
+    private fun updateTestState(newState : TestReadableState) {
+        //Lots of behavior is triggered by these transitions, so only trigger them if there's
+        //a real change
+        if(testState.value != newState) {
+            testState.postValue(newState)
+        }
+    }
+
+    fun forceTestReadable() {
+        //TODO: Flag "force" actions somewhere in the session log
+        updateTestState(TestReadableState.READABLE)
     }
 
     fun commitResult() {
@@ -312,6 +337,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     init {
         testState.value = TestReadableState.LOADING
+        timerDisclaimerAcknowledged.value = appRepository.hasAcknowledgedEarlyTimerDisclaimer()
     }
     companion object {
         const val TAG = "CaptureViewModel"

@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -106,6 +108,17 @@ public class CaptureTimerFragment extends Fragment {
             ((TextView)view.findViewById(R.id.capture_timer_expiring_countdown)).setText(
                     String.format(getString(R.string.capture_timer_expiring_countdown_msg),
                             formattedTime));
+        });
+
+        CheckBox earlyDisclaimer = view.findViewById(R.id.capture_timer_cbx_early_disclaimer);
+        earlyDisclaimer.setOnCheckedChangeListener((compoundButton, b) -> mViewModel.setTimerDisclaimerAcknowledged(b));
+
+        mViewModel.getTimerSkipDisclaimerAvailable().observe(getViewLifecycleOwner(), value -> {
+            earlyDisclaimer.setVisibility(value ? VISIBLE : GONE);
+        });
+
+        mViewModel.getTimerSkipAvailable().observe(getViewLifecycleOwner(), value -> {
+            view.findViewById(R.id.capture_btn_skip_timer).setVisibility(value ? VISIBLE : GONE);
         });
 
         mViewModel.getTestState().observe(getViewLifecycleOwner(), value -> {

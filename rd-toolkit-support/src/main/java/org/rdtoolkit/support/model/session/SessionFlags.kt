@@ -2,6 +2,7 @@ package org.rdtoolkit.support.model.session
 
 const val FLAG_PREFIX_KEY = "FLAG_"
 
+const val FLAG_SESSION_NO_EARLY_READS = "FLAG_NO_EARLY_READS"
 const val FLAG_SESSION_NO_EXPIRATION_OVERRIDE = "FLAG_NO_OVERRIDE"
 const val FLAG_SESSION_TESTING_QA = "FLAG_TESTING_QA"
 
