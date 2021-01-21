@@ -142,6 +142,14 @@ class RdtProvisioningIntentBuilder() : RdtIntentBuilder<RdtProvisioningIntentBui
     }
 
     /**
+     * Prevent users from overriding the timer and reading results which may be early.
+     */
+    fun disableEarlyReads() : RdtProvisioningIntentBuilder {
+        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_SESSION_NO_EARLY_READS, FLAG_VALUE_SET);
+        return this
+    }
+
+    /**
      * Apply a result response translator before returning the session intent
      */
     fun setResultResponseTranslator(responseTranslatorId : String) : RdtProvisioningIntentBuilder {
