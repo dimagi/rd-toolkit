@@ -27,7 +27,8 @@
             android:orientation="vertical"
             android:layout_margin="@dimen/single_pad"
             android:elevation="2dp"
-            android:visibility="gone">
+            android:visibility="visible"
+            >
 
             <net.vrgsoft.arcprogress.ArcProgressBar
                 android:id="@+id/capture_resolve_countdown"
@@ -40,6 +41,29 @@
                 app:arc_thickness="@dimen/timer_arc_thickness"
                 app:arc_unfinished_color="@color/color_progress_unfinished"
                 app:barrierDirection="start" />
+
+            <CheckBox
+                android:id="@+id/capture_timer_cbx_early_disclaimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/capture_timer_skip_disclaimer"
+                />
+
+            <Button
+                android:id="@+id/capture_btn_skip_timer"
+                style="@style/Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:paddingTop="8dp"
+                android:drawableLeft="@drawable/ic_baseline_timer_off_24"
+                android:drawablePadding="5dp"
+                android:onClick="skipTimer"
+                android:text="@string/capture_timer_skip_button" />
+
+
         </LinearLayout>
 
         <LinearLayout

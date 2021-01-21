@@ -298,6 +298,10 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
         Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.capture_trigger_work_check);
     }
 
+    public void skipTimer(View v) {
+        captureViewModel.forceTestReadable();
+    }
+
     public void confirmRecordResults(View v) {
         captureViewModel.commitResult();
     }
@@ -307,7 +311,7 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
     }
 
     public void overrideExpiration(View v) {
-        captureViewModel.setExpirationOverriden();
+        captureViewModel.forceTestReadable();
         Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.capture_start_fresh);
     }
 

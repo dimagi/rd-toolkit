@@ -84,4 +84,6 @@
     <string name="provision_instructions_title">Instructions</string>
     <string name="provision_timer_title">Test Timer</string>
     <string name="capture_job_aid_title">Job Aid</string>
+    <string name="capture_timer_skip_disclaimer">I confirm that tests which are read before the manufacturer\'s instructions indicate may produce incorrect results</string>
+    <string name="capture_timer_skip_button">Skip Timer and Read Result</string>
 </resources>
