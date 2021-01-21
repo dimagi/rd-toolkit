@@ -87,7 +87,7 @@ class TestSessionsAdapter(private val sessionsViewModel : SessionsViewModel
         var captureButton = holder.view.findViewById<TextView>(R.id.sessions_card_button_capture)
 
         captureButton.tag = session.sessionId
-        if (session.state == STATUS.RUNNING && (session.getTestReadableState() == TestReadableState.READABLE || session.getTestReadableState() == TestReadableState.RESOLVING))x {
+        if (session.state == STATUS.RUNNING && (session.getTestReadableState() == TestReadableState.READABLE || session.getTestReadableState() == TestReadableState.RESOLVING)) {
             captureButton.visibility = View.VISIBLE
         } else {
             captureButton.visibility = View.GONE
