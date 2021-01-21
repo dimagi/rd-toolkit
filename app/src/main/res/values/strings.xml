@@ -86,4 +86,6 @@
     <string name="capture_job_aid_title">Job Aid</string>
     <string name="capture_timer_skip_disclaimer">I confirm that tests which are read before the manufacturer\'s instructions indicate may produce incorrect results</string>
     <string name="capture_timer_skip_button">Skip Timer and Read Result</string>
+    <string name="preferences_disclaimer_reset_summary">Reset any overrides or disclaimers on safe behavior</string>
+    <string name="preferences_disclaimer_reset_title">Reset disclaimers</string>
 </resources>
