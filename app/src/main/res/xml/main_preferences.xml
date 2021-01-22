@@ -12,6 +12,11 @@
         />
 
     <Preference
+        app:key="notification_settings"
+        app:title="@string/preferences_notifications_timers_title"
+        app:summary="@string/preferences_notifications_timers_summary"/>
+
+    <Preference
         app:key="reset_disclaimers"
         app:title="@string/preferences_disclaimer_reset_title"
         app:summary="@string/preferences_disclaimer_reset_summary"/>
