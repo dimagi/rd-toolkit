@@ -11,6 +11,7 @@ import org.rdtoolkit.support.model.session.ProvisionMode
 import org.rdtoolkit.support.model.session.STATUS
 import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.support.model.session.TestSession
+import org.rdtoolkit.support.model.session.setInstructionsViewed
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -140,6 +141,10 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
             job.join();
         }
         return session;
+    }
+
+    fun recordInstructionsViewed() {
+        metrics.setInstructionsViewed();
     }
 
     init {

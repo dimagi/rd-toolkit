@@ -16,6 +16,9 @@ interface TestSessionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveConfig(session : DbTestSessionConfiguration)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveMetrics(session : DbTestSessionMetrics)
+
     @Query("SELECT count(*) FROM DbTestSession WHERE sessionId = :sessionId")
     fun getSessionCount(sessionId: String): Int
 
@@ -48,6 +51,7 @@ interface TestSessionDao {
         save(dbSession.session)
         saveConfig(dbSession.config)
         dbSession.result?.let{ saveResult(it) }
+        dbSession.metrics?.let { saveMetrics(it) }
     }
 
     @Transaction

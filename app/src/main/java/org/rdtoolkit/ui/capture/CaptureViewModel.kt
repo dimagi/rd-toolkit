@@ -63,6 +63,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     private val allowOverrideValue : MutableLiveData<Boolean> = MutableLiveData()
 
+    private var totalNumberOfCaptureAttempts = 0
+
     private val earlyReadsEnabled : LiveData<Boolean> =  Transformations.map(testSession) {
         FLAG_VALUE_SET != it.configuration.flags[FLAG_SESSION_NO_EARLY_READS]
     }
@@ -102,6 +104,15 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     val requireWorkCheck = Transformations.map(CombinedLiveData(needsWorkCheck, workChecked)) {
         it.first && !it.second
+    }
+
+    private fun recordCaptureAttempt() {
+        totalNumberOfCaptureAttempts++
+        testSession.value!!.metrics.setCaptureAttempts(totalNumberOfCaptureAttempts)
+    }
+
+    fun recordJobAidViewed() {
+        testSession.value!!.metrics.setJobAidViewed();
     }
 
     private fun areClassifierOutcomesDifferent(it: TestSession.TestResult): Boolean {
@@ -182,6 +193,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     fun setCapturedImage(imageData: Pair<String, MutableMap<String, String>>) {
         if (rawImageCapturePath.value != imageData.first) {
+            recordCaptureAttempt()
             rawImageCapturePath.value = imageData.first
 
             val result = testSessionResult.value!!
