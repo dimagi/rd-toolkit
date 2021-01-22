@@ -1,17 +1,13 @@
 package org.rdtoolkit.ui.preferences;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.Pair;
 
 import androidx.core.os.ConfigurationCompat;
@@ -29,11 +25,14 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.rdtoolkit.service.TestTimerServiceKt.CHANNEL_ID_FIRE;
+
 public class ToolkitPreferencesFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener {
 
     static final String LANG_CODE_SYSTEM_DEFAULT = "system_default";
     static final String PREFERENCE_KEY_LANGUAGE = "language";
     static final String PREFERENCE_KEY_RESET_DISCLAIMERS = "reset_disclaimers";
+    static final String PREFERENCE_KEY_NOTIFICATIONS = "notification_settings";
     static final String TAG = ToolkitPreferencesFragment.class.getName();
 
     LinkedHashMap<String, Locale> locales;
@@ -47,6 +46,15 @@ public class ToolkitPreferencesFragment extends PreferenceFragmentCompat impleme
         findPreference(PREFERENCE_KEY_RESET_DISCLAIMERS).setOnPreferenceClickListener(it -> {
             new AppRepository(this.getContext()).clearDisclaimers();
             it.setEnabled(false);
+            return true;
+        });
+
+        findPreference(PREFERENCE_KEY_NOTIFICATIONS).setOnPreferenceClickListener(it -> {
+            Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
+            intent.putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_ID_FIRE);
+            startActivity(intent);
+
             return true;
         });
     }

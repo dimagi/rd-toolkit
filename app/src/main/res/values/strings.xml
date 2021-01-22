@@ -88,4 +88,6 @@
     <string name="capture_timer_skip_button">Skip Timer and Read Result</string>
     <string name="preferences_disclaimer_reset_summary">Reset any overrides or disclaimers on safe behavior</string>
     <string name="preferences_disclaimer_reset_title">Reset disclaimers</string>
+    <string name="preferences_notifications_timers_title">Configure timer notification</string>
+    <string name="preferences_notifications_timers_summary">Change the notification behaviors (sound, vibration, etc) for when tests are ready</string>
 </resources>
