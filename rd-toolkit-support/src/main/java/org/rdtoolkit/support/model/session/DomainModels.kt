@@ -10,7 +10,8 @@ data class TestSession (
         val timeStarted : Date,
         val timeResolved : Date,
         val timeExpired : Date?,
-        var result: TestResult?
+        var result: TestResult?,
+        val metrics: Metrics
 ) {
     fun getTestReadableState() : TestReadableState {
         if (timeStarted == null) {
@@ -44,6 +45,10 @@ data class TestSession (
             val cloudworksDns: String?,
             val cloudworksContext: String?,
             val flags: Map<String, String>
+    )
+
+    data class Metrics(
+            val data: MutableMap<String, String>
     )
 }
 

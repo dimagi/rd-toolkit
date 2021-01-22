@@ -163,7 +163,8 @@ class BundleToSession : Mapper<Bundle, TestSession> {
                 Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_STARTED)),
                 Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_RESOLVED)),
                 input.get(INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED)?.let { Date(input.getLong(INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED))},
-                input.getBundle(INTENT_EXTRA_RDT_RESULT_BUNDLE)?.let { BundleToResult().map(it) }
+                input.getBundle(INTENT_EXTRA_RDT_RESULT_BUNDLE)?.let { BundleToResult().map(it) },
+                TestSession.Metrics(HashMap())
         )
     }
 }

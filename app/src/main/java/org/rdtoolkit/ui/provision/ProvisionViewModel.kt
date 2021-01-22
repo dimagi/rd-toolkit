@@ -12,6 +12,7 @@ import org.rdtoolkit.support.model.session.STATUS
 import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.support.model.session.TestSession
 import java.util.*
+import kotlin.collections.HashMap
 
 const val TAG = "ProvisionViewModel"
 
@@ -21,6 +22,8 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
 
     private lateinit var sessionId: String
     private var sessionConfiguration: MutableLiveData<TestSession.Configuration> = MutableLiveData()
+
+    private var metrics = TestSession.Metrics(HashMap())
 
     private val viewInstructions: MutableLiveData<Boolean>
 
@@ -125,7 +128,8 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
                 Date(),
                 dateTimeToResolve,
                 dateTimeToExpire,
-                null)
+                null,
+                metrics)
 
         val job = viewModelScope.launch(Dispatchers.IO) {
             sessionRepository.write(session)

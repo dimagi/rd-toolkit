@@ -46,7 +46,7 @@ class Converters {
     fun stringToClassiferMode(value: String): ClassifierMode { return ClassifierMode.valueOf(value) }
 
     @TypeConverter
-    fun fromString(value: String?): Map<String?, String?>? {
+    fun stringToStringMap(value: String?): Map<String?, String?>? {
         val mapType: Type = object : TypeToken<Map<String?, String?>?>() {}.getType()
         return Gson().fromJson(value, mapType)
     }
