@@ -1,9 +1,6 @@
 package org.rdtoolkit.model.session
 
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.Relation
+import androidx.room.*
 import org.rdtoolkit.support.model.session.*
 import java.util.*
 
@@ -45,6 +42,27 @@ data class DbTestSessionResult(
         val classifierResults: MutableMap<String, String>
 )
 
+@Entity
+/**
+ * Metadata metrics information about test sessions
+ */
+data class DbTestSessionMetrics (
+        @PrimaryKey val sessionId: String,
+        val data: MutableMap<String, String>
+)
+
+@Entity
+/**
+ * Discrete, loggable events for forensics and monitoring of test sessions
+ */
+data class DbTestSessionTraceEvent (
+        @PrimaryKey val sessionId: String,
+        val timestamp : String,
+        val eventTag : String,
+        val eventMessage : String,
+        val eventJson : String?,
+        val sandboxObjectId: String?
+)
 
 @Entity
 /**
@@ -71,5 +89,7 @@ data class DataTestSession (
         @Relation(parentColumn = "sessionId", entityColumn = "sessionId")
         val config : DbTestSessionConfiguration,
         @Relation(parentColumn = "sessionId", entityColumn = "sessionId")
-        val result: DbTestSessionResult?
+        val result: DbTestSessionResult?,
+        @Relation(parentColumn = "sessionId", entityColumn = "sessionId")
+        val metrics: DbTestSessionMetrics?
 )

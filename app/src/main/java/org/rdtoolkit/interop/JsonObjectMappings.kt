@@ -77,6 +77,20 @@ class ResultToJson() : Mapper<TestSession.TestResult, JSONObject> {
     }
 }
 
+class MetricsToJson() : Mapper<TestSession.Metrics, JSONObject> {
+    override fun map(input: TestSession.Metrics): JSONObject {
+        val root = JSONObject()
+
+        val data = JSONObject()
+        for (entry in input.data) {
+            data.put(entry.key, entry.value)
+        }
+        root.put("data", data)
+
+        return root
+    }
+}
+
 
 class SessionToJson(val stripSensitive : Boolean = false) : Mapper<TestSession, JSONObject> {
     override fun map(input: TestSession): JSONObject {
@@ -96,6 +110,8 @@ class SessionToJson(val stripSensitive : Boolean = false) : Mapper<TestSession, 
         input.result?.let {
             root.put("result", ResultToJson().map(it))
         }
+
+        root.put("metrics", MetricsToJson().map(input.metrics))
 
         return root
     }

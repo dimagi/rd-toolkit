@@ -16,6 +16,9 @@ interface TestSessionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveConfig(session : DbTestSessionConfiguration)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveMetrics(session : DbTestSessionMetrics)
+
     @Query("SELECT count(*) FROM DbTestSession WHERE sessionId = :sessionId")
     fun getSessionCount(sessionId: String): Int
 
@@ -27,6 +30,9 @@ interface TestSessionDao {
 
     @Query("SELECT * FROM DbTestSessionConfiguration WHERE sessionId = :sessionId")
     fun loadConfig(sessionId: String): DbTestSessionConfiguration
+
+    @Query("SELECT * FROM DbTestSessionMetrics WHERE sessionId = :sessionId")
+    fun loadMetrics(sessionId: String): DbTestSessionMetrics
 
     @Query("SELECT sessionId FROM DbTestSession WHERE state = 'RUNNING' and (timeExpired is null or :now < timeExpired)")
     fun getPendingSessionIds(now : Date) : List<String>
@@ -45,6 +51,7 @@ interface TestSessionDao {
         save(dbSession.session)
         saveConfig(dbSession.config)
         dbSession.result?.let{ saveResult(it) }
+        dbSession.metrics?.let { saveMetrics(it) }
     }
 
     @Transaction
@@ -62,7 +69,8 @@ interface TestSessionDao {
     fun loadDataSession(sessionId: String): DataTestSession {
         return DataTestSession(load(sessionId),
                 loadConfig(sessionId),
-                loadResult(sessionId)
+                loadResult(sessionId),
+                loadMetrics(sessionId)
         )
     }
 
@@ -72,7 +80,7 @@ interface TestSessionDao {
 }
 
 @Database(entities = [DbTestSession::class, DbTestSessionConfiguration::class,
-    DbTestSessionResult::class], version = 1)
+    DbTestSessionResult::class, DbTestSessionMetrics::class, DbTestSessionTraceEvent::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class RdtDatabase : RoomDatabase() {
     abstract fun testSessionDao(): TestSessionDao
@@ -85,7 +93,9 @@ fun getDatabase(context: Context): RdtDatabase {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(context.applicationContext,
                     RdtDatabase::class.java,
-                    "rdtdatabase").build()
+                    "rdtdatabase")
+                    .addMigrations(MIGRATION_1_2)
+                    .build()
         }
     }
     return INSTANCE

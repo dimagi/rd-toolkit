@@ -112,6 +112,12 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
             }
         });
 
+        pamphletViewModel.onLastPage.observe(this, value -> {
+            if (value) {
+                captureViewModel.recordJobAidViewed();
+            }
+        });
+
         //Needed to ensure this declarative check processes.
         captureViewModel.getRequireWorkCheck().observe(this, result ->{
 

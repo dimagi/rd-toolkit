@@ -26,7 +26,8 @@ object TestObjects {
             Date(Date().time - 1000),
             Date(Date().time - 750),
             Date(Date().time - 250),
-            null)
+            null,
+            TestSession.Metrics(HashMap()))
 
 
     @JvmField
@@ -37,7 +38,6 @@ object TestObjects {
             Date(Date().time - 1000),
             Date(Date().time - 750),
             Date(Date().time - 250),
-            TestResultsSampleValues)
-
-
+            TestResultsSampleValues,
+            TestSession.Metrics(HashMap()))
 }
