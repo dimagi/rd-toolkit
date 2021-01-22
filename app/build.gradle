@@ -155,7 +155,7 @@ dependencies {
 
     if (project.hasProperty("restrictedLibraryRoot")) {
         restrictedImplementation files("$restrictedLibraryRoot/scanwell-rdt-reader.aar")
-        restrictedImplementation files("$restrictedLibraryRoot/diatomic-reader-1201.aar")
+        restrictedImplementation files("$restrictedLibraryRoot/RDTLib-0.1-4-debug.aar")
     }
     restrictedImplementation 'com.quickbirdstudios:opencv:4.3.0'
 }
