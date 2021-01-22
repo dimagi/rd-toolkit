@@ -89,7 +89,9 @@ fun getDatabase(context: Context): RdtDatabase {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(context.applicationContext,
                     RdtDatabase::class.java,
-                    "rdtdatabase").build()
+                    "rdtdatabase")
+                    .addMigrations(MIGRATION_1_2)
+                    .build()
         }
     }
     return INSTANCE

@@ -97,9 +97,9 @@ android {
 dependencies {
     implementation project(':rd-toolkit-support')
 
-    implementation 'androidx.room:room-runtime:2.2.5'
+    implementation 'androidx.room:room-runtime:2.2.6'
     implementation 'androidx.work:work-runtime:2.4.0'
-    annotationProcessor 'androidx.room:room-compiler:2.2.5'
+    annotationProcessor 'androidx.room:room-compiler:2.2.6'
     kapt 'androidx.room:room-compiler:2.2.5'
 
     def nav_version = "2.3.1"
@@ -145,7 +145,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    testImplementation "androidx.room:room-testing:2.2.6"
+    androidTestImplementation "androidx.room:room-testing:2.2.6"
 
     // Feature module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
