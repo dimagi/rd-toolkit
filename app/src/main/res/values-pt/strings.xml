@@ -77,7 +77,7 @@
     <string name="capture_summary_status_timer_valid">Válido</string>
     <string name="capture_summary_status_timer_expired">Expirado</string>
     <string name="preference_app_language">Linguagem do Aplicativo</string>
-    <string name="preference_app_language_system_default">Sistema Padrão (%Linguagem do Aplicativos)</string>
+    <string name="preference_app_language_system_default">Sistema Padrão (%s)</string>
     <string name="capture_timer_accept_error_image">Acitar Imagem</string>
     <string name="fragment_capture_review_results">Confirmar minhas escolhas</string>
     <string name="provision_define_title">Provisionar um teste</string>
