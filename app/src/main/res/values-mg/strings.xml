@@ -79,4 +79,16 @@
     <string name="preference_app_language">Ekena ny sary</string>
     <string name="preference_app_language_system_default">Hadisoan\'ny rafitra (%s)</string>
     <string name="capture_timer_accept_error_image">Ekeo ny sary</string>
+    <string name="fragment_capture_review_results">Review My Choices</string>
+    <string name="provision_define_title">Provision a Test</string>
+    <string name="provision_instructions_title">Instructions</string>
+    <string name="provision_timer_title">Test Timer</string>
+    <string name="capture_job_aid_title">Job Aid</string>
+    <string name="capture_timer_skip_disclaimer">I confirm that tests which are read before the manufacturer\'s instructions indicate may produce incorrect results</string>
+    <string name="capture_timer_skip_button">Skip Timer and Read Result</string>
+    <string name="preferences_disclaimer_reset_summary">Reset any overrides or disclaimers on safe behavior</string>
+    <string name="preferences_disclaimer_reset_title">Reset disclaimers</string>
+    <string name="preferences_notifications_timers_title">Configure timer notification</string>
+    <string name="preferences_notifications_timers_summary">Change the notification behaviors (sound, vibration, etc) for when tests are ready</string>
+    <string name="fragment_capture_review_instructions">Are you sure?\n\nAccording to automated review, your choices might need another look. You can use the Job Aid for help interpreting the test result.</string>
 </resources>

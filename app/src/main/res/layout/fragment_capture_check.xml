@@ -29,7 +29,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             style="@style/TextInstructions"
-            android:text="Are you sure?\n\nAccording to automated review, your choices might need another look. You can use the Job Aid for help interpreting the test result."
+            android:text="@string/fragment_capture_review_instructions"
             ></TextView>
 
 
