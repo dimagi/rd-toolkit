@@ -22,6 +22,19 @@
         android:elevation="2dp" />
 
     <ImageButton
+        android:id="@+id/camera_torch_button"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="50dp"
+        style="@style/Button"
+        android:src="@drawable/ic_baseline_highlight_24"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="2dp" />
+
+    <ImageButton
         android:id="@+id/camera_capture_button"
         android:layout_width="100dp"
         android:layout_height="75dp"

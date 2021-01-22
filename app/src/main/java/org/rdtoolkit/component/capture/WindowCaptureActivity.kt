@@ -44,6 +44,7 @@ import java.util.concurrent.Executors
 
 class WindowCaptureActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
+    private var cameraControl: CameraControl? = null
     private var imagePreview: Preview? = null
     private var freezeFrame : Boolean = true
 
@@ -73,6 +74,8 @@ class WindowCaptureActivity : AppCompatActivity() {
 
         camera_rotate_button.setOnClickListener { rotateCameras() }
 
+        camera_torch_button.setOnClickListener { toggleTorch() }
+
         if(intent.hasExtra(EXTRA_FILE_ROOT)) {
             outputDirectory = File(intent.getStringExtra(EXTRA_FILE_ROOT)!!)
         } else {
@@ -95,6 +98,14 @@ class WindowCaptureActivity : AppCompatActivity() {
             }
         })
     }
+    var isTorchEnabled = false
+
+    private fun toggleTorch() {
+        cameraControl?.let {
+            isTorchEnabled = !isTorchEnabled
+            it.enableTorch(isTorchEnabled)
+        }
+    }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
@@ -102,7 +113,7 @@ class WindowCaptureActivity : AppCompatActivity() {
             takePhoto()
             return true
         }
-        return false
+        return super.onKeyDown(keyCode, event)
     }
 
     private fun setTargetReticleRatio() {
@@ -183,6 +194,14 @@ class WindowCaptureActivity : AppCompatActivity() {
             } else {
                 camera_rotate_button.visibility = View.GONE
             }
+
+            if(camera.cameraInfo.hasFlashUnit()) {
+                camera_torch_button.visibility = View.VISIBLE
+            } else {
+                camera_torch_button.visibility = View.GONE
+            }
+
+            cameraControl = camera.cameraControl
 
             val aspectRatio = getAspectRatio(camera)
             (capture_window_viewpane.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = "${aspectRatio.numerator}:${aspectRatio.denominator}"
