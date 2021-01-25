@@ -82,7 +82,42 @@ Record JSON Example:
     }
 ```
 
-### Session Metadata
+### Session Media
 
 * endpoint: `$CLOUDWORKS_DSN/test_session/$SESSION_ID/media/$MEDIA_KEY/`
 * format: `image/jpeg`
+
+### Session Logs
+
+* endpoint: `$CLOUDWORKS_DSN/test_session/$SESSION_ID/logs/`
+* format: `image/jpeg`
+
+Record JSON Example:
+
+```
+{
+        "entries": [
+            {
+                "timestamp" : "2021-01-25T16:12:21.563+00:00",
+                "tag": "user_action",
+                "message" : "Skipped instructions"
+            }
+            ,{
+                "timestamp" : "2021-01-25T16:12:24.563+00:00",
+                "tag": "user_action",
+                "message" : "User inititated timer override"
+            }
+            ,{
+                "timestamp" : "2021-01-25T16:12:28.563+00:00",
+                "tag": "classifier_dummy",
+                "message" : "Classifier returned error, json context attached",
+                "json" : {
+                   "error_code": "4",
+                   "arbitrary_json": "can be in this block"
+                },
+                "media_key" : "error_image_1"
+            }
+            
+        ]
+}
+```
