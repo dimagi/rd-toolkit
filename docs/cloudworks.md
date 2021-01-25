@@ -26,9 +26,9 @@ The second argument to the cloudworks config is an optional string which will at
 
 ## Submission Formats
 
-The Diagnostics Toolkit will submit session metadata as HTTP PUT actions to RESTful endpoints, starting with the session record and followed by other information.
+The Diagnostics Toolkit will submit session metadata as HTTP PUT actions to RESTful endpoints. The sesssion record will always be sent first before any other elements are submitted. After the session record is received, the toolkit will submit the other items in an unspecified order.
 
-The app will continue retrying to resend the record until receiving a `200`, `201`, or `409` response. `409` responses are encouraged to be sent if the server has already received the record.
+The app will continue retrying to resend each component until receiving a `200`, `201`, or `409` response. `409` responses are encouraged to be sent if the server has already received the record.
 
 The format of the JSON files is provided here, but is still in beta. CloudWorks compatible servers are encouraged to retain the original submission in full to permit reprocessing.
 
@@ -90,7 +90,7 @@ Record JSON Example:
 ### Session Logs
 
 * endpoint: `$CLOUDWORKS_DSN/test_session/$SESSION_ID/logs/`
-* format: `image/jpeg`
+* format: `application/json`
 
 Record JSON Example:
 
