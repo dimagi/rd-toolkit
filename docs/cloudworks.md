@@ -22,6 +22,8 @@ Session Metadata can be requested in a provisioned intent by providing a Data So
 
 When this backend DSN url is provided the Toolkit will submit the test metadata to the provided backend after a test has been completed and sealed.
 
+The second argument to the cloudworks config is an optional string which will attached to the session meatadata when submitted, to providd context for session session analytics. One way to use this, for example, would be to provide a unique GUID for each device or user.
+
 ## Submission Formats
 
 The Diagnostics Toolkit will submit session metadata as HTTP PUT actions to RESTful endpoints, starting with the session record and followed by other information.
