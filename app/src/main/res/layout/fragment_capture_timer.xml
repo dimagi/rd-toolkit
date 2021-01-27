@@ -118,12 +118,14 @@
             android:paddingBottom="8dp"
             android:layout_width="@dimen/timer_countdown_size"
             android:layout_height="wrap_content">
+
             <ImageView
                 android:id="@+id/capture_timer_test_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:minHeight="100dp"
-                android:scaleType="centerInside"/>
+                android:scaleType="centerInside" />
             <ProgressBar
                 android:id="@+id/capture_timer_processing_overlay"
                 android:background="@color/background_unavailable_overlay"
