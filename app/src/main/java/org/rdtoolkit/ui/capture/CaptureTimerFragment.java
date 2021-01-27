@@ -84,6 +84,15 @@ public class CaptureTimerFragment extends Fragment {
             }
         });
 
+
+        mViewModel.getPermitCaptureOverride().observe(getViewLifecycleOwner(), value -> {
+            if (value) {
+                view.findViewById(R.id.capture_timer_button_accept_error_image).setVisibility(View.VISIBLE);
+            } else {
+                view.findViewById(R.id.capture_timer_button_accept_error_image).setVisibility(View.GONE);
+            }
+        });
+
         mViewModel.getRawImageCapturePath().observe(getViewLifecycleOwner(), value -> {
             if (value != null) {
                 ((TextView)view.findViewById(R.id.capture_btn_result))

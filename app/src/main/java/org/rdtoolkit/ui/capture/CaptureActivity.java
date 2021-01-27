@@ -138,15 +138,6 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
             }
         });
 
-        captureViewModel.getPermitCaptureOverride().observe(this, value -> {
-            if (value) {
-                findViewById(R.id.capture_timer_button_accept_error_image).setVisibility(View.VISIBLE);
-            } else {
-                findViewById(R.id.capture_timer_button_accept_error_image).setVisibility(View.GONE);
-            }
-        });
-
-
         captureViewModel.getProcessingState().observe(this, value -> {
             switch (value) {
                 case PRE_CAPTURE:
