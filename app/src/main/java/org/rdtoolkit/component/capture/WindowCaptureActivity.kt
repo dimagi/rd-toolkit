@@ -20,6 +20,7 @@ import android.os.Environment
 import android.util.Log
 import android.util.Rational
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -206,8 +207,36 @@ class WindowCaptureActivity : AppCompatActivity() {
             val aspectRatio = getAspectRatio(camera)
             (capture_window_viewpane.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = "${aspectRatio.numerator}:${aspectRatio.denominator}"
 
+            configureTouchToFocus(camera.cameraControl)
+
 
         }, ContextCompat.getMainExecutor(this))
+    }
+
+    private fun configureTouchToFocus(control : CameraControl) {
+        // Listen to tap events on the viewfinder and set them as focus regions
+        capture_window_camera_preview.setOnTouchListener(View.OnTouchListener { view: View, motionEvent: MotionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> return@OnTouchListener true
+                MotionEvent.ACTION_UP -> {
+                    // Get the MeteringPointFactory from PreviewView
+                    val factory = capture_window_camera_preview.getMeteringPointFactory()
+
+                    // Create a MeteringPoint from the tap coordinates
+                    val point = factory.createPoint(motionEvent.x, motionEvent.y)
+
+                    // Create a MeteringAction from the MeteringPoint, you can configure it to specify the metering mode
+                    val action = FocusMeteringAction.Builder(point).build()
+
+                    // Trigger the focus and metering. The method returns a ListenableFuture since the operation
+                    // is asynchronous. You can use it get notified when the focus is successful or if it fails.
+                    control.startFocusAndMetering(action)
+
+                    return@OnTouchListener true
+                }
+                else -> return@OnTouchListener false
+            }
+        })
     }
 
     @SuppressLint("UnsafeExperimentalUsageError")
