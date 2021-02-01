@@ -11,6 +11,12 @@
         android:defaultValue="system_default"
         />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:summaryOn="@string/preferences_network_battery_on_summary"
+        android:title="@string/preferences_network_battery_title"
+        android:key="restrict_network_battery" />
+
     <Preference
         app:key="notification_settings"
         app:title="@string/preferences_notifications_timers_title"
@@ -20,4 +26,5 @@
         app:key="reset_disclaimers"
         app:title="@string/preferences_disclaimer_reset_title"
         app:summary="@string/preferences_disclaimer_reset_summary"/>
+
 </androidx.preference.PreferenceScreen>

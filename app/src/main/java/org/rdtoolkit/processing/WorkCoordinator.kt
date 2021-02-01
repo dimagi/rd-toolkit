@@ -3,6 +3,7 @@ package org.rdtoolkit.processing
 import android.content.Context
 import androidx.work.*
 import androidx.work.WorkRequest.MIN_BACKOFF_MILLIS
+import org.rdtoolkit.model.session.AppRepository
 import org.rdtoolkit.processing.ImageSubmissionWorker.Companion.DATA_FILE_PATH
 import org.rdtoolkit.processing.ImageSubmissionWorker.Companion.DATA_MEDIA_KEY
 import org.rdtoolkit.processing.ImageSubmissionWorker.Companion.TAG_MEDIA
@@ -44,7 +45,7 @@ class WorkCoordinator(val context : Context) {
                 .addTag(session.sessionId)
                 .addTag(TAG_SESSION)
                 .setInputData(sessionData)
-                .setConstraints(networkConstraints)
+                .setConstraints(getNetworkConstraints())
                 .setBackoffCriteria(
                         BackoffPolicy.EXPONENTIAL,
                         MIN_BACKOFF_MILLIS,
@@ -94,7 +95,7 @@ class WorkCoordinator(val context : Context) {
                 .addTag(session.sessionId)
                 .addTag(TAG_MEDIA)
                 .setInputData(imageData)
-                .setConstraints(networkConstraints)
+                .setConstraints(getNetworkConstraints())
                 .setBackoffCriteria(
                         BackoffPolicy.EXPONENTIAL,
                         MIN_BACKOFF_MILLIS,
@@ -102,11 +103,15 @@ class WorkCoordinator(val context : Context) {
                 .build()
     }
 
-    companion object {
-        val networkConstraints: Constraints = Constraints.Builder()
+    private fun getNetworkConstraints() : Constraints {
+        return Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
-                .setRequiresBatteryNotLow(true)
+                .setRequiresBatteryNotLow(AppRepository(context).isNetworkRestrictedByBattery())
                 .build()
+
+    }
+
+    companion object {
 
         @JvmStatic
         fun getUniqueWorkRootTag(sessionId : String) : String{

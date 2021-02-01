@@ -91,4 +91,6 @@
     <string name="preferences_notifications_timers_title">Configure timer notification</string>
     <string name="preferences_notifications_timers_summary">Change the notification behaviors (sound, vibration, etc) for when tests are ready</string>
     <string name="fragment_capture_review_instructions">Are you sure?\n\nAccording to automated review, your choices might need another look. You can use the Job Aid for help interpreting the test result.</string>
+    <string name="preferences_network_battery_title">Enable network power limit</string>
+    <string name="preferences_network_battery_on_summary">Network will be disabled when battery is low</string>
 </resources>
