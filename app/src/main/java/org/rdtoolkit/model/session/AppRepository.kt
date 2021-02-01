@@ -2,6 +2,7 @@ package org.rdtoolkit.model.session
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import org.rdtoolkit.R
 
 class AppRepository(private val context : Context) {
@@ -21,6 +22,10 @@ class AppRepository(private val context : Context) {
         prefs().edit().putBoolean(PREFERENCE_EARLY_TIMER_DISCLAIMER, acknowledged).apply()
     }
 
+    fun isNetworkRestrictedByBattery() : Boolean {
+        return prefs().getBoolean(PREFERENCE_RESTRICT_NETWORK_BATTERY, false)
+    }
+
     fun clearDisclaimers() {
         var editor = prefs().edit()
         editor.remove(PREFERENCE_ACKNOWLEDGED_DISCLAIMER)
@@ -29,14 +34,12 @@ class AppRepository(private val context : Context) {
     }
 
     private fun prefs(): SharedPreferences {
-        return context.getSharedPreferences(context.getString(R.string.default_preference_key)
-                , Context.MODE_PRIVATE)!!
+        return PreferenceManager.getDefaultSharedPreferences(context)!!
     }
 
     companion object {
         const val PREFERENCE_ACKNOWLEDGED_DISCLAIMER = "user_acknwoledged_disclaimer"
         const val PREFERENCE_EARLY_TIMER_DISCLAIMER = "user_acknowleged_early_timer"
-
-
+        const val PREFERENCE_RESTRICT_NETWORK_BATTERY = "restrict_network_battery"
     }
 }
