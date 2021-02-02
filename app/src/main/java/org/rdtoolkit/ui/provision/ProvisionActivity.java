@@ -17,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity;
 
 import org.rdtoolkit.R;
+import org.rdtoolkit.component.ComponentRepository;
 import org.rdtoolkit.service.TestTimerService;
 import org.rdtoolkit.support.interop.BundleToConfiguration;
 import org.rdtoolkit.support.model.session.SessionMode;
@@ -36,6 +37,7 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
 
     ProvisionViewModel provisionViewModel;
     PamphletViewModel pamphletViewModel;
+    ComponentRepository componentRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
                 getIntent().getStringExtra(INTENT_EXTRA_RDT_SESSION_ID),
                 new BundleToConfiguration().map(
                         getIntent().getBundleExtra(INTENT_EXTRA_RDT_CONFIG_BUNDLE)));
+
+        componentRepository = InjectorUtils.Companion.provideComponentRepository(this);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -105,12 +109,15 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
             }
         });
 
+        provisionViewModel.getCaptureConstraints().observe(this, value -> {
+            provisionViewModel.updateRequiredInputs(componentRepository.getParameterInputs(value));
+        });
+
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
-
-
 
     public void provisionNext(View view) {
         if (provisionViewModel.getAreInstructionsAvailable().getValue() &&

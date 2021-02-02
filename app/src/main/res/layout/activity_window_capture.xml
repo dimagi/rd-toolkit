@@ -114,7 +114,51 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.2"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/capture_window_card_reticle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/reticle"
+            android:visibility="gone"
+            app:layout_constraintDimensionRatio="5:3"
+            app:layout_constraintEnd_toEndOf="@id/capture_window_card_width_max_right"
+            app:layout_constraintBottom_toBottomOf="@id/capture_window_card_height_max_top"
+            app:layout_constraintStart_toStartOf="@id/capture_window_card_width_max_left"
+            app:layout_constraintTop_toTopOf="@id/capture_window_card_height_max_bottom"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/capture_window_card_width_max_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/capture_window_card_width_max_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/capture_window_card_height_max_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/capture_window_card_height_max_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.05"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    
+    
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

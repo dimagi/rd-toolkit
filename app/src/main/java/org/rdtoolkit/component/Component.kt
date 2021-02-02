@@ -161,8 +161,22 @@ class NoConfig : Config {
 
 }
 
+/**
+ * Captures a plain image of a test
+ */
 val CAPTURE_TYPE_PLAIN = "plain"
+
+/**
+ * Provides a 'reticle' for centering a test cassette, and a cropped image of the
+ * resulting cassette
+ */
 val CAPTURE_TYPE_RETICLE = "reticle"
+
+/**
+ * Test cassette will be laid across a 'capture card' providing additional cues for
+ * a classifier.
+ */
+val CAPTURE_TYPE_CARD = "card"
 
 open class ImageCaptureResult(private val imagePath : String) {
     open fun getCaptureType() : String {
@@ -205,6 +219,14 @@ interface ToolkitComponentManifest<C : Component, G> {
     fun getComponent(config: G, sandbox : Sandbox) : C
 
     fun getDownstreamTags() : Set<String> {
+        return setOf()
+    }
+
+    /**
+     * Optional requirements for the components availability, like a piece of equipment required
+     * for image capture
+     */
+    fun getInputRequirements() : Set<String> {
         return setOf()
     }
 

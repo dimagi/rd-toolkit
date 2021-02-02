@@ -20,6 +20,7 @@ import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.rdtoolkit.R;
+import org.rdtoolkit.component.CaptureConstraints;
 import org.rdtoolkit.component.ComponentEventListener;
 import org.rdtoolkit.component.ComponentManager;
 import org.rdtoolkit.component.ComponentRepository;
@@ -188,15 +189,19 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
         });
 
         captureViewModel.getTestProfile().observe(this, result -> {
+
+            //This value sets the value of the profile, so this should be safe
+            CaptureConstraints captureConstraints = new CaptureConstraints(result.id(),
+                    captureViewModel.getTestSession().getValue().getConfiguration().getFlags());
+
             HashSet<String> defaultTags = new HashSet<>();
-            defaultTags.add("production");
             ComponentRepository repository = InjectorUtils.Companion.provideComponentRepository(this);
 
             Sandbox sandbox = new Sandbox(this, sessionId);
 
             //TODO: Unify into a single plan method that can intersect these more carefully. Right now
             //it's possible for a classifier to lack a compatible capture
-            ImageClassifierComponent classifierComponent = repository.getClassifierComponentForTest(result.id(), defaultTags, sandbox);
+            ImageClassifierComponent classifierComponent = repository.getClassifierComponentForTest(captureConstraints, sandbox);
 
             List<String> captureModes = classifierComponent == null ? null :  classifierComponent.compatibleCaptureModes();
 

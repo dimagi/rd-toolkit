@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.rdtoolkit.component.CaptureConstraints
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.Pamphlet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
@@ -12,6 +13,7 @@ import org.rdtoolkit.support.model.session.STATUS
 import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.support.model.session.TestSession
 import org.rdtoolkit.support.model.session.setInstructionsViewed
+import org.rdtoolkit.util.CombinedLiveData
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -22,13 +24,20 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
 ) : ViewModel() {
 
     private lateinit var sessionId: String
+
     private var sessionConfiguration: MutableLiveData<TestSession.Configuration> = MutableLiveData()
+
+    private var initialConfigFlags: MutableLiveData<Map<String, String>> = MutableLiveData()
 
     private var metrics = TestSession.Metrics(HashMap())
 
     private val viewInstructions: MutableLiveData<Boolean>
 
     private val testProfile: MutableLiveData<RdtDiagnosticProfile> = MutableLiveData()
+
+    var captureConstraints = Transformations.map(CombinedLiveData(testProfile, initialConfigFlags)) {
+        CaptureConstraints(it.first.id(), it.second)
+    }
 
     private val testProfileOptions: MutableLiveData<List<RdtDiagnosticProfile>> = MutableLiveData()
 
@@ -54,6 +63,10 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
         }
     }
 
+    fun updateRequiredInputs(params : MutableSet<String>) {
+
+    }
+
     fun getInstructionSets() : LiveData<List<Pamphlet>> {
         return instructionSets
     }
@@ -61,6 +74,7 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
     fun setConfig(sessionId: String,
                   config: TestSession.Configuration) {
         this.sessionId = sessionId
+        initialConfigFlags.value = config.flags.toMap()
         sessionConfiguration.value = config
 
         when(config.provisionMode) {

@@ -9,6 +9,9 @@ import org.rdtoolkit.component.capture.WindowCaptureActivity.Companion.EXTRA_RET
 import java.io.File
 
 val COMPONENT_WINDOWED_CAPTURE = "capture_windowed"
+val COMPONENT_WINDOWED_CAPTURE_CARD = "capture_windowed_card"
+
+val REQUIREMENT_TAG_CAPTURE_CARD = "tag_has_capture_card"
 
 class WindowCaptureComponentManifest : ToolkitComponentManifest<TestImageCaptureComponent, WindowCaptureConfig> {
 
@@ -54,7 +57,44 @@ class WindowCaptureComponentManifest : ToolkitComponentManifest<TestImageCapture
     }
 }
 
-data class WindowCaptureConfig(val cassetteAspectRatio : String): Config
+class CardWindowCaptureManifest : ToolkitComponentManifest<TestImageCaptureComponent, WindowCaptureConfig> {
+
+    private val availableCaptureConfigs :  Map<String, WindowCaptureConfig> = mapOf (
+            "sd_standard_q_c19" to WindowCaptureConfig("7:2", "5:3")
+    )
+
+    private val defaultCaptureConfig = WindowCaptureConfig("7:2", "5:3")
+
+    override fun getValue() : Int {
+        return VALUE_PREFERRED
+    }
+
+    override fun getTagsForDiagnostic(diagnosticId: String) : Set<String> {
+        if (diagnosticId in availableCaptureConfigs) {
+            return setOf(COMPONENT_WINDOWED_CAPTURE_CARD, TAG_READINESS_PRODUCTION)
+        } else {
+            return setOf(COMPONENT_WINDOWED_CAPTURE_CARD, TAG_READINESS_AVAILABLE)
+        }
+    }
+
+    override fun getConfigForDiagnostic(diagnosticId: String) : WindowCaptureConfig {
+        if (diagnosticId in availableCaptureConfigs) {
+            return availableCaptureConfigs[diagnosticId]!!
+        } else {
+            return defaultCaptureConfig
+        }
+    }
+
+    override fun getComponent(config: WindowCaptureConfig, sandbox : Sandbox) : TestImageCaptureComponent {
+        return WindowCaptureComponent(config, sandbox)
+    }
+
+    override fun getCompatibleOutputs(diagnosticId: String) : Set<String> {
+        return setOf(CAPTURE_TYPE_CARD)
+    }
+}
+
+data class WindowCaptureConfig(val cassetteAspectRatio : String, val cardAspectRatio : String? = null) : Config
 
 
 class WindowCaptureComponent(private val config : WindowCaptureConfig, private val sandbox: Sandbox) :
