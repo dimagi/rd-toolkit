@@ -197,7 +197,7 @@ class WindowCaptureActivity : AppCompatActivity() {
             }
 
             if(camera.cameraInfo.hasFlashUnit()) {
-                camera_torch_button.visibility = View.VISIBLE
+                camera_torch_button.visibility = View.GONE
             } else {
                 camera_torch_button.visibility = View.GONE
             }
