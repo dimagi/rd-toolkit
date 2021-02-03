@@ -46,13 +46,27 @@ import kotlin.NotImplementedError;
 import static org.rdtoolkit.interop.InterfacesKt.captureReturnIntent;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RESPONSE_TRANSLATOR;
+import static org.rdtoolkit.support.model.session.SessionFlagsKt.getSecondaryCaptureParams;
+import static org.rdtoolkit.support.model.session.SessionFlagsKt.wasSecondaryCaptureRequested;
 
-public class CaptureActivity extends LocaleAwareCompatActivity implements ComponentEventListener {
+public class CaptureActivity extends LocaleAwareCompatActivity {
 
     CaptureViewModel captureViewModel;
     PamphletViewModel pamphletViewModel;
 
-    ComponentManager componentManager = new ComponentManager(this, this);
+    ComponentManager componentManager = new ComponentManager(this, new ComponentEventListener() {
+        @Override
+        public void testImageCaptured(@NotNull ImageCaptureResult imageResult) {
+            CaptureActivity.this.testImageCaptured(imageResult);
+        }
+    }, 100);
+
+    ComponentManager secondaryComponentManager = new ComponentManager(this, new ComponentEventListener() {
+        @Override
+        public void testImageCaptured(@NotNull ImageCaptureResult imageResult) {
+            CaptureActivity.this.secondaryImageCaptured(imageResult);
+        }
+    }, 200);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +99,8 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
         MenuItem captureTab = ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
                 findItem(R.id.capture_timer);
 
+        MenuItem secondaryPhotoTab = ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
+                findItem(R.id.capture_secondary);
 
         MenuItem recordTab = ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
                 findItem(R.id.capture_record);
@@ -124,19 +140,28 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
 
         });
 
+        captureViewModel.getSecondaryCaptureRelevant().observe(this, result -> {
+            secondaryPhotoTab.setVisible(result);
+        });
+
         captureViewModel.getSessionStateInputs().observe(this, result -> {
             if (result.getFirst() == TestReadableState.EXPIRED && result.getSecond()) {
                 captureTab.setVisible(false);
                 resultsTab.setVisible(false);
-                recordTab.setEnabled(true);
 
                 navController.navigate(R.id.capture_expire_to_record);
             } else {
                 captureTab.setVisible(true);
                 resultsTab.setVisible(true);
-
-                setConfirmAvailable(captureViewModel.getTestSessionResult().getValue());
             }
+        });
+
+        captureViewModel.getSecondaryCaptureAvailableOrIrrelevant().observe(this, result -> {
+            secondaryPhotoTab.setEnabled(result);
+        });
+
+        captureViewModel.getRecordAvailable().observe(this, result -> {
+            recordTab.setEnabled(result);
         });
 
         captureViewModel.getProcessingState().observe(this, value -> {
@@ -184,17 +209,13 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
             }
         });
 
-        captureViewModel.getTestSessionResult().observe(this, value -> {
-            setConfirmAvailable(value);
-        });
-
         captureViewModel.getTestProfile().observe(this, result -> {
 
             //This value sets the value of the profile, so this should be safe
-            CaptureConstraints captureConstraints = new CaptureConstraints(result.id(),
-                    captureViewModel.getTestSession().getValue().getConfiguration().getFlags());
+            TestSession.Configuration config = captureViewModel.getTestSession().getValue().getConfiguration();
 
-            HashSet<String> defaultTags = new HashSet<>();
+            CaptureConstraints captureConstraints = new CaptureConstraints(result.id(),
+                    config.getFlags());
             ComponentRepository repository = InjectorUtils.Companion.provideComponentRepository(this);
 
             Sandbox sandbox = new Sandbox(this, sessionId);
@@ -202,18 +223,24 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
             //TODO: Unify into a single plan method that can intersect these more carefully. Right now
             //it's possible for a classifier to lack a compatible capture
             ImageClassifierComponent classifierComponent = repository.getClassifierComponentForTest(captureConstraints, sandbox);
-
             List<String> captureModes = classifierComponent == null ? null :  classifierComponent.compatibleCaptureModes();
-
             TestImageCaptureComponent captureComponent = repository.
-                    getCaptureComponentForTest(result.id(), defaultTags, captureModes, sandbox);
+                    getCaptureComponentForTest(result.id(), captureConstraints, captureModes, sandbox);
+
+            if (wasSecondaryCaptureRequested(config)) {
+                CaptureConstraints secondaryCaptureConstraints =
+                        new CaptureConstraints(result.id(), getSecondaryCaptureParams(config));
+
+                TestImageCaptureComponent secondaryCaptureComponent = repository.
+                        getCaptureComponentForTest(result.id(), secondaryCaptureConstraints, null, sandbox);
+                secondaryComponentManager.registerComponents(secondaryCaptureComponent);
+            }
 
             if (classifierComponent != null) {
                 componentManager.registerComponents(captureComponent, classifierComponent);
             } else {
                 captureViewModel.disableProcessing();
                 componentManager.registerComponents(captureComponent);
-
             }
         });
 
@@ -261,30 +288,31 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
         return false;
     }
 
-
-    private void setConfirmAvailable(TestSession.TestResult result) {
-        boolean recordEnabled = false;
-        RdtDiagnosticProfile profile = captureViewModel.getTestProfile().getValue();
-        if(profile != null && result != null) {
-            recordEnabled = profile.isResultSetComplete(result);
-        }
-
-        ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
-                findItem(R.id.capture_record).setEnabled(recordEnabled);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         componentManager.notifyIntentCallback(requestCode, resultCode, data);
+        secondaryComponentManager.notifyIntentCallback(requestCode, resultCode, data);
+    }
+
+    public void acknowledgeSecondaryRequest(View button) {
+        captureViewModel.getSecondaryRequestAcknowledged().setValue(true);
+    }
+
+    public void captureSecondaryImage(View button) {
+        secondaryComponentManager.getCaptureComponent().captureImage();
     }
 
     public void captureTestResult(View button) {
         componentManager.getCaptureComponent().captureImage();
     }
 
-    public void proceedToResults(View v) {
-        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_capture_results_to_captureRecordFragment);
+    public void proceedFromResultsCapture(View v) {
+        if(captureViewModel.getSecondaryCaptureRelevant().getValue()) {
+            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_capture_results_to_secondary);
+        } else {
+            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_capture_results_to_captureRecordFragment);
+        }
     }
 
     public void recordResults(View v) {
@@ -344,13 +372,16 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
         });
     }
 
-    @Override
-    public void testImageCaptured(@NotNull ImageCaptureResult imageResult) {
+    private void testImageCaptured(@NotNull ImageCaptureResult imageResult) {
         captureViewModel.setCapturedImage(imageResult.getImages());
         ImageClassifierComponent classifier = componentManager.getImageClassifierComponent();
         if(classifier != null) {
             processImage(imageResult);
         }
+    }
+
+    private void secondaryImageCaptured(@NotNull ImageCaptureResult imageResult) {
+        captureViewModel.setSecondaryImageCaptured(imageResult.getImages());
     }
 
     public void infoBackPressed(View view) {

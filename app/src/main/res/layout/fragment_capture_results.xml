@@ -38,7 +38,7 @@
                 android:id="@+id/capture_results_proceed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="proceedToResults"
+                android:onClick="proceedFromResultsCapture"
                 style="@style/Button"
                 android:text="@string/button_next" />
 

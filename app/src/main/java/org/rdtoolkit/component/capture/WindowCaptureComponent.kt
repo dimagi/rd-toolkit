@@ -8,7 +8,7 @@ import org.rdtoolkit.component.capture.WindowCaptureActivity.Companion.EXTRA_FIL
 import org.rdtoolkit.component.capture.WindowCaptureActivity.Companion.EXTRA_RETICLE_RATIO
 import java.io.File
 
-val COMPONENT_WINDOWED_CAPTURE = "capture_windowed"
+const val COMPONENT_WINDOWED_CAPTURE = "capture_windowed"
 val COMPONENT_WINDOWED_CAPTURE_CARD = "capture_windowed_card"
 
 val REQUIREMENT_TAG_CAPTURE_CARD = "tag_has_capture_card"

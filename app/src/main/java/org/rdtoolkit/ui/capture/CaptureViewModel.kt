@@ -8,7 +8,8 @@ import kotlinx.coroutines.launch
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.Pamphlet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
-import org.rdtoolkit.model.session.*
+import org.rdtoolkit.model.session.AppRepository
+import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.support.model.session.*
 import org.rdtoolkit.util.CombinedLiveData
 import java.util.*
@@ -21,31 +22,42 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                        var appRepository: AppRepository
 ) : ViewModel() {
 
-    private var resolveTimer : CountDownTimer? = null
-
-    private var readableTimer : CountDownTimer? = null
-
     private val testSession : MutableLiveData<TestSession> = MutableLiveData()
-
-    private val testState : MutableLiveData<TestReadableState> = MutableLiveData()
-
     private val testProfile : LiveData<RdtDiagnosticProfile> = Transformations.map(testSession) {
         session -> diagnosticsRepository.getTestProfile(session.testProfileId)
     }
+    private val testState : MutableLiveData<TestReadableState> = MutableLiveData()
+
+    private var resolveTimer : CountDownTimer? = null
+    private var readableTimer : CountDownTimer? = null
+    private val resolveMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
+    private val readableMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
+
+    private val inCommitMode : MutableLiveData<Boolean> = MutableLiveData(false)
+    val sessionCommit = CombinedLiveData<Boolean, TestSession>(inCommitMode, testSession)
+
+    private val overrideExpirationValue : MutableLiveData<Boolean> = MutableLiveData()
 
     private val numberOfFailedCaptures = MutableLiveData(0)
 
-    private val resolveMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
-
-    private val readableMillisecondsLeft : MutableLiveData<Long> = MutableLiveData()
-
     private val rawImageCapturePath : MutableLiveData<String> = MutableLiveData()
-
     private val testSessionResult : MutableLiveData<TestSession.TestResult> = MutableLiveData()
 
-    private val inCommitMode : MutableLiveData<Boolean> = MutableLiveData(false)
+    private var classifierMode : ClassifierMode? = null
 
-    val sessionCommit = CombinedLiveData<Boolean, TestSession>(inCommitMode, testSession)
+    private var processingStateValue : MutableLiveData<ProcessingState> = MutableLiveData(ProcessingState.PRE_CAPTURE)
+
+    private var processingErrorValue : MutableLiveData<Pair<String, Pamphlet?>> = MutableLiveData()
+
+    private var totalNumberOfCaptureAttempts = 0
+
+    val secondaryCaptureEnabled = Transformations.map(testSession) {
+        it.configuration.wasSecondaryCaptureRequested()
+    }
+
+    val secondaryImageCapturePath : MutableLiveData<String> = MutableLiveData()
+
+    private val secondaryImageCaptured : MutableLiveData<Boolean> = MutableLiveData(false)
 
     val jobAidPamphlets : LiveData<List<Pamphlet>> = Transformations.map(testProfile) {
         profile -> profile?.let{diagnosticsRepository.getReferencePamphlets("interpret", listOf(profile.id()))}
@@ -54,16 +66,6 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     val jobAidAvailable : LiveData<Boolean> = Transformations.map(jobAidPamphlets) {
         instructions ->  !instructions.isNullOrEmpty()
     }
-
-    private var classifierMode : ClassifierMode? = null
-
-    private var processingStateValue : MutableLiveData<ProcessingState> = MutableLiveData(ProcessingState.PRE_CAPTURE)
-
-    private var processingErrorValue : MutableLiveData<Pair<String, Pamphlet?>> = MutableLiveData()
-
-    private val allowOverrideValue : MutableLiveData<Boolean> = MutableLiveData()
-
-    private var totalNumberOfCaptureAttempts = 0
 
     private val earlyReadsEnabled : LiveData<Boolean> =  Transformations.map(testSession) {
         FLAG_VALUE_SET != it.configuration.flags[FLAG_SESSION_NO_EARLY_READS]
@@ -90,6 +92,26 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     val sessionStateInputs = CombinedLiveData(testState, captureIsIncomplete)
 
+    val secondaryCaptureRelevant = Transformations.map(CombinedLiveData(testState, secondaryCaptureEnabled)) {
+        it.first != TestReadableState.EXPIRED && it.second
+    }
+
+    val secondaryCaptureAvailableOrIrrelevant = Transformations.map(CombinedLiveData(secondaryCaptureRelevant, testSessionResult)) {
+        testProfile.value!!.isResultSetComplete(it.second)
+    }
+
+    val secondaryCaptureFinishedOrIrrelevant= Transformations.map(CombinedLiveData(secondaryCaptureAvailableOrIrrelevant, CombinedLiveData(secondaryCaptureRelevant,secondaryImageCaptured))) {
+        it.first && (!it.second.first || it.second.second)
+    }
+
+    val recordAvailable = Transformations.map(CombinedLiveData(sessionStateInputs, secondaryCaptureFinishedOrIrrelevant)) {
+        if (it.first.first === TestReadableState.EXPIRED && it.first.second) {
+            true
+        } else {
+            it.second
+        }
+    }
+
     val permitCaptureOverride = Transformations.map(CombinedLiveData<Int, ProcessingState>(numberOfFailedCaptures,processingStateValue)) {
         it.first >= 3 && it.second == ProcessingState.ERROR
     }
@@ -105,6 +127,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     val requireWorkCheck = Transformations.map(CombinedLiveData(needsWorkCheck, workChecked)) {
         it.first && !it.second
     }
+
+    val secondaryRequestAcknowledged = MutableLiveData(false)
 
     private fun recordCaptureAttempt() {
         totalNumberOfCaptureAttempts++
@@ -129,12 +153,12 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     }
 
     fun getExpireOverrideChecked() : LiveData<Boolean> {
-        return allowOverrideValue
+        return overrideExpirationValue
     }
 
     fun setExpireOverrideChecked(isChecked : Boolean) {
-        if (isChecked != allowOverrideValue.value) {
-            allowOverrideValue.value = isChecked
+        if (isChecked != overrideExpirationValue.value) {
+            overrideExpirationValue.value = isChecked
         }
     }
 
@@ -215,6 +239,16 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
             }
         }
     }
+
+
+    fun setSecondaryImageCaptured(imageData: Pair<String, MutableMap<String, String>>) {
+        if (secondaryImageCapturePath.value != imageData.first) {
+            this.secondaryImageCaptured.value = true
+            this.secondaryImageCapturePath.value = imageData.first
+            testSessionResult.value!!.images.putAll(imageData.second.mapKeys { "secondary_" + it.key })
+        }
+    }
+
 
     fun disableProcessing() {
         if (classifierMode != ClassifierMode.NONE) {

@@ -83,9 +83,9 @@ abstract class Component {
 }
 
 class ComponentManager(private val activity : AppCompatActivity,
-                       private val listener : ComponentEventListener)  : LifecycleObserver {
+                       private val listener : ComponentEventListener,
+                       val activityCodeBaseId : Int = 100)  : LifecycleObserver {
     var managedComponents = ArrayList<Component>()
-    val activityCodeBaseId : Int = 100
 
     fun deregisterComponents() {
         for (component in managedComponents) {
@@ -280,7 +280,6 @@ abstract class ImageClassifierComponent : Component() {
     open fun compatibleCaptureModes() : List<String> {
         return listOf(CAPTURE_TYPE_PLAIN)
     }
-
 
     override fun unregister() {
         super.unregister()

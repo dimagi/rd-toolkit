@@ -20,6 +20,9 @@
         android:name="org.rdtoolkit.ui.capture.CaptureResultsFragment"
         android:label="@string/capture_results_title" >
         <action
+            android:id="@+id/action_capture_results_to_secondary"
+            app:destination="@id/capture_secondary"/>
+        <action
             android:id="@+id/action_capture_results_to_captureRecordFragment"
             app:destination="@id/capture_record" />
         <action
@@ -35,6 +38,16 @@
         <action
             android:id="@+id/action_capture_job_aid_to_results"
             app:popUpTo="@+id/capture_results" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/capture_secondary"
+        android:name="org.rdtoolkit.ui.capture.CaptureSecondaryFragment"
+        android:label="@string/capture_secondary_title"
+        tools:layout="@layout/fragment_capture_secondary">
+        <action
+            android:id="@+id/action_capture_secondary_to_record"
+            app:destination="@id/capture_record"/>
     </fragment>
 
     <fragment

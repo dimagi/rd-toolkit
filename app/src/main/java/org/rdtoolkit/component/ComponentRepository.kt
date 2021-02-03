@@ -21,9 +21,9 @@ class ComponentRepository(context: Context) {
         classifierManifests.add(manifest as ToolkitComponentManifest<ImageClassifierComponent, Any>)
     }
 
-    fun getCaptureComponentForTest(testProfileId: String, tags: MutableSet<String>, compatibleCaptureFormats : List<String>?, sandbox: Sandbox) : TestImageCaptureComponent {
+    fun getCaptureComponentForTest(testProfileId: String, captureConstraints: CaptureConstraints, compatibleCaptureFormats : List<String>?, sandbox: Sandbox) : TestImageCaptureComponent {
         val matchingComponents =
-                imageCaptureManifests.filter { it.getTagsForDiagnostic(testProfileId).containsAll(tags) }
+                imageCaptureManifests.filter { it.getTagsForDiagnostic(testProfileId).containsAll(captureConstraints.getSessionRequiredTags()) }
                         .filter { compatibleCaptureFormats == null || it.getCompatibleOutputs(testProfileId).intersect(compatibleCaptureFormats).isNotEmpty() }
                         .sortedByDescending { it.getValue() }
         if (matchingComponents.isEmpty()) {
