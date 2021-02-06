@@ -14,7 +14,23 @@
             android:id="@+id/action_sessionProvision_to_sessionInstruct"
             app:destination="@id/provision_instructions" />
         <action
+            android:id="@+id/action_sessionProvision_to_sessionQuestions"
+            app:destination="@id/provision_questions" />
+        <action
             android:id="@+id/action_sessionProvision_to_captureFragment"
+            app:destination="@id/provision_start" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/provision_questions"
+        android:name="org.rdtoolkit.ui.provision.ProvisionQuestionsFragment"
+        android:label="@string/provision_define_title"
+        tools:layout="@layout/fragment_provision_questions" >
+        <action
+            android:id="@+id/action_sessionQuestion_to_sessionInstruct"
+            app:destination="@id/provision_instructions" />
+        <action
+            android:id="@+id/action_sessionQuestion_to_captureFragment"
             app:destination="@id/provision_start" />
     </fragment>
     <fragment
@@ -22,6 +38,9 @@
         android:name="org.rdtoolkit.ui.instruct.SessionInstruct"
         android:label="@string/provision_instructions_title"
         tools:layout="@layout/fragment_provision_instruct" >
+        <action
+            android:id="@+id/action_sessionInstruct_to_sessionQuestions"
+            app:destination="@id/provision_questions" />
         <action
             android:id="@+id/action_sessionInstruct_to_sessionProvision"
             app:destination="@id/provision_define" />

@@ -26,3 +26,20 @@ fun TestSession.Configuration.getSecondaryCaptureParams() : Map<String, String> 
     this.flags[FLAG_SECONDARY_PARAMS]?.let { map[FLAG_CAPTURE_PARAMS] = it}
     return map
 }
+
+
+fun TestSession.Configuration.setCaptureFlag(flag: String) {
+    this.flags = flags.toMutableMap().apply { this[FLAG_CAPTURE_PARAMS] =
+            (this[FLAG_CAPTURE_PARAMS]?.split(" ") ?: listOf())
+            .toMutableSet().apply { add(flag) }.joinToString(" ") }
+}
+
+fun TestSession.Configuration.removeCaptureFlag(flag: String) {
+    this.flags = flags.toMutableMap().apply { this[FLAG_CAPTURE_PARAMS] =
+            (this[FLAG_CAPTURE_PARAMS]?.split(" ") ?: listOf())
+                    .toMutableSet().apply { remove(flag) }.joinToString(" ")}
+}
+
+fun TestSession.Configuration.checkCaptureFlag(flag: String) : Boolean {
+    return (this.flags[FLAG_CAPTURE_PARAMS]?.split(" ") ?: listOf()).contains(flag)
+}

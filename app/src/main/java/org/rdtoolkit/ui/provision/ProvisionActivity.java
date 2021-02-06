@@ -39,6 +39,10 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
     PamphletViewModel pamphletViewModel;
     ComponentRepository componentRepository;
 
+    int postProvisionAction = R.id.action_sessionProvision_to_captureFragment;
+    int postQuestionsAction = R.id.action_sessionQuestion_to_captureFragment;
+    int preInstructionsAction = R.id.action_sessionInstruct_to_sessionProvision;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +74,9 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
 
         MenuItem instructionItem = ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
                 findItem(R.id.provision_instructions);
+
+        MenuItem questionItem = ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
+                findItem(R.id.provision_questions);
 
         provisionViewModel.getAreInstructionsAvailable().observe(this, value -> {
             instructionItem.setVisible(value);
@@ -113,6 +120,28 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
             provisionViewModel.updateRequiredInputs(componentRepository.getParameterInputs(value));
         });
 
+        provisionViewModel.getQuestionsOnNavPath().observe(this, value -> {
+            questionItem.setVisible(value);
+        });
+
+        provisionViewModel.getNavPathData().observe(this, v -> {
+            if (v.getSecond()) {
+                postProvisionAction = R.id.action_sessionProvision_to_sessionQuestions;
+                preInstructionsAction = R.id.action_sessionInstruct_to_sessionQuestions;
+                if(v.getFirst()) {
+                    postQuestionsAction = R.id.action_sessionQuestion_to_sessionInstruct;
+                } else {
+                    postQuestionsAction = R.id.action_sessionQuestion_to_captureFragment;
+                }
+            } else {
+                if (v.getFirst()) {
+                    postProvisionAction = R.id.action_sessionProvision_to_sessionInstruct;
+                } else {
+                    postProvisionAction = R.id.action_sessionProvision_to_captureFragment;
+                }
+            }
+        });
+
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -120,12 +149,11 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
     }
 
     public void provisionNext(View view) {
-        if (provisionViewModel.getAreInstructionsAvailable().getValue() &&
-                provisionViewModel.getViewInstructions().getValue()) {
-            Navigation.findNavController(view).navigate(R.id.action_sessionProvision_to_sessionInstruct);
-        } else {
-            Navigation.findNavController(view).navigate(R.id.action_sessionProvision_to_captureFragment);
-        }
+        Navigation.findNavController(view).navigate(postProvisionAction);
+    }
+
+    public void onQuestionNext(View view) {
+        Navigation.findNavController(view).navigate(postQuestionsAction);
     }
 
 
@@ -160,7 +188,7 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
             pamphletViewModel.pageBack();
             return;
         } else {
-            Navigation.findNavController(view).navigate(R.id.action_sessionInstruct_to_sessionProvision);
+            Navigation.findNavController(view).navigate(preInstructionsAction);
         }
     }
 

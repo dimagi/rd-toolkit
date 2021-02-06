@@ -5,14 +5,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.rdtoolkit.component.CaptureConstraints
+import org.rdtoolkit.component.capture.REQUIREMENT_TAG_CAPTURE_CARD
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.Pamphlet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
-import org.rdtoolkit.support.model.session.ProvisionMode
-import org.rdtoolkit.support.model.session.STATUS
 import org.rdtoolkit.model.session.SessionRepository
-import org.rdtoolkit.support.model.session.TestSession
-import org.rdtoolkit.support.model.session.setInstructionsViewed
+import org.rdtoolkit.support.model.session.*
 import org.rdtoolkit.util.CombinedLiveData
 import java.util.*
 import kotlin.collections.HashMap
@@ -31,7 +29,7 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
 
     private var metrics = TestSession.Metrics(HashMap())
 
-    private val viewInstructions: MutableLiveData<Boolean>
+    private val viewInstructions: MutableLiveData<Boolean> = MutableLiveData(true)
 
     private val testProfile: MutableLiveData<RdtDiagnosticProfile> = MutableLiveData()
 
@@ -53,6 +51,42 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
 
     private val startAvailable: MutableLiveData<Boolean>
 
+    val inputsDefined = setOf(REQUIREMENT_TAG_CAPTURE_CARD)
+
+    val inputsRequired = MutableLiveData<List<String>>()
+
+    val inputsProvided = MutableLiveData(mutableSetOf<String>())
+
+    val currentInput = MutableLiveData<Int>()
+
+    val currentRequiredInput = Transformations.map(CombinedLiveData(inputsRequired, currentInput)) {
+        it.first[it.second]
+    }
+
+    val questionsOnNavPath = Transformations.map(inputsRequired) {
+        it.isNotEmpty()
+    }
+
+    val instructionsOnNavPath = Transformations.map(CombinedLiveData(areInstructionsAvailable, viewInstructions)) {
+        it.first && it.second
+    }
+
+    val navPathData = CombinedLiveData(instructionsOnNavPath, questionsOnNavPath)
+
+    fun setFlagProvided(flag: String) {
+        inputsProvided.value!!.add(flag)
+        inputsProvided.value = inputsProvided.value
+
+        sessionConfiguration.value!!.setCaptureFlag(flag)
+    }
+
+    fun setFlagUnavailable(flag: String) {
+        inputsProvided.value!!.add(flag)
+        inputsProvided.value = inputsProvided.value
+
+        sessionConfiguration.value!!.removeCaptureFlag(flag)
+    }
+
     fun getDebugResolveImmediately() : LiveData<Boolean> {
         return debugResolveImmediately
     }
@@ -63,8 +97,12 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
         }
     }
 
-    fun updateRequiredInputs(params : MutableSet<String>) {
-
+    fun updateRequiredInputs(params : Set<String>) {
+        val newInputs = params.intersect(inputsDefined).toList()
+        inputsRequired.value = newInputs
+        if(newInputs.isNotEmpty()) {
+            currentInput.value = 0
+        }
     }
 
     fun getInstructionSets() : LiveData<List<Pamphlet>> {
@@ -162,7 +200,6 @@ class ProvisionViewModel(var sessionRepository: SessionRepository,
     }
 
     init {
-        viewInstructions = MutableLiveData()
         viewInstructions.value = true
 
         startAvailable = MutableLiveData()

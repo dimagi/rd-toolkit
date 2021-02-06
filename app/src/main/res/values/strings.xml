@@ -95,4 +95,8 @@
     <string name="preferences_network_battery_on_summary">Network will be disabled when battery is low</string>
     <string name="bottom_menu_text_extra">Extra</string>
     <string name="capture_secondary_title">Extra Image Capture</string>
+    <string name="choice_yes">Yes</string>
+    <string name="choice_no">No</string>
+    <string name="choice_blank"></string>
+    <string name="bottom_menu_text_questions">Inputs</string>
 </resources>
