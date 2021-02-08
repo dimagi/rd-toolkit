@@ -14,10 +14,16 @@ import java.util.concurrent.TimeUnit
 
 
 class CloudworksApi(dns: String, val sessionId : String, val context : Context) {
+    /**
+     * Connection read and write timeouts in seconds
+     */
+    val CONNECTION_READ_TIMEOUT = 120
+    val CONNECTION_WRITE_TIMEOUT = 120
+
     private val dns = dns.removeSuffix("/")
     private val client = OkHttpClient.Builder()
-            .readTimeout(0, TimeUnit.SECONDS)
-            .writeTimeout(0, TimeUnit.SECONDS)
+            .readTimeout(CONNECTION_READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .writeTimeout(CONNECTION_WRITE_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .build()
 
     fun submitSessionJson(session: TestSession) {
