@@ -1,6 +1,8 @@
 package org.rdtoolkit.processing
 
 import android.content.Context
+import android.util.Log
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -10,21 +12,11 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.rdtoolkit.interop.SessionToJson
 import org.rdtoolkit.support.model.session.TestSession
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 
 class CloudworksApi(dns: String, val sessionId : String, val context : Context) {
-    /**
-     * Connection read and write timeouts in seconds
-     */
-    val CONNECTION_READ_TIMEOUT = 120
-    val CONNECTION_WRITE_TIMEOUT = 120
-
     private val dns = dns.removeSuffix("/")
-    private val client = OkHttpClient.Builder()
-            .readTimeout(CONNECTION_READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .writeTimeout(CONNECTION_WRITE_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .build()
+    private val client = OkHttpClient()
 
     fun submitSessionJson(session: TestSession) {
         val json = SessionToJson(true).map(session)

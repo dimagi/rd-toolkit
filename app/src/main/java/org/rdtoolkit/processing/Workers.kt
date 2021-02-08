@@ -52,7 +52,6 @@ class ImageSubmissionWorker(appContext: Context, workerParams: WorkerParameters)
         try {
             CloudworksApi(cloudworksEndpoint, sessionId, this.applicationContext).submitSessionMedia(key, file)
         } catch(e : Exception) {
-            e.printStackTrace()
             return Result.retry()
         }
 
