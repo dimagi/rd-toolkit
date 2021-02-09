@@ -233,7 +233,13 @@ public class CaptureActivity extends LocaleAwareCompatActivity {
 
                 TestImageCaptureComponent secondaryCaptureComponent = repository.
                         getCaptureComponentForTest(result.id(), secondaryCaptureConstraints, null, sandbox);
-                secondaryComponentManager.registerComponents(secondaryCaptureComponent);
+
+                if (secondaryCaptureComponent.toString().equals(captureComponent.toString())) {
+                    //secondary and primary capture are the same, skip secondary capture
+                    captureViewModel.getSecondaryCaptureCompatible().setValue(false);
+                } else {
+                    secondaryComponentManager.registerComponents(secondaryCaptureComponent);
+                }
             }
 
             if (classifierComponent != null) {

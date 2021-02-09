@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Rect
 import org.rdtoolkit.component.*
+import org.rdtoolkit.component.capture.WindowCaptureActivity.Companion.EXTRA_CARD_RATIO
 import org.rdtoolkit.component.capture.WindowCaptureActivity.Companion.EXTRA_FILE_ROOT
 import org.rdtoolkit.component.capture.WindowCaptureActivity.Companion.EXTRA_RETICLE_RATIO
 import java.io.File
@@ -66,7 +67,7 @@ class CardWindowCaptureManifest : ToolkitComponentManifest<TestImageCaptureCompo
     private val defaultCaptureConfig = WindowCaptureConfig("7:2", "5:3")
 
     override fun getValue() : Int {
-        return VALUE_PREFERRED
+        return VALUE_POSITIVE
     }
 
     override fun getTagsForDiagnostic(diagnosticId: String) : Set<String> {
@@ -90,11 +91,19 @@ class CardWindowCaptureManifest : ToolkitComponentManifest<TestImageCaptureCompo
     }
 
     override fun getCompatibleOutputs(diagnosticId: String) : Set<String> {
-        return setOf(CAPTURE_TYPE_CARD)
+        return setOf(CAPTURE_TYPE_CARD)`
+    }
+
+    override fun getInputRequirements() : Set<String> {
+        return setOf(REQUIREMENT_TAG_CAPTURE_CARD)
     }
 }
 
-data class WindowCaptureConfig(val cassetteAspectRatio : String, val cardAspectRatio : String? = null) : Config
+data class WindowCaptureConfig(val cassetteAspectRatio : String, val cardAspectRatio : String? = null) : Config {
+    override fun toString() : String {
+        return "${this.javaClass.toString()}|$cassetteAspectRatio|$cardAspectRatio"
+    }
+}
 
 
 class WindowCaptureComponent(private val config : WindowCaptureConfig, private val sandbox: Sandbox) :
@@ -106,6 +115,11 @@ class WindowCaptureComponent(private val config : WindowCaptureConfig, private v
     fun triggerCallout(activity: Activity) {
         val calloutIntent = Intent(activity, WindowCaptureActivity::class.java)
         calloutIntent.putExtra(EXTRA_RETICLE_RATIO, config.cassetteAspectRatio)
+
+        if (config.cardAspectRatio != null) {
+            calloutIntent.putExtra(EXTRA_CARD_RATIO, config.cardAspectRatio)
+        }
+
         calloutIntent.putExtra(EXTRA_FILE_ROOT, sandbox.getFileRoot().absolutePath)
 
         activity.startActivityForResult(calloutIntent, componentInterfaceId!!)
@@ -133,5 +147,9 @@ class WindowCaptureComponent(private val config : WindowCaptureConfig, private v
 
     override fun captureImage() {
         triggerCallout(activity!!)
+    }
+
+    override fun toString() : String {
+        return this.javaClass.name + "|" + config.toString()
     }
 }

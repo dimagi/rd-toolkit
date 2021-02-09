@@ -25,6 +25,7 @@ class ComponentRepository(context: Context) {
         val matchingComponents =
                 imageCaptureManifests.filter { it.getTagsForDiagnostic(testProfileId).containsAll(captureConstraints.getSessionRequiredTags()) }
                         .filter { compatibleCaptureFormats == null || it.getCompatibleOutputs(testProfileId).intersect(compatibleCaptureFormats).isNotEmpty() }
+                        .filter { captureConstraints.getSessionParameterTags().containsAll(it.getInputRequirements()) }
                         .sortedByDescending { it.getValue() }
         if (matchingComponents.isEmpty()) {
             throw Exception("No matching Capture Components available!")
@@ -35,7 +36,9 @@ class ComponentRepository(context: Context) {
 
     fun getClassifierComponentForTest(captureConstraints: CaptureConstraints, sandbox: Sandbox) : ImageClassifierComponent? {
         val matchingComponents =
-                classifierManifests.filter { it.getTagsForDiagnostic(captureConstraints.testProfileId).containsAll(captureConstraints.getSessionRequiredTags()) }.sortedByDescending { it.getValue() }
+                classifierManifests.filter { it.getTagsForDiagnostic(captureConstraints.testProfileId).containsAll(captureConstraints.getSessionRequiredTags()) }
+                        .filter { captureConstraints.getSessionParameterTags().containsAll(it.getInputRequirements()) }
+                        .sortedByDescending { it.getValue() }
         if (matchingComponents.isEmpty()) {
             return null
         }

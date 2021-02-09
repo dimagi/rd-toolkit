@@ -51,8 +51,10 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     private var totalNumberOfCaptureAttempts = 0
 
-    val secondaryCaptureEnabled = Transformations.map(testSession) {
-        it.configuration.wasSecondaryCaptureRequested()
+    val secondaryCaptureCompatible = MutableLiveData<Boolean>(true)
+
+    val secondaryCaptureEnabled = Transformations.map(CombinedLiveData(testSession, secondaryCaptureCompatible)) {
+        it.first.configuration.wasSecondaryCaptureRequested() && it.second
     }
 
     val secondaryImageCapturePath : MutableLiveData<String> = MutableLiveData()

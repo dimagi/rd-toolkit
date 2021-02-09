@@ -23,7 +23,7 @@ val TAG_READINESS_PRODUCTION = "production"
 val TAG_READINESS_AVAILABLE = "available"
 
 val VALUE_DEFAULT = 1
-
+val VALUE_POSITIVE = 2
 val VALUE_PREFERRED = 3
 
 /**
@@ -58,6 +58,10 @@ abstract class Component {
 
     protected open fun getRequiredPermissions() : Array<String> {
         return arrayOf()
+    }
+
+    override fun toString() : String {
+        return this.javaClass.name
     }
 
     protected fun getListener() : ComponentEventListener {

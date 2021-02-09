@@ -48,8 +48,12 @@ data class ScanwellCovidProcessorConfig(var id: String) : Config {
 }
 
 class ScanwellCovidProcessor(private val context : Context, private val config : ScanwellCovidProcessorConfig) : ImageClassifierComponent() {
-    override suspend fun processImage(inputResult: ImageCaptureResult, listener : ProcessingListener) {
+    override suspend fun processImage(inputResult: ImageCaptureResult, listener: ProcessingListener) {
         listener.onClassifierComplete(HashMap())
     }
 
+    override fun compatibleCaptureModes(): List<String> {
+        //TODO: This should really get moved to the manifest
+        return listOf(CAPTURE_TYPE_CARD)
+    }
 }
