@@ -59,7 +59,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     val secondaryImageCapturePath : MutableLiveData<String> = MutableLiveData()
 
-    private val secondaryImageCaptured : MutableLiveData<Boolean> = MutableLiveData(false)
+    val secondaryImageCaptured : MutableLiveData<Boolean> = MutableLiveData(false)
 
     val jobAidPamphlets : LiveData<List<Pamphlet>> = Transformations.map(testProfile) {
         profile -> profile?.let{diagnosticsRepository.getReferencePamphlets("interpret", listOf(profile.id()))}

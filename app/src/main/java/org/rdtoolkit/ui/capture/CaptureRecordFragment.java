@@ -112,5 +112,20 @@ public class CaptureRecordFragment extends Fragment {
                     (ImageView)view.findViewById(R.id.capture_results_test_image), value);
         });
 
+        mViewModel.getSecondaryImageCaptured().observe(getViewLifecycleOwner(), value -> {
+            if (value) {
+                view.findViewById(R.id.capture_results_secondary_frame).setVisibility(View.VISIBLE);
+            } else {
+                view.findViewById(R.id.capture_results_secondary_frame).setVisibility(View.GONE);
+            }
+        });
+
+        mViewModel.getSecondaryImageCapturePath().observe(getViewLifecycleOwner(), value ->{
+            setImageBitmapFromFile(
+                    (ImageView)view.findViewById(R.id.capture_results_secondary_test_image), value);
+        });
+
+
+
     }
 }

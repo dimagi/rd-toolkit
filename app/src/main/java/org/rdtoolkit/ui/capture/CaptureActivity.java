@@ -388,6 +388,7 @@ public class CaptureActivity extends LocaleAwareCompatActivity {
 
     private void secondaryImageCaptured(@NotNull ImageCaptureResult imageResult) {
         captureViewModel.setSecondaryImageCaptured(imageResult.getImages());
+        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.action_capture_secondary_to_record);
     }
 
     public void infoBackPressed(View view) {
