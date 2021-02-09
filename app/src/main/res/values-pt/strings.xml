@@ -88,7 +88,7 @@
     <string name="capture_timer_skip_button">Pular cronômetro e ler o resultado</string>
     <string name="preferences_disclaimer_reset_summary">Redefina quaisquer substituições ou isenções de responsabilidade sobre comportamento seguro</string>
     <string name="preferences_disclaimer_reset_title">Redefinir isenções de responsabilidade</string>
-    <string name="preferences_notifications_timers_title">Configure timer notification</string>
-    <string name="preferences_notifications_timers_summary">Change the notification behaviors (sound, vibration, etc) for when tests are ready</string>
-    <string name="fragment_capture_review_instructions">Are you sure?\n\nAccording to automated review, your choices might need another look. You can use the Job Aid for help interpreting the test result.</string>
+    <string name="preferences_notifications_timers_title">Configurar notificação de cronômetro</string>
+    <string name="preferences_notifications_timers_summary">Altere as definições de notificação (som, vibração, etc) para quando os testes estiverem prontos</string>
+    <string name="fragment_capture_review_instructions">Tem certeza? \ N \ nDe acordo com a revisão automática, suas escolhas podem precisar de mais uma revisão. Você pode usar o Job Aid para obter ajuda na interpretação do resultado do teste.</string>
 </resources>
