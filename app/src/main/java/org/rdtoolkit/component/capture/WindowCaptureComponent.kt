@@ -91,7 +91,7 @@ class CardWindowCaptureManifest : ToolkitComponentManifest<TestImageCaptureCompo
     }
 
     override fun getCompatibleOutputs(diagnosticId: String) : Set<String> {
-        return setOf(CAPTURE_TYPE_CARD)`
+        return setOf(CAPTURE_TYPE_CARD)
     }
 
     override fun getInputRequirements() : Set<String> {
