@@ -29,6 +29,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     private val testState : MutableLiveData<TestReadableState> = MutableLiveData()
 
+    val sessionIsInvalid : MutableLiveData<Boolean> = MutableLiveData(false)
+
     private val testProfile : LiveData<RdtDiagnosticProfile> = Transformations.map(testSession) {
         session -> diagnosticsRepository.getTestProfile(session.testProfileId)
     }
@@ -246,22 +248,26 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     fun loadSession(sessionId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val session = sessionRepository.getTestSession(sessionId)
+            if (!sessionRepository.exists(sessionId)) {
+                sessionIsInvalid.postValue(true)
+            } else {
+                val session = sessionRepository.getTestSession(sessionId)
 
-            testSession.postValue(session)
+                testSession.postValue(session)
 
-            if (session.result == null && session.state == STATUS.RUNNING) {
-                Log.d(TAG, "Creating new placeholder result")
-                session.result = TestSession.TestResult(null, null, HashMap(), HashMap(), HashMap())
-            }
+                if (session.result == null && session.state == STATUS.RUNNING) {
+                    Log.d(TAG, "Creating new placeholder result")
+                    session.result = TestSession.TestResult(null, null, HashMap(), HashMap(), HashMap())
+                }
 
-            testSessionResult.postValue(session.result)
+                testSessionResult.postValue(session.result)
 
-            updateTestState(session.getTestReadableState())
+                updateTestState(session.getTestReadableState())
 
-            classifierMode = session.configuration.classifierMode
-            if (session.state == STATUS.RUNNING) {
-                startTimersForState(session, diagnosticsRepository.getTestProfile(session.testProfileId))
+                classifierMode = session.configuration.classifierMode
+                if (session.state == STATUS.RUNNING) {
+                    startTimersForState(session, diagnosticsRepository.getTestProfile(session.testProfileId))
+                }
             }
         }
     }

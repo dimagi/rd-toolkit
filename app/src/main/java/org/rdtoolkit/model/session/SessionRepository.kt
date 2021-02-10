@@ -6,6 +6,8 @@ import org.rdtoolkit.support.model.session.TestSession
 interface SessionRepository {
     fun write(testSession: TestSession)
 
+    fun exists(sessionId : String) : Boolean
+
     fun getTestSession(sessionId : String) : TestSession
 
     fun loadSessions(): List<TestSession>

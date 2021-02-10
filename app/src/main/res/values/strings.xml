@@ -93,4 +93,5 @@
     <string name="fragment_capture_review_instructions">Are you sure?\n\nAccording to automated review, your choices might need another look. You can use the Job Aid for help interpreting the test result.</string>
     <string name="preferences_network_battery_title">Enable network power limit</string>
     <string name="preferences_network_battery_on_summary">Network will be disabled when battery is low</string>
+    <string name="capture_session_missing_msg">Requested session was not found, it may have expired or been removed</string>
 </resources>

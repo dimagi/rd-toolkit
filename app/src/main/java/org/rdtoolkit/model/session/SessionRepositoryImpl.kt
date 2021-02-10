@@ -18,6 +18,10 @@ class SessionRepositoryImpl(private var testSessionDao : TestSessionDao,
         }
     }
 
+    override fun exists(sessionId : String) : Boolean {
+        return testSessionDao.hasSession(sessionId)
+    }
+
     override fun getTestSession(sessionId : String) : TestSession {
         if(testSessionDao.hasSession(sessionId)) {
             return DataToSessionMapper().map(testSessionDao.loadDataSession(sessionId))
