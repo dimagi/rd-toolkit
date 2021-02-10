@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,6 +16,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -101,6 +103,14 @@ public class CaptureActivity extends LocaleAwareCompatActivity implements Compon
         if(captureViewModel.getTestSession().getValue() == null) {
             captureViewModel.loadSession(sessionId);
         }
+
+        captureViewModel.getSessionIsInvalid().observe(this, value -> {
+            if (value) {
+                Toast.makeText(this, getString(R.string.capture_session_missing_msg), Toast.LENGTH_LONG).show();
+                this.setResult(RESULT_CANCELED);
+                this.finish();
+            }
+        });
 
         captureViewModel.getJobAidAvailable().observe(this, value -> {
             invalidateOptionsMenu();
