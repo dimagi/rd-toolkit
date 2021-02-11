@@ -11,6 +11,11 @@
         android:title="@string/bottom_menu_text_results" />
 
     <item
+        android:id="@+id/capture_secondary"
+        android:icon="@drawable/ic_baseline_new_photo_white_24"
+        android:title="@string/bottom_menu_text_extra" />
+
+    <item
         android:id="@+id/capture_record"
         android:icon="@drawable/ic_baseline_description_24"
         android:title="@string/bottom_menu_text_confirm" />

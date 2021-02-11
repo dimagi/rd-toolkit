@@ -168,7 +168,13 @@ class RdtProvisioningIntentBuilder() : RdtIntentBuilder<RdtProvisioningIntentBui
      * actions for smoothness
      */
     fun setInTestQaMode() : RdtProvisioningIntentBuilder {
-        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_SESSION_TESTING_QA, FLAG_VALUE_SET);
+        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_SESSION_TESTING_QA, FLAG_VALUE_SET)
+        return this
+    }
+
+    fun setSecondaryCaptureRequirements(requirements : String) : RdtProvisioningIntentBuilder {
+        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_SECONDARY_CAPTURE, FLAG_VALUE_SET)
+        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_SECONDARY_PARAMS, requirements)
         return this
     }
 }

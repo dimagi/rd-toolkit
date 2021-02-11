@@ -44,7 +44,7 @@ data class TestSession (
             val outputResultTranslatorId: String?,
             val cloudworksDns: String?,
             val cloudworksContext: String?,
-            val flags: Map<String, String>
+            var flags: Map<String, String>
     )
 
     data class Metrics(

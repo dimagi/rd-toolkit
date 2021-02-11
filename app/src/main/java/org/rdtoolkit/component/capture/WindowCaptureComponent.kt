@@ -4,11 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Rect
 import org.rdtoolkit.component.*
+import org.rdtoolkit.component.capture.WindowCaptureActivity.Companion.EXTRA_CARD_RATIO
 import org.rdtoolkit.component.capture.WindowCaptureActivity.Companion.EXTRA_FILE_ROOT
 import org.rdtoolkit.component.capture.WindowCaptureActivity.Companion.EXTRA_RETICLE_RATIO
 import java.io.File
 
-val COMPONENT_WINDOWED_CAPTURE = "capture_windowed"
+const val COMPONENT_WINDOWED_CAPTURE = "capture_windowed"
+val COMPONENT_WINDOWED_CAPTURE_CARD = "capture_windowed_card"
+
+val REQUIREMENT_TAG_CAPTURE_CARD = "tag_has_capture_card"
 
 class WindowCaptureComponentManifest : ToolkitComponentManifest<TestImageCaptureComponent, WindowCaptureConfig> {
 
@@ -54,7 +58,52 @@ class WindowCaptureComponentManifest : ToolkitComponentManifest<TestImageCapture
     }
 }
 
-data class WindowCaptureConfig(val cassetteAspectRatio : String): Config
+class CardWindowCaptureManifest : ToolkitComponentManifest<TestImageCaptureComponent, WindowCaptureConfig> {
+
+    private val availableCaptureConfigs :  Map<String, WindowCaptureConfig> = mapOf (
+            "sd_standard_q_c19" to WindowCaptureConfig("7:2", "5:3")
+    )
+
+    private val defaultCaptureConfig = WindowCaptureConfig("7:2", "5:3")
+
+    override fun getValue() : Int {
+        return VALUE_POSITIVE
+    }
+
+    override fun getTagsForDiagnostic(diagnosticId: String) : Set<String> {
+        if (diagnosticId in availableCaptureConfigs) {
+            return setOf(COMPONENT_WINDOWED_CAPTURE_CARD, TAG_READINESS_PRODUCTION)
+        } else {
+            return setOf(COMPONENT_WINDOWED_CAPTURE_CARD, TAG_READINESS_AVAILABLE)
+        }
+    }
+
+    override fun getConfigForDiagnostic(diagnosticId: String) : WindowCaptureConfig {
+        if (diagnosticId in availableCaptureConfigs) {
+            return availableCaptureConfigs[diagnosticId]!!
+        } else {
+            return defaultCaptureConfig
+        }
+    }
+
+    override fun getComponent(config: WindowCaptureConfig, sandbox : Sandbox) : TestImageCaptureComponent {
+        return WindowCaptureComponent(config, sandbox)
+    }
+
+    override fun getCompatibleOutputs(diagnosticId: String) : Set<String> {
+        return setOf(CAPTURE_TYPE_CARD)
+    }
+
+    override fun getInputRequirements() : Set<String> {
+        return setOf(REQUIREMENT_TAG_CAPTURE_CARD)
+    }
+}
+
+data class WindowCaptureConfig(val cassetteAspectRatio : String, val cardAspectRatio : String? = null) : Config {
+    override fun toString() : String {
+        return "${this.javaClass.toString()}|$cassetteAspectRatio|$cardAspectRatio"
+    }
+}
 
 
 class WindowCaptureComponent(private val config : WindowCaptureConfig, private val sandbox: Sandbox) :
@@ -66,6 +115,11 @@ class WindowCaptureComponent(private val config : WindowCaptureConfig, private v
     fun triggerCallout(activity: Activity) {
         val calloutIntent = Intent(activity, WindowCaptureActivity::class.java)
         calloutIntent.putExtra(EXTRA_RETICLE_RATIO, config.cassetteAspectRatio)
+
+        if (config.cardAspectRatio != null) {
+            calloutIntent.putExtra(EXTRA_CARD_RATIO, config.cardAspectRatio)
+        }
+
         calloutIntent.putExtra(EXTRA_FILE_ROOT, sandbox.getFileRoot().absolutePath)
 
         activity.startActivityForResult(calloutIntent, componentInterfaceId!!)
@@ -93,5 +147,9 @@ class WindowCaptureComponent(private val config : WindowCaptureConfig, private v
 
     override fun captureImage() {
         triggerCallout(activity!!)
+    }
+
+    override fun toString() : String {
+        return this.javaClass.name + "|" + config.toString()
     }
 }

@@ -6,6 +6,11 @@
         android:title="@string/bottom_menu_text_define" />
 
     <item
+        android:id="@+id/provision_questions"
+        android:icon="@drawable/ic_baseline_question_24"
+        android:title="@string/bottom_menu_text_questions" />
+
+    <item
         android:id="@+id/provision_instructions"
         android:icon="@drawable/ic_baseline_description_24"
         android:title="@string/bottom_menu_text_instructions" />

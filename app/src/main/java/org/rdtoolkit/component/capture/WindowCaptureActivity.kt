@@ -118,11 +118,26 @@ class WindowCaptureActivity : AppCompatActivity() {
     }
 
     private fun setTargetReticleRatio() {
-        this.intent.getStringExtra(EXTRA_RETICLE_RATIO)?.let {
-            if (Regex("^[0-9]+:[0-9]+$").matches(it)) {
-                (capture_window_test_reticle.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = it
+        if (this.intent.getStringExtra(EXTRA_CARD_RATIO) != null) {
+            val cardRatio = this.intent.getStringExtra(EXTRA_CARD_RATIO)!!
+
+            if (Regex("^[0-9]+:[0-9]+$").matches(cardRatio)) {
+                (capture_window_card_reticle.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = cardRatio
+                capture_window_card_reticle.visibility = View.VISIBLE
+                capture_window_test_reticle.visibility = View.GONE
             } else {
-                throw Exception("Invalid requested reticle ratio $it")
+                throw Exception("Invalid requested reticle ratio $cardRatio")
+            }
+
+        } else {
+            this.intent.getStringExtra(EXTRA_RETICLE_RATIO)?.let {
+                if (Regex("^[0-9]+:[0-9]+$").matches(it)) {
+                    (capture_window_test_reticle.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = it
+                    capture_window_card_reticle.visibility = View.GONE
+                    capture_window_test_reticle.visibility = View.VISIBLE
+                } else {
+                    throw Exception("Invalid requested reticle ratio $it")
+                }
             }
         }
     }
@@ -136,9 +151,11 @@ class WindowCaptureActivity : AppCompatActivity() {
     var reticalProportions = Pair(Rational(0,0), Rational(0,0))
 
     fun updateReticleMapping() {
+        val view = if (this.intent.getStringExtra(EXTRA_CARD_RATIO) != null)  capture_window_card_reticle else capture_window_test_reticle
+
         reticalProportions = Pair(
-            Rational(capture_window_test_reticle.width, capture_window_camera_preview.width),
-            Rational( capture_window_test_reticle.height, capture_window_camera_preview.height)
+            Rational(view.width, capture_window_camera_preview.width),
+            Rational( view.height, capture_window_camera_preview.height)
         )
     }
 
@@ -384,6 +401,7 @@ class WindowCaptureActivity : AppCompatActivity() {
 
         //in
         const val EXTRA_RETICLE_RATIO = "windowed_capture_reticle_ratio"
+        const val EXTRA_CARD_RATIO = "windowed_capture_card_ratio"
         const val EXTRA_FILE_ROOT = "windowed_capture_file_root"
 
         //out

@@ -17,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity;
 
 import org.rdtoolkit.R;
+import org.rdtoolkit.component.ComponentRepository;
 import org.rdtoolkit.service.TestTimerService;
 import org.rdtoolkit.support.interop.BundleToConfiguration;
 import org.rdtoolkit.support.model.session.SessionMode;
@@ -36,6 +37,11 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
 
     ProvisionViewModel provisionViewModel;
     PamphletViewModel pamphletViewModel;
+    ComponentRepository componentRepository;
+
+    int postProvisionAction = R.id.action_sessionProvision_to_captureFragment;
+    int postQuestionsAction = R.id.action_sessionQuestion_to_captureFragment;
+    int preInstructionsAction = R.id.action_sessionInstruct_to_sessionProvision;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,8 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
                 new BundleToConfiguration().map(
                         getIntent().getBundleExtra(INTENT_EXTRA_RDT_CONFIG_BUNDLE)));
 
+        componentRepository = InjectorUtils.Companion.provideComponentRepository(this);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -66,6 +74,9 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
 
         MenuItem instructionItem = ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
                 findItem(R.id.provision_instructions);
+
+        MenuItem questionItem = ((BottomNavigationView)this.findViewById(R.id.nav_view)).getMenu().
+                findItem(R.id.provision_questions);
 
         provisionViewModel.getAreInstructionsAvailable().observe(this, value -> {
             instructionItem.setVisible(value);
@@ -105,20 +116,44 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
             }
         });
 
+        provisionViewModel.getCaptureConstraints().observe(this, value -> {
+            provisionViewModel.updateRequiredInputs(componentRepository.getParameterInputs(value));
+        });
+
+        provisionViewModel.getQuestionsOnNavPath().observe(this, value -> {
+            questionItem.setVisible(value);
+        });
+
+        provisionViewModel.getNavPathData().observe(this, v -> {
+            if (v.getSecond()) {
+                postProvisionAction = R.id.action_sessionProvision_to_sessionQuestions;
+                preInstructionsAction = R.id.action_sessionInstruct_to_sessionQuestions;
+                if(v.getFirst()) {
+                    postQuestionsAction = R.id.action_sessionQuestion_to_sessionInstruct;
+                } else {
+                    postQuestionsAction = R.id.action_sessionQuestion_to_captureFragment;
+                }
+            } else {
+                if (v.getFirst()) {
+                    postProvisionAction = R.id.action_sessionProvision_to_sessionInstruct;
+                } else {
+                    postProvisionAction = R.id.action_sessionProvision_to_captureFragment;
+                }
+            }
+        });
+
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
 
-
-
     public void provisionNext(View view) {
-        if (provisionViewModel.getAreInstructionsAvailable().getValue() &&
-                provisionViewModel.getViewInstructions().getValue()) {
-            Navigation.findNavController(view).navigate(R.id.action_sessionProvision_to_sessionInstruct);
-        } else {
-            Navigation.findNavController(view).navigate(R.id.action_sessionProvision_to_captureFragment);
-        }
+        Navigation.findNavController(view).navigate(postProvisionAction);
+    }
+
+    public void onQuestionNext(View view) {
+        Navigation.findNavController(view).navigate(postQuestionsAction);
     }
 
 
@@ -153,7 +188,7 @@ public class ProvisionActivity extends LocaleAwareCompatActivity {
             pamphletViewModel.pageBack();
             return;
         } else {
-            Navigation.findNavController(view).navigate(R.id.action_sessionInstruct_to_sessionProvision);
+            Navigation.findNavController(view).navigate(preInstructionsAction);
         }
     }
 

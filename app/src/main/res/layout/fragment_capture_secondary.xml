@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.capture.CaptureTimerFragment">
+
+    <LinearLayout
+        android:id="@+id/capture_secondary_input_explanation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            style="@style/TextInstructions"
+            android:text="You've been asked to take a second picture of this RDT to collect data for future analysis.\n\nThis won't affect the other picture you have taken or your interpretation of the result"
+            />
+
+        <Button
+            android:id="@+id/capture_secondary_acknowledge"
+            style="@style/Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_baseline_check_white_24"
+            android:onClick="acknowledgeSecondaryRequest"
+            android:text="I understand" />
+
+        <Button
+            android:id="@+id/capture_secondary_view_instructions"
+            style="@style/Button"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="viewSecondaryInstructions"
+            android:text="View Instructions" />
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/capture_secondary_input_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:visibility="gone"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:elevation="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/single_pad"
+                android:textAlignment="center"
+                android:text="Please capture a second image of the test cassette." />
+
+
+            <Button
+                android:id="@+id/capture_secondary_image_btn"
+                style="@style/Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_baseline_camera_white_24"
+                android:drawablePadding="5dp"
+                android:onClick="captureSecondaryImage"
+                android:text="Capture Extra Image" />
+
+        </LinearLayout>
+    </FrameLayout>
+    <LinearLayout
+        android:id="@+id/capture_secondary_results_frame"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="16dp">
+
+        <FrameLayout
+            android:layout_gravity="center"
+            android:paddingBottom="8dp"
+            android:layout_width="@dimen/timer_countdown_size"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/capture_secondary_test_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:minHeight="100dp"
+                android:scaleType="centerInside" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

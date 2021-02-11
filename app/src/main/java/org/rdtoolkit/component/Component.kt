@@ -23,7 +23,7 @@ val TAG_READINESS_PRODUCTION = "production"
 val TAG_READINESS_AVAILABLE = "available"
 
 val VALUE_DEFAULT = 1
-
+val VALUE_POSITIVE = 2
 val VALUE_PREFERRED = 3
 
 /**
@@ -60,6 +60,10 @@ abstract class Component {
         return arrayOf()
     }
 
+    override fun toString() : String {
+        return this.javaClass.name
+    }
+
     protected fun getListener() : ComponentEventListener {
         if (listener == null) {
             throw Exception("Request for listener on deregistered component")
@@ -83,9 +87,9 @@ abstract class Component {
 }
 
 class ComponentManager(private val activity : AppCompatActivity,
-                       private val listener : ComponentEventListener)  : LifecycleObserver {
+                       private val listener : ComponentEventListener,
+                       val activityCodeBaseId : Int = 100)  : LifecycleObserver {
     var managedComponents = ArrayList<Component>()
-    val activityCodeBaseId : Int = 100
 
     fun deregisterComponents() {
         for (component in managedComponents) {
@@ -161,8 +165,22 @@ class NoConfig : Config {
 
 }
 
+/**
+ * Captures a plain image of a test
+ */
 val CAPTURE_TYPE_PLAIN = "plain"
+
+/**
+ * Provides a 'reticle' for centering a test cassette, and a cropped image of the
+ * resulting cassette
+ */
 val CAPTURE_TYPE_RETICLE = "reticle"
+
+/**
+ * Test cassette will be laid across a 'capture card' providing additional cues for
+ * a classifier.
+ */
+val CAPTURE_TYPE_CARD = "card"
 
 open class ImageCaptureResult(private val imagePath : String) {
     open fun getCaptureType() : String {
@@ -205,6 +223,14 @@ interface ToolkitComponentManifest<C : Component, G> {
     fun getComponent(config: G, sandbox : Sandbox) : C
 
     fun getDownstreamTags() : Set<String> {
+        return setOf()
+    }
+
+    /**
+     * Optional requirements for the components availability, like a piece of equipment required
+     * for image capture
+     */
+    fun getInputRequirements() : Set<String> {
         return setOf()
     }
 
@@ -258,7 +284,6 @@ abstract class ImageClassifierComponent : Component() {
     open fun compatibleCaptureModes() : List<String> {
         return listOf(CAPTURE_TYPE_PLAIN)
     }
-
 
     override fun unregister() {
         super.unregister()
