@@ -99,4 +99,5 @@
     <string name="choice_no">No</string>
     <string name="choice_blank"></string>
     <string name="bottom_menu_text_questions">Inputs</string>
+    <string name="capture_session_missing_msg">Requested session was not found, it may have expired or been removed</string>
 </resources>
