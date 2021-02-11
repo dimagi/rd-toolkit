@@ -91,4 +91,20 @@
     <string name="preferences_notifications_timers_title">Configure timer notification</string>
     <string name="preferences_notifications_timers_summary">Change the notification behaviors (sound, vibration, etc) for when tests are ready</string>
     <string name="fragment_capture_review_instructions">Are you sure?\n\nAccording to automated review, your choices might need another look. You can use the Job Aid for help interpreting the test result.</string>
+    <string name="preferences_network_battery_title">Enable network power limit</string>
+    <string name="preferences_network_battery_on_summary">Network will be disabled when battery is low</string>
+    <string name="bottom_menu_text_extra">Extra</string>
+    <string name="capture_secondary_title">Extra Image Capture</string>
+    <string name="choice_yes">Yes</string>
+    <string name="choice_no">No</string>
+    <string name="bottom_menu_text_questions">Inputs</string>
+    <string name="capture_session_missing_msg">Requested session was not found, it may have expired or been removed</string>
+    <string name="capture_secondary_prompt_msg">You\'ve been asked to take a second picture of this RDT to collect data for future analysis.</string>
+    <string name="capture_secondary_btn_view_instructions">View Instructions</string>
+    <string name="capture_secondary_btn_understand">I understand</string>
+    <string name="capture_secondary_prompt_directions">Please capture a second image of the test cassette.</string>
+    <string name="capture_secondary_btn_capture">Capture Extra Image</string>
+    <string name="provision_input_question_capture_card">Do you have a Capture Card to use with this RDT?</string>
+    <string name="capture_summary_status_extra_image">Extra Image</string>
+
 </resources>

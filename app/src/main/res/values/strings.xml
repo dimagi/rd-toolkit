@@ -100,4 +100,11 @@
     <string name="choice_blank"></string>
     <string name="bottom_menu_text_questions">Inputs</string>
     <string name="capture_session_missing_msg">Requested session was not found, it may have expired or been removed</string>
+    <string name="capture_secondary_prompt_msg">You\'ve been asked to take a second picture of this RDT to collect data for future analysis.\n\nThis won\'t affect the other picture you have taken or your interpretation of the result</string>
+    <string name="capture_secondary_btn_understand">I understand</string>
+    <string name="capture_secondary_btn_view_instructions">View Instructions</string>
+    <string name="capture_secondary_prompt_directions">Please capture a second image of the test cassette.</string>
+    <string name="capture_secondary_btn_capture">Capture Extra Image</string>
+    <string name="provision_input_question_capture_card">Do you have a Capture Card to use with this RDT?</string>
+    <string name="capture_summary_status_extra_image">Extra Image</string>
 </resources>

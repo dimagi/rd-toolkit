@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/single_pad"
             style="@style/TextInstructions"
-            android:text="Do you have a Capture Card to use with this RDT?" />
+            android:text="@string/provision_input_question_capture_card" />
 
         <Spinner
             android:id="@+id/provision_question_spinner"

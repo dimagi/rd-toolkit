@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="16dp"
             style="@style/TextInstructions"
-            android:text="You've been asked to take a second picture of this RDT to collect data for future analysis.\n\nThis won't affect the other picture you have taken or your interpretation of the result"
+            android:text="@string/capture_secondary_prompt_msg"
             />
 
         <Button
@@ -30,7 +30,7 @@
             android:drawablePadding="5dp"
             android:drawableLeft="@drawable/ic_baseline_check_white_24"
             android:onClick="acknowledgeSecondaryRequest"
-            android:text="I understand" />
+            android:text="@string/capture_secondary_btn_understand" />
 
         <Button
             android:id="@+id/capture_secondary_view_instructions"
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="viewSecondaryInstructions"
-            android:text="View Instructions" />
+            android:text="@string/capture_secondary_btn_view_instructions" />
 
 
     </LinearLayout>
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/single_pad"
                 android:textAlignment="center"
-                android:text="Please capture a second image of the test cassette." />
+                android:text="@string/capture_secondary_prompt_directions" />
 
 
             <Button
@@ -77,7 +77,7 @@
                 android:drawableLeft="@drawable/ic_baseline_camera_white_24"
                 android:drawablePadding="5dp"
                 android:onClick="captureSecondaryImage"
-                android:text="Capture Extra Image" />
+                android:text="@string/capture_secondary_btn_capture" />
 
         </LinearLayout>
     </FrameLayout>
