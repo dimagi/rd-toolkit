@@ -7,8 +7,13 @@ import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
+import org.json.JSONObject
 import org.rdtoolkit.interop.SessionToJson
+import org.rdtoolkit.interop.TraceToJson
+import org.rdtoolkit.support.model.ListMapperImpl
 import org.rdtoolkit.support.model.session.TestSession
+import org.rdtoolkit.support.model.session.TestSessionTraceEvent
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -31,6 +36,16 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
         val body = json.toString(4).toRequestBody(JSON)
 
         put(getSessionSubmissionEndpoint(), body)
+    }
+
+    fun submitTraceJson(traces : List<TestSessionTraceEvent>) {
+        val envelope = JSONObject()
+        envelope.put("entries", JSONArray(ListMapperImpl(TraceToJson()).map(traces)))
+        val text = envelope.toString(4)
+
+        val body = text.toRequestBody(JSON)
+
+        put(getSessionTraceEndpoint(), body)
     }
 
     fun submitSessionMedia(key: String, file: File) {
@@ -65,6 +80,9 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
 
     private fun getSessionSubmissionEndpoint() : String {
         return "$dns/test_session/$sessionId/"
+    }
+    private fun getSessionTraceEndpoint() : String {
+        return "$dns/test_session/$sessionId/logs/"
     }
 
     private fun getSessionMediaSubmissionEndpoint(key : String) : String {

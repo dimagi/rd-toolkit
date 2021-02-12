@@ -10,6 +10,7 @@ import org.rdtoolkit.model.diagnostics.Pamphlet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
 import org.rdtoolkit.model.session.AppRepository
 import org.rdtoolkit.model.session.SessionRepository
+import org.rdtoolkit.model.session.TraceReporter
 import org.rdtoolkit.support.model.session.*
 import org.rdtoolkit.util.CombinedLiveData
 import java.util.*
@@ -21,6 +22,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                        var diagnosticsRepository: DiagnosticsRepository,
                        var appRepository: AppRepository
 ) : ViewModel() {
+
+    val reporter = TraceReporter(sessionRepository, viewModelScope)
 
     private val testSession : MutableLiveData<TestSession> = MutableLiveData()
     private val testState : MutableLiveData<TestReadableState> = MutableLiveData()
@@ -289,6 +292,10 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                 sessionIsInvalid.postValue(true)
             } else {
                 val session = sessionRepository.getTestSession(sessionId)
+
+                if(session.configuration.cloudworksDns != null) {
+                    reporter.enableTraceRecording(sessionId)
+                }
 
                 testSession.postValue(session)
 

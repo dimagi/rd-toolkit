@@ -92,8 +92,7 @@ class DiatomicProcessor(private val context : Context, private val config : Diat
         decoder.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
         val image = BitmapFactory.decodeFile(reticleResult.rawImagePath, decoder)
-        Log.i(LOG_TAG, "Initializing ${image.height} x ${image.width} reader for test ${config.rdt}");
-
+        Log.i(LOG_TAG, "Initializing ${image.height} x ${image.width} reader for test ${config.rdt}")
 
         RDTReader.init(context, config.rdt, image.height, image.width)
 
@@ -101,7 +100,10 @@ class DiatomicProcessor(private val context : Context, private val config : Diat
         if (result.errorCode == null || result.resultCode == null) {
             throw Exception("Invalid Result Data from Scanner")
         }
-        Log.i(LOG_TAG, String.format("RDTReader::findRdt(): %s(%d) Result %s(%d)", result.errorCode, result.errorCode.code, result.resultCode, result.resultCode.code));
+        val msg = String.format("RDTReader::findRdt(): %s(%d) Result %s(%d)", result.errorCode, result.errorCode.code, result.resultCode, result.resultCode.code)
+        Log.i(LOG_TAG, msg);
+
+        reporter!!.trace(LOG_TAG, msg, result.metadata)
 
         if (result.errorCode == RDTReader.ErrorCode.SUCCESS) {
             listener.onClassifierComplete(config.getResultsMap(result.resultCode))

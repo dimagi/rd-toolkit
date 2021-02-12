@@ -23,7 +23,6 @@ import org.rdtoolkit.support.model.session.TestSession;
 
 import java.util.UUID;
 
-import static org.rdtoolkit.component.capture.WindowCaptureComponentKt.COMPONENT_WINDOWED_CAPTURE;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.ACTION_TEST_CAPTURE;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID;
 

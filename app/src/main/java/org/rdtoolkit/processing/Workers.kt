@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import kotlinx.coroutines.delay
 import org.rdtoolkit.component.Sandbox
 import org.rdtoolkit.support.interop.INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS
 import org.rdtoolkit.support.interop.RdtIntentBuilder
@@ -35,6 +34,34 @@ class SessionSubmissionWorker(val appContext: Context, workerParams: WorkerParam
 
     companion object {
         const val TAG_SESSION = "worker_submission"
+        const val LOG_TAG = "SessionSubmissionWorker"
+    }
+}
+
+class TraceSubmissionWorker(val appContext: Context, workerParams: WorkerParameters):
+        Worker(appContext, workerParams){
+
+    override fun doWork(): Result {
+        val sessionId = inputData.getString(RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID)!!
+        val cloudworksEndpoint = inputData.getString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS)!!
+
+        Log.i(LOG_TAG, "Submitting trace data for $sessionId")
+
+        val traces = InjectorUtils.provideSessionRepository(appContext).loadTraceEvents(sessionId)
+
+        if (traces.isNotEmpty()) {
+            try {
+                CloudworksApi(cloudworksEndpoint, sessionId, this.applicationContext).submitTraceJson(traces)
+            } catch (e: Exception) {
+                return Result.retry()
+            }
+        }
+
+        return Result.success()
+    }
+
+    companion object {
+        const val TAG_TRACES = "worker_traces"
         const val LOG_TAG = "SessionSubmissionWorker"
     }
 }
@@ -74,7 +101,9 @@ class SessionPurgeWorker(appContext: Context, workerParams: WorkerParameters):
         val sessionId = inputData.getString(RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID)!!
         Log.i(LOG_TAG, "Starting session data purge for $sessionId")
 
-        InjectorUtils.provideSessionRepository(applicationContext).clearSession(sessionId)
+        val repo = InjectorUtils.provideSessionRepository(applicationContext)
+        repo.clearSession(sessionId)
+        repo.clearTraceEvents(sessionId)
 
         val root = Sandbox(applicationContext, sessionId).getFileRoot()
         Log.i(LOG_TAG, "Clearing ${root.list().size} files")

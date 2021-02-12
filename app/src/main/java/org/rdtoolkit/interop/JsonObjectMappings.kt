@@ -3,6 +3,7 @@ package org.rdtoolkit.interop
 import org.json.JSONObject
 import org.rdtoolkit.support.model.Mapper
 import org.rdtoolkit.support.model.session.TestSession
+import org.rdtoolkit.support.model.session.TestSessionTraceEvent
 import org.rdtoolkit.util.getIsoUTCTimestamp
 
 
@@ -117,3 +118,22 @@ class SessionToJson(val stripSensitive : Boolean = false) : Mapper<TestSession, 
     }
 }
 
+
+class TraceToJson() : Mapper<TestSessionTraceEvent, JSONObject> {
+    override fun map(input: TestSessionTraceEvent): JSONObject {
+        val root = JSONObject()
+
+        root.put("timestamp", input.timestamp)
+        root.put("tag", input.eventTag)
+        root.put("message", input.eventMessage)
+        input.eventJson?.let {
+            root.put("json", JSONObject(it))
+
+        }
+        input.sandboxObjectId?.let {
+            root.put("media_key", it)
+
+        }
+        return root
+    }
+}

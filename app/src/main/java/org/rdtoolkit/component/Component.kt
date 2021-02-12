@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.os.Environment
+import android.os.Trace
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageCapture
 import androidx.core.app.ActivityCompat
@@ -17,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import org.rdtoolkit.R
 import org.rdtoolkit.model.diagnostics.Pamphlet
+import org.rdtoolkit.model.session.TraceReporter
 import java.io.File
 
 val TAG_READINESS_PRODUCTION = "production"
@@ -36,13 +38,15 @@ abstract class Component {
     private var listener: ComponentEventListener? = null
     protected var scope: CoroutineScope? = null
     var componentInterfaceId : Int? = null
+    var reporter : TraceReporter? = null
 
     open fun register(activity: Activity, listener : ComponentEventListener,
-                 scope : CoroutineScope, componentId: Int) {
+                 scope : CoroutineScope, componentId: Int, reporter : TraceReporter) {
         this.activity = activity
         this.listener = listener
         this.scope = scope
         this.componentInterfaceId = componentId
+        this.reporter = reporter;
 
         if (!hasAllPermissions()) {
             ActivityCompat.requestPermissions(
@@ -88,6 +92,7 @@ abstract class Component {
 
 class ComponentManager(private val activity : AppCompatActivity,
                        private val listener : ComponentEventListener,
+                       private val reporter : TraceReporter,
                        val activityCodeBaseId : Int = 100)  : LifecycleObserver {
     var managedComponents = ArrayList<Component>()
 
@@ -101,7 +106,7 @@ class ComponentManager(private val activity : AppCompatActivity,
     fun registerComponents(vararg components: Component) {
         deregisterComponents()
         for (component in components) {
-            component.register(activity, listener, activity.lifecycleScope, activityCodeBaseId + managedComponents.size)
+            component.register(activity, listener, activity.lifecycleScope, activityCodeBaseId + managedComponents.size, reporter)
             managedComponents.add(component)
         }
     }
@@ -257,8 +262,8 @@ abstract class ImageClassifierComponent : Component() {
 
     protected var unexepctedErrorMsg = "Unexpected Error from Image Processor %s"
 
-    override fun register(activity: Activity, listener: ComponentEventListener, scope: CoroutineScope, componentId: Int) {
-        super.register(activity, listener, scope, componentId)
+    override fun register(activity: Activity, listener: ComponentEventListener, scope: CoroutineScope, componentId: Int, reporter : TraceReporter) {
+        super.register(activity, listener, scope, componentId, reporter)
         unexepctedErrorMsg = activity.getString(R.string.component_classifier_unknown_error)
 
     }

@@ -4,6 +4,7 @@ import org.rdtoolkit.processing.WorkCoordinator
 import org.rdtoolkit.support.model.ListMapperImpl
 import org.rdtoolkit.support.model.session.STATUS
 import org.rdtoolkit.support.model.session.TestSession
+import org.rdtoolkit.support.model.session.TestSessionTraceEvent
 import java.lang.Exception
 
 class SessionRepositoryImpl(private var testSessionDao : TestSessionDao,
@@ -38,4 +39,16 @@ class SessionRepositoryImpl(private var testSessionDao : TestSessionDao,
         return testSessionDao.delete(sessionId) > 0
     }
 
+    override fun recordTraceEvent(event: TestSessionTraceEvent) {
+        testSessionDao.saveTrace(TraceToDataMapper().map(event))
+
+    }
+
+    override fun loadTraceEvents(sessionId : String) : List<TestSessionTraceEvent> {
+        return ListMapperImpl(DataToTraceMapper()).map(testSessionDao.loadSessionTraces(sessionId))
+    }
+
+    override fun clearTraceEvents(sessionId : String) {
+        testSessionDao.clearSessionTraces(sessionId)
+    }
 }
