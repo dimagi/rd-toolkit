@@ -52,6 +52,15 @@ data class TestSession (
     )
 }
 
+data class TestSessionTraceEvent (
+        val sessionId: String,
+        val timestamp : String,
+        val eventTag : String,
+        val eventMessage : String,
+        val eventJson : String? = null,
+        val sandboxObjectId: String? = null
+)
+
 enum class TestReadableState {
     LOADING,
     PREPARING,
