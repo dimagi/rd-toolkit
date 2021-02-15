@@ -57,6 +57,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     private var totalNumberOfCaptureAttempts = 0
 
+    val tempImageKeys = mutableSetOf<String>()
+
     val secondaryCaptureCompatible = MutableLiveData<Boolean>(true)
 
     val secondaryCaptureEnabled = Transformations.map(CombinedLiveData(testSession, secondaryCaptureCompatible)) {
@@ -231,8 +233,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
             val result = testSessionResult.value!!
             result.timeRead = Date()
             result.mainImage = imageData.first
-            result.images.clear()
-            result.images.putAll(imageData.second)
+
+            updateCurrentImages(result, imageData);
 
             result.results.clear()
             result.classifierResults.clear()
@@ -246,6 +248,19 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                 processingStateValue.value = ProcessingState.COMPLETE
             }
         }
+    }
+
+    private fun updateCurrentImages(result: TestSession.TestResult, imageData: Pair<String, MutableMap<String, String>>) {
+        val attempts = this.totalNumberOfCaptureAttempts -1
+        //archive any current images if requested
+        if (tempImageKeys.isNotEmpty() && testSession.value!!.configuration.isComprehensiveImageSubmissionEnabled()) {
+            tempImageKeys.forEach { key -> result.images[key]?.let{image -> result.images["attempt_${attempts}_$key"] = image}}
+        }
+        tempImageKeys.forEach { result.images.remove(it) }
+        tempImageKeys.clear()
+
+        tempImageKeys.addAll(imageData.second.keys)
+        result.images.putAll(imageData.second)
     }
 
 
@@ -293,7 +308,7 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
             } else {
                 val session = sessionRepository.getTestSession(sessionId)
 
-                if(session.configuration.cloudworksDns != null) {
+                if(session.configuration.isTraceEnabled()) {
                     reporter.enableTraceRecording(sessionId)
                 }
 

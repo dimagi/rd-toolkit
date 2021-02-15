@@ -103,7 +103,7 @@ class DiatomicProcessor(private val context : Context, private val config : Diat
         val msg = String.format("RDTReader::findRdt(): %s(%d) Result %s(%d)", result.errorCode, result.errorCode.code, result.resultCode, result.resultCode.code)
         Log.i(LOG_TAG, msg);
 
-        reporter!!.trace(LOG_TAG, msg, result.metadata)
+        reporter!!.trace(LOG_TAG, msg, result.metadata, reticleResult.rawImagePath)
 
         if (result.errorCode == RDTReader.ErrorCode.SUCCESS) {
             listener.onClassifierComplete(config.getResultsMap(result.resultCode))

@@ -1,6 +1,7 @@
 package org.rdtoolkit.processing
 
 import android.content.Context
+import okhttp3.Dispatcher
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -29,6 +30,7 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
     private val client = OkHttpClient.Builder()
             .readTimeout(CONNECTION_READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .writeTimeout(CONNECTION_WRITE_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .dispatcher(Dispatcher().also { it.maxRequestsPerHost = 2 })
             .build()
 
     fun submitSessionJson(session: TestSession) {
@@ -60,8 +62,10 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
 
         val response = client.newCall(sessionBodyRequest).execute()
 
-        if (!(response.code == 201 || response.code == 200 || response.code == 409)) {
-            throw Exception("Invalid server response ${response.code} with body ${response.body?.string()}")
+        response.use { response ->
+            if (!(response.code == 201 || response.code == 200 || response.code == 409)) {
+                throw Exception("Invalid server response ${response.code} with body ${response.body?.string()}")
+            }
         }
     }
 
@@ -73,8 +77,10 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
 
         val response = client.newCall(sessionBodyRequest).execute()
 
-        if (!(response.code == 201 || response.code == 200 || response.code == 409)) {
-            throw Exception("Invalid server response ${response.code} with body ${response.body?.string()}")
+        response.use { response ->
+            if (!(response.code == 201 || response.code == 200 || response.code == 409)) {
+                throw Exception("Invalid server response ${response.code} with body ${response.body?.string()}")
+            }
         }
     }
 

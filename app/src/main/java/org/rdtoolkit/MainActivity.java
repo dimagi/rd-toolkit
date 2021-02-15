@@ -81,6 +81,7 @@ public class MainActivity extends LocaleAwareCompatActivity {
                 //.setClassifierBehavior(ClassifierMode.CHECK_YOUR_WORK)
                 .setInTestQaMode()
                 //.setSecondaryCaptureRequirements("capture_windowed")
+                //.setSubmitAllImagesToCloudworks(true)
                 .build();
 
         this.startActivityForResult(i, ACTIVITY_PROVISION);
