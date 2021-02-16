@@ -24,7 +24,7 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
         val json = SessionToJson(true).map(session)
         val body = json.toString(4).toRequestBody(JSON)
 
-        put(getSessionSubmissionEndpoint(), body)
+        put(getSessionSubmissionEndpoint(), body, true)
     }
 
     fun submitTraceJson(traces : List<TestSessionTraceEvent>) {
@@ -40,7 +40,7 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
     fun submitSessionMedia(key: String, file: File) {
         val body = file.asRequestBody(JPEG)
         val filename = file.name
-        val url = getSessionMediaSubmissionEndpoint(key)
+
         val sessionBodyRequest = Request.Builder()
                 .url(getSessionMediaSubmissionEndpoint(key))
                 .put(body)
@@ -56,13 +56,14 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
         }
     }
 
-    fun put(url : String, body : RequestBody) {
+    fun put(url : String, body : RequestBody, dontQueue : Boolean = false) {
         val sessionBodyRequest = Request.Builder()
                 .url(url)
                 .put(body)
                 .build()
 
-        val response = execute(HttpClient.client.newCall(sessionBodyRequest))
+        val call = HttpClient.client.newCall(sessionBodyRequest)
+        val response = if (dontQueue) call.execute() else execute(call)
 
         response.use { response ->
             if (!(response.code == 201 || response.code == 200 || response.code == 409)) {
