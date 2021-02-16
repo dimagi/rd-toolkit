@@ -9,6 +9,7 @@ import org.rdtoolkit.processing.ImageSubmissionWorker.Companion.DATA_MEDIA_KEY
 import org.rdtoolkit.processing.ImageSubmissionWorker.Companion.TAG_MEDIA
 import org.rdtoolkit.processing.SessionPurgeWorker.Companion.TAG_PURGE
 import org.rdtoolkit.processing.SessionSubmissionWorker.Companion.TAG_SESSION
+import org.rdtoolkit.processing.TraceSubmissionWorker.Companion.TAG_TRACES
 import org.rdtoolkit.support.interop.INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS
 import org.rdtoolkit.support.interop.RdtIntentBuilder.Companion.INTENT_EXTRA_RDT_SESSION_ID
 import org.rdtoolkit.support.model.session.TestSession
@@ -24,6 +25,7 @@ class WorkCoordinator(val context : Context) {
             manager.beginUniqueWork(getUniqueWorkRootTag(session.sessionId),
                         ExistingWorkPolicy.REPLACE,
                         getSessionSubmitRequest(session))
+                    .then(getTraceSubmitter(session))
                     .then(getImageSubmitters(session))
                     .then(getPurgeRequest(session, purgeImmediately))
                     .enqueue()
@@ -51,6 +53,24 @@ class WorkCoordinator(val context : Context) {
                         MIN_BACKOFF_MILLIS,
                         TimeUnit.MILLISECONDS)
                 .build()
+    }
+
+    private fun getTraceSubmitter(session: TestSession) : OneTimeWorkRequest {
+        var sessionData = Data.Builder()
+                .putString(INTENT_EXTRA_RDT_SESSION_ID, session.sessionId)
+                .putString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS, session.configuration.cloudworksDns)
+                .build()
+        return OneTimeWorkRequest.Builder(TraceSubmissionWorker::class.java)
+                .addTag(session.sessionId)
+                .addTag(TAG_TRACES)
+                .setConstraints(getNetworkConstraints())
+                .setInputData(sessionData)
+                .setBackoffCriteria(
+                        BackoffPolicy.EXPONENTIAL,
+                        MIN_BACKOFF_MILLIS,
+                        TimeUnit.MILLISECONDS)
+                .build()
+
     }
 
     private fun getPurgeRequest(session: TestSession, purgeImmediately: Boolean) : OneTimeWorkRequest {

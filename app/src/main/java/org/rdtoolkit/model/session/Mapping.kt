@@ -2,6 +2,7 @@ package org.rdtoolkit.model.session
 
 import org.rdtoolkit.support.model.Mapper
 import org.rdtoolkit.support.model.session.TestSession
+import org.rdtoolkit.support.model.session.TestSessionTraceEvent
 
 class SessionToDataMapper() : Mapper<TestSession, DataTestSession> {
     override fun map(input: TestSession): DataTestSession {
@@ -65,5 +66,19 @@ class DataToMetricsMapper() : Mapper<DbTestSessionMetrics?, TestSession.Metrics>
             return TestSession.Metrics(HashMap())
         }
         return TestSession.Metrics(input.data)
+    }
+}
+
+
+class TraceToDataMapper() : Mapper<TestSessionTraceEvent, DbTestSessionTraceEvent> {
+    override fun map(input: TestSessionTraceEvent): DbTestSessionTraceEvent {
+        return DbTestSessionTraceEvent(0, input.sessionId, input.timestamp, input.eventTag, input.eventMessage, input.eventJson, input.sandboxObjectId)
+
+    }
+}
+
+class DataToTraceMapper() : Mapper<DbTestSessionTraceEvent, TestSessionTraceEvent> {
+    override fun map(input : DbTestSessionTraceEvent): TestSessionTraceEvent {
+        return TestSessionTraceEvent(input.sessionId, input.timestamp, input.eventTag, input.eventMessage, input.eventJson, input.sandboxObjectId)
     }
 }

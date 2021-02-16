@@ -77,10 +77,19 @@ interface TestSessionDao {
 
     @Query("SELECT * FROM DbTestSession ORDER BY timeStarted DESC")
     fun loadSessions(): List<DataTestSession>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveTrace(event: DbTestSessionTraceEvent)
+
+    @Query("SELECT * FROM DbTestSessionTraceEvent WHERE sessionId = :sessionId")
+    fun loadSessionTraces(sessionId : String) : List<DbTestSessionTraceEvent>
+
+    @Query("DELETE FROM DbTestSessionTraceEvent WHERE sessionId = :sessionId")
+    fun clearSessionTraces(sessionId: String): Int
 }
 
 @Database(entities = [DbTestSession::class, DbTestSessionConfiguration::class,
-    DbTestSessionResult::class, DbTestSessionMetrics::class, DbTestSessionTraceEvent::class], version = 2)
+    DbTestSessionResult::class, DbTestSessionMetrics::class, DbTestSessionTraceEvent::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class RdtDatabase : RoomDatabase() {
     abstract fun testSessionDao(): TestSessionDao
@@ -94,7 +103,7 @@ fun getDatabase(context: Context): RdtDatabase {
             INSTANCE = Room.databaseBuilder(context.applicationContext,
                     RdtDatabase::class.java,
                     "rdtdatabase")
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_1_2,MIGRATION_2_3)
                     .build()
         }
     }

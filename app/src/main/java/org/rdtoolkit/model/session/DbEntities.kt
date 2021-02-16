@@ -1,5 +1,6 @@
 package org.rdtoolkit.model.session
 
+import androidx.annotation.NonNull
 import androidx.room.*
 import org.rdtoolkit.support.model.session.*
 import java.util.*
@@ -51,12 +52,17 @@ data class DbTestSessionMetrics (
         val data: MutableMap<String, String>
 )
 
-@Entity
+@Entity(indices = [
+    Index(name = "sessionId_index", value = ["sessionId"])
+])
 /**
  * Discrete, loggable events for forensics and monitoring of test sessions
  */
 data class DbTestSessionTraceEvent (
-        @PrimaryKey val sessionId: String,
+        @PrimaryKey(autoGenerate = true)
+        val id : Int,
+        @NonNull
+        val sessionId: String,
         val timestamp : String,
         val eventTag : String,
         val eventMessage : String,

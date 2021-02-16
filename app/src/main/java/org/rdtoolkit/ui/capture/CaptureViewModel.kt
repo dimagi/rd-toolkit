@@ -10,6 +10,7 @@ import org.rdtoolkit.model.diagnostics.Pamphlet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
 import org.rdtoolkit.model.session.AppRepository
 import org.rdtoolkit.model.session.SessionRepository
+import org.rdtoolkit.model.session.TraceReporter
 import org.rdtoolkit.support.model.session.*
 import org.rdtoolkit.util.CombinedLiveData
 import java.util.*
@@ -21,6 +22,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                        var diagnosticsRepository: DiagnosticsRepository,
                        var appRepository: AppRepository
 ) : ViewModel() {
+
+    val reporter = TraceReporter(sessionRepository, viewModelScope)
 
     private val testSession : MutableLiveData<TestSession> = MutableLiveData()
     private val testState : MutableLiveData<TestReadableState> = MutableLiveData()
@@ -53,6 +56,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
     private var processingErrorValue : MutableLiveData<Pair<String, Pamphlet?>> = MutableLiveData()
 
     private var totalNumberOfCaptureAttempts = 0
+
+    val tempImageKeys = mutableSetOf<String>()
 
     val secondaryCaptureCompatible = MutableLiveData<Boolean>(true)
 
@@ -228,8 +233,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
             val result = testSessionResult.value!!
             result.timeRead = Date()
             result.mainImage = imageData.first
-            result.images.clear()
-            result.images.putAll(imageData.second)
+
+            updateCurrentImages(result, imageData);
 
             result.results.clear()
             result.classifierResults.clear()
@@ -243,6 +248,19 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                 processingStateValue.value = ProcessingState.COMPLETE
             }
         }
+    }
+
+    private fun updateCurrentImages(result: TestSession.TestResult, imageData: Pair<String, MutableMap<String, String>>) {
+        val attempts = this.totalNumberOfCaptureAttempts -1
+        //archive any current images if requested
+        if (tempImageKeys.isNotEmpty() && testSession.value!!.configuration.isComprehensiveImageSubmissionEnabled()) {
+            tempImageKeys.forEach { key -> result.images[key]?.let{image -> result.images["attempt_${attempts}_$key"] = image}}
+        }
+        tempImageKeys.forEach { result.images.remove(it) }
+        tempImageKeys.clear()
+
+        tempImageKeys.addAll(imageData.second.keys)
+        result.images.putAll(imageData.second)
     }
 
 
@@ -289,6 +307,10 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
                 sessionIsInvalid.postValue(true)
             } else {
                 val session = sessionRepository.getTestSession(sessionId)
+
+                if(session.configuration.isTraceEnabled()) {
+                    reporter.enableTraceRecording(sessionId)
+                }
 
                 testSession.postValue(session)
 

@@ -56,19 +56,9 @@ public class CaptureActivity extends LocaleAwareCompatActivity {
     CaptureViewModel captureViewModel;
     PamphletViewModel pamphletViewModel;
 
-    ComponentManager componentManager = new ComponentManager(this, new ComponentEventListener() {
-        @Override
-        public void testImageCaptured(@NotNull ImageCaptureResult imageResult) {
-            CaptureActivity.this.testImageCaptured(imageResult);
-        }
-    }, 100);
+    ComponentManager componentManager;
 
-    ComponentManager secondaryComponentManager = new ComponentManager(this, new ComponentEventListener() {
-        @Override
-        public void testImageCaptured(@NotNull ImageCaptureResult imageResult) {
-            CaptureActivity.this.secondaryImageCaptured(imageResult);
-        }
-    }, 200);
+    ComponentManager secondaryComponentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +78,20 @@ public class CaptureActivity extends LocaleAwareCompatActivity {
                 new ViewModelProvider(this,
                         InjectorUtils.Companion.providePamphletViewModelFactory(this))
                         .get(PamphletViewModel.class);
+
+        componentManager  = new ComponentManager(this, new ComponentEventListener() {
+            @Override
+            public void testImageCaptured(@NotNull ImageCaptureResult imageResult) {
+                CaptureActivity.this.testImageCaptured(imageResult);
+            }
+        }, captureViewModel.getReporter(), 100);
+
+        secondaryComponentManager = new ComponentManager(this, new ComponentEventListener() {
+            @Override
+            public void testImageCaptured(@NotNull ImageCaptureResult imageResult) {
+                CaptureActivity.this.secondaryImageCaptured(imageResult);
+            }
+        }, captureViewModel.getReporter(), 200);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
