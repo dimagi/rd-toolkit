@@ -1,11 +1,8 @@
 package org.rdtoolkit.processing
 
 import android.content.Context
-import okhttp3.Dispatcher
+import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
@@ -16,22 +13,12 @@ import org.rdtoolkit.support.model.ListMapperImpl
 import org.rdtoolkit.support.model.session.TestSession
 import org.rdtoolkit.support.model.session.TestSessionTraceEvent
 import java.io.File
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 
 class CloudworksApi(dns: String, val sessionId : String, val context : Context) {
-    /**
-     * Connection read and write timeouts in seconds
-     */
-    val CONNECTION_READ_TIMEOUT = 120
-    val CONNECTION_WRITE_TIMEOUT = 120
-
     private val dns = dns.removeSuffix("/")
-    private val client = OkHttpClient.Builder()
-            .readTimeout(CONNECTION_READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .writeTimeout(CONNECTION_WRITE_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .dispatcher(Dispatcher().also { it.maxRequestsPerHost = 2 })
-            .build()
 
     fun submitSessionJson(session: TestSession) {
         val json = SessionToJson(true).map(session)
@@ -60,7 +47,7 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
                 .addHeader("Content-Disposition", "attachment; filename=${filename}")
                 .build()
 
-        val response = client.newCall(sessionBodyRequest).execute()
+        val response = execute(HttpClient.client.newCall(sessionBodyRequest))
 
         response.use { response ->
             if (!(response.code == 201 || response.code == 200 || response.code == 409)) {
@@ -75,12 +62,46 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
                 .put(body)
                 .build()
 
-        val response = client.newCall(sessionBodyRequest).execute()
+        val response = execute(HttpClient.client.newCall(sessionBodyRequest))
 
         response.use { response ->
             if (!(response.code == 201 || response.code == 200 || response.code == 409)) {
                 throw Exception("Invalid server response ${response.code} with body ${response.body?.string()}")
             }
+        }
+    }
+
+    /**
+     * Execute HTTP call and synchronously wait for a result.
+     *
+     * Used instead of the execute() method to respect limitations from the dispatcher
+     *
+     */
+    private fun execute(call : Call): Response {
+        var callExcept : Exception? = null
+        var callResponse : Response ? = null
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                callExcept = e
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                callResponse = response;
+            }
+
+        })
+        try {
+            while (true) {
+                callResponse?.let { return it }
+                callExcept?.let { throw it }
+
+                //Since this is called from a worker, there's an implicit timeout for the worker's
+                //runtime. If the worker gets stale the thread will get interrupted.
+                Thread.sleep(100)
+            }
+        } catch(e : Exception) {
+            call.cancel()
+            throw e
         }
     }
 
@@ -99,4 +120,18 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
         val JSON = "application/json; charset=utf-8".toMediaType()
         val JPEG = "image/jpeg".toMediaType()
     }
+}
+
+object HttpClient {
+    /**
+     * Connection read and write timeouts in seconds
+     */
+    val CONNECTION_READ_TIMEOUT = 120
+    val CONNECTION_WRITE_TIMEOUT = 120
+
+    val client =  OkHttpClient.Builder()
+            .readTimeout(CONNECTION_READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .writeTimeout(CONNECTION_WRITE_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .dispatcher(Dispatcher().also { it.maxRequestsPerHost = 2 })
+            .build()
 }

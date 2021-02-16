@@ -163,6 +163,16 @@ class RdtProvisioningIntentBuilder() : RdtIntentBuilder<RdtProvisioningIntentBui
         return this
     }
 
+    fun setSubmitAllImagesToCloudworks(captureAll : Boolean) : RdtProvisioningIntentBuilder {
+        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_SESSION_CLOUDWORKS_FULL_IMAGE_SUBMISSION, if (captureAll) FLAG_VALUE_SET else FLAG_VALUE_UNSET)
+        return this
+    }
+
+    fun setCloudworksTraceEnabled(traceEnabled : Boolean) : RdtProvisioningIntentBuilder {
+        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_SESSION_CLOUDWORKS_CAPTURE_TRACE, if (traceEnabled) FLAG_VALUE_SET else FLAG_VALUE_UNSET)
+        return this
+    }
+
     /**
      * Configure the test session in a testing / qa mode which will allow for overriding certain
      * actions for smoothness
