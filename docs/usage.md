@@ -1,8 +1,9 @@
 # Utilizing the Toolkit in your application
 
 The most common way to utilize the Rapid Diagnostics Toolkit is through the Android intent
-layer. Your app can make requests to the toolkit to start tests and timers and to request the
-result once available.
+layer. Applications are installed side-by-side along with the Toolkit, and use the packaged
+support library to assist the creation of Intents for interoperability. Your app can make 
+requests to the toolkit to start tests and timers and to request the result once available.
 
 Since tests take a significant amount of time to resolve, the default execution mode is a **two
 phase** interaction. The first phase is an activity callout to **provision** a diagnostic test,
