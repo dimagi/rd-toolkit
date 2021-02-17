@@ -39,18 +39,6 @@ builder.setFlavorOne("Tedros Adhanom")
        .setFlavorTwo("PERSON_ID_FIELD")
 ```
 
-### Configuring the Display
-
-To help users differentiate between running tests and to report accurate data for multiple simultaneous tests, the session can be provided with two "Flavor Text" lines which will be displayed in the UI.
-
-These fields are NOT submitted to any external servers along with test data. 
-
-```
-builder.setFlavorOne("Tedros Adhanom")
-       .setFlavorTwo("PERSON_ID_FIELD")
-```
-
-
 ### Application Interoperability
 
 The toolkit is designed to be called upon by a second Android app requesting a test capture.
