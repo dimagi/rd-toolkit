@@ -24,6 +24,8 @@ example is explained below.
 
 ```
 
+Details about different options for configuration can [be found here](https://github.com/dimagi/rd-toolkit/blob/master/docs/configuration.md)
+
 You can retrieve the resulting test session from the return value of the intent. If you did not
 set an explicit session ID when provisioning, you should retrieve the session ID for
 
