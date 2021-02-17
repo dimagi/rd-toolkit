@@ -6,7 +6,9 @@ The Diagnostics Toolkit is designed to produce two forms of data.
 
 The latter data is produced and delivered through a set of HTTPS CloudWorks API's submitted after test session completion.
 
-This data is submitted to a server configured **per test session** based on the provisioning request. It is never submitted to a "global" server, analytics are only produced on-demand.
+This data is submitted to a server configured **per test session** based on the provisioning request. It is never submitted to a global server, analytics are only produced on-demand as per an individual session's request.
+
+Other aspects of CloudWorks configuration can [be configured during session provisioning](configuration.md#cloudworks-settings)
 
 ## Configuring CloudWorks Submissions
 
