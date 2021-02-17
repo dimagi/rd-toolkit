@@ -48,6 +48,7 @@ import kotlin.NotImplementedError;
 import static org.rdtoolkit.interop.InterfacesKt.captureReturnIntent;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RESPONSE_TRANSLATOR;
+import static org.rdtoolkit.support.model.session.MetricsKt.setDeviceMetadata;
 import static org.rdtoolkit.support.model.session.SessionFlagsKt.getSecondaryCaptureParams;
 import static org.rdtoolkit.support.model.session.SessionFlagsKt.wasSecondaryCaptureRequested;
 
@@ -212,6 +213,8 @@ public class CaptureActivity extends LocaleAwareCompatActivity {
                             value.getConfiguration().getFlavorText(),
                             value.getConfiguration().getFlavorTextTwo())
             );
+
+            setDeviceMetadata(value.getMetrics(), this);
         });
 
         captureViewModel.getTestProfile().observe(this, value -> {
@@ -219,7 +222,6 @@ public class CaptureActivity extends LocaleAwareCompatActivity {
                 ((TextView)this.findViewById(R.id.tile_test_line)).setText(
                         String.format(getString(R.string.tile_txt_test_line),
                                 value.readableName()));
-
             }
         });
 
