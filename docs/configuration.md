@@ -45,8 +45,10 @@ The toolkit is designed to be called upon by a second Android app requesting a t
 
 In addition to directly requesting a session result through a Capture intent, the app can provide its context through one of the following.
 
-`builder.setCallingPackage()`
-`builder.setReturnApplication()`
+```
+builder.setCallingPackage()
+builder.setReturnApplication()
+```
 
 If provided, the Toolkit will direct users back to the calling applicaiton when notifications are clicked by users about tests requested by that app.
 
