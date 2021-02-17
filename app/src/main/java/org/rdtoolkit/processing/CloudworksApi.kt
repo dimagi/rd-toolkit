@@ -1,6 +1,5 @@
 package org.rdtoolkit.processing
 
-import android.content.Context
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -17,8 +16,8 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 
-class CloudworksApi(dns: String, val sessionId : String, val context : Context) {
-    private val dns = dns.removeSuffix("/")
+class CloudworksApi(dsn: String, val sessionId : String, val isCancelledCallback : () -> Boolean = {false}) {
+    private val dsn = dsn.removeSuffix("/")
 
     fun submitSessionJson(session: TestSession) {
         val json = SessionToJson(true).map(session)
@@ -92,14 +91,13 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
 
         })
         try {
-            while (true) {
+            while (!isCancelledCallback()) {
                 callResponse?.let { return it }
                 callExcept?.let { throw it }
 
-                //Since this is called from a worker, there's an implicit timeout for the worker's
-                //runtime. If the worker gets stale the thread will get interrupted.
                 Thread.sleep(100)
             }
+            throw Exception("Submission cancelled before completed")
         } catch(e : Exception) {
             call.cancel()
             throw e
@@ -107,14 +105,14 @@ class CloudworksApi(dns: String, val sessionId : String, val context : Context) 
     }
 
     private fun getSessionSubmissionEndpoint() : String {
-        return "$dns/test_session/$sessionId/"
+        return "$dsn/test_session/$sessionId/"
     }
     private fun getSessionTraceEndpoint() : String {
-        return "$dns/test_session/$sessionId/logs/"
+        return "$dsn/test_session/$sessionId/logs/"
     }
 
     private fun getSessionMediaSubmissionEndpoint(key : String) : String {
-        return "$dns/test_session/$sessionId/media/$key/"
+        return "$dsn/test_session/$sessionId/media/$key/"
     }
 
     companion object {

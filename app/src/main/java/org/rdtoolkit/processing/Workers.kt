@@ -2,6 +2,7 @@ package org.rdtoolkit.processing
 
 import android.content.Context
 import android.util.Log
+import androidx.work.ListenableWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import org.rdtoolkit.component.Sandbox
@@ -24,7 +25,7 @@ class SessionSubmissionWorker(val appContext: Context, workerParams: WorkerParam
 
 
         try {
-            CloudworksApi(cloudworksEndpoint, sessionId, this.applicationContext).submitSessionJson(session)
+            CloudworksApi(cloudworksEndpoint, sessionId).submitSessionJson(session)
         } catch(e : Exception) {
             return Result.retry()
         }
@@ -51,7 +52,7 @@ class TraceSubmissionWorker(val appContext: Context, workerParams: WorkerParamet
 
         if (traces.isNotEmpty()) {
             try {
-                CloudworksApi(cloudworksEndpoint, sessionId, this.applicationContext).submitTraceJson(traces)
+                CloudworksApi(cloudworksEndpoint, sessionId).submitTraceJson(traces)
             } catch (e: Exception) {
                 return Result.retry()
             }
@@ -77,7 +78,7 @@ class ImageSubmissionWorker(appContext: Context, workerParams: WorkerParameters)
         Log.i(LOG_TAG, "Submitting image $key for $sessionId")
 
         try {
-            CloudworksApi(cloudworksEndpoint, sessionId, this.applicationContext).submitSessionMedia(key, file)
+            CloudworksApi(cloudworksEndpoint, sessionId).submitSessionMedia(key, file)
         } catch(e : Exception) {
             e.printStackTrace()
             return Result.retry()
@@ -116,4 +117,12 @@ class SessionPurgeWorker(appContext: Context, workerParams: WorkerParameters):
         const val TAG_PURGE = "worker_purge"
         const val LOG_TAG = "SessionPurgeWorker"
     }
+}
+
+fun ListenableWorker.cloudworks() : CloudworksApi {
+    val sessionId = this.inputData.getString(RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID)!!
+    val cloudworksEndpoint = this.inputData.getString(INTENT_EXTRA_RDT_CONFIG_CLOUDWORKS_DNS)!!
+
+    return CloudworksApi(sessionId, cloudworksEndpoint, this::isStopped)
+
 }

@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit
 class WorkCoordinator(val context : Context) {
     val manager = WorkManager.getInstance(context)
     fun processTestSession(session : TestSession, purgeImmediately : Boolean = false) {
-
         if (session.configuration.cloudworksDns != null) {
             manager.beginUniqueWork(getUniqueWorkRootTag(session.sessionId),
                         ExistingWorkPolicy.REPLACE,
