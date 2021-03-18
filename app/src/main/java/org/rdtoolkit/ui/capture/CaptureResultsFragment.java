@@ -18,6 +18,8 @@ import org.rdtoolkit.R;
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
 import org.rdtoolkit.model.diagnostics.ResultProfile;
 
+import static org.rdtoolkit.support.model.session.SessionFlagsKt.FLAG_CAPTURE_ALLOW_INDETERMINATE;
+import static org.rdtoolkit.support.model.session.SessionFlagsKt.isFlagSet;
 import static org.rdtoolkit.util.MediaUtilKt.setImageBitmapFromFile;
 
 public class CaptureResultsFragment extends Fragment {
@@ -66,7 +68,7 @@ public class CaptureResultsFragment extends Fragment {
 
         mViewModel.getTestProfile().observe(getViewLifecycleOwner(), value -> {
             // specify an adapter (see also next example)
-            entryAdapter = new ResultEntryAdapter(value.resultProfiles().toArray(new ResultProfile[0]), mViewModel);
+            entryAdapter = new ResultEntryAdapter(value.resultProfiles().toArray(new ResultProfile[0]), mViewModel, isFlagSet(mViewModel.getTestSession().getValue().getConfiguration(), FLAG_CAPTURE_ALLOW_INDETERMINATE, false));
             resultEntryRecyclerView.setAdapter(entryAdapter);
         });
 
@@ -75,4 +77,5 @@ public class CaptureResultsFragment extends Fragment {
                     (ImageView)view.findViewById(R.id.capture_results_test_image), value);
         });
     }
+
 }

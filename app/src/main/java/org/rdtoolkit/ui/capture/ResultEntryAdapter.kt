@@ -10,13 +10,17 @@ import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_capture_secondary.view.*
 import org.rdtoolkit.R
-import org.rdtoolkit.model.diagnostics.ResultProfile
+import org.rdtoolkit.model.diagnostics.*
 
-class ResultEntryAdapter(private val resultProfiles: Array<ResultProfile>,
-private val viewModel: CaptureViewModel
+class ResultEntryAdapter(resultProfilesInput: Array<ResultProfile>,
+private val viewModel: CaptureViewModel, private val allowIndeterminate : Boolean
 ) :
 RecyclerView.Adapter<ResultEntryAdapter.MyViewHolder>() {
+
+    private val resultProfiles : List<ResultProfile>
+    private val inControlMode : Boolean
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -56,25 +60,86 @@ RecyclerView.Adapter<ResultEntryAdapter.MyViewHolder>() {
             button.tag = outcome.id()
             resultRadioGroup.addView(button)
 
-            button.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
-                override fun onCheckedChanged(button: CompoundButton?, checked: Boolean) {
-                    if (checked) {
-                        val group: RadioGroup = button!!.parent as RadioGroup
-                        val outcomeId = group.tag as String
-                        val diagnosisId = button!!.tag as String
+            if (outcome.id() ==  RESULT_INDETERMINATE && !allowIndeterminate) {
+                button.visibility = View.GONE
+            }
 
-                        viewModel.setResultValue(outcomeId, diagnosisId)
+            if(inControlMode && profile.id() != UNIVERSAL_CONTROL_FAILURE) {
+                button.isEnabled = false
+                viewModel.getUserEnteredControlStatus().observe(context as LifecycleOwner, Observer { value ->
+                    button.isEnabled = value == CONTROL_VALID
+                })
+
+                //In aggregated control mode, hide the individual buttons
+                if(outcome.id() == UNIVERSAL_CONTROL_FAILURE) {
+                    button.visibility = View.GONE
+                }
+            }
+
+            if(profile.id() == UNIVERSAL_CONTROL_FAILURE) {
+                button.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
+                    override fun onCheckedChanged(button: CompoundButton?, checked: Boolean) {
+                        if (checked) {
+                            val status = button!!.tag as String
+                            viewModel.setUserEnteredControlStatus(status)
+                        }
                     }
-                }
-            })
-            viewModel.getTestSessionResult().observe(context as LifecycleOwner, Observer { value ->
-                if (outcome.id() == value.results.get(profile.id())) {
-                    button.isChecked = true
-                }
-            })
+                })
+
+                viewModel.getUserEnteredControlStatus().observe(context as LifecycleOwner, Observer { value ->
+                    if (outcome.id() == value) {
+                        button.isChecked = true
+                    }
+                })
+
+            } else {
+                button.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener {
+                    override fun onCheckedChanged(button: CompoundButton?, checked: Boolean) {
+                        if (checked) {
+                            val group: RadioGroup = button!!.parent as RadioGroup
+                            val outcomeId = group.tag as String
+                            val diagnosisId = button!!.tag as String
+
+                            viewModel.setResultValue(outcomeId, diagnosisId)
+                        }
+                    }
+                })
+                viewModel.getTestSessionResult().observe(context as LifecycleOwner, Observer { value ->
+                    if (outcome.id() == value.results.get(profile.id())) {
+                        button.isChecked = true
+                    }
+                })
+            }
         }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = resultProfiles.size
+
+    init {
+        if (resultProfilesInput.fold(false){s, p -> s || p.outcomes().fold(s){s2, o -> s2 || o.id() == UNIVERSAL_CONTROL_FAILURE} }) {
+            inControlMode = true
+            resultProfiles = listOf(ControlFailureProfile()) + resultProfilesInput
+        } else {
+            inControlMode = false
+            resultProfiles = resultProfilesInput.toList()
+        }
+
+    }
+}
+
+class ControlFailureProfile : ResultProfile {
+    override fun id(): String {
+        return UNIVERSAL_CONTROL_FAILURE;
+    }
+
+    override fun readableName(): String {
+        return "Control Line"
+    }
+
+    override fun outcomes(): Collection<DiagnosticOutcome> {
+        return listOf(ConcreteDiagnosticOutcome(UNIVERSAL_CONTROL_FAILURE, "Not present - Invalid test"),
+                ConcreteDiagnosticOutcome(CONTROL_VALID, "Present")
+        )
+    }
 }

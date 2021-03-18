@@ -17,19 +17,23 @@ val DIAG_PV = "mal_pv"
 
 val DIAG_C19 = "sars_cov2"
 
+val RESULT_INDETERMINATE = "indeterminate_result"
+
 val UNIVERSAL_CONTROL_FAILURE = "universal_control_failure"
+val CONTROL_VALID = "control_outcome_valid"
 
 fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> {
     var pf_pos = cdo(DIAG_PF_POS, "Pf Positive")
     var pf_neg = cdo(DIAG_PF_NEG, "Pf Negative")
 
-    var control_failure = cdo(UNIVERSAL_CONTROL_FAILURE, "Invalid: Control Failed")
+    var control_failure = cdo(UNIVERSAL_CONTROL_FAILURE, "Invalid Test")
+    var result_indeterminate = cdo(RESULT_INDETERMINATE, "Indeterminate")
 
     var pv_pos = cdo(DIAG_PV_POS, "Pv Positive")
     var pv_neg = cdo(DIAG_PV_NEG, "Pv Negative")
 
-    var pf_result = crp(DIAG_PF, "Malaria: P. falciparum", listOf(pf_pos, pf_neg, control_failure))
-    var pv_result = crp(DIAG_PV, "Malaria: P. vivax", listOf(pv_pos, pv_neg, control_failure))
+    var pf_result = crp(DIAG_PF, "Malaria: P. falciparum", listOf(pf_pos, pf_neg, result_indeterminate, control_failure))
+    var pv_result = crp(DIAG_PV, "Malaria: P. vivax", listOf(pv_pos, pv_neg, result_indeterminate, control_failure))
 
     var s_cov_2_pos = cdo(DIAG_C19_POS, "COVID-19 Positive")
     var s_cov_2_neg = cdo(DIAG_C19_NEG, "COVID-19 Negative")
