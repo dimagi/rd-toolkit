@@ -258,7 +258,7 @@ class WindowCaptureActivity : AppCompatActivity() {
 
     @SuppressLint("UnsafeExperimentalUsageError")
     private fun getAspectRatio(camera: Camera): Rational {
-        val cameraId = Camera2CameraInfo.fromCameraInfo(camera.cameraInfo).cameraId
+        val cameraId = Camera2CameraInfo.from(camera.cameraInfo).cameraId
         val cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
         val characteristics = cameraManager.getCameraCharacteristics(cameraId)
         val streamConfigurationMap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
@@ -418,22 +418,20 @@ class WindowCaptureActivity : AppCompatActivity() {
 @SuppressLint("UnsafeExperimentalUsageError")
 class CurrentCameraFilter : CameraFilter {
 
-    var currentCameraSet : LinkedHashSet<Camera>? = null
+    var currentCameraSet : MutableList<CameraInfo>? = null
 
-    override fun filter(cameras: LinkedHashSet<Camera>): LinkedHashSet<Camera> {
+    override fun filter(cameras: MutableList<CameraInfo>): MutableList<CameraInfo> {
         if (currentCameraSet == null) {
-            currentCameraSet = cameras
+            currentCameraSet = LinkedList(cameras)
             return cameras
         } else {
-            return currentCameraSet!!
+            return mutableListOf(currentCameraSet!!.first())
         }
     }
 
     fun rotate() {
         if (currentCameraSet != null) {
-            var resultingList = currentCameraSet!!.toList()
-            Collections.rotate(resultingList,1)
-            currentCameraSet = LinkedHashSet(resultingList)
+            Collections.rotate(currentCameraSet,1)
         }
     }
 
