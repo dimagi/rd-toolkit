@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import org.rdtoolkit.model.diagnostics.DiagnosticsRepository
 import org.rdtoolkit.model.diagnostics.Pamphlet
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile
+import org.rdtoolkit.model.diagnostics.UNIVERSAL_CONTROL_FAILURE
 import org.rdtoolkit.model.session.AppRepository
 import org.rdtoolkit.model.session.SessionRepository
 import org.rdtoolkit.model.session.TraceReporter
@@ -41,6 +42,8 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     private val inCommitMode : MutableLiveData<Boolean> = MutableLiveData(false)
     val sessionCommit = CombinedLiveData<Boolean, TestSession>(inCommitMode, testSession)
+
+    private val userEnteredControlStatus : MutableLiveData<String> = MutableLiveData()
 
     private val overrideExpirationValue : MutableLiveData<Boolean> = MutableLiveData()
 
@@ -211,6 +214,31 @@ class CaptureViewModel(var sessionRepository: SessionRepository,
 
     fun getInCommitMode() : LiveData<Boolean> {
         return inCommitMode
+    }
+
+    fun getUserEnteredControlStatus() : LiveData<String> {
+        return userEnteredControlStatus
+    }
+
+    fun setUserEnteredControlStatus(value: String) {
+        if(value != userEnteredControlStatus.value) {
+            val result = testSessionResult.value!!
+            userEnteredControlStatus.value = value
+            if (value == UNIVERSAL_CONTROL_FAILURE) {
+                val results = result.results
+
+                for (profile in testProfile.value!!.resultProfiles()) {
+                    if (profile.outcomes().fold(false) { c, o -> c || o.id() == UNIVERSAL_CONTROL_FAILURE }) {
+                        results[profile.id()] = UNIVERSAL_CONTROL_FAILURE
+                    }
+                }
+                testSessionResult.value = result
+            }
+            else {
+                result.results.clear()
+                testSessionResult.value = result
+            }
+        }
     }
 
     fun setResultValue(key: String, value: String) {

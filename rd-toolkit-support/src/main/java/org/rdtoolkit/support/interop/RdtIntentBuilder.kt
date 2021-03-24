@@ -174,6 +174,14 @@ class RdtProvisioningIntentBuilder() : RdtIntentBuilder<RdtProvisioningIntentBui
     }
 
     /**
+     * Control whether users can provide an 'indeterminate' result interpretation for tests
+     */
+    fun setIndeterminateResultsAllowed(allowed : Boolean) : RdtProvisioningIntentBuilder {
+        configBundle.getBundle(INTENT_EXTRA_RDT_CONFIG_FLAGS)!!.putString(FLAG_CAPTURE_ALLOW_INDETERMINATE, if (allowed) FLAG_VALUE_SET else FLAG_VALUE_UNSET)
+        return this
+    }
+
+    /**
      * Configure the test session in a testing / qa mode which will allow for overriding certain
      * actions for smoothness
      */
