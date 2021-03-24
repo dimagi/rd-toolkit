@@ -104,7 +104,7 @@ dependencies {
 
     def nav_version = "2.3.1"
     def lifecycle_version = "2.2.0"
-    def camerax_version = "1.0.0-beta11"
+    def camerax_version = "1.0.0-rc03"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
