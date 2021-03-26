@@ -1,0 +1,73 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "NEGATIVE:\nNo malaria P.f/P.v antigen\n\nOne line “C” in the result window",
+        "page_2": "POSITIVE:\nTwo colored bands (test line \"P.f\" and control line \"C\")\n\nCaution : It is positive even if “P.f” line is faint.",
+        "page_3": "P.v Positive:\nTwo colored bands (test line \"P.v\" and control line \"C\")\n\nCaution : It is positive even if “P.v” line is faint.",
+        "page_4": "Mixed infection of P.f and P.v:\nThree colored bands (test lines \"P.f\", \"P.v\" and control line \"C\")\n\nCaution : It is positive even if “P.f” and/or “P.v” line(s) are faint",
+        "page_5": "INVALID\nIf the Control Line \"C\" is not visible within the result window after performing the test, the result is considered invalid. Instructions may not have been followed correctly or the test may have deteriorated beyond the expiration date. It is recommended that the specimen be retested using a new test device."
+      }
+    }
+   ,{
+      "lang":  "fr",
+      "strings":
+      {
+        "page_1": "NÉGATIF:\nPas d’antigène P.f/P.v de la malaria\n\nUne ligne « C » dans la fenêtre de résultats",
+        "page_2": "POSITIF:\nDeux bandes de couleurs (ligne de test « P.f » et ligne de contrôle « C »)\n\nMise en garde : Le test est positif même si la ligne « P.f » est pâle.",
+        "page_3": "Positif à P.v:\nDeux bandes de couleurs (ligne de test « P.v » et ligne de contrôle « C »)\n\nMise en garde : Le test est positif même si la ligne « P.v » est pâle.",
+        "page_4": "Infection croisée à P.f et P.v:\nTrois bandes de couleurs (lignes de test « P.f » et « P.v » et ligne de contrôle « C »)\n\nMise en garde : Le test est positif même si les lignes « P.f » et/ou « P.v » sont pâles.",
+        "page_5": "NON VALIDE:\nSi la ligne de contrôle « C » n'est pas visible dans la fenêtre de résultat après avoir réalisé le test, le résultat est considéré comme non valide. Il se peut que les instructions n'aient pas été suivies correctement ou que le test se soit détérioré au-delà de la date de péremption. Il est conseillé d'analyser à nouveau l'échantillon à l'aide d'un nouveau dispositif de test."
+      }
+    }
+  ,{
+    "lang":  "es",
+    "strings":
+    {
+      "page_1": "NEGATIVO:\nNingún antígeno de malaria P.f/P.v\nUna línea “C” en la ventana de resultados.",
+      "page_2": "POSTIVO:\nDos bandas de color (línea de prueba “P.f” y línea de control “C”)\n\nPrecaución : Es positivo incluso si la línea “P.f” es débil.",
+      "page_3": "P.v Positivo:\nDos bandas de color (línea de prueba “P.v” y línea de control “C”)\n\nPrecaución : Es positivo incluso si la línea “P.v” es débil.",
+      "page_4": "Infección mixta de P.f y P.v:\nTres bandas de color (líneas de prueba “P.f”, “P.v” y control “C”)\n\nPrecaución : Es positivo incluso si las líneas “P.f” y/o “P.v” son débiles.",
+      "page_5": "INVÁLIDO:\nSi la línea de control \"C\" no es visible en la ventana de resultados después de realizar la prueba, el resultado se considera no válido. Es posible que no se hayan seguido las instrucciones correctamente o que la prueba se haya deteriorado por haber superado la fecha de caducidad. Se recomienda volver a analizar la muestra usando un nuevo dispositivo de prueba."
+    }
+  }
+  ,{
+    "lang":  "pt",
+    "strings":
+    {
+      "page_1": "NEGATIVO:\nSem antigénio da Malária P.f/P.v\nUma linha “C” na janela de resultados",
+      "page_2": "POSTIVO:\nDuas bandas coloridas (linha teste “P.f” e linha controle \"C\")\n\nAtenção : É positivo mesmo se a linha “P.f” for ténue.",
+      "page_3": "P.v Positivo:\nDuas bandas coloridas (linha teste “P.v” e linha controle \"C\")\n\nAtenção : É positivo mesmo se a linha “P.v” for ténue.",
+      "page_4": "Infecção mista de P.f e P.v:\nTrês bandas coloridas (linhas teste “P.f” e “P.v” e linha controle \"C\")\n\nAtenção : É positivo mesmo se as linhas “P.f” e/ou “P.v” forem ténues.",
+      "page_5": "INVÁLIDO:\nSe a linha de controlo \"C\" não estiver visível dentro da janela do resultados após a realização do teste, o resultado é considerado inválido. As instruções podem não ter sido seguidas corretamente ou o teste pode ter-se deteriorado para além da data de validade. Recomenda-se que a amostra seja novamente testada utilizando um novo dispositivo de teste."
+    }
+  }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "negative.png"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "pf_pos.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "pv_pos.png"
+      }
+    ,{
+        "textKey": "page_4",
+        "image": "pf_pv_pos.png"
+      }
+    ,{
+        "textKey": "page_5",
+        "image": "invalid.png"
+      }
+    ]
+  }
+}
