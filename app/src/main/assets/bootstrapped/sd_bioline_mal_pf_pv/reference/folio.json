@@ -1,0 +1,96 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "Open the package and look for the following\n1. Test device with desiccant in individual foil pouch\n2. Assay diluent\n3. Disposable specimen applicator (5 μl) - Capillary pipette\n4. Sterile lancet\n5. Alcohol swab\n6. Instructions for use",
+        "page_2": "First, carefully read the instructions for using the Bioline™ Malaria Ag P.f/P.v test kit.\n\nNext, look at the expiration date on the back of the foil pouch. If the expiration date has passed, use another lot. To avoid false results, ensure that the assay diluent\nused is from the same kit as the new test device.",
+        "page_3": "Open the foil pouch and look for the following:\n1. Result window\n2. Specimen well\n3. Assay diluent well\nThen, label the device with the patient identifier.",
+        "page_4": "Clean the area to be lanced with an alcohol swab.",
+        "page_5": "Prick the lateral side of the finger with the sterile lancet provided. Then, safely dispose of the lancet immediately after.",
+        "page_6": "Using a 5 µl capillary pipette provided, draw blood to black line.",
+        "page_7": "Dispense 5 μl of drawn blood into round specimen well.",
+        "page_8": "Hold assay diluent bottle vertically and dispense 4 drops of assay diluent into the assay diluent well. Exactly, 4 drops should be added. Do not let bottle tip touch device in order to avoid cross-contamination"
+      }
+  },
+    {
+      "lang":  "fr",
+      "strings":
+      {
+        "page_1": "Ouvrir le kit et vérifier les éléments suivants:\n1. Dispositif de test avec agent déshydratant emballés dans des pochette individuelles en aluminium\n2. Diluant de dosage\n3. Applicateur d'échantillon à usage unique (5 μl) - Pipette capillaire\n4. Lancette stériles\n5. Compresses d'alcool\n6. Mode d’emploi",
+        "page_2": "Commencer par lire attentivement le mode d'emploi du kit de Bioline™ Malaria Ag P.f/P.v.\n\nVérifier ensuite la date d’expiration à l’arrière de l’emballage en aluminium. Si la date d'expiration est dépassée, utiliser un autre lot. Pour éviter tout faux résultat, s'assurer que le diluant du test utilisé provient du même kit que le nouveau dispositif de test.",
+        "page_3": "Ouvrir l’enveloppe et vérifier les élément suivants:\n1. Fenêtre de résultat\n2. Puits d’échantillon\n3. Puits pour le diluant\nÉtiqueter ensuite le dispositif avec l'identifiant patient.",
+        "page_4": "Nettoyer la surface à prélever à l’aide d’un tampon imbibé d’alcool. ",
+        "page_5": "Piquer le côté latéral du doigt avec la lancette stérile fournie. Jeter la lancette immédiatement après conformément aux règles de sécurité.",
+        "page_6": "Avec une pipette capillaire de 5 μl, aspirer le sang jusqu’au trait noir.",
+        "page_7": "Verser 5 μl de sang total prélevé dans le puits d'échantillon rond.",
+        "page_8": "Maintenir le flacon de diluant du dosage à la verticale et déposer 4 gouttes de diluant dans le puits de diluant. 4 gouttes doivent être ajoutées très exactement. Ne pas mettre l’embout du flacon en contact avec le dispositif afin d’éviter toute contamination croisée."
+      }
+    },
+    {
+      "lang":  "es",
+      "strings":
+      {
+        "page_1": "Abra el empaque y busque a continuación:\n1. Dispositivo de prueba con desecante en bolsa de papel de aluminio individuales\n2. Diluyentes del ensayo\n3. Aplicadores de muestras desechables (5 μl) - Pipeta capilar\n4. Lanceta estériles\n5. Hisopo con alcohol\n6. Instrucciones de uso",
+        "page_2": "Primero, lea detenidamente las instrucciones de uso del kit de análisis Bioline™ Malaria Ag P.f/P.v.\n\nA continuación, compruebe la fecha de caducidad en la parte posterior de la bolsa de papel de aluminio. Si la fecha de caducidad ha vencido, utilice otro lote. Para evitar resultados falsos, asegúrese de que el diluyente del ensayo utilizado es del mismo kit que el dispositivo de prueba nuevo.",
+        "page_3": "Abra la bolsa de aluminio y busque lo siguiente:\n1. Ventana de resultados\n2. Pocillo de muestra\n3. Pocillo para diluyente de prueba\nA continuación, etiquete el dispositivo de prueba con la identificación del paciente.",
+        "page_4": "S Limpie el área a ser pinchada con un copo de algodón humedecido con alcohol.",
+        "page_5": "Pinche el lado del dedo con la lanceta estéril suministrada. Deseche de forma segura la lanceta inmediatamente después.",
+        "page_6": "Con una pipeta capilar de 5 μl, extraiga sangre hasta la línea negra.",
+        "page_7": "Dispense 5 μl de la sangre extraída al pocillo para muestras redondo.",
+        "page_8": "Sostenga en posición vertical el frasco del diluyente del ensayo y dispense 4 gotas de diluyente en el pocillo del diluyente del ensayo. Deben añadirse exactamente 4 gotas. No deje que la punta del frasco toque el dispositivo a fin de evitar la contaminación cruzada."
+      }
+    },
+    {
+      "lang":  "pt",
+      "strings":
+      {
+        "page_1": "Abra a embalagem e observe abaixo:\n1. Dispositivo de teste com dessecante em bolsa de folha de alumínio individuais\n2. Diluente de ensaio\n3. Aplicadores de amostras descartáveis (5 μl) - Pipeta capilar\n4. Lanceta esterilizada\n5. Zaragatoa com álcool\n6. Instruções de utilização",
+        "page_2": "Primeiro, leia cuidadosamente as instruções para utilizar o kit de teste Bioline™ Malaria Ag P.f/P.v.\n\nA seguir, verifique o prazo de validade na parte posterior da bolsa de folha de alumínio. Se o prazo de validade tiver sido ultrapassado, utilize outro lote. Para evitar resultados falsos, certifique-se de que o diluente do ensaio utilizado é do mesmo kit que o novo dispositivo do teste.",
+        "page_3": "Abra a bolsa de folha de alumínio e verifique se contém os seguintes itens:\n1. Janela de resultados\n2. Poço da amostra\n3. Poço para o diluente do ensaio Em seguida, coloque uma etiqueta no dispositivo com o identificador do paciente.",
+        "page_4": "Limpe a área a ser lancetada com swab de álcool.",
+        "page_5": "Pique a lateral do dedo com a lanceta esterilizada fornecida. Em seguida, elimine a lanceta em segurança imediatamente após a utilização.",
+        "page_6": "Com uma pipeta capilar de 5 μl, desloque o sangue para a linha preta.",
+        "page_7": "Coloque 5 μl de sangue recolhido no poço redondo da amostra.",
+        "page_8": "Mantenha o frasco de diluente do ensaio na posição vertical e deite 4 gotas de diluente do ensaio no poço para o diluente do ensaio. Devem ser adicionadas, exatamente, 4 gotas. Não deixe a ponta do frasco tocar no dispositivo de modo a evitar a contaminação cruzada."
+      }
+    }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1"
+      }
+    ,{
+        "textKey": "page_2"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "b_pf_pv_3.png"
+      }
+    ,{
+        "textKey": "page_4",
+        "image": "b_pf_pv_4.png"
+      }
+    ,{
+        "textKey": "page_5",
+        "image": "b_pf_pv_5.png"
+      }
+    ,{
+        "textKey": "page_6",
+        "image": "b_pf_pv_6.png"
+      }
+    ,{
+        "textKey": "page_7",
+        "image": "b_pf_pv_7.png"
+      }
+    ,{
+        "textKey": "page_8",
+        "image": "b_pf_pv_8.png"
+      }
+    ]
+  }
+}
+

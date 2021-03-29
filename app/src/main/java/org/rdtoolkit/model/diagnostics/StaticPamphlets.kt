@@ -72,6 +72,39 @@ class StaticPamphlets(val context : Context) : PamphletSource {
             response.add(folio.getPamphlet())
         }
 
+        if (category.equals("reference") && tags.contains("sd_bioline_mal_pf_pv")) {
+            var folioContext = AssetFolioContext("bootstrapped/sd_bioline_mal_pf_pv/reference", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
+        if (category.equals("interpret") && tags.contains("sd_bioline_mal_pf_pv")) {
+            var folioContext = AssetFolioContext("bootstrapped/sd_bioline_mal_pf_pv/interpret", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
+        if (category.equals("reference") && tags.contains("firstresponse_mal_pf")) {
+            var folioContext = AssetFolioContext("bootstrapped/firstresponse_mal_pf/reference", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
+        if (category.equals("interpret") && tags.contains("firstresponse_mal_pf")) {
+            var folioContext = AssetFolioContext("bootstrapped/firstresponse_mal_pf/interpret", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
+
         return response
     }
 }

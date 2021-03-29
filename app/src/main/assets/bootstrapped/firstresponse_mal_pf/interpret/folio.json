@@ -1,0 +1,30 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "Results Interpretation\n\nNegative",
+        "page_2": "Results Interpretation\n\nPositive",
+        "page_3": "Results Interpretation\n\nInvalid test\n\nThe Invalid test result (absense of control line) should be retested with new device"
+      }
+    }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "firstresponse_mal_pf_int_neg.png"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "firstresponse_mal_pf_int_pos.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "firstresponse_mal_pf_int_invalid.png"
+      }
+    ]
+  }
+}
