@@ -56,7 +56,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode Integer.valueOf(System.getenv("BUILD_NUMBER") ?: 1).intValue()
-        versionName "0.9.3"
+        versionName "0.9.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
