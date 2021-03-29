@@ -13,7 +13,8 @@
         "page_6": "Gently touch the blood drop",
         "page_7": "Lift the specimen transfer device",
         "page_8": "Slowly add 5 µl of whole blood to the specimen well using the specimen transfer device. Dispose of the used Specimen transfer device as biohazardous waste immediate after use",
-        "page_9": "Add two drops of the assay buffer to the assay buffer well.\n\nInterpret test results at 20 minutes (after recording the results, dispose of test device as biohazardous waste)"
+        "page_9": "Add two drops of the assay buffer to the assay buffer well.",
+        "page_10": "Interpret test results at 20 minutes (after recording the results, dispose of test device as biohazardous waste). Do not interpret after 30 minutes."
       }
     }
   ],
@@ -54,6 +55,10 @@
     ,{
         "textKey": "page_9",
         "image": "firstresponse_mal_pf_st_9.png"
+      }
+    ,{
+        "textKey": "page_10",
+        "image": "firstresponse_mal_pf_st_10.png"
       }
     ]
   }
