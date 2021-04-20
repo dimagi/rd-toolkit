@@ -1,5 +1,6 @@
 package org.rdtoolkit.support.interop
 
+import android.content.Intent
 import android.os.Bundle
 import org.rdtoolkit.support.interop.RdtIntentBuilder.Companion.INTENT_EXTRA_RDT_CONFIG_BUNDLE
 import org.rdtoolkit.support.interop.RdtIntentBuilder.Companion.INTENT_EXTRA_RDT_SESSION_ID
@@ -7,6 +8,7 @@ import org.rdtoolkit.support.model.Mapper
 import org.rdtoolkit.support.model.session.*
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.collections.Map.Entry
 
 const val INTENT_EXTRA_RDT_PROVISION_MODE = "rdt_config_provision_mode"
 const val INTENT_EXTRA_RDT_PROVISION_MODE_DATA = "rdt_config_provision_mode_data"
@@ -106,13 +108,13 @@ class BundleToResult : Mapper<Bundle, TestSession.TestResult> {
     }
 }
 
-class ResultToBundle : Mapper<TestSession.TestResult, Bundle> {
+class ResultToBundle(private val filePathWrapper : FilePathMapper = FilePathMapper()) : Mapper<TestSession.TestResult, Bundle> {
     override fun map(input: TestSession.TestResult): Bundle {
         var b = Bundle()
         b.putLong(INTENT_EXTRA_RDT_RESULT_TIME_READ, input.timeRead!!.time)
-        b.putString(INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH, input.mainImage)
+        b.putString(INTENT_EXTRA_RDT_RESULT_RAW_IMAGE_PATH, filePathWrapper.map(input.mainImage))
 
-        b.putBundle(INTENT_EXTRA_RDT_RESULT_IMAGES, getBundleFromMap(input.images))
+        b.putBundle(INTENT_EXTRA_RDT_RESULT_IMAGES, getBundleFromMap(input.images.mapValues { e -> filePathWrapper.map(e.value)!! }))
 
         b.putBundle(INTENT_EXTRA_RDT_RESULT_MAP, getBundleFromMap(input.results))
         b.putBundle(INTENT_EXTRA_RDT_RESULT_INTERPRETER_MAP, getBundleFromMap(input.classifierResults))
@@ -129,7 +131,7 @@ class ResultToBundle : Mapper<TestSession.TestResult, Bundle> {
 }
 
 
-class SessionToBundle : Mapper<TestSession, Bundle> {
+class SessionToBundle(val filePathWrapper : FilePathMapper = FilePathMapper()) : Mapper<TestSession, Bundle> {
     override fun map(input: TestSession): Bundle {
         var b = Bundle()
 
@@ -143,7 +145,7 @@ class SessionToBundle : Mapper<TestSession, Bundle> {
             b.putLong(INTENT_EXTRA_RDT_SESSION_TIME_EXPIRED, it.time)
         }
         input.result?.let{
-            b.putBundle(INTENT_EXTRA_RDT_RESULT_BUNDLE, ResultToBundle().map(it))}
+            b.putBundle(INTENT_EXTRA_RDT_RESULT_BUNDLE, ResultToBundle(filePathWrapper).map(it))}
 
         return b
     }
@@ -176,6 +178,19 @@ class StringMapToBundle : Mapper<Map<String, String>, Bundle> {
             map.putString(k.key, k.value)
         }
         return map
+    }
+}
+
+open class FilePathMapper : Mapper<String?,String?> {
+    val outputs = mutableListOf<String>()
+
+    override fun map(input: String?): String? {
+        input?.let { outputs.add(input) }
+        return input
+    }
+
+    open fun prepare(intent: Intent) {
+        //Placeholder
     }
 }
 

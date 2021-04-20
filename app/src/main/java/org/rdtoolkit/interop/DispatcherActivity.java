@@ -1,6 +1,7 @@
 package org.rdtoolkit.interop;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,8 +52,18 @@ public class DispatcherActivity extends AppCompatActivity {
             this.finish();
         }
         if(requestCode == ACTIVITY_RESULT_PASSTHROUGH && resultCode == RESULT_OK) {
-            this.setResult(resultCode, interopRepo.translateResponse(data));
+            Intent responseIntent = interopRepo.translateResponse(data).setData(data.getData());
+            copyInternals(responseIntent, data);
+            responseIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            this.setResult(resultCode, responseIntent);
             this.finish();
+        }
+    }
+
+
+    private void copyInternals(Intent destination, Intent source) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            destination.setClipData(source.getClipData());
         }
     }
 }

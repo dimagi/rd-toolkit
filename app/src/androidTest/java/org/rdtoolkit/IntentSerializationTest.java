@@ -53,6 +53,18 @@ public class IntentSerializationTest {
         testRoundTrip(Constants.SessionCompleted);
     }
 
+    @Test
+    public void testFilePathTransforms() {
+        TestSession.TestResult roundTripResult = new BundleToResult().map(new ResultToBundle(new ReversingStringMapper()).map(Constants.TestResultsSampleValues));
+        Assert.assertEquals("htaptset", roundTripResult.getMainImage());
+        Assert.assertEquals("htaptset", roundTripResult.getImages().get("raw"));
+
+        TestSession roundTripSession = new BundleToSession().map(new SessionToBundle(new ReversingStringMapper()).map(Constants.SessionCompleted));
+        Assert.assertEquals("htaptset", roundTripSession.getResult().getMainImage());
+        Assert.assertEquals("htaptset", roundTripSession.getResult().getImages().get("raw"));
+    }
+
+
     private <T> void testRoundTrip(T t) {
         Pair<Mapper<Object, Intent>, Mapper<Intent,Object>> pair = serializers.get(t.getClass());
         Assert.assertEquals(t, pair.second.map(pair.first.map((Object)t)));
