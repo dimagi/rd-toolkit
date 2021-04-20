@@ -11,10 +11,12 @@ import org.junit.runner.RunWith;
 import org.rdtoolkit.support.interop.BundleToStringMap;
 import org.rdtoolkit.support.interop.FixedSetKeyQualifier;
 import org.rdtoolkit.support.interop.PrefixKeyQualifier;
+import org.rdtoolkit.support.interop.StringIdentityMapper;
 import org.rdtoolkit.support.interop.StringMapToBundle;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -49,6 +51,12 @@ public class MappingTests {
         for (String key : map.keySet()) {
             Assert.assertEquals(map.get(key), b.getString(key));
         }
+    }
+
+    @Test
+    public void testIdentityMapper() {
+        StringIdentityMapper m = new StringIdentityMapper();
+        Assert.assertEquals("value",m.map("value"));
     }
 
     @Test

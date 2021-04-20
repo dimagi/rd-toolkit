@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rdtoolkit.interop.InterfacesKt;
+import org.rdtoolkit.interop.StringIdentityMapper;
 import org.rdtoolkit.interop.translator.InteropRepository;
 
 import java.util.Map;
@@ -52,7 +53,7 @@ public class XFormResultTranslatorTest {
 
     @Test
     public void testWithSession() {
-        Intent sessionIntent = InterfacesKt.captureReturnIntent(Constants.SessionCompleted);
+        Intent sessionIntent = InterfacesKt.captureReturnIntent(Constants.SessionCompleted, new StringIdentityMapper());
         Intent output = new InteropRepository().getTranslator(TRANSLATOR_XFORM_RESULT).map(sessionIntent);
         Bundle xformBundle = output.getBundleExtra("odk_intent_bundle");
 

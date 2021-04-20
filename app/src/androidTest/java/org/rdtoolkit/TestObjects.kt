@@ -1,5 +1,6 @@
 package org.rdtoolkit
 
+import org.rdtoolkit.support.model.Mapper
 import org.rdtoolkit.support.model.session.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -40,4 +41,10 @@ object Constants {
             Date(Date().time - 250),
             TestResultsSampleValues,
             TestSession.Metrics(HashMap()))
+}
+
+class ReversingStringMapper : Mapper<String?, String?> {
+    override fun map(input: String?): String? {
+        return input?.reversed()
+    }
 }

@@ -31,6 +31,7 @@ import org.rdtoolkit.component.ImageClassifierComponent;
 import org.rdtoolkit.component.ProcessingListener;
 import org.rdtoolkit.component.Sandbox;
 import org.rdtoolkit.component.TestImageCaptureComponent;
+import org.rdtoolkit.interop.FileUriResponseMapper;
 import org.rdtoolkit.model.diagnostics.Pamphlet;
 import org.rdtoolkit.model.diagnostics.RdtDiagnosticProfile;
 import org.rdtoolkit.support.model.session.STATUS;
@@ -46,6 +47,7 @@ import java.util.Map;
 import kotlin.NotImplementedError;
 
 import static org.rdtoolkit.interop.InterfacesKt.captureReturnIntent;
+import static org.rdtoolkit.interop.InterfacesKt.getFileEncodingMapper;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RDT_SESSION_ID;
 import static org.rdtoolkit.support.interop.RdtIntentBuilder.INTENT_EXTRA_RESPONSE_TRANSLATOR;
 import static org.rdtoolkit.support.model.session.MetricsKt.setDeviceMetadata;
@@ -368,7 +370,7 @@ public class CaptureActivity extends LocaleAwareCompatActivity {
     }
 
     private void finishSession(TestSession session) {
-        Intent returnIntent = captureReturnIntent(session);
+        Intent returnIntent = captureReturnIntent(session, getFileEncodingMapper(this, false));
         if (session.getConfiguration().getOutputResultTranslatorId() != null) {
             returnIntent.putExtra(INTENT_EXTRA_RESPONSE_TRANSLATOR,
                     session.getConfiguration().getOutputResultTranslatorId());
