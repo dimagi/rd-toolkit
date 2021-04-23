@@ -30,6 +30,7 @@ public class DispatcherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent inbound = getIntent();
+        
         String action = inbound.getAction();
         if (action.equals(ACTION_TEST_PROVISION) ||
                 action.equals(ACTION_TEST_PROVISION_AND_CAPTURE)) {
