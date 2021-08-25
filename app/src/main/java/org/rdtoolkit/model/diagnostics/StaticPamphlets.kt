@@ -104,6 +104,55 @@ class StaticPamphlets(val context : Context) : PamphletSource {
             response.add(folio.getPamphlet())
         }
 
+        if (category.equals("interpret") && tags.contains("premier_medical_sure_status_c19")) {
+            var folioContext = AssetFolioContext("bootstrapped/premier_medical_sure_status_c19/interpret", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
+        if (category.equals("reference") && tags.contains("premier_medical_sure_status_c19")) {
+            var folioContext = AssetFolioContext("bootstrapped/premier_medical_sure_status_c19/reference", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
+        if (category.equals("reference") && tags.contains("abbott_panbio_c19_nasal")) {
+            var folioContext = AssetFolioContext("bootstrapped/abbott_panbio_c19_nasal/reference", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
+        if (category.equals("interpret") && tags.contains("abbott_panbio_c19_nasal")) {
+            var folioContext = AssetFolioContext("bootstrapped/abbott_panbio_c19_nasal/interpret", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
+        if (category.equals("reference") && tags.contains("abbott_panbio_c19_nasopharyngeal")) {
+            var folioContext = AssetFolioContext("bootstrapped/abbott_panbio_c19_nasopharyngeal/reference", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
+        if (category.equals("interpret") && tags.contains("abbott_panbio_c19_nasopharyngeal")) {
+            var folioContext = AssetFolioContext("bootstrapped/abbott_panbio_c19_nasopharyngeal/interpret", context.assets)
+            var mediaContext = ZipStreamFolioContext(folioContext, "media.zip")
+            val folio = parseFolio(folioContext.spool("folio.json"), mediaContext)
+            folio.setLocale(locale.language)
+            response.add(folio.getPamphlet())
+        }
+
+
 
         return response
     }

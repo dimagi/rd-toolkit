@@ -1,0 +1,95 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "Step 1: Hold the buffer bottle vertically and fill the extraction tube with buffer fluid until it flows up to the Fill-line of the extraction tube (300μl).",
+        "page_1a": "⚠ Caution: If the amount of buffer is excessive or insufficient, an improper test result may occur.",
+        "page_2": "Step 2: Place the extraction tube in the tube rack.",
+        "page_3": "Step 3: Tilt the patient’s head back 70 degrees. While gently rotating the swab, insert swab less than one inch (about 2 cm) into nostril (until resistance is met at the turbinates).",
+        "page_3a": "Rotate the swab five times against the nasal wall. Using the same swab repeat the collection procedure with the second nostril. Slowly remove swab from the nostril.",
+        "page_3b": "⚠ Caution: If the swab stick breaks during specimen collection, repeat specimen collection with a new swab.",
+        "page_4": "Step 4: Insert the swab specimen in the extraction tube.",
+        "page_4a": "Swirl the swab tip in the buffer fluid inside the extraction tube, pushing into the wall of the extraction tube at least five times and then squeeze out the swab by squeezing the extraction tube with your fingers.",
+        "page_5": "Step 5: Break the swab at the breakpoint and close the cap of extraction tube.",
+        "page_6": "Step 6: Open the dropping nozzle cap at the bottom of the extraction tube.",
+        "page_7": "Step 7: Dispense 5 drops of extracted specimens vertically into the specimen well (S) on the device. Do not handle or move the test device until the test is complete and ready for reading.",
+        "page_7a": "⚠ Caution: Bubbles that occur in the extraction tube can lead to inaccurate results. ",
+        "page_7b": "⚠ Caution: If you are unable to create sufficient drops, this may be caused by clogging in the dispensing nozzle. Shake the tube gently to release the blockage until you observe free drop formation.",
+        "page_8": "Step 8: Close the nozzle and dispose of the extraction tube containing the used swab according to your local regulations and biohazard waste disposal protocol.",
+        "page_9": "Step 9: Start timer. Read result at 15 minutes. Do not read results after 20 minutes.",
+        "page_10": "Step 10: Dispose of the used device according to your local regulations and biohazard waste disposal protocol."
+      }
+    }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "1_buffer_tube.png"
+      }
+    ,{
+        "textKey": "page_1a",
+        "image": "1_buffer_tube.png"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "2_tube_tray.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "3a_nasal_swab.png"
+      }
+    ,{
+        "textKey": "page_3a",
+        "image": "3a_nasal_swab.png"
+      }
+    ,{
+        "textKey": "page_3b",
+        "image": "3a_nasal_swab.png"
+      }
+    ,{
+        "textKey": "page_4",
+        "image": "4_swirl.png"
+      }
+    ,{
+        "textKey": "page_4a",
+        "image": "4_swirl.png"
+      }
+    ,{
+        "textKey": "page_5",
+        "image": "5_snap.png"
+      }
+    ,{
+        "textKey": "page_6",
+        "image": "6_drops.png"
+      }
+    ,{
+        "textKey": "page_7",
+        "image": "7_fill.png"
+      }
+    ,{
+        "textKey": "page_7a",
+        "image": "7_fill.png"
+      }
+    ,{
+        "textKey": "page_7b",
+        "image": "7_fill.png"
+      }
+    ,{
+        "textKey": "page_8",
+        "image": "8_dispose.png"
+      },{
+        "textKey": "page_9",
+        "image": "9_timer.png"
+      }
+    ,{
+        "textKey": "page_10",
+        "image": "10_cassette_dispose.png"
+      }
+    ]
+  }
+}
+
