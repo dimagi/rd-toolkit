@@ -1,0 +1,40 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "In addition to the presence of the C line, if the T line develops, the test indicates the presence of\nSARS-CoV-2 Antigen.\n\nThe result is positive or reactive. ",
+        "page_1a": "Note: Interprete faint line as reactive line.\n\nAlternative diagnosis method should be performed in order to obtain the confirmation of SARS-CoV-2 infections. ",
+        "page_2": "If only a single line appears, at control line “C” as in the figure, the test indicates the absence of SARS-CoV-2 Antigen.\n\nThe result is Negative or non-reactive.",
+        "page_3": "No presence of control line ’C’ in the results window (irrespective of presence of test lines)\nindicates an invalid result.",
+        "page_3a": "The directions may not be followed correctly or the test may have detoriorated.\n\nThe Invalid test results should be retested with new test device."
+      }
+    }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "positive.png"
+      }
+    ,{
+        "textKey": "page_1a",
+        "image": "positive.png"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "negative.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "invalid.png"
+      }
+    ,{
+        "textKey": "page_3a",
+        "image": "invalid.png"
+      }
+    ]
+  }
+}

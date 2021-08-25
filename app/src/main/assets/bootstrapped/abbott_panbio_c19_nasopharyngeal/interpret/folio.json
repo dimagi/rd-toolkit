@@ -1,0 +1,40 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "The presence of only the control line (C) and no test line (T) within the result window indicates a negative result.",
+        "page_2": "The presence of the test line (T) and the control line (C) within the result window, regardless of which line appears first, indicates a positive result.",
+        "page_2a": "Caution: The presence of any test line (T), no matter how faint, indicates a positive result.",
+        "page_3": "If the control line (C) is not visible within the result window after performing the test, the result is considered invalid.",
+        "page_3a": "Instructions may not have been followed correctly. It is recommended to read the IFU again before re-testing the specimen with a new test device."
+      }
+    }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "negative.png"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "positive.png"
+      }
+    ,{
+        "textKey": "page_2a",
+        "image": "positive.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "invalid.png"
+      }
+    ,{
+        "textKey": "page_3a",
+        "image": "invalid.png"
+      }
+    ]
+  }
+}
