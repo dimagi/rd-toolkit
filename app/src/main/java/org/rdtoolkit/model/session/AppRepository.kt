@@ -3,7 +3,9 @@ package org.rdtoolkit.model.session
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
-import org.rdtoolkit.R
+import org.rdtoolkit.support.interop.RdtIntentBuilder
+import org.rdtoolkit.support.model.session.ProvisionMode
+import java.util.*
 
 class AppRepository(private val context : Context) {
     fun hasAcknowledgedDisclaimer() : Boolean {
@@ -33,6 +35,18 @@ class AppRepository(private val context : Context) {
         editor.commit()
     }
 
+    fun getDemoIntentBuilder() : RdtIntentBuilder<*> {
+        return RdtIntentBuilder.forProvisioning().setSessionId(UUID.randomUUID().toString()) //.requestTestProfile("debug_mal_pf_pv")s
+                //.requestTestProfile("sd_bioline_mal_pf_pv")
+                .requestProfileCriteria(prefs().getString(PREFERENCE_KEY_DIAGNOSTIC,"mal_pf")!!, ProvisionMode.CRITERIA_SET_AND) //.requestProfileCriteria("sd_bioline_mal_pf_pv carestart_mal_pf_pv", ProvisionMode.CRITERIA_SET_OR)
+                //.requestProfileCriteria("fake", ProvisionMode.CRITERIA_SET_OR)
+                .setFlavorOne("Tedros Adhanom")
+                .setFlavorTwo("#4SFS") //.setClassifierBehavior(ClassifierMode.CHECK_YOUR_WORK)
+                .setInTestQaMode() //.setSecondaryCaptureRequirements("capture_windowed")
+                //.setSubmitAllImagesToCloudworks(true)
+                .setIndeterminateResultsAllowed(true)
+    }
+
     private fun prefs(): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)!!
     }
@@ -41,5 +55,6 @@ class AppRepository(private val context : Context) {
         const val PREFERENCE_ACKNOWLEDGED_DISCLAIMER = "user_acknwoledged_disclaimer"
         const val PREFERENCE_EARLY_TIMER_DISCLAIMER = "user_acknowleged_early_timer"
         const val PREFERENCE_RESTRICT_NETWORK_BATTERY = "restrict_network_battery"
+        const val PREFERENCE_KEY_DIAGNOSTIC = "diagnostic_id"
     }
 }
