@@ -13,6 +13,12 @@ The toolkit provides out of the box support for:
 
 ![Screenshot One][screenshot_one] ![Screenshot Two][screenshot_two]
 
+## Releases
+
+The latest version of the app can downloaded [from Google Play](https://play.google.com/store/apps/details?id=org.rdtoolkit).
+
+To access pre-release features, you can add your Google account to list of [Open Testers](https://play.google.com/apps/testing/org.rdtoolkit).
+
 
 ## Getting Started (For Implementers)
 
