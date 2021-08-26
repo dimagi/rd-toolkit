@@ -12,8 +12,10 @@ import org.rdtoolkit.model.session.SessionRepositoryImpl
 import org.rdtoolkit.model.session.getDatabase
 import org.rdtoolkit.processing.WorkCoordinator
 import org.rdtoolkit.ui.capture.CaptureViewModel
+import org.rdtoolkit.ui.home.HomeViewModel
 import org.rdtoolkit.ui.instruct.DisclaimerPage
 import org.rdtoolkit.ui.instruct.PamphletViewModel
+import org.rdtoolkit.ui.preferences.PreferencesViewModel
 import org.rdtoolkit.ui.provision.ProvisionViewModel
 import org.rdtoolkit.ui.sessions.SessionsViewModel
 
@@ -49,10 +51,26 @@ class InjectorUtils() {
             }
         }
 
+        fun providePreferencesViewModelFactory(context: Context): ViewModelProvider.Factory {
+            return object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return PreferencesViewModel(provideDiagnosticsRepository(context)) as T
+                }
+            }
+        }
+
         fun providePamphletViewModelFactory(context: Context): ViewModelProvider.Factory {
             return object : ViewModelProvider.Factory {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                     return PamphletViewModel(DisclaimerPage(context), AppRepository(context)) as T
+                }
+            }
+        }
+
+        fun provideHomeViewModel(context: Context): ViewModelProvider.Factory {
+            return object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return HomeViewModel(AppRepository(context)) as T
                 }
             }
         }

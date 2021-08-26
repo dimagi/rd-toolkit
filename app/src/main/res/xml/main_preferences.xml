@@ -27,4 +27,16 @@
         app:title="@string/preferences_disclaimer_reset_title"
         app:summary="@string/preferences_disclaimer_reset_summary"/>
 
+    <PreferenceCategory
+        app:key="demo_settings"
+        app:summary="Settings for simulated sessions"
+        app:title="Demo Settings">
+
+        <ListPreference
+            app:key="diagnostic_id"
+            app:title="Simulated Diagnostic"/>
+
+    </PreferenceCategory>
+
+
 </androidx.preference.PreferenceScreen>

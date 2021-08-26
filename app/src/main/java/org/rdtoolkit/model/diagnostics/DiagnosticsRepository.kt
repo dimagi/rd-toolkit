@@ -12,6 +12,10 @@ class DiagnosticsRepository() {
         return profile
     }
 
+    fun getAvailableDiagnosticResults(): List<ResultProfile> {
+        return builtInSources.values.flatMap { D -> D.resultProfiles() }.distinctBy { P -> P.id() }
+    }
+
     fun getMatchingTestProfiles(tagSet: Set<String>, orOp : Boolean) : Collection<RdtDiagnosticProfile> {
         val returnSet = ArrayList<RdtDiagnosticProfile>()
         for (source in sourcesByTag) {

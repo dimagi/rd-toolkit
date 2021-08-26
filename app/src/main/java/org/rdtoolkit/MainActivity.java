@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,6 +21,9 @@ import org.rdtoolkit.support.interop.RdtUtils;
 import org.rdtoolkit.support.model.session.ClassifierMode;
 import org.rdtoolkit.support.model.session.ProvisionMode;
 import org.rdtoolkit.support.model.session.TestSession;
+import org.rdtoolkit.ui.home.HomeViewModel;
+import org.rdtoolkit.ui.provision.ProvisionViewModel;
+import org.rdtoolkit.util.InjectorUtils;
 
 import java.util.UUID;
 
@@ -32,9 +36,17 @@ public class MainActivity extends LocaleAwareCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    private HomeViewModel homeViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        homeViewModel =
+                new ViewModelProvider(this,
+                        InjectorUtils.Companion.provideHomeViewModel(this))
+                        .get(HomeViewModel.class);
+
 
         setContentView(R.layout.activity_main);
 
@@ -69,21 +81,8 @@ public class MainActivity extends LocaleAwareCompatActivity {
 
 
     public void simulateTestRequest(View view) {
-        Intent i = RdtIntentBuilder
-                .forProvisioning().setSessionId(UUID.randomUUID().toString())
-                //.requestTestProfile("debug_mal_pf_pv")
-                //.requestTestProfile("sd_bioline_mal_pf_pv")
-                .requestProfileCriteria("mal_pf", ProvisionMode.CRITERIA_SET_AND)
-                //.requestProfileCriteria("sd_bioline_mal_pf_pv carestart_mal_pf_pv", ProvisionMode.CRITERIA_SET_OR)
-                //.requestProfileCriteria("fake", ProvisionMode.CRITERIA_SET_OR)
-                .setFlavorOne("Tedros Adhanom")
-                .setFlavorTwo("#4SFS")
-                //.setClassifierBehavior(ClassifierMode.CHECK_YOUR_WORK)
-                .setInTestQaMode()
-                //.setSecondaryCaptureRequirements("capture_windowed")
-                //.setSubmitAllImagesToCloudworks(true)
-                .setIndeterminateResultsAllowed(true)
-                .build();
+        RdtIntentBuilder builder = homeViewModel.getAppRepository().getDemoIntentBuilder();
+        Intent i = builder.build();
 
         this.startActivityForResult(i, ACTIVITY_PROVISION);
     }
