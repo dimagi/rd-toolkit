@@ -58,7 +58,7 @@ fun captureReturnIntent(session : TestSession, filePathWrapper : FilePathMapper)
 }
 
 fun getFileEncodingMapper(context : Context, useUriByDefault : Boolean = false) : FilePathMapper {
-    val useUri = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R || useUriByDefault
+    val useUri = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q || useUriByDefault
     if (useUri) {
         return FileUriResponseMapper(context)
     } else {
