@@ -56,6 +56,9 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     var abbott_panbio_c19_nasal = ConcreteProfile("abbott_panbio_c19_nasal", "(NASAL) Panbio™ COVID-19 Ag Rapid Test Device","sample_panbio_c19", 60*15,60*20, listOf(cov_19_result), listOf("real"))
     var abbott_panbio_c19_nasopharyngeal = ConcreteProfile("abbott_panbio_c19_nasopharyngeal", "(NASOPHARYNGEAL) Panbio™ COVID-19 Ag Rapid Test Device","sample_panbio_c19", 60*15,60*20, listOf(cov_19_result), listOf("real"))
 
+    var generic_c19_fifteen = ConcreteProfile("generic_c19_fifteen", "Other COVID-19 Rapid Test (15 Minute Timer) ",null, 60*15,60*25, listOf(cov_19_result), listOf("real"))
+    var generic_c19_twenty = ConcreteProfile("generic_c19_twenty", "Other COVID-19 Rapid Test (20 Minute Timer)",null, 60*20,60*30, listOf(cov_19_result), listOf("real"))
+
     var quicktest = ConcreteProfile("debug_mal_pf_pv", "FastResolve Malaria P.f./P.v", null,120,240, listOf(pv_result, pf_result), listOf("fake"))
     var lightnighttest = ConcreteProfile("debug_sf_mal_pf_pv", "LightningQuick Malaria P.f./P.v", null,5,25, listOf(pv_result, pf_result), listOf("fake"))
 
@@ -73,6 +76,9 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     returnSet.put(premier_medical_sure_status_c19.id(), premier_medical_sure_status_c19)
     returnSet.put(abbott_panbio_c19_nasal.id(), abbott_panbio_c19_nasal)
     returnSet.put(abbott_panbio_c19_nasopharyngeal.id(), abbott_panbio_c19_nasopharyngeal)
+
+    returnSet.put(generic_c19_fifteen.id(), generic_c19_fifteen)
+    returnSet.put(generic_c19_twenty.id(), generic_c19_twenty)
 
     return returnSet
 }
