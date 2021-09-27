@@ -62,7 +62,7 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     var quicktest = ConcreteProfile("debug_mal_pf_pv", "FastResolve Malaria P.f./P.v", null,120,240, listOf(pv_result, pf_result), listOf("fake"))
     var lightnighttest = ConcreteProfile("debug_sf_mal_pf_pv", "LightningQuick Malaria P.f./P.v", null,5,25, listOf(pv_result, pf_result), listOf("fake"))
 
-    var returnSet = HashMap<String, RdtDiagnosticProfile>()
+    var returnSet = LinkedHashMap<String, RdtDiagnosticProfile>()
 
     returnSet.put(bioline.id(), bioline)
     returnSet.put(standard_q_pf.id, standard_q_pf)
