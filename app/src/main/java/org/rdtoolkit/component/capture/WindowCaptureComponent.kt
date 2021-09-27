@@ -28,6 +28,8 @@ class WindowCaptureComponentManifest : ToolkitComponentManifest<TestImageCapture
             ,"abbott_panbio_c19_nasal" to WindowCaptureConfig("7:2")
             ,"abbott_panbio_c19_nasopharyngeal" to WindowCaptureConfig("7:2")
             ,"premier_medical_sure_status_c19" to WindowCaptureConfig("7:2")
+            ,"generic_c19_fifteen" to WindowCaptureConfig("7:2")
+            ,"generic_c19_twenty" to WindowCaptureConfig("7:2")
     )
 
     private val defaultCaptureConfig = WindowCaptureConfig("7:2")
