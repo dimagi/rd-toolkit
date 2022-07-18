@@ -12,6 +12,18 @@
         "page_5": "Positive\n\nThe presence of any line no matter how faint the result is considered positive.\n\nPositive results should be considered in conjunction with the clinical history and other data available.",
         "page_6": "Invalid"
       }
+    },
+    {
+      "lang":  "rw",
+      "strings":
+      {
+        "page_1": "Akarongo k'ibara kagaragara kugice cyo hejuru, kerekana ko igikoresho kifashishwa mu gusuma gikora neza. Ako karongo niko kitwa Control Line (C).",
+        "page_2": "Akandi karongo k'ibara kagaragara kugice cyo hasi. Ako karongo kitwa Test line ya COVID (T).",
+        "page_3": "Nubwo akarongo kambere (Control line C) katagaragara neza, n'aka kabiri (Test line T) katagaragara neza, isuzuma ryakozwe rifatwa nk'iryagenze neza, n'ibisubizo biba ari ibigaragaza ubwandu bwa COVID-19 (POSITIVE).",
+        "page_4": "Nta bwandu bwa COVID-19 afite",
+        "page_5": "Afite ubwandu bwa COVID-19\n\nKuba akarongo byibuze kamwe kagaragara, bivuze ko afite ubwandu bwa COVID-19.\n\nIbisubizo by'uko afite ubwandu bwa COVID-19 (POSITIVE) bikwiye guhuzwa n'amakuru aba yatwanzwe kugirango bihabwe agaciro",
+        "page_6": "Ibisubizo ntibyemewe"
+      }
     }
   ],
   "pamphlet" : {

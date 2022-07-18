@@ -13,6 +13,19 @@
         "page_6": "Remove the swab while squeezing the sides of the tube to extract the liquid from the swab.\n\n4. Press the nozzle cap tightly onto the tube.",
         "page_7": "Apply 3 drops of extracted specimen to the specimen well of the test device.\n\nRead the test result in 15-30 minutes."
       }
+    },
+    {
+      "lang":  "rw",
+      "strings":
+      {
+        "page_1": "Soma amabwiriza yo gukoresha STANDARD Q COVID-19 Ag neza, kandi witonze",
+        "page_2": "Reba itariki kizarangiriraho ahajya inyuma. Ntukoreshe iki gikoresho, niba itariki kizarangiriraho yarageze.",
+        "page_3": "Umuhondo: Byemewe \nIcyatsi: Ntibyemewe \n \nReba igikoresho cyo gupima hamwe n'ibindi bisabwa.",
+        "page_4": "Injiza agakoresho kabigenewe mu izuru ry'usuzumwa, ukube ahajya hejuru, Hanyuma usohore ako gakoresho mu izuru",
+        "page_5": "Shyira ako gakoresho mu kandi gakoresho kabigenewe. Ugenda ukanda kanda, koroga ukoresheje ako gakoreho inshuro zirenze eshanu",
+        "page_6": "Kuramo ka gakoresho, ugenda ukanda mu mpande zaho kari kari kugirango kumuke",
+        "page_7": "Shyira ibitonyanga bitatu (3) ahabigenewe \n\nReba ibisubizo by'iki kizamini mu minota 15 - 30."
+      }
     }
   ],
   "pamphlet" : {
