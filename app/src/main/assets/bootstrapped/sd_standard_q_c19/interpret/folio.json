@@ -13,6 +13,18 @@
         "page_6": "Invalid"
       }
     }
+    ,{
+    "lang":  "fr",
+    "strings":
+    {
+      "page_1": "A colored band will appear in the top section of the result window to show that the test is working properly. This band is control line (C).",
+      "page_2": "A colored band will appear in the lower section of the result window. This band is test line of SARS-CoV-2 antigen (T).",
+      "page_3": "Even if the control line is faint, or the test line isn't uniform, the test should be considered to be performed properly and the test result should be interpreted as a positive result.",
+      "page_4": "Negative",
+      "page_5": "Positive\n\nThe presence of any line no matter how faint the result is considered positive.\n\nPositive results should be considered in conjunction with the clinical history and other data available.",
+      "page_6": "Invalid"
+    }
+  }
   ],
   "pamphlet" : {
     "pages": [

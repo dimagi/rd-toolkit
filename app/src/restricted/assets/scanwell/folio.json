@@ -19,6 +19,25 @@
         "error-120": "An error occurred while analyzing the RDT. Please take a picture again. If this error persists, please start again using a new RDT.",
         "error": "An error occurred [%d] while analyzing the RDT. Please take a picture again. If this error persists, please start again using a new RDT."
       }
+    }
+    ,{
+      "lang":  "fr",
+      "strings":
+      {
+        "error-100": "The picture was too blurry to analyze.  Please take a picture again.",
+        "error-101": "Uneven lighting detected on the RDT that is preventing appropriate analysis. Please avoid shadows and direct reflection of light on the surface of the RDT and take a picture again.",
+        "error-102": "There is not enough light to analyze the RDT.  Please move to a brighter area, or turn on more lights. Then, take a picture again.",
+        "error-103": "Could not confirm that the RDT is properly oriented. Ensure the RDT is on a plain, non-white background with nothing else in the picture and no harsh shadows. Then line up the outline of the RDT with the green rectangle on screen, and take a picture again. [OA-BACK]",
+        "error-104": "Could not confirm that the RDT is properly oriented. Ensure the RDT is on a plain, non-white background with nothing else in the picture and no harsh shadows. Then line up the outline of the RDT with the green rectangle on screen, and take a picture again. [OA-NOCO]",
+        "error-105": "Could not confirm that the RDT is properly oriented. Ensure the RDT is on a plain, non-white background with nothing else in the picture and no harsh shadows. Then line up the outline of the RDT with the green rectangle on screen, and take a picture again. [OA-OOR]",
+        "error-106": "Could not confirm that the RDT is properly oriented. Ensure the RDT is on a plain, non-white background with nothing else in the picture and no harsh shadows. Then line up the outline of the RDT with the green rectangle on screen, and take a picture again. [OA-NOCR]",
+        "error-107": "Could not confirm that the RDT is properly oriented. Ensure the RDT is on a plain, non-white background with nothing else in the picture and no harsh shadows. Then line up the outline of the RDT with the green rectangle on screen, and take a picture again. [OA-LOWA]",
+        "error-108": "Could not confirm that the RDT is properly oriented. Ensure the RDT is on a plain, non-white background with nothing else in the picture and no harsh shadows. Then line up the outline of the RDT with the green rectangle on screen, and take a picture again. [OA-ASPR]",
+        "error-109": "Could not confirm that the RDT is properly oriented. Ensure the RDT is on a plain, non-white background with nothing else in the picture and no harsh shadows. Then line up the outline of the RDT with the green rectangle on screen, and take a picture again. [OA-ANGL]",
+        "error-110": "Could not confirm that the RDT is properly oriented. Ensure the RDT is on a plain, non-white background with nothing else in the picture and no harsh shadows. Then line up the outline of the RDT with the green rectangle on screen, and take a picture again. [OA-LGHT]",
+        "error-120": "An error occurred while analyzing the RDT. Please take a picture again. If this error persists, please start again using a new RDT.",
+        "error": "An error occurred [%d] while analyzing the RDT. Please take a picture again. If this error persists, please start again using a new RDT."
+    }
   }
   ],
   "pamphlet" : {

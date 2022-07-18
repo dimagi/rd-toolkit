@@ -9,6 +9,15 @@
         "page_2": "Results Interpretation\n\nPositive",
         "page_3": "Results Interpretation\n\nInvalid test\n\nThe Invalid test result (absense of control line) should be retested with new device"
       }
+    },
+    {
+      "lang":  "fr",
+      "strings":
+      {
+        "page_1": "Results Interpretation\n\nNegative",
+        "page_2": "Results Interpretation\n\nPositive",
+        "page_3": "Results Interpretation\n\nInvalid test\n\nThe Invalid test result (absense of control line) should be retested with new device"
+      }
     }
   ],
   "pamphlet" : {

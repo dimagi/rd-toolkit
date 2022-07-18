@@ -16,6 +16,22 @@
         "page_9": "Add two drops of the assay buffer to the assay buffer well.",
         "page_10": "Interpret test results at 20 minutes (after recording the results, dispose of test device as biohazardous waste). Do not interpret after 30 minutes."
       }
+    },
+    {
+      "lang":  "fr",
+      "strings":
+      {
+        "page_1": "Bring the First Response® Malaria Antigen P. falciparum (HRP2) Card Test components to room temperature (15-40 ℃) prior to 15 minutes of testing.",
+        "page_2": "Remove the test Device and the specimen transfer device from the pouch and place it on a flat, dry surface and label the test device with specimen identification number/name",
+        "page_3": "Wipe the finger with alcohol swab",
+        "page_4": "Prick the finger with lancet",
+        "page_5": "Hold the specimen transfer device vertically",
+        "page_6": "Gently touch the blood drop",
+        "page_7": "Lift the specimen transfer device",
+        "page_8": "Slowly add 5 µl of whole blood to the specimen well using the specimen transfer device. Dispose of the used Specimen transfer device as biohazardous waste immediate after use",
+        "page_9": "Add two drops of the assay buffer to the assay buffer well.",
+        "page_10": "Interpret test results at 20 minutes (after recording the results, dispose of test device as biohazardous waste). Do not interpret after 30 minutes."
+      }
     }
   ],
   "pamphlet" : {

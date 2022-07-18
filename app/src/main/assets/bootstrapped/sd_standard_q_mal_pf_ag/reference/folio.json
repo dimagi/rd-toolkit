@@ -14,15 +14,27 @@
       }
     }
     ,{
-    "lang":  "pt",
+      "lang":  "pt",
+      "strings":
+      {
+        "page_1": "1: Selecione o dedo que não está calejado e limpe a ponta do dedo com um algodão com álcool.",
+        "page_2": "2: Seque e fure a ponta do dedo limpo com uma lanceta estéril para sangrar.",
+        "page_3": "3: Limpe a primeira gota de sangue com gaze esterilizada.",
+        "page_4": "4: Pegue o copo invertido (5ul) fornecido e colete 5ul da amostra de sangue total capilar mergulhando a extremidade circular do copo invertido na amostra.",
+        "page_5": "5: Para aplicar a amostra de sangue total capilar coletada ao poço da amostra (círculo) do dispositivo de teste, coloque a extremidade circular do copo invertido na almofada do poço da amostra e pressione levemente para baixo.",
+        "page_6": "6: Segure o frasco de tampão a 90˚ (perpendicular) ao dispositivo de teste e não toque bem a amostra para evitar contaminação. Adicione 3 gotas (90μl) do tampão no poço do tampão (quadrado) do dispositivo de teste."
+      }
+  }
+  ,{
+    "lang":  "fr",
     "strings":
     {
-      "page_1": "1: Selecione o dedo que não está calejado e limpe a ponta do dedo com um algodão com álcool.",
-      "page_2": "2: Seque e fure a ponta do dedo limpo com uma lanceta estéril para sangrar.",
-      "page_3": "3: Limpe a primeira gota de sangue com gaze esterilizada.",
-      "page_4": "4: Pegue o copo invertido (5ul) fornecido e colete 5ul da amostra de sangue total capilar mergulhando a extremidade circular do copo invertido na amostra.",
-      "page_5": "5: Para aplicar a amostra de sangue total capilar coletada ao poço da amostra (círculo) do dispositivo de teste, coloque a extremidade circular do copo invertido na almofada do poço da amostra e pressione levemente para baixo.",
-      "page_6": "6: Segure o frasco de tampão a 90˚ (perpendicular) ao dispositivo de teste e não toque bem a amostra para evitar contaminação. Adicione 3 gotas (90μl) do tampão no poço do tampão (quadrado) do dispositivo de teste."
+      "page_1": "1: Select the finger that is not calloused and clean the fingertip by wiping with an alcohol swab.",
+      "page_2": "2: Dry and pierce the wiped fingertip with a sterile lancet to bleed.",
+      "page_3": "3: Wipe away the first drop of blood with sterile gauze.",
+      "page_4": "4: Take the inverted cup (5ul) provided and collect 5ul of the capillary whole blood specimen by dipping the circular end of the inverted cup into the specimen.",
+      "page_5": "5: To apply the collected capillary whole blood specimen to the specimen well (circle) of the test device, place the circular end of the inverted cup on the specimen well pad and then press down lightly.",
+      "page_6": "6: Hold the buffer bottle at 90˚ (perpendicular) to the test device and not touching the specimen well to avoid contamination. Add 3 drops (90μl) of the buffer into the buffer well (square) of the test device."
     }
   }
   ],

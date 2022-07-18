@@ -16,6 +16,22 @@
         "page_7": "Step 7: Invert the reaction buffer vial vertically and gently squeeze it to dispense 3 drops of specimens into a sample well of the device",
         "page_8": "Results: Wait for 15-20 minutes for result. Do not interpret after 20 minutes."
       }
+    },
+    {
+      "lang":  "fr",
+      "strings":
+      {
+        "page_1": "Step 1: Tilt patient’s head back 70 degrees.",
+        "page_1a": "Insert a (Minitip) sterile swab into the nostril of the patient, swab over the surface of the posterior nasopharynx. (Swab should reach depth equal to distance from nostrils to outer opening of the ear).",
+        "page_2": "Step 2: Slowly rotate swab (right and left) in nostril to absorb secretions. Slowly remove swab after rotating it.",
+        "page_3": "Step 3: Take extraction buffer bottle provided, twist open the cap and fill the reaction buffer vial up to the embossed marking or add 12 drops (Approx 300 µl) of extraction buffer into reaction buffer vial.",
+        "page_4": "Step 4: Insert the swab into an reaction buffer vial filled with extraction buffer. swirl the swab 5-10 times.",
+        "page_5": "Step 5: Remove the swab while squeezing the sides of the tube to extract the liquid from the swab.",
+        "page_5a": "Note: Dispose of the used Nasopharyngeal Swab as biohazardous waste.",
+        "page_6": "Step 6: Close the nozzle cap tightly onto the reaction buffer vial by pressing.",
+        "page_7": "Step 7: Invert the reaction buffer vial vertically and gently squeeze it to dispense 3 drops of specimens into a sample well of the device",
+        "page_8": "Results: Wait for 15-20 minutes for result. Do not interpret after 20 minutes."
+      }
     }
   ],
   "pamphlet" : {
