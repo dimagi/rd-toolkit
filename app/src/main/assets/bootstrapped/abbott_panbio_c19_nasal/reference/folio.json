@@ -27,22 +27,22 @@
       "lang":  "fr",
       "strings":
       {
-        "page_1": "Step 1: Hold the buffer bottle vertically and fill the extraction tube with buffer fluid until it flows up to the Fill-line of the extraction tube (300μl).",
-        "page_1a": "⚠ Caution: If the amount of buffer is excessive or insufficient, an improper test result may occur.",
-        "page_2": "Step 2: Place the extraction tube in the tube rack.",
-        "page_3": "Step 3: Tilt the patient’s head back 70 degrees. While gently rotating the swab, insert swab less than one inch (about 2 cm) into nostril (until resistance is met at the turbinates).",
-        "page_3a": "Rotate the swab five times against the nasal wall. Using the same swab repeat the collection procedure with the second nostril. Slowly remove swab from the nostril.",
-        "page_3b": "⚠ Caution: If the swab stick breaks during specimen collection, repeat specimen collection with a new swab.",
-        "page_4": "Step 4: Insert the swab specimen in the extraction tube.",
+        "page_1": "Étape 1 : Tenez la bouteille de tampon verticalement et remplissez le tube d'extraction avec du liquide tampon jusqu'à ce qu'il s'écoule jusqu'à la ligne de remplissage du tube d'extraction (300 μl).",
+        "page_1a": "⚠ Attention : Si la quantité de tampon est excessive ou insuffisante, un résultat de test incorrect peut se produire.",
+        "page_2": "Étape 2 : Placer le tube d'extraction dans le porte-tube.",
+        "page_3": "Étape 3 : Inclinez la tête du patient de 70 degrés vers l'arrière. Tout en tournant doucement l'écouvillon, insérez l'écouvillon à moins d'un pouce (environ 2 cm) dans la narine (jusqu'à ce qu'une résistance soit rencontrée au niveau des cornets).",
+        "page_3a": "Faites pivoter l'écouvillon cinq fois contre la paroi nasale. En utilisant le même écouvillon, répétez la procédure de collecte avec la deuxième narine. Retirez lentement l'écouvillon de la narine.",
+        "page_3b": "⚠ Attention : Si le bâtonnet d'écouvillon se brise pendant le prélèvement de l'échantillon, répétez le prélèvement avec un nouvel écouvillon.",
+        "page_4": "Étape 4 : Insérez l'échantillon sur écouvillon dans le tube d'extraction.",
         "page_4a": "Swirl the swab tip in the buffer fluid inside the extraction tube, pushing into the wall of the extraction tube at least five times and then squeeze out the swab by squeezing the extraction tube with your fingers.",
-        "page_5": "Step 5: Break the swab at the breakpoint and close the cap of extraction tube.",
-        "page_6": "Step 6: Open the dropping nozzle cap at the bottom of the extraction tube.",
-        "page_7": "Step 7: Dispense 5 drops of extracted specimens vertically into the specimen well (S) on the device. Do not handle or move the test device until the test is complete and ready for reading.",
-        "page_7a": "⚠ Caution: Bubbles that occur in the extraction tube can lead to inaccurate results. ",
-        "page_7b": "⚠ Caution: If you are unable to create sufficient drops, this may be caused by clogging in the dispensing nozzle. Shake the tube gently to release the blockage until you observe free drop formation.",
-        "page_8": "Step 8: Close the nozzle and dispose of the extraction tube containing the used swab according to your local regulations and biohazard waste disposal protocol.",
-        "page_9": "Step 9: Start timer. Read result at 15 minutes. Do not read results after 20 minutes.",
-        "page_10": "Step 10: Dispose of the used device according to your local regulations and biohazard waste disposal protocol."
+        "page_5": "Étape 5 : Cassez l'écouvillon au point de rupture et fermez le capuchon du tube d'extraction.",
+        "page_6": "Étape 6 : Ouvrez le capuchon de la buse compte-goutte au bas du tube d'extraction.",
+        "page_7": "Étape 7 : Distribuer 5 gouttes d'échantillons extraits verticalement dans le puits d'échantillon (S) sur l'appareil. Ne manipulez pas et ne déplacez pas le dispositif de test tant que le test n'est pas terminé et prêt à être lu.",
+        "page_7a": "⚠ Attention : Les bulles qui se forment dans le tube d'extraction peuvent entraîner des résultats inexacts. ",
+        "page_7b": "⚠ Attention : Si vous ne parvenez pas à créer suffisamment de gouttes, cela peut être dû à une obstruction de la buse de distribution. Secouez doucement le tube pour libérer le blocage jusqu'à ce que vous observiez la formation de gouttes libres.",
+        "page_8": "Étape 8 : Fermez la buse et jetez le tube d'extraction contenant l'écouvillon usagé conformément à la réglementation locale et au protocole d'élimination des déchets à risque biologique.",
+        "page_9": "Étape 9 : Démarrez la minuterie. Lire le résultat à 15 minutes. Ne pas lire les résultats après 20 minutes.",
+        "page_10": "Étape 10 : Éliminez l'appareil usagé conformément à la réglementation locale et au protocole d'élimination des déchets à risque biologique."
       }
     }
   ],
