@@ -16,6 +16,22 @@
         "page_7": "Step 7: Invert the reaction buffer vial vertically and gently squeeze it to dispense 3 drops of specimens into a sample well of the device",
         "page_8": "Results: Wait for 15-20 minutes for result. Do not interpret after 20 minutes."
       }
+    },
+    {
+      "lang":  "fr",
+      "strings":
+      {
+          "page_1": "Étape 1 : Inclinez la tête du patient de 70 degrés vers l'arrière.",
+          "page_1a": "Insérez un écouvillon stérile (Minitip) dans la narine du patient, tamponner la surface du nasopharynx postérieur. (L'écouvillon doit atteindre une profondeur égale à la distance entre les narines et l'ouverture externe de l'oreille).",
+          "page_2": "Étape 2 : Faites pivoter lentement l'écouvillon (droite et gauche) dans la narine pour absorber les sécrétions. Retirez lentement l'écouvillon après l'avoir tourné.",
+          "page_3": "Étape 3 : Prenez le flacon de tampon d'extraction fourni, ouvrez le bouchon et remplissez le flacon de tampon de réaction jusqu'au marquage en relief ou ajoutez 12 gouttes (environ 300 µl) de tampon d'extraction dans le flacon de tampon de réaction.",
+          "page_4": "Étape 4 : Insérez l'écouvillon dans un flacon de tampon de réaction rempli de tampon d'extraction. Agiter l'écouvillon 5 à 10 fois.",
+          "page_5": "Étape 5 : Retirez l'écouvillon tout en pressant les côtés du tube pour extraire le liquide de l'écouvillon.",
+          "page_5a": "Remarque : Jetez l'écouvillon nasopharyngé usagé comme un déchet présentant un déchet à risque biologique.",
+          "page_6": "Étape 6 : Fermez fermement le capuchon de la buse sur le flacon de tampon de réaction en appuyant dessus.",
+          "page_7": "Étape 7 : Inversez le flacon de tampon de réaction verticalement et pressez-le doucement pour distribuer 3 gouttes d'échantillons dans un puits d'échantillon de l'appareil",
+          "page_8": "Résultats : Attendre 15 à 20 minutes pour le résultat. Ne pas interpréter après 20 minutes."
+      }
     }
   ],
   "pamphlet" : {

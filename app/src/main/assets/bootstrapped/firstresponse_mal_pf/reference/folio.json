@@ -16,6 +16,22 @@
         "page_9": "Add two drops of the assay buffer to the assay buffer well.",
         "page_10": "Interpret test results at 20 minutes (after recording the results, dispose of test device as biohazardous waste). Do not interpret after 30 minutes."
       }
+    },
+    {
+      "lang":  "fr",
+      "strings":
+      {
+        "page_1": "Amener les composants du test de la carte First Response® Malaria Antigen P. falciparum (HRP2) à température ambiante (15-40 ℃) avant 15 minutes de test.",
+        "page_2": "Retirez le dispositif de test et le dispositif de transfert d'échantillon de la pochette et placez-le sur une surface plane et sèche et étiquetez le dispositif de test avec le numéro d'identification/le nom de l'échantillon",
+        "page_3": "Essuyez le doigt avec un tampon imbibé d'alcool",
+        "page_4": "Piquer le doigt avec une lancette",
+        "page_5": "Tenir le dispositif de transfert d'échantillons à la verticale",
+        "page_6": "Touchez doucement la goutte de sang",
+        "page_7": "Soulevez le dispositif de transfert d'échantillons",
+        "page_8": "Ajouter lentement 5 µl de sang total dans le puits d'échantillon à l'aide du dispositif de transfert d'échantillon. Éliminer le dispositif de transfert d'échantillons usagé comme un déchet à risque biologique immédiatement après utilisation",
+        "page_9": "Ajouter deux gouttes de tampon de dosage dans le puits de tampon de dosage.",
+        "page_10": "Interprétez les résultats du test à 20 minutes (après avoir enregistré les résultats, jetez le dispositif de test comme un déchet à risque biologique). Ne pas interpréter après 30 minutes."
+      }
     }
   ],
   "pamphlet" : {

@@ -25,6 +25,18 @@
         "page_6": "Ibisubizo ntibyemewe"
       }
     }
+    ,{
+    "lang":  "fr",
+    "strings":
+    {
+        "page_1": "Une bande colorée apparaîtra dans la partie supérieure de la fenêtre de résultat pour montrer que le test fonctionne correctement. Cette bande est la ligne de contrôle (C).",
+        "page_2": "Une bande colorée apparaîtra dans la partie inférieure de la fenêtre de résultat. Cette bande est la ligne de test de l'antigène SARS-CoV-2 (T).",
+        "page_3": "Même si la ligne de contrôle est faible ou si la ligne de test n'est pas uniforme, le test doit être considéré comme effectué correctement et le résultat du test doit être interprété comme un résultat positif.",
+        "page_4": "Négatif",
+        "page_5": "Positif\n\nLa présence de n'importe quelle ligne, aussi faible soit-elle, le résultat est considéré comme positif.\n\nLes résultats positifs doivent être considérés en conjonction avec les antécédents cliniques et les autres données disponibles.",
+        "page_6": "Invalide"
+    }
+  }
   ],
   "pamphlet" : {
     "pages": [

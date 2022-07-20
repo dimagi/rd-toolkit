@@ -20,6 +20,26 @@
         "page_9": "Step 9: Start timer. Read result at 15 minutes. Do not read results after 20 minutes.",
         "page_10": "Step 10: Dispose of the used device according to your local regulations and biohazard waste disposal protocol."
       }
+    },
+    {
+      "lang":  "fr",
+      "strings":
+      {
+        "page_1": "Étape 1 : Tenez la bouteille de tampon verticalement et remplissez le tube d'extraction avec du liquide tampon jusqu'à ce qu'il s'écoule jusqu'à la ligne de remplissage du tube d'extraction (300 μl).",
+        "page_1a": "⚠ Attention : Si la quantité de tampon est excessive ou insuffisante, un résultat de test incorrect peut se produire.",
+        "page_2": "Étape 2 : Placer le tube d'extraction dans le porte-tube.",
+        "page_3": "Étape 3 : Inclinez la tête du patient vers l'arrière. Insérez l'écouvillon dans la narine. Frottez doucement et tournez l'écouvillon, 3-4 fois. Laissez l'écouvillon en place pendant plusieurs secondes. Retirez lentement l'écouvillon.",
+        "page_4": "Étape 4 : Insérez l'échantillon sur écouvillon dans le tube d'extraction.",
+        "page_4a": "Agitez la pointe de l'écouvillon dans le liquide tampon à l'intérieur du tube d'extraction, en poussant dans la paroi du tube d'extraction au moins cinq fois, puis pressez l'écouvillon en pressant le tube d'extraction avec vos doigts.",
+        "page_5": "Étape 5 : Cassez l'écouvillon au point de rupture et fermez le capuchon du tube d'extraction.",
+        "page_6": "Étape 6 : Ouvrez le capuchon de la buse compte-goutte au bas du tube d'extraction.",
+        "page_7": "Étape 7 : Distribuer 5 gouttes d'échantillons extraits verticalement dans le puits d'échantillon (S) sur l'appareil. Ne manipulez pas et ne déplacez pas le dispositif de test tant que le test n'est pas terminé et prêt à être lu.",
+        "page_7a": "⚠ Attention : Les bulles qui se forment dans le tube d'extraction peuvent entraîner des résultats inexacts. ",
+        "page_7b": "⚠ Attention : Si vous ne parvenez pas à créer suffisamment de gouttes, cela peut être dû à une obstruction de la buse de distribution. Secouez doucement le tube pour libérer le blocage jusqu'à ce que vous observiez la formation de gouttes libres.",
+        "page_8": "Étape 8 : Fermez la buse et jetez le tube d'extraction contenant l'écouvillon usagé conformément à la réglementation locale et au protocole d'élimination des déchets à risque biologique.",
+        "page_9": "Étape 9 : Démarrez la minuterie. Lire le résultat à 15 minutes. Ne pas lire les résultats après 20 minutes.",
+        "page_10": "Étape 10 : Éliminez l'appareil usagé conformément à la réglementation locale et au protocole d'élimination des déchets à risque biologique."
+      }
     }
   ],
   "pamphlet" : {

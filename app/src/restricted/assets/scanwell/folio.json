@@ -19,6 +19,25 @@
         "error-120": "An error occurred while analyzing the RDT. Please take a picture again. If this error persists, please start again using a new RDT.",
         "error": "An error occurred [%d] while analyzing the RDT. Please take a picture again. If this error persists, please start again using a new RDT."
       }
+    }
+    ,{
+      "lang":  "fr",
+      "strings":
+      {
+        "error-100": "La photo était trop floue pour être analysée. Veuillez reprendre une photo.",
+        "error-101": "Un éclairage irrégulier est détecté sur le RDT ce qui empêche une analyse appropriée. Veuillez éviter les ombres et la réflexion directe de la lumière sur la surface du RDT et reprenez une photo.",
+        "error-102": "Il n'y a pas assez d'éclairage pour analyser le RDT. Veuillez vous déplacer vers une zone plus lumineuse ou allumer plus de lumières. Ensuite, reprenez une photo.",
+        "error-103": "Impossible de confirmer que le RDT est correctement orienté. Assurez-vous que le RDT est sur un fond uni et non blanc, sans rien d'autre dans l'image et sans ombres. Ensuite, alignez le contour du RDT avec le rectangle vert de l'écran et reprenez une photo. [OA-BACK]",
+        "error-104": "Impossible de confirmer que le RDT est correctement orienté. Assurez-vous que le RDT est sur un fond uni et non blanc, sans rien d'autre dans l'image et sans ombres. Ensuite, alignez le contour du RDT avec le rectangle vert de l'écran et reprenez une photo. [OA-NOCO]",
+        "error-105": "Impossible de confirmer que le RDT est correctement orienté. Assurez-vous que le RDT est sur un fond uni et non blanc, sans rien d'autre dans l'image et sans ombres. Ensuite, alignez le contour du RDT avec le rectangle vert de l'écran et reprenez une photo. [OA-OOR]",
+        "error-106": "Impossible de confirmer que le RDT est correctement orienté. Assurez-vous que le RDT est sur un fond uni et non blanc, sans rien d'autre dans l'image et sans ombres. Ensuite, alignez le contour du RDT avec le rectangle vert de l'écran et reprenez une photo. [OA-NOCR]",
+        "error-107": "Impossible de confirmer que le RDT est correctement orienté. Assurez-vous que le RDT est sur un fond uni et non blanc, sans rien d'autre dans l'image et sans ombres. Ensuite, alignez le contour du RDT avec le rectangle vert de l'écran et reprenez une photo. [OA-LOWA]",
+        "error-108": "Impossible de confirmer que le RDT est correctement orienté. Assurez-vous que le RDT est sur un fond uni et non blanc, sans rien d'autre dans l'image et sans ombres. Ensuite, alignez le contour du RDT avec le rectangle vert de l'écran et reprenez une photo. [OA-ASPR]",
+        "error-109": "Impossible de confirmer que le RDT est correctement orienté. Assurez-vous que le RDT est sur un fond uni et non blanc, sans rien d'autre dans l'image et sans ombres. Ensuite, alignez le contour du RDT avec le rectangle vert de l'écran et reprenez une photo. [OA-ANGL]",
+        "error-110": "Impossible de confirmer que le RDT est correctement orienté. Assurez-vous que le RDT est sur un fond uni et non blanc, sans rien d'autre dans l'image et sans ombres. Ensuite, alignez le contour du RDT avec le rectangle vert de l'écran et reprenez une photo. [OA-LGHT]",
+        "error-120": "Une erreur s'est produite lors de l'analyse du RDT. Veuillez reprendre une photo. Si cette erreur persiste, veuillez recommencer en utilisant un nouveau RDT.",
+        "error": "Une erreur s'est produite [%d] lors de l'analyse du RDT. Veuillez reprendre une photo. Si cette erreur persiste, veuillez recommencer en utilisant un nouveau RDT."
+    }
   }
   ],
   "pamphlet" : {

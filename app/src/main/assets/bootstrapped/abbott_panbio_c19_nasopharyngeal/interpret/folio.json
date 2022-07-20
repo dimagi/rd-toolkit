@@ -11,6 +11,17 @@
         "page_3": "If the control line (C) is not visible within the result window after performing the test, the result is considered invalid.",
         "page_3a": "Instructions may not have been followed correctly. It is recommended to read the IFU again before re-testing the specimen with a new test device."
       }
+    },
+    {
+      "lang":  "fr",
+      "strings":
+      {
+           "page_1": "La présence de la seule ligne de contrôle (C) et d'aucune ligne de test (T) dans la fenêtre de résultat indique un résultat négatif.",
+           "page_2": "La présence de la ligne de test (T) et de la ligne de contrôle (C) dans la fenêtre de résultat, quelle que soit la ligne qui apparaît en premier, indique un résultat positif.",
+           "page_2a": "Attention : La présence de n'importe ligne de test (T), aussi faible soit-elle, indique un résultat positif.",
+           "page_3": "Si la ligne de contrôle (C) n'est pas visible dans la fenêtre de résultat après avoir effectué le test, le résultat est considéré comme invalide.",
+           "page_3a": "Les instructions n'ont peut-être pas été suivies correctement. Il est recommandé de relire la notice d'utilisation avant de re-tester l'échantillon avec un nouveau dispositif de test."
+      }
     }
   ],
   "pamphlet" : {
