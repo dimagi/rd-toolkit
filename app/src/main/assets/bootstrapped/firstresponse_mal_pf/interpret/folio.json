@@ -16,7 +16,7 @@
       {
         "page_1": "Interprétation des résultats\n\nNégatif",
         "page_2": "Interprétation des résultats\n\nPositif",
-        "page_3": "Interprétation des résultats\n\nTest non valide\n\nLe résultat du test non valide (absence de ligne de contrôle) doit être retesté avec un nouvel appareil"
+        "page_3": "Interprétation des résultats\n\nTest invalide\n\nLe résultat du test invalide (absence de ligne de contrôle) doit être re-testé avec un nouvel appareil"
       }
     }
   ],
