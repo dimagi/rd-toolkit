@@ -29,12 +29,12 @@
     "lang":  "fr",
     "strings":
     {
-      "page_1": "1: Select the finger that is not calloused and clean the fingertip by wiping with an alcohol swab.",
-      "page_2": "2: Dry and pierce the wiped fingertip with a sterile lancet to bleed.",
-      "page_3": "3: Wipe away the first drop of blood with sterile gauze.",
-      "page_4": "4: Take the inverted cup (5ul) provided and collect 5ul of the capillary whole blood specimen by dipping the circular end of the inverted cup into the specimen.",
-      "page_5": "5: To apply the collected capillary whole blood specimen to the specimen well (circle) of the test device, place the circular end of the inverted cup on the specimen well pad and then press down lightly.",
-      "page_6": "6: Hold the buffer bottle at 90˚ (perpendicular) to the test device and not touching the specimen well to avoid contamination. Add 3 drops (90μl) of the buffer into the buffer well (square) of the test device."
+      	"page_1": "1 : Sélectionnez le doigt qui n'est pas calleux et nettoyez le bout du doigt en essuyant avec un tampon imbibé d'alcool.",
+        "page_2": "2 : Séchez et percez le bout du doigt essuyé avec une lancette stérile pour saigner.",
+        "page_3": "3 : Essuyez la première goutte de sang avec de la gaze stérile.",
+        "page_4": "4 : Prenez le godet renversé (5ul) fourni et prélevez 5ul d'échantillon de sang total capillaire en plongeant l'extrémité circulaire du godet renversé dans l'échantillon.",
+        "page_5": "5 : Pour appliquer l'échantillon de sang total capillaire collecté dans le puits d'échantillon (cercle) du dispositif de test, placez l'extrémité circulaire du godet inversée sur le tampon du puits d'échantillon, puis appuyez légèrement vers le bas.",
+        "page_6": "6 : Tenir le flacon de tampon à 90 ° (perpendiculaire) par rapport au dispositif de test et sans toucher le puits d'échantillon pour éviter toute contamination. Ajouter 3 gouttes (90 μl) de tampon dans le puits de tampon (carré) du test dispositif."
     }
   }
   ],
