@@ -33,14 +33,14 @@
     "lang":  "fr",
     "strings":
     {
-      "page_1": "1: Check the expiration date. If the device is expired, use another kit.",
-      "page_2": "2: Put on disposable gloves. Use new gloves for each patient.",
-      "page_3": "3: Open the test pouch and check the desiccant. another kit. If the color is green, use Write the patient’s name on the test device.",
-      "page_4": "4: Open the alcohol swab and clean the patient’s finger.\n\nThe alcohol must be dried before pricking, or the test may NOT work.",
+      "page_1": "1: Vérifiez la date d'expiration. Si l'appareil est périmé, utilisez un autre kit.",
+      "page_2": "2: Mettez des gants jetables. Utiliser de nouveaux gants pour chaque patient.",
+      "page_3": "3: Ouvrez la pochette de test et vérifiez le dessicant. un autre kit. Si la couleur est verte, utilisez Ecrire le nom du patient sur le dispositif de test.",
+      "page_4": "4: Ouvrez le tampon imbibé d'alcool et nettoyez le doigt du patient.\n\nL'alcool doit être séché avant de piquer, sinon le test pourrait NE PAS fonctionner.",
       "page_5": "5: Prick the patient’s finger with the lancet.\n\nDiscard the used lancet in the biohazard box immediately after pricking the finger.",
-      "page_6": "6: Use the inverted cup to collect the drop of blood",
-      "page_7": "7: Add drawn specimen of blood into the round specimen well.\n\nDiscard the inverted cup in the biohazard box after use.",
-      "page_8": "8: Add 4 drops of assay diluent into the square assay diluent well."
+      "page_6": "6: Utilisez le gobelet renversé pour recueillir la goutte de sang",
+      "page_7": "7: Ajouter l'échantillon de sang prélevé dans le puits d'échantillon rond.\n\nJeter le gobelet inversé dans la boîte à risque biologique après utilisation.",
+      "page_8": "8: Ajouter 4 gouttes de diluant de dosage dans le puits de diluant de dosage carré."
     }
   }
   ],
