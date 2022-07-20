@@ -18,7 +18,7 @@
       {
           "page_1": "Si en plus de la présence de la ligne C, la ligne T se développe, le test indique la présence de\nl'Antigène SARS-CoV-2.\n\nLe résultat est positif ou réactif. ",
           "page_1a": "Remarque : Interprétez une ligne faible comme une ligne réactive.\n\nUne méthode de diagnostic alternative doit être effectuée afin d'obtenir la confirmation des infections par le SARS-CoV-2. ",
-          "page_2": "Si une seule ligne apparaît, au niveau de la ligne de contrôle "C" comme sur la figure, le test indique l'absence d'antigène SARS-CoV-2.\n\nLe résultat est Négatif ou non réactif.",
+          "page_2": "Si une seule ligne apparaît, au niveau de la ligne de contrôle 'C' comme sur la figure, le test indique l'absence d'antigène SARS-CoV-2.\n\nLe résultat est Négatif ou non réactif.",
           "page_3": "L'absence de ligne de contrôle 'C' dans la fenêtre de résultats (indépendamment de la présence de lignes de test)\nindique un résultat invalide.",
           "page_3a": "Les instructions peuvent ne pas être suivies correctement ou le test peut s'être détérioré.\n\nLes résultats de test invalides doivent être retestés avec un nouvel dispositif de test."
       }
