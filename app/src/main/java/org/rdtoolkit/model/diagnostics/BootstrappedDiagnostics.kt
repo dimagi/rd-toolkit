@@ -49,6 +49,8 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     var firstresponse = ConcreteProfile("firstresponse_mal_pf_pv", "First Response® Malaria Ag P.f./P.v. (HRP2/pLDH) Card Test",null, 60*20,60*30, listOf(pv_result, pf_result), listOf("real"))
     var firstresponse_pf = ConcreteProfile("firstresponse_mal_pf", "First Response® Malaria Ag P.f (HRP2) Card Test","sample_firstresponse", 60*20,60*30, listOf(pf_result), listOf("real"))
 
+    var meriscreen_pf_pv = ConcreteProfile("meriscreen_pf_pv", "Meriscreen Malaria Pf/Pv Ag","sample_meriscreen_pf_pv", 60*20,60*30, listOf(pv_result, pf_result), listOf("real"))
+
     var standard_q_c19 = ConcreteProfile("sd_standard_q_c19", "SD STANDARD™ Q COVID-19 Ag Test","sample_std_q_c19", 60*15,60*30, listOf(cov_19_result), listOf("real"))
 
     var premier_medical_sure_status_c19 = ConcreteProfile("premier_medical_sure_status_c19", "Sure Status COVID-19 Antigen Card Test","sample_sure_status_c19", 60*15,60*20, listOf(cov_19_result), listOf("real"))
@@ -70,8 +72,11 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     returnSet.put(carestart.id(), carestart)
     returnSet.put(firstresponse.id(), firstresponse)
     returnSet.put(firstresponse_pf.id(), firstresponse_pf)
+    returnSet.put(meriscreen_pf_pv.id, meriscreen_pf_pv)
+
     returnSet.put(quicktest.id(), quicktest)
     returnSet.put(lightnighttest.id(), lightnighttest)
+
     returnSet.put(standard_q_c19.id(), standard_q_c19)
     returnSet.put(premier_medical_sure_status_c19.id(), premier_medical_sure_status_c19)
     returnSet.put(abbott_panbio_c19_nasal.id(), abbott_panbio_c19_nasal)

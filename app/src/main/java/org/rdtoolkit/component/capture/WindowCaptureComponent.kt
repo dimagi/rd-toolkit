@@ -24,6 +24,7 @@ class WindowCaptureComponentManifest : ToolkitComponentManifest<TestImageCapture
             ,"firstresponse_mal_pf" to WindowCaptureConfig("7:2")
             ,"sd_standard_q_mal_pf_ag" to WindowCaptureConfig("7:2")
             ,"sd_bioline_mal_pf" to WindowCaptureConfig("7:2")
+            ,"meriscreen_pf_pv" to WindowCaptureConfig("7:2")
             ,"sd_standard_q_c19" to WindowCaptureConfig("7:2")
             ,"abbott_panbio_c19_nasal" to WindowCaptureConfig("7:2")
             ,"abbott_panbio_c19_nasopharyngeal" to WindowCaptureConfig("7:2")
