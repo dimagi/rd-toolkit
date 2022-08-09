@@ -9,11 +9,15 @@ val DIAG_PF_NEG = "mal_pf_neg"
 val DIAG_PV_POS = "mal_pv_pos"
 val DIAG_PV_NEG = "mal_pv_neg"
 
+val DIAG_PAN_POS = "mal_pan_pos"
+val DIAG_PAN_NEG = "mal_pan_neg"
+
 val DIAG_C19_POS = "sars_cov2_pos"
 val DIAG_C19_NEG = "sars_cov2_neg"
 
 val DIAG_PF = "mal_pf"
 val DIAG_PV = "mal_pv"
+val DIAG_PAN = "mal_pan"
 
 val DIAG_C19 = "sars_cov2"
 
@@ -32,8 +36,12 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     var pv_pos = cdo(DIAG_PV_POS, "Pv Positive")
     var pv_neg = cdo(DIAG_PV_NEG, "Pv Negative")
 
+    var pan_pos = cdo(DIAG_PAN_POS, "Pan Positive")
+    var pan_neg = cdo(DIAG_PAN_NEG, "Pan Negative")
+
     var pf_result = crp(DIAG_PF, "Malaria: P. falciparum", listOf(pf_pos, pf_neg, result_indeterminate, control_failure))
     var pv_result = crp(DIAG_PV, "Malaria: P. vivax", listOf(pv_pos, pv_neg, result_indeterminate, control_failure))
+    var pan_result = crp(DIAG_PAN, "Malaria Pan: P. vivax or P. malariae or P. ovale", listOf(pan_pos, pan_neg, result_indeterminate, control_failure))
 
     var s_cov_2_pos = cdo(DIAG_C19_POS, "COVID-19 Positive")
     var s_cov_2_neg = cdo(DIAG_C19_NEG, "COVID-19 Negative")
@@ -50,6 +58,8 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     var firstresponse_pf = ConcreteProfile("firstresponse_mal_pf", "First Response® Malaria Ag P.f (HRP2) Card Test","sample_firstresponse", 60*20,60*30, listOf(pf_result), listOf("real"))
 
     var meriscreen_pf_pv = ConcreteProfile("meriscreen_pf_pv", "Meriscreen Malaria Pf/Pv Ag","sample_meriscreen_pf_pv", 60*20,60*30, listOf(pv_result, pf_result), listOf("real"))
+
+    var parascreen_pan_pf = ConcreteProfile("parascreen_pan_pf", "Parascreen Pan/Pf","sample_parascreen_pan_pf", 60*20,60*30, listOf(pan_result, pf_result), listOf("real"))
 
     var standard_q_c19 = ConcreteProfile("sd_standard_q_c19", "SD STANDARD™ Q COVID-19 Ag Test","sample_std_q_c19", 60*15,60*30, listOf(cov_19_result), listOf("real"))
 
@@ -72,7 +82,9 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     returnSet.put(carestart.id(), carestart)
     returnSet.put(firstresponse.id(), firstresponse)
     returnSet.put(firstresponse_pf.id(), firstresponse_pf)
+
     returnSet.put(meriscreen_pf_pv.id, meriscreen_pf_pv)
+    returnSet.put(parascreen_pan_pf.id, parascreen_pan_pf);
 
     returnSet.put(quicktest.id(), quicktest)
     returnSet.put(lightnighttest.id(), lightnighttest)

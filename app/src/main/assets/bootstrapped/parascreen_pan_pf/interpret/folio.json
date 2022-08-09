@@ -1,0 +1,54 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "INVALID RESULT:\n\nThe test should be considered invalid if no bands appear on the device.",
+        "page_1a": "INVALID RESULT:\n\nThe test should also be considered invalid if only test bands (Pan and/or Pf) appear and no control band appears.",
+        "page_1b": "INVALID RESULT:\n\nRepeat the test with a new device ensuring that the test procedure has been followed accurately.",
+        "page_2": "Appearance of coloured bands of any intensity (faint to dark) at 'Pf' and/or 'Pan' should be considered as positive result",
+        "page_3": "NEGATIVE for malaria:\n\nOnly one pink-purple band appears in the control window 'C'.",
+        "page_4": "POSITIVE for P. falciparum\n\nIn addition to the control band, a pink-purple band appear only at region 'Pf' in the test window 'T'.",
+        "page_5": "POSITIVE for Other species (P .vivax or P. malariae or P. ovale):\n\nIn addition to the control band, one pink-purple band appears only at region 'Pan' in the test window 'T'.",
+        "page_6": "POSITIVE for Mixed infection (P. falciparum and P .vivax or P. malariae or P. ovale):\n\nIn addition to the control band, two pink-purple bands appear at regions 'Pf' and 'Pan' in the test window 'T'"
+      }
+    }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "invalid.png"
+      }
+     ,{
+        "textKey": "page_1a",
+        "image": "invalid.png"
+      }
+    ,{
+        "textKey": "page_1b",
+        "image": "invalid.png"
+      }
+    ,{
+        "textKey": "page_2"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "negative.png"
+      }
+    ,{
+        "textKey": "page_4",
+        "image": "positive_pf.png"
+      }
+    ,{
+        "textKey": "page_5",
+        "image": "positive_pan.png"
+      }
+    ,{
+        "textKey": "page_6",
+        "image": "positive_pan_pf.png"
+      }
+    ]
+  }
+}
