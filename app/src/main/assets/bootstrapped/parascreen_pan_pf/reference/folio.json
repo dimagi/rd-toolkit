@@ -1,0 +1,81 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "Open pouch at cut mark and remove all content; the device, disposable specimen applicator & desiccant pouch. Once opened, the device must be used immediately.",
+        "page_1a": "Note: Before opening the pouch, check the date of expiration on the back side of the pouch. Do not use beyond expiry date",
+        "page_2": "Component details are shown above. Check the colour of the desiccant. It should be blue, if it has turned colourless or pink, discard the device & use a new device.",
+        "page_3": "Clean finger to be pricked with an alcohol swab. Allow to dry. \"Avoid finger with callus\". ",
+        "page_4": "Take a lancet which is intact/sterile; if the lancet is no longer intact, use another one. Squeeze the finger tip then prick the lateral side of the tip with sterile lancet.",
+        "page_4a": "Safely dispose off the used lancet as biohazardous sharps waste.",
+        "page_5": "Wipe the first drop of blood using a sterile gauze. Without pressing too hard, touch the circular end of the specimen applicator to the blood sample on the finger prick.",
+        "page_5a": "Ensure that an applicator full of blood is retrieved as shown in above figure.",
+        "page_6": "Blot the collected blood (5ml) in the specimen port ‘A’ by touching applicator vertically straight onto the specimen pad.",
+        "page_6a": "Ensure that the blood from the applicator has been completely taken up at the specimen pad. ",
+        "page_7": "Hold the clearing buffer bottle vertically straight over the buffer port ‘B’without having contact with the pad to avoid contamination",
+        "page_7a": "Add exactly 2 drops of buffer onto the buffer port.",
+        "page_8": "Read the test Results at the end of 20 minutes. Do not read test results after 30 minutes."
+      }
+    }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "step_1.png"
+      }
+    ,{
+        "textKey": "page_1a",
+        "image": "step_1.png"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "step_2.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "step_3.png"
+      }
+    ,{
+        "textKey": "page_4",
+        "image": "step_4.png"
+      }
+    ,{
+        "textKey": "page_4a",
+        "image": "step_4.png"
+      }
+    ,{
+        "textKey": "page_5",
+        "image": "step_5.png"
+      }
+    ,{
+        "textKey": "page_5a",
+        "image": "step_5.png"
+      }
+    ,{
+        "textKey": "page_6",
+        "image": "step_6.png"
+      }
+    ,{
+        "textKey": "page_6a",
+        "image": "step_6.png"
+      }
+    ,{
+        "textKey": "page_7",
+        "image": "step_7.png"
+      }
+    ,{
+        "textKey": "page_7a",
+        "image": "step_7.png"
+      }
+    ,{
+        "textKey": "page_8",
+        "image": "step_8.png"
+      }
+    ]
+  }
+}
+
