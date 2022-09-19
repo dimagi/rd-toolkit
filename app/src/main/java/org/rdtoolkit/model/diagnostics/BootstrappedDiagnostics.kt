@@ -58,6 +58,7 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     var firstresponse_pf = ConcreteProfile("firstresponse_mal_pf", "First Response® Malaria Ag P.f (HRP2) Card Test","sample_firstresponse", 60*20,60*30, listOf(pf_result), listOf("real"))
 
     var meriscreen_pf_pv = ConcreteProfile("meriscreen_pf_pv", "Meriscreen Malaria Pf/Pv Ag","sample_meriscreen_pf_pv", 60*20,60*30, listOf(pv_result, pf_result), listOf("real"))
+    var meriscreen_pf_pan = ConcreteProfile("meriscreen_pf_pan", "Meriscreen Malaria Pf/PAN Ag","sample_meriscreen_pf_pan", 60*20,60*30, listOf(pan_result, pf_result), listOf("real"))
 
     var parascreen_pan_pf = ConcreteProfile("parascreen_pan_pf", "Parascreen Pan/Pf","sample_parascreen_pan_pf", 60*20,60*30, listOf(pan_result, pf_result), listOf("real"))
 
@@ -84,6 +85,7 @@ fun generateBootstrappedDiagnostics(): MutableMap<String, RdtDiagnosticProfile> 
     returnSet.put(firstresponse_pf.id(), firstresponse_pf)
 
     returnSet.put(meriscreen_pf_pv.id, meriscreen_pf_pv)
+    returnSet.put(meriscreen_pf_pan.id, meriscreen_pf_pan)
     returnSet.put(parascreen_pan_pf.id, parascreen_pan_pf);
 
     returnSet.put(quicktest.id(), quicktest)

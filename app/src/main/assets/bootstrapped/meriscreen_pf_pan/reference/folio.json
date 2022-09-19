@@ -1,0 +1,82 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "1. Wear gloves.\n2. Choose a finger for the finger prick: Do not choose a finger that is swollen, bruised or scarred.\n3. Preferably choose the 3rd or 4th finger of the hand which the patient\ndoes not use to write",
+        "page_2": "4. Open the packaging of the alcohol swab. Take out the alcohol swab. Do not throw away the empty packaging (wrapper) but keep it aside.",
+        "page_2a": "5. Wipe the complete fingertip with the alcohol swab. Wait until the finger has completely dried (minimum 30 seconds)",
+        "page_2b": "6. Place the alcohol swab in the wrapper and set it aside (you will use it again to stop the bleeding after you collected the patient’s blood).",
+        "page_3": "7. Take the safety-seal lancet",
+        "page_3a": "8. Detach the cap of the lancet. Puncture the side of the pulp (ball) of the finger with the lancet, perpendicular to the lines of the fingerprint. Dispose the lancet immediately into the sharps box.",
+        "page_3b": "9. Make sure a well-formed drop of blood is present on the tip of the finger.",
+        "page_3c": "10. If there is no well-formed drop of blood, repeat the finger prick. Use a new lancet and choose a different puncture site",
+        "page_4": "11. Take the specimen transfer devices and collect 5 μl of blood by dipping the circular end of the specimen transfer devices into the whole blood drop.",
+        "page_5": "12. Place the circular end of the specimen transfer devices in the circle well/specimen well (marked “S”) so that it touches the strip (pad at the bottom of the well). Press down lightly to transfer the whole blood to the strip.",
+        "page_6": "Put the used specimen transfer devices into the non-sharps disposal container.\n13: Take the alcohol swab you put aside (step 5). Ask the patient to pres nit to the finger prick to stop the bleeding. After use, put the alcohol swab into the non-sharps disposal container.",
+        "page_7": "14: Take the buffer bottle. Hold the open buffer bottle vertically above the square well/buffer well (marked “B”). Squeeze the buffer bottle gently and apply exactly four drops into the square well/buffer well (marked “B”).",
+        "page_7a": "⚠ Hold the buffer bottle vertically – this ensures that the drops contain the correct volume of buffer\n⚠ Do not use any other buffer than the buffer supplied within this kit.",
+        "page_8": "15. Remove your gloves and discard them into the non-sharps disposal container.\nRead test results after a minimum of 20 minutes but no later than 30 minutes. Use a good light source when reading the test results."
+      }
+    }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "page_2.png"
+      }
+    ,{
+        "textKey": "page_2a",
+        "image": "page_2.png"
+      }
+    ,{
+        "textKey": "page_2b",
+        "image": "page_2.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "page_3.png"
+      }
+    ,{
+        "textKey": "page_3a",
+        "image": "page_3.png"
+      }
+    ,{
+        "textKey": "page_3b",
+        "image": "page_3.png"
+      }
+    ,{
+        "textKey": "page_3c",
+        "image": "page_3.png"
+      }
+    ,{
+        "textKey": "page_4",
+        "image": "page_4.png"
+      }
+    ,{
+        "textKey": "page_5",
+        "image": "page_5.png"
+      }
+    ,{
+        "textKey": "page_6"
+      }
+    ,{
+        "textKey": "page_7",
+        "image": "page_7.png"
+      }
+    ,{
+        "textKey": "page_7a",
+        "image": "page_7.png"
+      },{
+        "textKey": "page_8"
+      }
+    ]
+  }
+}
+

@@ -1,0 +1,45 @@
+{
+  "dictionary":
+  [
+    {
+      "lang":  "en",
+      "strings":
+      {
+        "page_1": "Faint Blue line at Control position even after addition of samples and assay buffer\n\nInvalid. Take a new cassette packaging and repeat the test.",
+        "page_2": "NO Pink Purple line at ‘C’ (=control)\n\nInvalid. Take a new cassette packaging and repeat the test.",
+        "page_3": "Pink Purple Line at ‘C’ and NO other line\n\nNegative",
+        "page_4": "Pink Purple Line at ‘C’ AND at ‘Pf’\n\nPositive for P. falciparum",
+        "page_5": "Pink Purple Line at ‘C’, at ‘Pf’ AND at ‘Pan’\n\nPositive for P. falciparum or a mixed infection with P. vivax, P. ovale and/or P. malariae",
+        "page_6": "Pink Purple Line at ‘C’ AND at ‘Pan’\n\nPositive for Plasmodium species (P. falciparum, P. vivax, P.ovale or P. malariae)"
+      }
+    }
+  ],
+  "pamphlet" : {
+    "pages": [
+      {
+        "textKey": "page_1",
+        "image": "invalid.png"
+      }
+    ,{
+        "textKey": "page_2",
+        "image": "invalid_blank.png"
+      }
+    ,{
+        "textKey": "page_3",
+        "image": "negative.png"
+      }
+    ,{
+        "textKey": "page_4",
+        "image": "positive_pf.png"
+      }
+    ,{
+        "textKey": "page_5",
+        "image": "positive_pf_pan.png"
+      }
+    ,{
+        "textKey": "page_6",
+        "image": "positive_pan.png"
+      }
+    ]
+  }
+}
