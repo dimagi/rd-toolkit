@@ -14,7 +14,7 @@ ext {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     buildToolsVersion "30.0.1"
 
     flavorDimensions "licenses"
@@ -54,7 +54,7 @@ android {
     defaultConfig {
         applicationId "org.rdtoolkit"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode Integer.valueOf(System.getenv("BUILD_NUMBER") ?: 1).intValue()
         versionName "0.9.10"
 
